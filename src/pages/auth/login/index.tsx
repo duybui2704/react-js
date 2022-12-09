@@ -14,7 +14,7 @@ function Login() {
     const { apiServices } = useAppStore();
 
     const onLogin = useCallback(async() => {
-        const response = await apiServices.common.checkAppState();
+        // const response = await apiServices.common.checkAppState();
         // console.log(response);
         // userManager.updateDemo(response.data);
     }, [navigate]);

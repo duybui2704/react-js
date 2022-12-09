@@ -29,8 +29,8 @@ const getHeader = () => {
     }
     return myHeader;
 };
-export class ApiService {
-    api = (baseURL = config.baseURL) => {
+export class BaseService {
+    api = (isDontShowToast = false, baseURL = config.baseURL) => {
         const defHeader = getHeader();
 
         const _api = axios.create({
@@ -41,7 +41,7 @@ export class ApiService {
 
         _api.interceptors.response.use(async (response: any) => {
             if (response && response.data) {
-                const { data, message, code, success } = await this.checkResponseAPI(response);
+                const { data, message, code, success } = await this.checkResponseAPI(response, isDontShowToast);
 
                 if (typeof data !== 'undefined') {
                     try {
@@ -65,7 +65,7 @@ export class ApiService {
         return _api;
     };
 
-    checkResponseAPI(response: any) {
+    checkResponseAPI(response: any, isDontShowToast: boolean) {
         console.log('API: ', response);
         if (response.problem === 'NETWORK_ERROR' || response.problem === 'TIMEOUT_ERROR') {
             // ToastUtils.showErrorToast(Languages.errorMsg.noInternet);
@@ -84,7 +84,7 @@ export class ApiService {
                 if (response.data && response.data.error_description && response.data.error) {
                     if (endPoint === API_CONFIG.LOGIN) { // join error message & code for display in login form
                         message = `${response.data.error}-${response.data.error_description}`;
-                    } else {
+                    } else if (!isDontShowToast) {
                         // ToastUtils.showErrorToast(response.data.error_description);
                     }
                 } else {
@@ -109,7 +109,7 @@ export class ApiService {
                 showToast = false;
                 break;
             default:
-                if (response.data?.message && showToast) {
+                if (response.data?.message && showToast && !isDontShowToast) {
                     // ToastUtils.showErrorToast(response.data?.message);
                 }
                 break;

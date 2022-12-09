@@ -1,7 +1,5 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import Languages from 'commons/languages';
-import { PopupBaseActions,PopupBaseProps } from 'models/modal-model';
-import { Modal } from '@mui/material';
+import { PopupBaseProps, PopupBaseActions } from 'components/modal/modal';
+import { forwardRef, useImperativeHandle, useState } from 'react';
 
 const Popup = forwardRef<PopupBaseActions, PopupBaseProps>(({ title, description, onSuccessPress }: PopupBaseProps, ref) => {
 
