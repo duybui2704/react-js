@@ -5,6 +5,8 @@ class SessionManager {
     userInfo: UserInfoModel | undefined;
 
     accessToken: string | null | undefined;
+    
+    isMobile: boolean | undefined;
 
     initData() {
         this.accessToken = localStorage.getItem(StorageKeys.KEY_ACCESS_TOKEN);

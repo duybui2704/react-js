@@ -1,11 +1,13 @@
 import axios from 'axios';
 // import { HeaderType } from './types';
 // import { browserName, fullBrowserVersion, osName, osVersion } from 'react-device-detect';
-import { API_CONFIG } from './constants';
 import { TIMEOUT_API } from 'commons/configs';
-import SessionManager from 'managers/session-manager';
+import Languages from 'commons/languages';
 import config from 'config';
+import SessionManager from 'managers/session-manager';
+import toasty from 'utils/toasty';
 import validate from 'utils/validate';
+import { API_CONFIG } from './constants';
 
 export const ResponseCodes = {
     Success: 200,
@@ -78,7 +80,7 @@ export class BaseService {
     checkResponseAPI(response: any, isDontShowToast: boolean) {
         console.log('API: ', response);
         if (response.problem === 'NETWORK_ERROR' || response.problem === 'TIMEOUT_ERROR') {
-            // ToastUtils.showErrorToast(Languages.errorMsg.noInternet);
+            toasty.error(Languages.errorMsg.noInternet);
             return { success: false, data: null };
         }
         if (!response.config) {
@@ -95,10 +97,10 @@ export class BaseService {
                     if (endPoint === API_CONFIG.LOGIN) { // join error message & code for display in login form
                         message = `${response.data.error}-${response.data.error_description}`;
                     } else if (!isDontShowToast) {
-                        // ToastUtils.showErrorToast(response.data.error_description);
+                        toasty.error(response.data.error_description);
                     }
                 } else {
-                    // ToastUtils.showErrorToast(Languages.errorMsg.sessionExpired);
+                    toasty.error(Languages.errorMsg.sessionExpired);
                 }
                 // EventEmitter.emit(Events.LOGOUT);
                 return { success: false, data: null, message };
@@ -120,7 +122,7 @@ export class BaseService {
                 break;
             default:
                 if (response.data?.message && showToast && !isDontShowToast) {
-                    // ToastUtils.showErrorToast(response.data?.message);
+                    toasty.error(response.data?.message);
                 }
                 break;
         }

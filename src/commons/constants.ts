@@ -10,6 +10,8 @@ export const DELAY_CLICK = 3e2;
 export const MIN_MONEY = 1e5;
 export const ZERO = '0';
 
+export const LIMIT_MOBILE_WIDTH = 768;
+
 export enum KeyCode {
     backSpace = 'Backspace'
 }

@@ -1,8 +1,9 @@
-import React from 'react';
-import { AppStoreProvider } from './providers/app-provider';
-import { createRoot } from 'react-dom/client';
-import Router from './routers/router';
 import 'assets/scss/index.scss';
+import sessionManager from 'managers/session-manager';
+import React, { useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { AppStoreProvider } from './providers/app-provider';
+import Router from './routers/router';
 
 const container = document.getElementById('root');
 
@@ -13,14 +14,20 @@ let vw = window.innerWidth * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
 document.documentElement.style.setProperty('--vw', `${vw}px`);
 
-// We listen to the resize event
-window.addEventListener('resize', () => {
-    // We execute the same script as before
-    document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    document.documentElement.style.setProperty('--vw', `${window.innerWidth * 0.01}px`);
-});
-
 function App(): JSX.Element {
+    function handleWindowSizeChange() {
+        sessionManager.isMobile = window.innerWidth <= 768;
+
+        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        document.documentElement.style.setProperty('--vw', `${window.innerWidth * 0.01}px`);
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        };
+    }, []);
 
     return (
         <React.StrictMode>
