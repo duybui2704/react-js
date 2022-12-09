@@ -5,6 +5,7 @@ import { API_CONFIG } from './constants';
 import { TIMEOUT_API } from 'commons/configs';
 import SessionManager from 'managers/session-manager';
 import config from 'config';
+import validate from 'utils/validate';
 
 export const ResponseCodes = {
     Success: 200,
@@ -35,13 +36,13 @@ export class BaseService {
 
         const _api = axios.create({
             baseURL,
-            headers: defHeader, 
+            headers: defHeader,
             timeout: TIMEOUT_API
         });
 
         _api.interceptors.response.use(async (response: any) => {
             if (response && response.data) {
-                const { data, message, code, success } = await this.checkResponseAPI(response, isDontShowToast);
+                const { data, message, code, success, history, total, endPoint } = await this.checkResponseAPI(response, isDontShowToast);
 
                 if (typeof data !== 'undefined') {
                     try {
@@ -55,6 +56,15 @@ export class BaseService {
                 response.success = success;
                 response.message = message;
                 response.code = code;
+                response.history = history;
+                response.total = total;
+
+                // send error notify when encounter 5xx code
+                if (code > 500 && code < 600) {
+                    //
+                    this.api(false, config.errorURL)
+                        .post(API_CONFIG.NOTIF_ERROR, { message: `${endPoint}: ${message}` });
+                }
             }
             return response;
         }, (error) => {
@@ -117,15 +127,18 @@ export class BaseService {
 
         return {
             ...response.data,
-            success: code === ResponseCodes.Success,
-            code
+            success:
+                !validate.isEmpty(response.data?.token) ||
+                code === ResponseCodes.Success,
+            code,
+            endPoint
         };
     }
 
     buildUrlEncoded = (data: any) => {
         const params = new URLSearchParams();
         Object.keys(data).map(key => params.append(key, data[key]));
-        return {params};
+        return { params };
     };
 
     buildFormData = (data: any) => {
