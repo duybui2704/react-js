@@ -61,6 +61,7 @@ const Languages = {
         errMsgGender: 'Giới tính không được bỏ trống',
         genderRequired: 'Giới tính không được để trống'
     },
+    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Báo cáo', 'Giao dịch'],
     header: {
         textCenter: 'HƯỚNG DẪN SỬ DỤNG CHỨC NĂNG CƠ CẤU, GIA HẠN',
         textCenter1: 'HƯỚNG DẪN SỬ DỤNG BẢO HIỂM',
@@ -76,8 +77,9 @@ const Languages = {
         contactAccessIfErr: 'Hotline: ',
         sdtIfErrAccess: '1900 xxxx'
     },
-    login: {
-        login: 'Đăng nhập'
+    auth: {
+        login: 'Đăng nhập',
+        register: 'Đăng ký'
     },
     home: {
     }

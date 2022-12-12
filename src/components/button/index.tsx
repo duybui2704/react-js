@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo } from 'react';
-import { ButtonProps, BUTTON_STYLES } from './types';
-import styles from './button.module.scss';
 import classNames from 'classnames/bind';
+import React, { useCallback, useMemo } from 'react';
+import styles from './button.module.scss';
+import { ButtonProps, BUTTON_STYLES } from './types';
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +17,6 @@ export const Button = ({
     containButtonStyles,
     customStyles,
     width,
-    labelStyles,
     rightIcon,
     rightIconStyles
 }: ButtonProps) => {
@@ -30,12 +29,11 @@ export const Button = ({
         let style: string;
 
         switch (buttonStyle) {
-
             case BUTTON_STYLES.RED:
                 style = styles.btn_red;
                 break;
-            case BUTTON_STYLES.BLUE:
-                style = styles.btn_blue;
+            case BUTTON_STYLES.GREEN_WHITE:
+                style = styles.btn_green_white;
                 break;
             case BUTTON_STYLES.GREEN:
                 style = styles.btn_green;
@@ -48,6 +46,21 @@ export const Button = ({
         return `${style}`;
     }, [buttonStyle]);
 
+    const mergerLabelStyle = useMemo<any>(() => {
+        let style: string;
+
+        switch (buttonStyle) {
+            case BUTTON_STYLES.GREEN_WHITE:
+                style = styles.btn_txt_green;
+                break;
+            default:
+                style = styles.btn_txt_white;
+                break;
+        }
+
+        return `${style}`;
+    }, [buttonStyle]);
+
     return (
         <button
             disabled={isLoading || disabled}
@@ -57,7 +70,7 @@ export const Button = ({
         >
             {leftIcon}
             {
-                label && <span className={labelStyles ? cx(`${labelStyles}`) : cx('txt-label')}>
+                label && <span className={cx(`${mergerLabelStyle}`)}>
                     {isLowerCase ? label : `${label}`.toUpperCase()}
                 </span>
             }

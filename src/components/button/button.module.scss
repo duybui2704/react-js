@@ -6,6 +6,14 @@
     display: block;
 }
 
+.btn_text {
+    font-family: $font-regular;
+    text-align: center;
+    font-size: $text-small;
+    display: block;
+    min-width: 80px;
+}
+
 .container {
     border-radius: 5px;
     border: unset;
@@ -16,8 +24,9 @@
     border: none;
     box-shadow: none;
     color: $color-white;
-    padding: 5px 10px 5px 10px;
-    border-radius: 2px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    margin: 5px;
     cursor: pointer;
     &:hover {
         opacity: 0.8;
@@ -44,10 +53,23 @@
         @extend .btn-base;
         background-color: $color-green
     }
+    &_green_white {
+        @extend .btn-base;
+        background-color: $color-white;
+        border: solid $color-green;
+        border-width: 1px;
+    }
 }
 
-.txt-label {
-    color: $color-black;
+.btn_txt {
+    &_white {
+        @extend .btn_text;
+        color: $color-white;
+    }
+    &_green {
+        @extend .btn_text;
+        color: $color-green;
+    }
 }
 
 .icon-right-styles {

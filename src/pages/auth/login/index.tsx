@@ -26,7 +26,7 @@ function Login() {
             </p>
 
             <Button
-                label={Languages.login.login}
+                label={Languages.auth.login}
                 onPress={onLogin}
                 buttonStyle={'RED'}
             />

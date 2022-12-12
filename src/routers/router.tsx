@@ -41,7 +41,6 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
 
 const Router = () => {
     return (
-
         <BrowserRouter>
             <AppStoreProvider>
                 <Routes>

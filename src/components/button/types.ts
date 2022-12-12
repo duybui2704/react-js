@@ -1,9 +1,9 @@
 export enum BUTTON_STYLES {
     RED = 'RED',
     GRAY = 'GRAY',
-    BLUE = 'BLUE',
     WHITE = 'WHITE',
-    GREEN = 'GREEN'
+    GREEN = 'GREEN',
+    GREEN_WHITE = 'GREEN_WHITE'
 }
 
 

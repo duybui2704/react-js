@@ -1,8 +1,8 @@
 // Layouts
 
 // Pages
-import Login from 'pages/auth/login';
 import NotFound from 'pages/common/not-found';
+import Home from 'pages/home';
 import Profile from 'pages/profile';
 import { Paths } from './paths';
 export interface RouteProps {
@@ -17,7 +17,7 @@ export interface RouteProps {
 // Public routes
 const publicRoutes = [
     //common
-    { path: Paths.home, page: Login, hasHeader: true, hasFooter: true,menu: true },
+    { path: Paths.home, page: Home, hasHeader: true, hasFooter: true, menu: true },
     { path: Paths.any, page: NotFound, menu: true },
 
     //auth

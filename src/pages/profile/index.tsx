@@ -19,7 +19,7 @@ function Profile() {
             <Button
                 label={Languages.common.back}
                 onPress={onPress}
-                buttonStyle={'BLUE'}
+                buttonStyle={'GREEN'}
             />
         </div>
     );
