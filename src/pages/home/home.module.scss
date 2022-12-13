@@ -1,4 +1,23 @@
+.header_side{
+    display: flex;
+    width: calc(var(--vw)* 25);
+    height: 50px;
+    align-items: center;
+}
+.header {
+    &_left {
+        @extend .header_side;
+        justify-content: right;
+    }
+    &_right {
+        @extend .header_side;
+        justify-content: left;
+    }
+}
+
 .icon-tienngay {
     width: auto;
-    height: 50px;
+    height: 40px;
+    // justify-items: center;
+    // align-items: center;
 }

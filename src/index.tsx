@@ -1,4 +1,5 @@
 import 'assets/scss/index.scss';
+import 'assets/scss/global.css';
 import sessionManager from 'managers/session-manager';
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -20,6 +21,7 @@ function App(): JSX.Element {
 
         document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
         document.documentElement.style.setProperty('--vw', `${window.innerWidth * 0.01}px`);
+
     }
 
     useEffect(() => {

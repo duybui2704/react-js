@@ -1,4 +1,4 @@
-import { Tabs } from 'antd';
+import { Tabs, ConfigProvider } from 'antd';
 import IcLogo from 'assets/image/img_logo.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
@@ -17,11 +17,12 @@ type PositionType = 'left' | 'right';
 
 function Home() {
     const [position] = useState<PositionType[]>(['left', 'right']);
-
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
         return {
-            left: <img src={IcLogo} className={cx('icon-tienngay')} />,
-            right: <>
+            left: <div className={cx('header_left')}>
+                <img src={IcLogo} className={cx('icon-tienngay')} />
+            </div>,
+            right: <div className={cx('header_right')}>
                 <Button
                     label={Languages.auth.login}
                     buttonStyle={BUTTON_STYLES.GREEN_WHITE}
@@ -32,7 +33,7 @@ function Home() {
                     buttonStyle={BUTTON_STYLES.GREEN}
                     isLowerCase
                 />
-            </>
+            </div>
         };
     }, []);
 
@@ -76,15 +77,23 @@ function Home() {
 
     return (
         <div className={cx('page')}>
-            <Tabs
-                defaultActiveKey="0"
-                onChange={onChange}
-                items={tabs}
-                tabBarExtraContent={slot}
-                centered
-                tabBarStyle={{marginBottom: 0}}
-                color={COLORS.GREEN}
-            />
+            <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: COLORS.GREEN,
+                        lineWidth: 0
+                    }
+                }}>
+                <Tabs
+                    defaultActiveKey="0"
+                    onChange={onChange}
+                    items={tabs}
+                    tabBarExtraContent={slot}
+                    centered
+                    tabBarStyle={{ marginBottom: 0 }}
+                    color={COLORS.GREEN}
+                />
+            </ConfigProvider>
         </div>
     );
 }
