@@ -18,7 +18,7 @@
 
 .textTienNgay{
     color: $color-green;
-    font-size: $text-normal;
+    font-size: $text-h6;
     justify-content: center;
     margin: 0px 20px 0px 20px;
     font-family: $font-bold;
@@ -26,13 +26,13 @@
 .textVn{
     color: $color-red;
     font-family: $font-bold;
-    font-size: $text-normal;
+    font-size: $text-h6;
 }
 
 .textCopyRight{
     color: $color-gray2;
     text-align: center;
-    font-size: $text-small;
+    font-size: $text-h7;
     display: flex;
     flex: 1; 
     font-family: $font-regular; 
@@ -42,7 +42,7 @@
     color: $color-gray2;
     text-align: center;
     margin-right: 5px;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
 }
 
@@ -50,7 +50,7 @@
     color: $color-red1;
     text-align: center;
     align-items: center;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
 }
 

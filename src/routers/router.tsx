@@ -6,7 +6,6 @@ import React, { ReactElement, Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { publicRoutes, RouteProps } from './configs';
-import styles from '../assets/scss/common.module.scss';
 import { AppStoreProvider } from 'providers/app-provider';
 
 const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
@@ -28,9 +27,9 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
 
     return (
         <Suspense fallback={<OverlayLoader />}>
-            <div className={styles.body}>
+            <div className={'body'}>
                 {props.hasHeader && <Header />}
-                <div className={styles.content}>
+                <div className={'content'}>
                     <props.page />
                 </div>
                 {props.hasFooter && <Footer />}

@@ -9,6 +9,8 @@ import Investment from 'pages/investment';
 import Report from 'pages/report';
 import Transaction from 'pages/transaction';
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Paths } from 'routers/paths';
 import { COLORS } from 'theme/colors';
 import styles from './home.module.scss';
 
@@ -16,8 +18,19 @@ const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
 
 function Home() {
+    const navigate = useNavigate();
+
     const [position] = useState<PositionType[]>(['left', 'right']);
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
+
+        const navigateToLogin = () => {
+            navigate(Paths.login);
+        };
+
+        const navigateToRegister = () => {
+            navigate(Paths.register);
+        };
+
         return {
             left: <div className={cx('header_left')}>
                 <img src={IcLogo} className={cx('icon-tienngay')} />
@@ -27,11 +40,13 @@ function Home() {
                     label={Languages.auth.login}
                     buttonStyle={BUTTON_STYLES.GREEN_WHITE}
                     isLowerCase
+                    onPress={navigateToLogin}
                 />
                 <Button
                     label={Languages.auth.register}
                     buttonStyle={BUTTON_STYLES.GREEN}
                     isLowerCase
+                    onPress={navigateToRegister}
                 />
             </div>
         };

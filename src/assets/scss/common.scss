@@ -1,0 +1,93 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+.content {
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+}
+
+.page {
+    width: --vh;
+    // width: calc(var(--vw, 1vh) * 100);
+}
+
+//----------------LAYOUT----------------
+.column {
+    display: flex;
+    flex-direction: column;
+}
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+//----------------TEXT----------------
+.text-white {
+    font-family: $font-regular;
+    color: $color-white;
+}
+.text-black {
+    font-family: $font-regular;
+    color: $color-black;
+}
+.text-green {
+    font-family: $font-regular;
+    color: $color-green;
+}
+.bold {
+    font-family: $font-bold;
+}
+.medium {
+    font-family: $font-medium;
+}
+.h1 {
+    font-size: $text-h1;
+}
+.h2 {
+    font-size: $text-h2;
+}
+.h3 {
+    font-size: $text-h3;
+}
+.h4 {
+    font-size: $text-h4;
+}
+.h5 {
+    font-size: $text-h5;
+}
+.h6 {
+    font-size: $text-h6;
+}
+.h7 {
+    font-size: $text-h7;
+}
+.h8 {
+    font-size: $text-h8;
+}
+.h9 {
+    font-size: $text-h9;
+}
+
+//----------------PADDING-MARGIN----------------
+.x5 {
+    margin-right: 5px
+}
+.x50 {
+    margin-right: 50px
+}
+.y10 {
+    margin-top: 10px
+}
+.y15 {
+    margin-top: 15px
+}
+.y20 {
+    margin-top: 20px
+}
+.y40 {
+    margin-top: 40px
+}

@@ -24,7 +24,7 @@
     background-color: $color-white;
     .text-err {
         color: $color-red1;
-        font-size: $text-small;
+        font-size: $text-h7;
         font-family: $font-regular;
     }
 }
@@ -49,7 +49,7 @@
 
 .label {
     font-family: var(--bs-body-font-family-SanFranciscoText-Regular);
-    font-size: $text-small;
+    font-size: $text-h7;
     padding-bottom: 4px;
     span {
         color: $color-dark-red
@@ -58,7 +58,7 @@
 
 .label-right-text {
     color: $color-green-header;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
     cursor: pointer;
 }
@@ -90,7 +90,7 @@
     width: 100%;
     border-radius: 5px;
     color: $color-gray2;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
     border: 1px solid $color-gray-d8;
 }
@@ -102,7 +102,7 @@
     width: 100%;
     border-radius: 5px;
     color: $color-gray2;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
     background-color: $color-gray-e6;
     border: 1px solid $color-gray-d8;
@@ -115,7 +115,7 @@
     width: 100%;
     border-radius: 5px;
     color: $color-gray2;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
     border: 1px solid $color-green-header;
 }
@@ -128,7 +128,7 @@
     border: 1px solid $color-red;
     border-radius: 5px;
     color: $color-gray2;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
     animation: shake 0.9s ease 1;
     border: 1px solid $color-red;
@@ -140,7 +140,7 @@
     align-items: center;
     width: 100%;
     color: $color-red;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
 }
 
@@ -152,7 +152,7 @@ input[type=date]::-webkit-calendar-picker-indicator {
 input[type=date]::before {
     color: $color-gray4;
     font-family: $font-regular;
-    font-size: $text-small;
+    font-size: $text-h7;
     content: attr(placeholder);
 }
 
@@ -173,14 +173,14 @@ input[type=date]:valid::before {
 ::placeholder {
     color: $color-gray4;
     font-family: $font-regular;
-    font-size: $text-small;
+    font-size: $text-h7;
     text-transform: none;
 }
 
 .input-style {
     color: $color-gray2;
     font-family: $font-regular;
-    font-size: $text-small;
+    font-size: $text-h7;
     display: flex;
     width: 100%;
     padding: 12px 16px;

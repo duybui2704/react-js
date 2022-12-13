@@ -2,14 +2,14 @@
 .text {
     font-family: $font-regular;
     text-align: center;
-    font-size: $text-normal;
+    font-size: $text-h6;
     display: block;
 }
 
-.btn_text {
+.btn-base-text {
     font-family: $font-regular;
     text-align: center;
-    font-size: $text-small;
+    font-size: $text-h7;
     display: block;
     min-width: 80px;
 }
@@ -63,11 +63,11 @@
 
 .btn_txt {
     &_white {
-        @extend .btn_text;
+        @extend .btn-base-text;
         color: $color-white;
     }
     &_green {
-        @extend .btn_text;
+        @extend .btn-base-text;
         color: $color-green;
     }
 }
