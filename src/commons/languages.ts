@@ -131,6 +131,13 @@ const Languages = {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         cancel: 'Huỷ bỏ',
         investNoteDescribe: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+    },
+    intro: {
+        invest: 'ĐẦU TƯ TIỆN NGAY',
+        buildTheFuture: 'Xây dựng tương lai',
+        contentResult: 'Tiếp cận nhanh chóng các khoản đầu tư có chất lượng cao',
+        contentStart: 'Đầu tư Tiện Ngay ',
+        contentEnd: 'là sản phẩm đầu tư tài chính an toàn và hiệu quả dành cho người Việt, được phát triển bởi TienNgay.vn (Công ty cổ phần Tài Chính Việt) - Một công ty thuộc hệ sinh thái tập đoàn NextTech. Với các sản phẩm đầu tư tài chính 4.0 cá nhân đa dạng cùng sự minh bạch về tài chính và nền tảng công nghệ mạnh, Đầu tư Tiện Ngay giúp bạn đầu tư và tích lũy từ nguồn vốn nhỏ để tạo ra giá trị và bảo vệ tương lai.'
     }
 };
 

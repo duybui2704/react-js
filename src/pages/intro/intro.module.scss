@@ -1,4 +1,67 @@
+@import "assets/scss";
+.page {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
 .banner {
     width: 100%;
     height: auto;
+}
+
+.view-title {
+    position: absolute;
+    top: 5;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.span-big {
+    font-size: $text-24;
+}
+
+.span-normal {
+    font-size: $text-normal;
+}
+
+.span-small {
+    font-size: $text-small;
+}
+
+.text {
+    font-family: $font-medium;
+    color: $color-white;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.view-intro-center {
+    padding: 15px 10px;
+    background-color: $color-white;
+    width: 40%;
+    justify-content: center;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px 5px $color-t-gray;
+}
+
+.line-height {
+    line-height: 30px;
+}
+
+.view-intro {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: -50px;
+}
+
+.color-green {
+    color: $color-green;
 }
