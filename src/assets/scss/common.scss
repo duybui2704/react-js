@@ -36,6 +36,16 @@
     flex: auto;
 }
 
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.space-between {
+    justify-content: space-between;
+    align-items: center;
+}
+
 //----------------TEXT----------------
 .text-white {
     font-family: $font-regular;
@@ -69,6 +79,30 @@
 
 .medium {
     font-family: $font-medium;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-start {
+    text-align: start;
 }
 
 .h1 {
@@ -113,6 +147,10 @@
 
 .h11 {
     font-size: $text-h11;
+}
+
+.white-space {
+    white-space: nowrap;
 }
 
 //----------------PADDING-MARGIN----------------

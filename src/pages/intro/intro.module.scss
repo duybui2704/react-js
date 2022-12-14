@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    height: 90vh;
+    overflow: auto;
 }
 
 .banner {
@@ -22,25 +24,6 @@
     flex-direction: column;
 }
 
-.span-big {
-    font-size: $text-24;
-}
-
-.span-normal {
-    font-size: $text-normal;
-}
-
-.span-small {
-    font-size: $text-small;
-}
-
-.text {
-    font-family: $font-medium;
-    color: $color-white;
-    text-align: center;
-    margin: 10px 0;
-}
-
 .view-intro-center {
     padding: 15px 10px;
     background-color: $color-white;
@@ -48,6 +31,10 @@
     justify-content: center;
     border-radius: 5px;
     box-shadow: 5px 5px 5px 5px $color-t-gray;
+}
+
+.mrgBottom {
+    margin-bottom: 15px;
 }
 
 .line-height {
@@ -62,6 +49,86 @@
     margin-top: -50px;
 }
 
-.color-green {
-    color: $color-green;
+.body {
+    display: flex;
+    flex-direction: column;
+}
+
+.view-body {
+    background-color: $color-white;
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.view-body-right {
+    background-color: $color-white;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.button-style {
+    padding: 10px 20px;
+    border-radius: 5px;
+    width: 80%;
+    background-color: $color-green;
+    justify-content: center;
+    align-items: center;
+}
+
+.padding {
+    padding: 2% 15%;
+}
+
+.circle {
+    display: flex;
+    width: 5vw;
+    height: 5vw;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5vw;
+}
+
+.border-green {
+    border: 1px solid $color-green;
+}
+
+.border-gray {
+    border: 1px solid $color-gray-d8;
+}
+
+.line {
+    display: flex;
+    border-top: 1px solid $color-green;
+    width: 60%;
+    margin-top: 10px;
+}
+
+.line-right {
+    display: flex;
+    border-right: 1px solid $color-gray-e8;
+    height: 100%;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+.img-phone {
+    height: 100%;
+}
+
+.width {
+    width: 30%;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+.banner-invest {
+    background-repeat: no-repeat;
+    background-origin: content-box;
 }

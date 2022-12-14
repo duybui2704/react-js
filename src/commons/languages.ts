@@ -137,7 +137,32 @@ const Languages = {
         buildTheFuture: 'Xây dựng tương lai',
         contentResult: 'Tiếp cận nhanh chóng các khoản đầu tư có chất lượng cao',
         contentStart: 'Đầu tư Tiện Ngay ',
-        contentEnd: 'là sản phẩm đầu tư tài chính an toàn và hiệu quả dành cho người Việt, được phát triển bởi TienNgay.vn (Công ty cổ phần Tài Chính Việt) - Một công ty thuộc hệ sinh thái tập đoàn NextTech. Với các sản phẩm đầu tư tài chính 4.0 cá nhân đa dạng cùng sự minh bạch về tài chính và nền tảng công nghệ mạnh, Đầu tư Tiện Ngay giúp bạn đầu tư và tích lũy từ nguồn vốn nhỏ để tạo ra giá trị và bảo vệ tương lai.'
+        contentEnd: 'là sản phẩm đầu tư tài chính an toàn và hiệu quả dành cho người Việt, được phát triển bởi TienNgay.vn (Công ty cổ phần Tài Chính Việt) - Một công ty thuộc hệ sinh thái tập đoàn NextTech. Với các sản phẩm đầu tư tài chính 4.0 cá nhân đa dạng cùng sự minh bạch về tài chính và nền tảng công nghệ mạnh, Đầu tư Tiện Ngay giúp bạn đầu tư và tích lũy từ nguồn vốn nhỏ để tạo ra giá trị và bảo vệ tương lai.',
+        advantagesTienngay: 'Ưu điểm khi đầu tư tại Tiện Ngay',
+        riskReduction: 'Giảm thiểu rủi ro',
+        riskReductionContent: 'Minh bạch về số tiền đầu tư và lãi suất thu được. Thông tin giao dịch được bảo mật tuyệt đối.',
+        ecosystemNextTech: 'Sản phẩm thuộc hệ sinh thái tập đoàn NextTech.',
+        ecosystemNextTechContent: 'Tài sản của bạn được quản lý và bảo vệ bởi công ty thuộc tập đoàn công nghệ hàng đầu NextTech',
+        appInvest: 'App đầu tư tài chính 4.0 dành cho người Việt',
+        appInvestContent: 'Tiện ích vượt trội giúp Nhà Đầu Tư dễ dàng quản lý dòng tiền và các giao dịch tài chính.',
+        flexibleTime: 'Linh hoạt thời hạn',
+        flexibleTimeContent: 'Vòng đầu tư với lãi suất linh hoạt từ 3 tháng - 24 tháng.',
+        seeInvest: 'Xem các khoản đầu tư',
+        stepsInvest: 'Đầu tư với 3 bước đơn giản',
+        step1: 'Tải xuống và tạo tài khoản chỉ trong vài giây',
+        step2: 'Chọn gói đầu tư phù hợp',
+        step3: 'Theo dõi lợi nhuận trả về hàng tháng',
+        stepContent: 'Chỉ với ba bước đơn giản bạn đã có thể tối ưu dòng tiền của mình.',
+        registerApp: 'Tải miễn phí trên AppStore/ Google Play',
+        registerPhone: 'Đăng ký bằng SĐT',
+        register1Minute: 'Đăng ký nhanh chóng chỉ với 1 phút',
+        investmentReasons: 'Shark "tri kỷ" Nguyễn Hòa Bình chia sẻ 3 lý do nên lựa chọn đầu tư với TienNgay.vn',
+        transparency: 'Minh bạch',
+        transparencyContent: 'Giấy tờ kinh doanh, pháp lý theo đúng quy định của Nhà nước.',
+        lasting: 'Bền vững',
+        lastingContent: 'Linh hoạt, sinh lời dài hạn và an toàn.',
+        easy: 'Dễ dàng',
+        easyContent: 'Người không chuyên cũng có thể tham gia đầu tư với khởi điểm từ 3 triệu đồng.'
     }
 };
 
