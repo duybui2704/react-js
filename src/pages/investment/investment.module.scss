@@ -26,11 +26,11 @@
         flex-direction: column;
         .text-your-chance {
             font-family: $font-medium;
-            font-size: $text-24;
+            font-size: $text-h4;
         }
         .text-your-chance-search {
             font-family: $font-medium;
-            font-size: $text-normal;
+            font-size: $text-h6;
             color: $color-green-header;
         }
     }
@@ -41,7 +41,7 @@
         padding: 24px 0;
         .invest-package-text {
             font-family: $font-regular;
-            font-size: $text-24;
+            font-size: $text-h4;
             color: $color-green-header;
             margin-right: 8px;
         }

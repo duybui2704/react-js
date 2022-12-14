@@ -9,7 +9,7 @@
     box-shadow: $box-shadow;
     .invest-amount-text {
         color: $color-gray3;
-        font-size: $text-24;
+        font-size: $text-h4;
         font-family: $font-regular;
     }
     .invest-pay-form-container {
@@ -18,7 +18,7 @@
         align-items: center;
         .invest-pay-form-text {
             color: $color-gray2;
-            font-size: $text-small;
+            font-size: $text-h7;
             font-family: $font-regular;
             padding-right: 8px;
         }
@@ -30,13 +30,13 @@
     }
     .label-item {
         color: $color-gray2;
-        font-size: $text-normal;
+        font-size: $text-h6;
         font-family: $font-regular;
         padding-left: 8px;
     }
     .value-item {
         color: $color-green-header;
-        font-size: $text-normal;
+        font-size: $text-h6;
         font-family: $font-regular;
         padding-left: 8px;
     }
@@ -68,7 +68,7 @@
             }
             .invest-now-text {
                 color: $color-white;
-                font-size: $text-normal;
+                font-size: $text-h6;
                 font-family: $font-medium;
                 padding-right: 10px;
                 -webkit-user-select: none;

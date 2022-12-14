@@ -14,18 +14,18 @@
             .title-item-picker-text {
                 color: $color-gray2;
                 font-family: $font-regular;
-                font-size: $text-small;
+                font-size: $text-h7;
             }
             .title-check-box-item-picker-text {
                 color: $color-gray2;
                 font-family: $font-regular;
-                font-size: $text-small;
+                font-size: $text-h7;
                 padding-left: 8px;
             }
             .title-item-must-choose-picker {
                 color: $color-red1;
                 font-family: $font-regular;
-                font-size: $text-small;
+                font-size: $text-h7;
                 padding-left: 2px;
             }
         }
@@ -37,7 +37,7 @@
         border-radius: 5px;
         // padding: 3px 18px 3px 8px;
         color: $color-gray2;
-        font-size: $text-small;
+        font-size: $text-h7;
         font-family: $font-regular;
     }
     .disable-select-container {
@@ -47,7 +47,7 @@
         border-radius: 5px;
         padding: 3px 18px 3px 8px;
         color: $color-gray2;
-        font-size: $text-small;
+        font-size: $text-h7;
         font-family: $font-regular;
         background-color: $color-gray-e6;
     }
@@ -58,7 +58,7 @@
         border-radius: 5px;
         padding: 3px 18px 3px 8px;
         color: $color-gray2;
-        font-size: $text-small;
+        font-size: $text-h7;
         font-family: $font-regular;
     }
     .error-select-container {
@@ -68,7 +68,7 @@
         border-radius: 5px;
         padding: 3px 18px 3px 8px;
         color: $color-gray2;
-        font-size: $text-small;
+        font-size: $text-h7;
         font-family: $font-regular;
         animation: shake 0.9s ease 1;
     }
@@ -76,7 +76,7 @@
         display: flex;
         width: 100%;
         color: $color-red;
-        font-size: $text-small;
+        font-size: $text-h7;
         font-family: $font-regular;
         padding: 5px 0 0 0px;
     }
@@ -85,7 +85,7 @@
 .item-container {
     display: flex;
     color: $color-gray2;
-    font-size: $text-small;
+    font-size: $text-h7;
     font-family: $font-regular;
     padding: 2px 18px;
     align-items: center;
