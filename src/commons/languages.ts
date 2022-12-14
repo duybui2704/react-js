@@ -80,7 +80,13 @@ const Languages = {
     auth: {
         login: 'Đăng nhập',
         register: 'Đăng ký',
-        intro: ['CHÀO MỪNG ĐẾN VỚI ĐẦU TƯ TIỆN NGAY', 'Xây dựng tương lai', 'Tiếp cận nhanh chóng các khoản đầu tư có chất lượng cao', 'Tải miễn phí trên AppStore/ Google Play']
+        intro: ['CHÀO MỪNG ĐẾN VỚI ĐẦU TƯ TIỆN NGAY', 'Xây dựng tương lai', 'Tiếp cận nhanh chóng các khoản đầu tư có chất lượng cao', 'Tải miễn phí trên AppStore/ Google Play'],
+        notAccountYet: 'Bạn chưa có tài khoản?',
+        registerNow: 'Đăng ký ngay',
+        savePwd: 'Lưu mật khẩu',
+        forgotPwd: 'Quên mật khẩu',
+        phone: 'Số điện thoại',
+        pwd: 'Mật khẩu'
     },
     home: {
     }

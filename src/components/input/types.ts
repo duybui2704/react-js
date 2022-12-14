@@ -28,7 +28,7 @@ export type TextFieldProps = {
     minHeight?: number | string;
     maxHeight?: number | string;
     onChangeText?: any;
-    styleGroup?: any;
+    containerStyle?: any;
     styleIconRight?: any;
     onKeyPress?: any;
     isIcon?: boolean | undefined;
@@ -42,8 +42,6 @@ export type TextFieldProps = {
     onFocusCallback?: (tag?: string) => any;
     onRightCallback?: () => any;
 }
-
-
 
 export type TextFieldActions = {
     setValue: (text: string | number) => void;

@@ -42,13 +42,13 @@
 }
 
 .icon-right {
-    position: absolute;
-    right: 10%;
-    top: 25%;
+    position: relative;
+    right: 15px;
+    padding-left: 10px;
 }
 
 .label {
-    font-family: var(--bs-body-font-family-SanFranciscoText-Regular);
+    font-family: $font-regular;
     font-size: $text-h7;
     padding-bottom: 4px;
     span {
@@ -185,8 +185,12 @@ input[type=date]:valid::before {
     width: 100%;
     padding: 12px 16px;
     border-radius: 5px;
-    border: 1px solid $color-gray-d8;
+    border: 0px solid $color-gray-d8;
 }
+
+.input-style:focus {
+    outline: none;
+  }
 
 input[autoCapitalize=characters] {
     text-transform: uppercase;

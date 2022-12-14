@@ -6,6 +6,7 @@
             "esnext",
             "es6"
         ],
+        "types": ["webrtc"],
         "experimentalDecorators": true,
         "strictPropertyInitialization": false,
         "allowJs": true,

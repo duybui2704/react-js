@@ -24,5 +24,13 @@
 }
 .right-container {
     display: flex;
+    flex-direction: column;
     width: 34%;
+    padding: 2%;
+}
+.right-container-mobile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 2%;
 }

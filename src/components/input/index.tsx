@@ -27,15 +27,12 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
             disabled,
             containerInput,
             inputStyle,
-            styleDisable,
-            styleGroup,
+            containerStyle,
             onKeyPress,
             rightIcon,
             onChangeText,
-            styleIconRight,
             important,
             onClickRightIcon,
-            onRightCallback,
             max,
             min,
             labelRight,
@@ -154,13 +151,16 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
             }
         }, [maxLength, type]);
 
+        console.log('placeHolder = ', placeHolder);
+
+
         return (
-            <div className={cx(`${styles.boxGroupInput} ${styleGroup}`)}>
+            <div className={cx(`${styles.boxGroupInput} ${containerStyle}`)}>
                 <div className={cx('label-container')}>
                     {label ? (
-                        <label className={cx(styles.label)}>
+                        <label className={cx(styles.label, 'text-gray')}>
                             {label}
-                            {important && ' *'}
+                            {important && <span> *</span>}
                         </label>
                     ) : ('')}
                     {labelRight && (
@@ -197,15 +197,11 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                     {
                         isIcon ? isFocus && <div className={styles.ic_error}><img src={IcSuccess} alt="ic_success" /></div> : ''
                     } */}
-                    {rightIcon && (
-                        <img
-                            src={rightIcon}
-                            className={
-                                styleIconRight ? cx(`${styleIconRight}`) : cx('icon-right')
-                            }
-                            onClick={handleClick}
-                        />
-                    )}
+                    {rightIcon && <img
+                        src={rightIcon}
+                        className={cx('icon-right')}
+                        onClick={handleClick}
+                    />}
 
                 </div>
                 {errorMessage}
