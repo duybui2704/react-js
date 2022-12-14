@@ -1,3 +1,4 @@
+@import "assets/scss";
 .root-container {
     display: flex;
     height: 100%;
@@ -25,12 +26,20 @@
 .right-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 34%;
     padding: 2%;
 }
 .right-container-mobile {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 100%;
     padding: 2%;
+}
+.line {
+    display: flex;
+    height: 1px;
+    width: 100%;
+    background-color: $color-gray-e8;
 }

@@ -1,4 +1,4 @@
-import { Tabs, ConfigProvider } from 'antd';
+import { Tabs } from 'antd';
 import IcLogo from 'assets/image/img_logo.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
@@ -38,9 +38,10 @@ function Home() {
             right: <div className={cx('header_right')}>
                 <Button
                     label={Languages.auth.login}
-                    buttonStyle={BUTTON_STYLES.GREEN_WHITE}
+                    buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
                     isLowerCase
                     onPress={navigateToLogin}
+                    containButtonStyles={'x10'}
                 />
                 <Button
                     label={Languages.auth.register}
@@ -92,23 +93,15 @@ function Home() {
 
     return (
         <div className={cx('page')}>
-            <ConfigProvider
-                theme={{
-                    token: {
-                        colorPrimary: COLORS.GREEN,
-                        lineWidth: 0
-                    }
-                }}>
-                <Tabs
-                    defaultActiveKey="0"
-                    onChange={onChange}
-                    items={tabs}
-                    tabBarExtraContent={slot}
-                    centered
-                    tabBarStyle={{ marginBottom: 0 }}
-                    color={COLORS.GREEN}
-                />
-            </ConfigProvider>
+            <Tabs
+                defaultActiveKey="0"
+                onChange={onChange}
+                items={tabs}
+                tabBarExtraContent={slot}
+                centered
+                tabBarStyle={{ marginBottom: 0 }}
+                color={COLORS.GREEN}
+            />
         </div>
     );
 }

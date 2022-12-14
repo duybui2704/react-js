@@ -86,7 +86,10 @@ const Languages = {
         savePwd: 'Lưu mật khẩu',
         forgotPwd: 'Quên mật khẩu',
         phone: 'Số điện thoại',
-        pwd: 'Mật khẩu'
+        pwd: 'Mật khẩu',
+        or: 'Hoặc',
+        facebook: 'facebook',
+        google: 'Google'
     },
     home: {
     }

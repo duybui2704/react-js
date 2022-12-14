@@ -7,11 +7,9 @@
 }
 
 .btn-base-text {
-    font-family: $font-regular;
+    font-family: $font-medium;
     text-align: center;
     font-size: $text-h7;
-    display: block;
-    min-width: 80px;
 }
 
 .container {
@@ -21,12 +19,14 @@
 }
 
 .btn-base {
+    display: flex;
     border: none;
+    align-items: center;
+    justify-content: center;
     box-shadow: none;
     color: $color-white;
     padding: 8px 16px;
     border-radius: 5px;
-    margin: 5px;
     cursor: pointer;
     &:hover {
         opacity: 0.8;
@@ -41,10 +41,6 @@
         @extend .btn-base;
         background-color: $color-red;
     }
-    &_blue {
-        @extend .btn-base;
-        background-color: $color-blue
-    }
     &_gray {
         @extend .btn-base;
         background-color: $color-gray
@@ -53,10 +49,22 @@
         @extend .btn-base;
         background-color: $color-green
     }
-    &_green_white {
+    &_outline_green {
         @extend .btn-base;
         background-color: $color-white;
         border: solid $color-green;
+        border-width: 1px;
+    }
+    &_outline_red {
+        @extend .btn-base;
+        background-color: $color-white;
+        border: solid $color-red;
+        border-width: 1px;
+    }
+    &_outline_blue {
+        @extend .btn-base;
+        background-color: $color-white;
+        border: solid $color-blue;
         border-width: 1px;
     }
 }
@@ -69,6 +77,14 @@
     &_green {
         @extend .btn-base-text;
         color: $color-green;
+    }
+    &_red {
+        @extend .btn-base-text;
+        color: $color-red;
+    }
+    &_blue {
+        @extend .btn-base-text;
+        color: $color-blue;
     }
 }
 

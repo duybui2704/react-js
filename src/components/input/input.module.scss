@@ -57,7 +57,6 @@
 }
 
 .label-right-text {
-    color: $color-green-header;
     font-size: $text-h7;
     font-family: $font-regular;
     cursor: pointer;
@@ -117,7 +116,7 @@
     color: $color-gray2;
     font-size: $text-h7;
     font-family: $font-regular;
-    border: 1px solid $color-green-header;
+    border: 1px solid $color-green1;
 }
 
 .error-input-container {

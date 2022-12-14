@@ -32,8 +32,14 @@ export const Button = ({
             case BUTTON_STYLES.RED:
                 style = styles.btn_red;
                 break;
-            case BUTTON_STYLES.GREEN_WHITE:
-                style = styles.btn_green_white;
+            case BUTTON_STYLES.OUTLINE_GREEN:
+                style = styles.btn_outline_green;
+                break;
+            case BUTTON_STYLES.OUTLINE_RED:
+                style = styles.btn_outline_red;
+                break;
+            case BUTTON_STYLES.OUTLINE_BLUE:
+                style = styles.btn_outline_blue;
                 break;
             case BUTTON_STYLES.GREEN:
                 style = styles.btn_green;
@@ -50,8 +56,14 @@ export const Button = ({
         let style: string;
 
         switch (buttonStyle) {
-            case BUTTON_STYLES.GREEN_WHITE:
+            case BUTTON_STYLES.OUTLINE_GREEN:
                 style = styles.btn_txt_green;
+                break;
+            case BUTTON_STYLES.OUTLINE_RED:
+                style = styles.btn_txt_red;
+                break;
+            case BUTTON_STYLES.OUTLINE_BLUE:
+                style = styles.btn_txt_blue;
                 break;
             default:
                 style = styles.btn_txt_white;

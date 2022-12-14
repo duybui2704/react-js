@@ -151,9 +151,6 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
             }
         }, [maxLength, type]);
 
-        console.log('placeHolder = ', placeHolder);
-
-
         return (
             <div className={cx(`${styles.boxGroupInput} ${containerStyle}`)}>
                 <div className={cx('label-container')}>

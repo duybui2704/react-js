@@ -7,6 +7,8 @@ import { Route, Routes } from 'react-router';
 import { BrowserRouter, useNavigate } from 'react-router-dom';
 import { publicRoutes, RouteProps } from './configs';
 import { AppStoreProvider } from 'providers/app-provider';
+import { COLORS } from 'theme/colors';
+import { ConfigProvider } from 'antd';
 
 const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
     const navigate = useNavigate();
@@ -28,11 +30,19 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
     return (
         <Suspense fallback={<OverlayLoader />}>
             <div className={'body'}>
-                {props.hasHeader && <Header />}
-                <div className={'content'}>
-                    <props.page />
-                </div>
-                {props.hasFooter && <Footer />}
+                <ConfigProvider
+                    theme={{
+                        token: {
+                            colorPrimary: COLORS.GREEN,
+                            lineWidth: 1
+                        }
+                    }}>
+                    {props.hasHeader && <Header />}
+                    <div className={'content'}>
+                        <props.page />
+                    </div>
+                    {props.hasFooter && <Footer />}
+                </ConfigProvider>
             </div>
         </Suspense>
     );
