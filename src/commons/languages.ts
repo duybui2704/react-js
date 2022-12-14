@@ -11,7 +11,10 @@ const Languages = {
         or: 'Hoặc',
         continue: 'Tiếp tục',
         currency: 'VND',
-        percent: '%'
+        percent: '%',
+        mustChoose: '*',
+        input: 'Nhập',
+        add: 'Thêm'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',
@@ -89,6 +92,18 @@ const Languages = {
         pwd: 'Mật khẩu'
     },
     home: {
+    },
+    invest: {
+        investAmountChoose: 'Chọn số tiền đầu tư',
+        dateInvestChoose: 'Chọn thời gian đầu tư',
+        investAmount: 'Số tiền đầu tư',
+        dateInvest: 'Thời gian đầu tư',
+        yourChance: 'Có 301 cơ hội cho bạn',
+        yourChanceSearch: 'Tìm kiếm cơ hội đầu tư',
+        interestYear: 'Lãi suất năm',
+        expectedProfit: 'Lãi dự kiến',
+        interestPayForm: 'Hình thức trả lãi: ',
+        investNow: 'Đầu tư ngay'
     }
 };
 

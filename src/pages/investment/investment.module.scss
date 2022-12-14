@@ -1,0 +1,59 @@
+@import 'assets/scss';
+.page-container {
+    padding: 40px 0 0 0;
+    justify-content: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .content-container {
+        justify-content: center;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 70%;
+    }
+    .top-search-component {
+        border-radius: 8px;
+        border: 1px solid $color-gray5;
+        display: flex;
+        align-self: center;
+        padding: 16px;
+        box-shadow: $box-shadow;
+    }
+    .top-intro {
+        display: flex;
+        flex-direction: column;
+        .text-your-chance {
+            font-family: $font-medium;
+            font-size: $text-24;
+        }
+        .text-your-chance-search {
+            font-family: $font-medium;
+            font-size: $text-normal;
+            color: $color-green-header;
+        }
+    }
+    .invest-package-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 24px 0;
+        .invest-package-text {
+            font-family: $font-regular;
+            font-size: $text-24;
+            color: $color-green-header;
+            margin-right: 8px;
+        }
+        .invest-package-bar {
+            display: flex;
+            flex: 1;
+            border-top: 1px solid $color-gray-d8;
+        }
+    }
+    .grid-content-component {
+        display: flex;
+        align-items: center;
+        flex: 1
+    }
+}
