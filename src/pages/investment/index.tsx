@@ -3,17 +3,17 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import InvestItem from 'components/invest-item';
 import PickerComponent from 'components/picker-component/picker-component';
+import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { ItemProps } from 'models/common';
 import { InvestFilter, PackageInvest } from 'models/invest';
 import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import utils from 'utils/utils';
 import styles from './investment.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Investment() {
+function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInvest) => void }) {
     const navigate = useNavigate();
     // const { apiServices } = useAppStore();
 
@@ -23,21 +23,16 @@ function Investment() {
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [countInvest, setCountInvest] = useState<number>();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
-    const [showScroll, setShow] = useState<boolean>(false);
 
     const divRef = useRef<any>(null);
+    const { scrollTop } = useWindowScrollPositions(cx('page-container'));
 
     useEffect(() => {
         fetchData();
-        window.addEventListener('scroll', handleScroll);
     }, []);
 
     const handleScrollToTop = () => {
-        divRef.current.scrollIntoView({ behavior: 'smooth', top: divRef.current.offsetTop });
-    };
-
-    const handleScroll = () => {
-        setShow(window.pageYOffset > 50);
+        divRef.current.scrollIntoView({ behavior: 'smooth', top: 0 });
     };
 
     const fetchData = useCallback(() => {
@@ -50,7 +45,7 @@ function Investment() {
         navigate('login');
     }, [navigate]);
 
-    const renderDivider = useCallback((_label: string, styleContainer?: any) => {
+    const renderDivider = useCallback((_label: string, styleContainer?: string) => {
         return (
             <div className={cx(styleContainer || 'invest-package-container')}>
                 <span className={cx('invest-package-text')}>{_label}</span>
@@ -73,38 +68,29 @@ function Investment() {
         );
     }, [dataFilter]);
 
-    const renderItemInvest = useCallback((index: number, investAmount: string, interestPayForm: string, interestYear: string, dateInvest: string, expectedProfit: string) => {
+    const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
+        const onNavigateInvestDetail = () => {
+            onNavigateDetail(dataInvest);
+        };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={index}>
-                <InvestItem interestPayForm={interestPayForm} onPressInvest={onLogin}
-                    interestYear={interestYear} dateInvest={dateInvest}
-                    investAmount={utils.formatLoanMoney(investAmount)}
-                    expectedProfit={utils.formatLoanMoney(expectedProfit)} />
+                <InvestItem onPressInvest={onNavigateInvestDetail} dataInvest={dataInvest} />
             </Col>
         );
-    }, [onLogin]);
+    }, [onNavigateDetail]);
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
             <Row gutter={[24, 44]} className={cx('invest-list-component')}>
                 {_dataList?.map((itemInvest: PackageInvest, index: number) => {
-                    return renderItemInvest(
-                        index,
-                        itemInvest?.so_tien_dau_tu,
-                        itemInvest?.hinh_thuc_tra_lai,
-                        itemInvest?.ti_le_lai_suat_hang_nam,
-                        itemInvest.thoi_gian_dau_tu,
-                        itemInvest.tong_lai_du_kien);
+                    return renderItemInvest(index, itemInvest);
                 })}
             </Row>
         );
     }, [renderItemInvest]);
 
-    console.log('sdhfgd', window.pageYOffset);
-
-
     return (
-        <div className={cx('page-container')}>
+        <div className={cx('page-container')} id='page'>
             <div className={cx('page-wrap')}>
                 <div className={cx('content-container')} ref={divRef}>
                     <Row gutter={[24, 16]} className={cx('top-search-component')}>
@@ -119,7 +105,7 @@ function Investment() {
                     {renderInvestList(investList)}
                     {renderDivider(Languages.invest.superInvestPackage, cx('super-invest-package-container'))}
                     {renderInvestList(superInvestList)}
-                    {<div className={cx('top-button')} onClick={handleScrollToTop}>Top</div>}
+                    <div className={cx(scrollTop < 300 ? 'top-button-hide' : 'top-button')} onClick={handleScrollToTop}>Top</div>
                 </div>
             </div>
         </div>

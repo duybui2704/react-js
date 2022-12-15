@@ -1,6 +1,6 @@
 @import 'assets/scss';
 .page-container {
-    padding: 40px 16px 16px 16px;
+    padding: 0 16px 16px 16px;
     height: 85vh;
     overflow: scroll;
     white-space: nowrap;
@@ -22,6 +22,7 @@
             display: flex;
             padding: 16px 0;
             box-shadow: $box-shadow;
+            margin-top: 40px;
         }
         .invest-list-component {
             display: flex;
@@ -83,7 +84,7 @@
         align-items: center;
         margin: 0 30px 50px 0;
         -webkit-user-select: none;
-        -moz-user-select: -moz-none;
+        -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
         &:hover {
@@ -96,6 +97,7 @@
     }
     .top-button-hide {
         display: none;
+        background-color: black;
     }
     @keyframes zoom {
         0%,

@@ -1,0 +1,27 @@
+@import 'assets/scss';
+.banner {
+    width: 100%;
+    height: auto;
+}
+
+.back {
+    display: flex;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    background-color: $color-gray9;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+.banner-container {
+    height: auto;
+    width: 100%;
+    position: relative;
+}
+
+.text-banner-container {
+    display: flex;
+    position: absolute;
+}

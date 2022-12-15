@@ -12,9 +12,9 @@
             align-items: center;
             padding: 0 0 4px 0px;
             .title-item-picker-text {
-                color: $color-gray2;
+                color: $color-black;
                 font-family: $font-regular;
-                font-size: $text-h7;
+                font-size: $text-h6;
             }
             .title-check-box-item-picker-text {
                 color: $color-gray2;
@@ -35,7 +35,7 @@
         width: 100%;
         border: 1px solid $color-gray-d8;
         border-radius: 5px;
-        // padding: 3px 18px 3px 8px;
+        padding: 3px 16px 3px 8px;
         color: $color-gray2;
         font-size: $text-h7;
         font-family: $font-regular;
@@ -45,7 +45,7 @@
         width: 100%;
         border: 1px solid $color-gray-d8;
         border-radius: 5px;
-        padding: 3px 18px 3px 8px;
+        padding: 3px 16px 3px 8px;
         color: $color-gray2;
         font-size: $text-h7;
         font-family: $font-regular;
@@ -56,7 +56,7 @@
         width: 100%;
         border: 1px solid $color-green-header;
         border-radius: 5px;
-        padding: 3px 18px 3px 8px;
+        padding: 3px 16px 3px 8px;
         color: $color-gray2;
         font-size: $text-h7;
         font-family: $font-regular;
@@ -66,7 +66,7 @@
         width: 100%;
         border: 1px solid $color-red;
         border-radius: 5px;
-        padding: 3px 18px 3px 8px;
+        padding: 3px 16px 3px 8px;
         color: $color-gray2;
         font-size: $text-h7;
         font-family: $font-regular;

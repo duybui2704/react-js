@@ -4,11 +4,13 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import { PackageInvest } from 'models/invest';
 import Intro from 'pages/intro';
 import Investment from 'pages/investment';
+import InvestDetail from 'pages/investment/invest-detail';
 import Report from 'pages/report';
 import Transaction from 'pages/transaction';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
 import { COLORS } from 'theme/colors';
@@ -21,6 +23,7 @@ function Home() {
     const navigate = useNavigate();
 
     const [position] = useState<PositionType[]>(['left', 'right']);
+    const [showInvestScreen, setShowInvestScreen] = useState<boolean>(true);
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
         const navigateToLogin = () => {
@@ -62,6 +65,14 @@ function Home() {
         );
     }, [OperationsSlot, position]);
 
+    const onNavigateDetail = useCallback((data: PackageInvest) => {
+        setShowInvestScreen(false);
+    }, []);
+
+    const onNavigateInvest = useCallback(() => {
+        setShowInvestScreen(true);
+    }, []);
+
     const tabs = useMemo(() => {
         return [
             {
@@ -72,7 +83,7 @@ function Home() {
             {
                 label: Languages.tabs[1],
                 key: '1',
-                children: <Investment />
+                children: showInvestScreen ? <Investment onNavigateDetail={onNavigateDetail} /> : <InvestDetail onNavigateInvest={onNavigateInvest}/>
             },
             {
                 label: Languages.tabs[2],
@@ -85,7 +96,7 @@ function Home() {
                 children: <Transaction />
             }
         ];
-    }, []);
+    }, [onNavigateDetail, onNavigateInvest, showInvestScreen]);
 
     const onChange = (key: string) => {
         console.log(key);
