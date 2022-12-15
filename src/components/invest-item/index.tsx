@@ -15,25 +15,25 @@ function InvestItem({ investAmount, interestPayForm, interestYear, dateInvest, e
 ) {
     return (
         <div className={cx('all-container')}>
-            <span className={cx('invest-amount-text')}>{investAmount || '80,000,000 vnđ'}</span>
+            <span className={cx('invest-amount-text')}>{investAmount}</span>
             <div className={cx('invest-pay-form-container')}>
-                <span className={cx('invest-pay-form-text')}>{`${Languages.invest.interestPayForm}${interestPayForm || 'Lãi hàng tháng gốc hàng tháng'}`}</span>
+                <span className={cx('invest-pay-form-text')}>{`${Languages.invest.interestPayForm}${interestPayForm}`}</span>
                 <img src={IcWarning} />
             </div>
             <div className={cx('invest-key-value-container')}>
-                <img src={IcChecked} className={cx('ic-checked')} />
+                <img src={IcChecked} />
                 <span className={cx('label-item')}>{Languages.invest.interestYear}</span>
-                <span className={cx('value-item')}>{interestYear || '12%'}</span>
+                <span className={cx('value-item')}>{interestYear}</span>
             </div>
             <div className={cx('invest-key-value-container')}>
-                <img src={IcChecked} className={cx('ic-checked')} />
+                <img src={IcChecked} />
                 <span className={cx('label-item')}>{Languages.invest.dateInvest}</span>
-                <span className={cx('value-item')}>{dateInvest || '6 tháng'}</span>
+                <span className={cx('value-item')}>{dateInvest}</span>
             </div>
             <div className={cx('invest-key-value-container')}>
                 <img src={IcChecked} />
                 <span className={cx('label-item')}>{Languages.invest.expectedProfit}</span>
-                <span className={cx('value-item')}>{expectedProfit || '12,000,000 vnđ'}</span>
+                <span className={cx('value-item')}>{expectedProfit}</span>
             </div>
             <div className={cx('invest-now-wrap')}>
                 <div className={cx('invest-now-container')} onClick={onPressInvest} >

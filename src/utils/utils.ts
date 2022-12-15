@@ -5,7 +5,7 @@ function formatLoanMoney(number: string) {
     return (
         `${parseInt(number.replace(/\./g, ''), 10)
             .toString()
-            .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} vnđ`
     );
 }
 function formatMoney(number: string | number | undefined) {

@@ -99,3 +99,8 @@ export interface BankInformationModel {
     name_bank: string;
     id: string;
 }
+
+export interface InvestFilter {
+   dateInvest?: string;
+    amountInvest?: string;
+}

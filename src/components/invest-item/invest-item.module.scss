@@ -7,6 +7,7 @@
     padding: 16px 30px 40px 16px;
     position: relative;
     box-shadow: $box-shadow;
+    white-space: pre-wrap;
     .invest-amount-text {
         color: $color-gray3;
         font-size: $text-h4;
@@ -39,10 +40,6 @@
         font-size: $text-h6;
         font-family: $font-regular;
         padding-left: 8px;
-    }
-    .ic-checked {
-        width: 15;
-        height: 15;
     }
     .invest-now-wrap {
         display: flex;

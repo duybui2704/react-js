@@ -101,12 +101,14 @@ const Languages = {
         dateInvestChoose: 'Chọn thời gian đầu tư',
         investAmount: 'Số tiền đầu tư',
         dateInvest: 'Thời gian đầu tư',
-        yourChance: 'Có 301 cơ hội cho bạn',
+        yourChance: 'Có $count cơ hội cho bạn',
         yourChanceSearch: 'Tìm kiếm cơ hội đầu tư',
         interestYear: 'Lãi suất năm',
         expectedProfit: 'Lãi dự kiến',
         interestPayForm: 'Hình thức trả lãi: ',
-        investNow: 'Đầu tư ngay'
+        investNow: 'Đầu tư ngay',
+        investPackage: 'Gói đầu tư nổi bật',
+        superInvestPackage:'Gói đầu tư siêu lợi nhuận'
     }
 };
 

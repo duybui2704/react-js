@@ -1,9 +1,10 @@
-.header_side{
+.header_side {
     display: flex;
     width: calc(var(--vw)* 25);
     height: 60px;
     align-items: center;
 }
+
 .header {
     &_left {
         @extend .header_side;
