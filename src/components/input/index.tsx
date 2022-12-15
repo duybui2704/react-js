@@ -13,6 +13,8 @@ import utils from 'utils/utils';
 import Validate from 'utils/validate';
 import styles from './input.module.scss';
 import { TextFieldActions, TextFieldProps } from './types';
+import IcPwdShow from 'assets/icon/ic_pwd_show.svg';
+import IcPwdHide from 'assets/icon/ic_pwd_hide.svg';
 
 const cx = classNames.bind(styles);
 
@@ -22,7 +24,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
             label,
             value,
             placeHolder,
-            type,
+            type = 'text',
             maxLength,
             disabled,
             containerInput,
@@ -52,7 +54,9 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
         const [textfieldVal, setTextfieldVal] = useState<any>(`${value}`);
         const [errMsg, setErrMsg] = useState<string>('');
         const [isFocus, setIsFocus] = useState<boolean>(false);
+        const [showPwd, setShowPwd] = useState<boolean>(false);
         const orgTextInput = useRef<HTMLInputElement>(null);
+        const isNumberInput = ['phone', 'number', 'tel'].includes(type);
 
         const _onChangeText = useCallback((e?: any) => {
             setErrMsg('');
@@ -141,8 +145,13 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
         }, [errMsg]);
 
         const handleClick = useCallback(() => {
-            onClickRightIcon?.('');
-        }, [onClickRightIcon]);
+            //toggle pwd visible
+            if (type === 'password') {
+                setShowPwd(last => !last);
+            } else {
+                onClickRightIcon?.('');
+            }
+        }, [onClickRightIcon, type]);
 
         const handleOnInput = useCallback((event: any) => {
             let maxNum = 0;
@@ -150,6 +159,29 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                 event.target.value = event.target.value.slice(0, maxLength);
             }
         }, [maxLength, type]);
+
+        const filterNumber = (event: any) => {
+            let charCode = event.which ? event.which : event.keyCode;
+            console.log(event);
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                event.preventDefault();
+                return false;
+            }
+
+            return true;
+        };
+
+        const renderRightIcon = useMemo(() => {
+            const isPwdInput = type === 'password';
+
+            const icon = isPwdInput ? (!showPwd ? IcPwdShow : IcPwdHide) : rightIcon;
+
+            return icon && <img
+                src={icon}
+                className={cx('icon-right')}
+                onClick={handleClick}
+            />;
+        }, [handleClick, rightIcon, showPwd, type]);
 
         return (
             <div className={cx(`${styles.boxGroupInput} ${containerStyle}`)}>
@@ -168,7 +200,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                 <div className={cx(`${containerInput}`, isFocus ? 'focus-input-container' : (errMsg ? 'error-input-container' : 'select-container'))}>
                     <input
                         ref={orgTextInput}
-                        type={type || 'text'}
+                        type={showPwd ? 'text' : type }
                         onChange={_onChangeText}
                         placeholder={placeHolder}
                         value={textfieldVal}
@@ -183,6 +215,8 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                         max={max}
                         min={min}
                         onInput={handleOnInput}
+                        pattern={isNumberInput ? '[0-9]*' : '*'}
+                        onKeyDown={isNumberInput ? filterNumber : undefined}
                         className={cx(
                             `${inputStyle ? inputStyle : 'input-style'}`, `${!disabled ? '' : 'disable-input-container'}`
                         )}
@@ -194,12 +228,8 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                     {
                         isIcon ? isFocus && <div className={styles.ic_error}><img src={IcSuccess} alt="ic_success" /></div> : ''
                     } */}
-                    {rightIcon && <img
-                        src={rightIcon}
-                        className={cx('icon-right')}
-                        onClick={handleClick}
-                    />}
 
+                    {renderRightIcon}
                 </div>
                 {errorMessage}
             </div>

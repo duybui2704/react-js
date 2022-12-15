@@ -164,8 +164,6 @@ function passValidate (pwd: string) {
         errMsg = Languages.errorMsg.pwdNull;
     } else if (pwd.length < 8) {
         errMsg = Languages.errorMsg.pwdCheck;
-    } else if (!validatePwd(pwd)) {
-        errMsg = Languages.errorMsg.errIllegal;
     }
     return errMsg;
 }
@@ -307,6 +305,10 @@ function checkCurrentPwd (newPass: string, currentNewPwdChecked: string) {
     return err;
 }
 
+function isValidAll(errorMsg: string[]){
+    return !!errorMsg.find(item => item.length > 0);
+}
+
 export default {
     userNameValidate,
     emailValidate,
@@ -332,5 +334,6 @@ export default {
     numberValidate,
     emptyValidate,
     inputNoSpecialCharacters,
-    accountHolderValidate
+    accountHolderValidate,
+    isValidAll
 };

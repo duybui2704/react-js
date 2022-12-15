@@ -1,5 +1,4 @@
 import IcPhone from 'assets/icon/ic_phone.svg';
-import IcEye from 'assets/icon/ic_eye.svg';
 import IcGoogle from 'assets/icon/ic_google.svg';
 import IcFacebook from 'assets/icon/ic_facebook.svg';
 import BgAuth from 'assets/image/bg_auth.jpg';
@@ -19,6 +18,7 @@ import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import formValidate from 'utils/form-validate';
 
 const cx = classNames.bind(styles);
 
@@ -28,16 +28,35 @@ function Login() {
     const navigate = useNavigate();
     // const { apiServices } = useAppStore();
     const refPhone = useRef<TextFieldActions>(null);
-
-    const onLogin = useCallback(async () => {
-        // const response = await apiServices.common.checkAppState();
-        // console.log(response);
-        // userManager.updateDemo(response.data);
-    }, [navigate]);
+    const refPwd = useRef<TextFieldActions>(null);
 
     const onChange = (e: CheckboxChangeEvent) => {
         console.log(`checked = ${e.target.checked}`);
     };
+
+    const onValidate = useCallback(() => {
+        const phone = refPhone.current?.getValue();
+        const pwd = refPwd.current?.getValue();
+
+        const errMsgPhone = formValidate.passConFirmPhone(phone);
+        const errMsgPwd = formValidate.passValidate(pwd);
+
+        refPhone.current?.setErrorMsg(errMsgPhone);
+        refPwd.current?.setErrorMsg(errMsgPwd);
+
+        if (formValidate.isValidAll([errMsgPhone, errMsgPwd])) {
+            return true;
+        }
+        return false;
+    }, []);
+
+    const onLogin = useCallback(async () => {
+        if (onValidate()) {
+            // const response = await apiServices.common.checkAppState();
+            // console.log(response);
+            // userManager.updateDemo(response.data);
+        }
+    }, [onValidate]);
 
     const renderLeftBackground = useMemo(() => {
         return {
@@ -102,13 +121,12 @@ function Login() {
             />
 
             <MyTextInput
-                ref={refPhone}
+                ref={refPwd}
                 type={'password'}
                 label={Languages.auth.pwd}
                 placeHolder={Languages.auth.pwd}
                 containerStyle={cx('y15')}
                 important
-                rightIcon={IcEye}
                 value={''}
                 maxLength={50}
             />
@@ -121,6 +139,7 @@ function Login() {
                     {Languages.auth.forgotPwd}
                 </span>
             </div>
+
 
             <Button
                 label={Languages.auth.login}

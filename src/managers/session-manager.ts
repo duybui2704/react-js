@@ -5,11 +5,15 @@ class SessionManager {
     userInfo: UserInfoModel | undefined;
 
     accessToken: string | null | undefined;
+    savePhone: string | null | undefined;
+    savePwd: string | null | undefined;
     
     isMobile: boolean | undefined;
 
     initData() {
         this.accessToken = localStorage.getItem(StorageKeys.KEY_ACCESS_TOKEN);
+        this.savePhone = localStorage.getItem(StorageKeys.KEY_SAVE_PHONE);
+        this.savePwd = localStorage.getItem(StorageKeys.KEY_SAVE_PWD);
 
         const tmpUserInfo = localStorage.getItem(StorageKeys.KEY_USER_INFO);
         this.userInfo = tmpUserInfo && JSON.parse(tmpUserInfo);
@@ -31,6 +35,32 @@ class SessionManager {
         } else {
             localStorage.removeItem(StorageKeys.KEY_ACCESS_TOKEN);
         }
+    }
+
+    setSavePhoneLogin(phone?: string) {
+        this.savePhone = phone;
+        if (phone) {
+            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PHONE, this.savePhone);
+        } else {
+            localStorage.clearDataOfKey(StorageKeys.KEY_SAVE_PHONE);
+        }
+    }
+
+    setSavePassLogin(pass?: string) {
+        this.savePwd = pass;
+        if (pass) {
+            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PWD, this.savePwd);
+        } else {
+            localStorage.clearDataOfKey(StorageKeys.KEY_SAVE_PWD);
+        }
+    }
+
+    getPhoneLogin() {
+        return this.savePhone;
+    }
+
+    getPwdLogin() {
+        return this.savePwd;
     }
 
     logout() {

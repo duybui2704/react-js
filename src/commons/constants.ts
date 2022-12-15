@@ -20,6 +20,8 @@ export enum StorageKeys {
     KEY_ACCESS_TOKEN = 'KEY_ACCESS_TOKEN',
     KEY_DEVICE_TOKEN = 'KEY_DEVICE_TOKEN',
     KEY_USER_INFO = 'KEY_USER_INFO',
+    KEY_SAVE_PHONE = 'KEY_SAVE_PHONE',
+    KEY_SAVE_PWD = 'KEY_SAVE_PWD',
 }
 
 export enum GAEvents {
