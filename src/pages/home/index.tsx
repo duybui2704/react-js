@@ -24,6 +24,7 @@ function Home() {
 
     const [position] = useState<PositionType[]>(['left', 'right']);
     const [showInvestScreen, setShowInvestScreen] = useState<boolean>(true);
+    const [investPackage, setInvestPackage] = useState<PackageInvest>();
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
         const navigateToLogin = () => {
@@ -54,7 +55,7 @@ function Home() {
                 />
             </div>
         };
-    }, []);
+    }, [navigate]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;
@@ -67,6 +68,7 @@ function Home() {
 
     const onNavigateDetail = useCallback((data: PackageInvest) => {
         setShowInvestScreen(false);
+        setInvestPackage(data);
     }, []);
 
     const onNavigateInvest = useCallback(() => {
@@ -83,7 +85,7 @@ function Home() {
             {
                 label: Languages.tabs[1],
                 key: '1',
-                children: showInvestScreen ? <Investment onNavigateDetail={onNavigateDetail} /> : <InvestDetail onNavigateInvest={onNavigateInvest}/>
+                children: showInvestScreen ? <Investment onNavigateDetail={onNavigateDetail} /> : <InvestDetail onNavigateInvest={onNavigateInvest} investPackage={investPackage} />
             },
             {
                 label: Languages.tabs[2],
@@ -96,7 +98,7 @@ function Home() {
                 children: <Transaction />
             }
         ];
-    }, [onNavigateDetail, onNavigateInvest, showInvestScreen]);
+    }, [investPackage, onNavigateDetail, onNavigateInvest, showInvestScreen]);
 
     const onChange = (key: string) => {
         console.log(key);

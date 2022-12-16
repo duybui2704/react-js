@@ -108,7 +108,26 @@ const Languages = {
         interestPayForm: 'Hình thức trả lãi: ',
         investNow: 'Đầu tư ngay',
         investPackage: 'Gói đầu tư nổi bật',
-        superInvestPackage:'Gói đầu tư siêu lợi nhuận'
+        superInvestPackage: 'Gói đầu tư siêu lợi nhuận',
+        investTienNgay: 'Đầu tư Tiện Ngay',
+        buildFuture: 'Xây dựng tương lai',
+        describe: 'Tiếp cận nhanh chóng các khoản đầu tư có chất lượng cao',
+        contractId: 'Mã số hợp đồng',
+        investmentTerm: 'Kỳ hạn đầu tư',
+        expectedDueDate: 'Ngày đáo hạn dự kiến',
+        totalProfitReceived: 'Tổng lãi nhận được',
+        monthlyInterestRate: 'Lãi suất hàng tháng',
+        monthlyInterest: 'Lãi hàng tháng',
+        formInterest: 'Hình thức trả lãi',
+        investNote: 'Lưu ý khi đầu tư',
+        infoContract: 'Thông tin hợp đồng',
+        noteAuth: 'Đăng nhập hoặc đăng ký ngay',
+        noteVerify: 'Bạn chưa đăng nhập tài khoản',
+        describeAuth: 'Đăng nhập hoặc đăng ký để tiến hành đầu tư ngay hôm nay ',
+        describeVerify: 'Xác thực tài khoản để tăng độ an toàn khi đầu tư và sử dụng ứng dụng',
+        next: 'Để sau',
+        verifyNow: 'Xác thực ngay',
+        investNoteDescribe: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
     }
 };
 

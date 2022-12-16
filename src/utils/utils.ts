@@ -18,6 +18,16 @@ function formatMoney(number: string | number | undefined) {
             .replace(/\B(?=(\d{3})+(?!\d))/g, '.')} đ`
     );
 }
+function formatMoneyNotSuffixes(number: string | number | undefined) {
+    if (!number) {
+        return '0';
+    }
+    return (
+        `${Math.ceil(Number(number))
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}`
+    );
+}
 
 function capitalizeFirstLetter(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1);
@@ -38,6 +48,7 @@ function formatUpperCaseCharacter(str: string) {
 export default {
     formatLoanMoney,
     formatMoney,
+    formatMoneyNotSuffixes,
     capitalizeFirstLetter,
     formatForEachWordCase,
     formatUpperCaseCharacter

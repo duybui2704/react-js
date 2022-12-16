@@ -1,11 +1,11 @@
 @import 'assets/scss';
 .page-container {
-    padding: 0 16px 16px 16px;
-    height: 85vh;
+    padding: 0 16px 32px 16px;
+    height: 86vh;
     overflow: scroll;
     white-space: nowrap;
     justify-content: center;
-    width: 100%;
+    width: --vh;
     align-items: center;
     .page-wrap {
         justify-content: center;

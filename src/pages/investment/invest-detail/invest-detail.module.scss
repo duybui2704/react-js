@@ -1,7 +1,14 @@
 @import 'assets/scss';
+.page {
+    width: --vh;
+    overflow: scroll;
+    height: 92vh;
+}
+
 .banner {
     width: 100%;
     height: auto;
+    min-height: 300px;
 }
 
 .back {
@@ -13,6 +20,18 @@
     width: 40px;
     height: 40px;
     border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+        opacity: 0.9;
+    }
+    &:active {
+        opacity: 0.7;
+    }
+    .ic-back {
+        width: 20px;
+        height: 20px;
+    }
 }
 
 .banner-container {
@@ -21,7 +40,151 @@
     position: relative;
 }
 
+.content-container {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    top: 15px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
 .text-banner-container {
     display: flex;
     position: absolute;
+    flex-direction: column;
+    top: 0px;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    .describe-text {
+        color: $color-white;
+        padding-bottom: 16px;
+        font-family: $font-medium;
+        font-size: $text-h6;
+        text-align: center;
+    }
+}
+
+.content-invest-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $color-gray5;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: $color-white;
+    box-shadow: $box-shadow;
+    border-radius: 8px;
+    position: relative;
+    .info-contract-text {
+        color: $color-gray2;
+        padding-top: 16px;
+        font-family: $font-medium;
+        font-size: $text-h6;
+    }
+    .amount-invest-text {
+        color: $color-green-header;
+        font-family: $font-medium;
+        font-size: $text-h10;
+    }
+    .invest-wrap {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        padding: 0px 0 48px 0;
+        .column-wrap {
+            flex-direction: column;
+            display: flex;
+        }
+    }
+}
+
+.invest-note-container {
+    display: flex;
+    flex-direction: column;
+    padding: 48px 0;
+    .invest-note-text {
+        color: $color-gray3;
+        font-family: $font-medium;
+        font-size: $text-h6;
+        padding-bottom: 24px;
+    }
+    .invest-note-describe-text {
+        color: $color-gray2;
+        font-family: $font-regular;
+        font-size: $text-h6;
+    }
+}
+
+.key-value-container {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid $color-gray5;
+    justify-content: space-between;
+    padding: 16px 0 8px 0;
+    .key-text {
+        color: $color-gray2
+    }
+    .value-text {
+        color: $color-gray2
+    }
+}
+
+.invest-now-wrap {
+    display: flex;
+    position: absolute;
+    bottom: -20px;
+    left: -10px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    .invest-now-container {
+        display: flex;
+        flex-direction: row;
+        background-color: $color-green-header;
+        padding: 10px 20px;
+        border-radius: 5px;
+        min-width: 35%;
+        justify-content: center;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.9;
+            animation: shake 0.9s ease 1;
+        }
+        &:active {
+            opacity: 0.7;
+        }
+        .invest-now-text {
+            color: $color-white;
+            font-size: $text-h6;
+            font-family: $font-medium;
+            padding-right: 10px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none
+        }
+    }
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: rotate(5deg);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: rotate(2deg);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: rotate(-5deg);
+    }
 }

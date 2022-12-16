@@ -1,6 +1,5 @@
 @use 'sass:math';
-
-@function pxToRem($pixel){
+@function pxToRem($pixel) {
     @return math.div($pixel, 16px) *1rem;
 }
 
@@ -13,3 +12,4 @@ $text-h6: pxToRem(16px);
 $text-h7: pxToRem(14px);
 $text-h8: pxToRem(12px);
 $text-h9: pxToRem(10px);
+$text-h10: pxToRem(64px);

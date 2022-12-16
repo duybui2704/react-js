@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import InvestItem from 'components/invest-item';
 import PickerComponent from 'components/picker-component/picker-component';
+import { useAppStore } from 'hooks';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { ItemProps } from 'models/common';
 import { InvestFilter, PackageInvest } from 'models/invest';
@@ -15,7 +16,8 @@ const cx = classNames.bind(styles);
 
 function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInvest) => void }) {
     const navigate = useNavigate();
-    // const { apiServices } = useAppStore();
+    
+    const { apiServices } = useAppStore();
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
     const [superInvestList, setSuperInvestList] = useState<PackageInvest[]>(investListData);
@@ -40,10 +42,6 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
         setAmountList(amountListData);
         setCountInvest(23);
     }, []);
-
-    const onLogin = useCallback(async () => {
-        navigate('login');
-    }, [navigate]);
 
     const renderDivider = useCallback((_label: string, styleContainer?: string) => {
         return (
@@ -90,7 +88,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
     }, [renderItemInvest]);
 
     return (
-        <div className={cx('page-container')} id='page'>
+        <div className={cx('page-container')}>
             <div className={cx('page-wrap')}>
                 <div className={cx('content-container')} ref={divRef}>
                     <Row gutter={[24, 16]} className={cx('top-search-component')}>
