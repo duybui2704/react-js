@@ -32,7 +32,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
     const [countInvest, setCountInvest] = useState<number>();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
 
-    const divRef = useRef<any>(null);
+    const divRef = useRef<HTMLDivElement>(null);
     const popupSearchRef = useRef<PopupBaseActions>(null);
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
@@ -45,7 +45,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
     }, [isMobile]);
 
     const handleScrollToTop = () => {
-        divRef.current.scrollIntoView({ behavior: 'smooth', top: 0 });
+        divRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
     };
 
     const fetchData = useCallback(() => {

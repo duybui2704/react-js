@@ -92,8 +92,8 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
                 </div>
                 <div className={cx('content-container')}>
                     <div className={cx(isMobile ? 'text-banner-mobile-container' : 'text-banner-container')}>
-                        <span className={cx(isMobile ? 'h11 text-white medium' : 'h10 text-white medium')}>{Languages.invest.investTienNgay}</span>
-                        <span className={cx(isMobile ? 'h6 text-white medium' : 'h4 text-white medium')}>{Languages.invest.buildFuture}</span>
+                        <span className={cx(isMobile ? 'h11 text-white medium' : 'invest-tien-ngay-text')}>{Languages.invest.investTienNgay}</span>
+                        <span className={cx(isMobile ? 'h6 text-white medium' : 'invest-build-future-text')}>{Languages.invest.buildFuture}</span>
                         <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
                         <div className={cx('content-invest-container')}>
                             <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>

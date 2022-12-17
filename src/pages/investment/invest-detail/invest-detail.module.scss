@@ -1,7 +1,7 @@
 @import 'assets/scss';
 .page {
     width: --vh;
-    overflow: scroll;
+    overflow: auto;
     height: 92vh;
 }
 
@@ -40,11 +40,12 @@
     top: 16px;
     left: 16px;
     background-color: $color-gray9;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
     &:hover {
         opacity: 0.9;
     }
@@ -93,12 +94,29 @@
     align-items: center;
 }
 
+.invest-tien-ngay-text {
+    color: $color-white;
+    font-family: $font-medium;
+    font-size: $text-h10;
+    text-align: center;
+    animation: splash 1s normal forwards ease-in-out;
+}
+
+.invest-build-future-text {
+    color: $color-white;
+    font-family: $font-medium;
+    font-size: $text-h4;
+    text-align: center;
+    animation: splash 2.5s normal forwards ease-in-out;
+}
+
 .describe-text {
     color: $color-white;
     padding-bottom: 16px;
     font-family: $font-medium;
     font-size: $text-h6;
     text-align: center;
+    animation: splash 3.5s normal forwards ease-in;
 }
 
 .describe-mobile-text {
@@ -181,51 +199,67 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    .invest-now-container {
-        display: flex;
-        flex-direction: row;
-        background-color: $color-green-header;
-        padding: 10px 20px;
-        border-radius: 5px;
-        min-width: 35%;
-        justify-content: center;
-        cursor: pointer;
-        &:hover {
-            opacity: 0.9;
-            animation: shake 0.9s ease 1;
-        }
-        &:active {
-            opacity: 0.7;
-        }
-        .invest-now-text {
-            color: $color-white;
-            font-size: $text-h6;
-            font-family: $font-medium;
-            padding-right: 10px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none
-        }
+}
+
+.invest-now-text {
+    color: $color-white;
+    font-size: $text-h6;
+    font-family: $font-medium;
+    padding-right: 10px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.invest-now-container {
+    display: flex;
+    flex-direction: row;
+    background-color: $color-green-header;
+    padding: 10px 20px;
+    border-radius: 5px;
+    min-width: 35%;
+    justify-content: center;
+    animation: zoom 3s infinite;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.9;
+    }
+    &:active {
+        opacity: 0.7;
     }
 }
 
-@keyframes shake {
+@keyframes zoom {
     0%,
     100% {
-        transform: rotate(5deg);
+        scale: 0.9;
     }
     10%,
     30%,
     50%,
     70%,
     90% {
-        transform: rotate(2deg);
+        scale: 1.1;
     }
     20%,
     40%,
     60%,
     80% {
-        transform: rotate(-5deg);
+        scale: 0.9;
+    }
+}
+
+@keyframes splash {
+    from {
+        opacity: 0;
+        transform: scale(0, 0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1, 1.1);
+    }
+    to {
+        transform: scale(1, 1);
     }
 }
