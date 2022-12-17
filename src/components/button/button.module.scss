@@ -90,6 +90,10 @@
         @extend .btn-base-text;
         color: $color-blue;
     }
+    &_gray {
+        @extend .btn-base-text;
+        color: $color-gray2;
+    }
 }
 
 .icon-right-styles {

@@ -1,3 +1,4 @@
+import { BUTTON_STYLES } from 'components/button/types';
 import { ReactNode } from 'react';
 export type PopupBaseProps = {
     onClose?: () => any;
@@ -21,6 +22,10 @@ export type PopupBaseProps = {
     iconRight?: any;
     iconLeft?: any;
     hasCloseIc?: boolean;
+    titleHeader?: string;
+    iconHeader?: any;
+    buttonLeftStyle?: keyof typeof BUTTON_STYLES;
+    buttonRightStyle?: keyof typeof BUTTON_STYLES;
 
     /// styling UI
     popupContainerStyle?: string;

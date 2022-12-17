@@ -1,11 +1,11 @@
 @import 'assets/scss';
 .page-container {
-    padding: 0 16px 32px 16px;
+    padding: 0 0 32px 0;
     height: 86vh;
     overflow: scroll;
     white-space: nowrap;
     justify-content: center;
-    width: --vh;
+    width: 100%;
     align-items: center;
     .page-wrap {
         justify-content: center;
@@ -15,58 +15,87 @@
         display: flex;
         flex-direction: column;
         max-width: 75%;
-        padding: 0 0 20px 0;
-        .top-search-component {
-            border-radius: 8px;
-            border: 1px solid $color-gray5;
+        padding: 0 0 100px 0;
+    }
+    .content-mobile-container {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 32px);
+        padding: 0 0 100px 0;
+    }
+    .top-search-component {
+        border-radius: 8px;
+        border: 1px solid $color-gray5;
+        display: flex;
+        padding: 16px 0;
+        box-shadow: $box-shadow;
+        margin-top: 40px;
+    }
+    .top-search-mobile-component {
+        display: flex;
+        padding: 26px 0 26px 16px;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $color-gray10;
+        .right-top-search-component {
             display: flex;
-            padding: 16px 0;
-            box-shadow: $box-shadow;
-            margin-top: 40px;
-        }
-        .invest-list-component {
-            display: flex;
-            flex: 1;
-        }
-        .top-intro {
-            display: flex;
-            flex-direction: column;
-        }
-        .picker-container {
-            display: flex;
-        }
-        .text-your-chance {
-            font-family: $font-medium;
-            font-size: $text-h4;
-        }
-        .text-your-chance-search {
-            font-family: $font-medium;
-            font-size: $text-h6;
-            color: $color-green-header;
-        }
-        .invest-package-container {
-            display: flex;
-            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
-            padding: 24px 0;
+            padding: 0 20px;
         }
-        .super-invest-package-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 44px 0 24px 0;
-        }
-        .invest-package-text {
-            font-family: $font-regular;
-            font-size: $text-h4;
-            color: $color-green-header;
-            margin-right: 8px;
-        }
-        .invest-package-bar {
-            display: flex;
-            flex: 1;
-            border-top: 1px solid $color-gray-d8;
-        }
+    }
+    .invest-list-component {
+        display: flex;
+        flex: 1;
+    }
+    .top-intro {
+        display: flex;
+        flex-direction: column;
+    }
+    .picker-container {
+        display: flex;
+    }
+    .text-your-chance {
+        font-family: $font-medium;
+        font-size: $text-h4;
+    }
+    .text-your-mobile-chance {
+        font-family: $font-medium;
+        font-size: $text-h6;
+    }
+    .text-your-chance-search {
+        font-family: $font-medium;
+        font-size: $text-h6;
+        color: $color-green-header;
+    }
+    .invest-package-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 24px 0;
+    }
+    .super-invest-package-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 44px 0 24px 0;
+    }
+    .invest-package-text {
+        font-family: $font-regular;
+        font-size: $text-h4;
+        color: $color-green-header;
+        margin-right: 8px;
+    }
+    .invest-package-mobile-text {
+        font-family: $font-regular;
+        font-size: $text-h6;
+        color: $color-green-header;
+        margin-right: 8px;
+    }
+    .invest-package-bar {
+        display: flex;
+        flex: 1;
+        border-top: 1px solid $color-gray-d8;
     }
     .top-button {
         display: flex;
@@ -83,6 +112,33 @@
         justify-content: center;
         align-items: center;
         margin: 0 30px 50px 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        &:hover {
+            opacity: 0.9;
+            animation: shake 0.9s ease 1;
+        }
+        &:active {
+            opacity: 0.7;
+        }
+    }
+    .top-button-mobile {
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        box-shadow: $box-shadow;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        border: 1px solid $color-gray5;
+        background-color: $color-white;
+        border-radius: 60px;
+        justify-content: center;
+        align-items: center;
+        margin: 0 20px 60px 0;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;

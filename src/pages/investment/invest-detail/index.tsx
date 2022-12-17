@@ -16,39 +16,19 @@ import { PopupBaseActions } from 'components/modal/modal';
 import { useAppStore } from 'hooks';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
+import useIsMobile from 'hooks/use-is-mobile.hook';
 
 const cx = classNames.bind(styles);
 
-// const dataFake = {
-//     id: 1,
-//     ma_hop_dong: 'HĐCC/ĐKOTO/TPHN79HĐ/2212/04',
-//     so_tien_dau_tu: '80000000',
-//     lai_hang_thang: '1000000',
-//     ngay_dau_tu: '12/12/2022',
-//     ki_han_dau_tu: '6 tháng',
-//     tong_lai_du_kien: '3984000',
-//     tong_lai_da_nhan: '24.000.000',
-//     tong_lai_da_tra: '',
-//     ngay_dao_han: '',
-//     hinh_thuc_tra_lai: 'Lãi hàng tháng, gốc cuối kỳ',
-//     ti_le_lai_suat_hang_thang: '1%',
-//     ti_le_lai_suat_hang_nam: '12%',
-//     trang_thai_hop_dong: '',
-//     ngay_dao_han_du_kien: '01/01/2023',
-//     tong_lai_nhan_duoc: '1000000',
-//     thoi_gian_dau_tu: '6 tháng',
-//     tong_goc_con_lai: '',
-//     tong_goc_da_tra: ''
-// };
-
 function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: () => void, investPackage?: PackageInvest }) {
+    const isMobile = useIsMobile();
+    const navigate = useNavigate();
 
     const [dataPackage, setDataPackage] = useState<PackageInvest>();
     const { userManager } = useAppStore();
 
     const popupAuthRef = useRef<PopupBaseActions>(null);
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
-    const navigate = useNavigate();
 
     useEffect(() => {
         setDataPackage(investPackage);
@@ -61,11 +41,11 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
     const renderKeyValue = useCallback((_key?: string, _value?: string) => {
         return (
             <div className={cx('key-value-container')}>
-                <span className={cx('key-text h6 regular')}>{_key}</span>
-                <span className={cx('value-text h6 medium')}>{_value}</span>
+                <span className={cx(isMobile ? 'text-gray h7 regular' : 'text-gray h6 regular')}>{_key}</span>
+                <span className={cx(isMobile ? 'text-gray h7 medium' : 'text-gray h6 medium')}>{_value}</span>
             </div>
         );
-    }, []);
+    }, [isMobile]);
 
     const handleInvestNow = useCallback(() => {
         if (userManager?.userInfo) {
@@ -97,8 +77,8 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
             }
         };
         return (
-            <PopupBaseCenterScreen ref={_ref} labelCancel={_labelRight} labelSuccess={_labelLeft}
-                hasTwoButton onSuccessPress={handleLeftButton} onClose={handleRightButton}
+            <PopupBaseCenterScreen ref={_ref} labelSuccess={_labelRight} labelCancel={_labelLeft}
+                hasTwoButton onClose={handleLeftButton} onSuccessPress={handleRightButton}
                 icon={_icon} hasCloseIc title={_title} description={_describe} />
         );
     }, [navigate]);
@@ -107,17 +87,17 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
         <div className={cx('page')}>
             <div className={cx('banner-container')}>
                 <img src={ImgHeader} className={cx('banner')} />
-                <div onClick={onBack} className={cx('back')}>
+                <div onClick={onBack} className={cx(isMobile ? 'back-mobile' : 'back')}>
                     <img src={IcLeftArrow} className={cx('ic-back')} />
                 </div>
                 <div className={cx('content-container')}>
-                    <div className={cx('text-banner-container')}>
-                        <span className={cx('h10 text-white medium')}>{Languages.invest.investTienNgay}</span>
-                        <span className={cx('h4 text-white medium')}>{Languages.invest.buildFuture}</span>
-                        <span className={cx('describe-text')}>{Languages.invest.describe}</span>
+                    <div className={cx(isMobile ? 'text-banner-mobile-container' : 'text-banner-container')}>
+                        <span className={cx(isMobile ? 'h11 text-white medium' : 'h10 text-white medium')}>{Languages.invest.investTienNgay}</span>
+                        <span className={cx(isMobile ? 'h6 text-white medium' : 'h4 text-white medium')}>{Languages.invest.buildFuture}</span>
+                        <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
                         <div className={cx('content-invest-container')}>
                             <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                            <span className={cx('amount-invest-text')}>{utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0').replace(' vnđ', '')}</span>
+                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0').replace(' vnđ', '')}</span>
                             <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                                     {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}

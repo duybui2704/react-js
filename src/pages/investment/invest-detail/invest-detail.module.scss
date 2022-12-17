@@ -34,6 +34,29 @@
     }
 }
 
+.back-mobile {
+    display: flex;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background-color: $color-gray9;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+        opacity: 0.9;
+    }
+    &:active {
+        opacity: 0.7;
+    }
+    .ic-back {
+        width: 10px;
+        height: 10px;
+    }
+}
+
 .banner-container {
     height: auto;
     width: 100%;
@@ -58,13 +81,32 @@
     width: 70%;
     justify-content: center;
     align-items: center;
-    .describe-text {
-        color: $color-white;
-        padding-bottom: 16px;
-        font-family: $font-medium;
-        font-size: $text-h6;
-        text-align: center;
-    }
+}
+
+.text-banner-mobile-container {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    top: 0px;
+    width: calc(100% - 32px);
+    justify-content: center;
+    align-items: center;
+}
+
+.describe-text {
+    color: $color-white;
+    padding-bottom: 16px;
+    font-family: $font-medium;
+    font-size: $text-h6;
+    text-align: center;
+}
+
+.describe-mobile-text {
+    color: $color-white;
+    padding-bottom: 16px;
+    font-family: $font-medium;
+    font-size: $text-h7;
+    text-align: center;
 }
 
 .content-invest-container {
@@ -89,6 +131,11 @@
         font-family: $font-medium;
         font-size: $text-h10;
     }
+    .amount-invest-mobile-text {
+        color: $color-green-header;
+        font-family: $font-medium;
+        font-size: $text-h11;
+    }
     .invest-wrap {
         display: flex;
         width: 100%;
@@ -104,7 +151,7 @@
 .invest-note-container {
     display: flex;
     flex-direction: column;
-    padding: 48px 0;
+    padding: 48px 0 100px 0;
     .invest-note-text {
         color: $color-gray3;
         font-family: $font-medium;
@@ -124,12 +171,6 @@
     border-bottom: 1px solid $color-gray5;
     justify-content: space-between;
     padding: 16px 0 8px 0;
-    .key-text {
-        color: $color-gray2
-    }
-    .value-text {
-        color: $color-gray2
-    }
 }
 
 .invest-now-wrap {

@@ -65,6 +65,9 @@ export const Button = ({
             case BUTTON_STYLES.OUTLINE_BLUE:
                 style = styles.btn_txt_blue;
                 break;
+            case BUTTON_STYLES.GRAY:
+                style = styles.btn_txt_gray;
+                break;
             default:
                 style = styles.btn_txt_white;
                 break;

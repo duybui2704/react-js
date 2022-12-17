@@ -10,17 +10,17 @@ import React, {
     useImperativeHandle,
     useState
 } from 'react';
-import styles from './popup-base-center-screen.module.scss';
+import styles from './popup-base-mobile.module.scss';
 
 const cx = classNames.bind(styles);
 
-const PopupBaseCenterScreen = forwardRef<PopupBaseActions, PopupBaseProps>(
+const PopupBaseMobile = forwardRef<PopupBaseActions, PopupBaseProps>(
     ({ onSuccessPress, onClose, onBackdropPress,
         description, icon, title, labelSuccess,
         labelCancel, hasTwoButton, hasOneButton,
         textDescribeStyle, buttonContainerStyle,
         textTitleStyle, iconLeft, iconRight,
-        customerContent, hasCloseIc, buttonLeftStyle, buttonRightStyle
+        customerContent, hasCloseIc, titleHeader, iconHeader, buttonLeftStyle,buttonRightStyle
     }: PopupBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
 
@@ -44,7 +44,6 @@ const PopupBaseCenterScreen = forwardRef<PopupBaseActions, PopupBaseProps>(
 
         const onLeft = useCallback(() => {
             onClose?.();
-            setVisible(false);
         }, [onClose]);
 
         const onRight = useCallback(() => {
@@ -56,9 +55,11 @@ const PopupBaseCenterScreen = forwardRef<PopupBaseActions, PopupBaseProps>(
 
             return (
                 <div className={cx('container')}>
-
-                    {hasCloseIc && <img src={Ic_Close} className={cx('icon-close')} onClick={onBackDrop} />}
-
+                    <div className={cx('header-container')}>
+                        {iconHeader && <img src={iconHeader} />}
+                        {titleHeader && <span className={cx('title-header-text')}>{titleHeader}</span>}
+                        {hasCloseIc && <img src={Ic_Close} className={cx('icon-close')} onClick={onBackDrop} />}
+                    </div>
                     {icon && <img src={icon} className={cx('icon-main')} />}
 
                     {title && <span className={textTitleStyle ? textTitleStyle : cx('text-title')}>{title}</span>}
@@ -92,18 +93,17 @@ const PopupBaseCenterScreen = forwardRef<PopupBaseActions, PopupBaseProps>(
                             isLowerCase
                             onPress={onRight}
                             rightIcon={iconRight}
-                            width={100}
+                            width={45}
                             buttonStyle={buttonRightStyle || BUTTON_STYLES.GREEN}
                         />
                     </div>}
                 </div>
             );
-        }, [buttonContainerStyle, buttonLeftStyle, buttonRightStyle, customerContent, description, hasCloseIc, hasOneButton, hasTwoButton, icon, iconLeft, iconRight, labelCancel, labelSuccess, onBackDrop, onLeft, onRight, textDescribeStyle, textTitleStyle, title]);
+        }, [iconHeader, titleHeader, hasCloseIc, onBackDrop, icon, title, textTitleStyle, description, textDescribeStyle, customerContent, hasTwoButton, buttonContainerStyle, labelSuccess, onLeft, iconLeft, buttonLeftStyle, labelCancel, onRight, iconRight, buttonRightStyle, hasOneButton]);
 
         return (
             <Modal
                 open={visible}
-                // onCancel={onBackDrop}
                 closable={false}
                 footer={null}
             >
@@ -114,4 +114,4 @@ const PopupBaseCenterScreen = forwardRef<PopupBaseActions, PopupBaseProps>(
     }
 );
 
-export default PopupBaseCenterScreen;
+export default PopupBaseMobile;
