@@ -2,9 +2,9 @@ import { Col, Row } from 'antd';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
+import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import InvestItem from 'components/invest-item';
-import { Loading } from 'components/loading';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
@@ -15,7 +15,6 @@ import { ItemProps } from 'models/common';
 import { InvestFilter, PackageInvest } from 'models/invest';
 import { amountListData, dateListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import styles from './investment.module.scss';
 
@@ -89,7 +88,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
             });
         };
         return (
-            <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={8} >
+            <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
                 <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
             </Col>
         );
@@ -138,7 +137,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
-            <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
+            <Row gutter={isMobile ? [24, 36] : [24, 44]}>
                 {_dataList?.map((itemInvest: PackageInvest, index: number) => {
                     return renderItemInvest(index, itemInvest);
                 })}
@@ -169,26 +168,20 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
 
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         return (
-            <div id='scrollableDivPackage' className={cx('bottom-container')} >
-                <InfiniteScroll
-                    dataLength={investList.length}
-                    next={fetchDataMore}
-                    hasMore={loadMore}
-                    loader={<Loading />}
-                    pullDownToRefreshThreshold={50}
-                    scrollableTarget={'scrollableDivPackage'}
-                    className={cx('bottom')}
+            <div className={cx('bottom-container')} >
+                {renderDivider(Languages.invest.superInvestPackage)}
+                {renderInvestList(superInvestList)}
 
-                >
-                    {renderDivider(Languages.invest.superInvestPackage)}
-                    {renderInvestList(superInvestList)}
-
-                    {renderDivider(Languages.invest.investPackage, cx('super-invest-package-container'))}
-                    {renderInvestList(_list)}
-                </InfiniteScroll>
+                {renderDivider(Languages.invest.investPackage, cx('super-invest-package-container'))}
+                {renderInvestList(_list)}
+                <Row gutter={[24, 44]} className={cx('button-see-more')} onClick={fetchDataMore}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                        <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
+                    </Col>
+                </Row>
             </div>
         );
-    }, [fetchDataMore, investList.length, loadMore, renderDivider, renderInvestList, superInvestList]);
+    }, [fetchDataMore, renderDivider, renderInvestList, superInvestList]);
 
     return (
         <div className={cx('page-container')}>
@@ -200,7 +193,6 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
                     <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
                 </div>
             </div>
-
             {renderPopupSearchPackage()}
         </div>
     );

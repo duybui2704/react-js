@@ -120,7 +120,7 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
 
                         </div>
                         <div className={cx('invest-note-container')}>
-                            <span className={cx('invest-note-text')}>{Languages.invest.investNote}</span>
+                            <span className={cx('invest-note-text')}>{Languages.invest.estimatedPaymentSchedule}</span>
                             <span className={cx('invest-note-describe-text')}>{Languages.invest.investNoteDescribe}</span>
                         </div>
                     </div>
