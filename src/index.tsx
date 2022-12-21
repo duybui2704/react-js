@@ -18,10 +18,8 @@ document.documentElement.style.setProperty('--vw', `${vw}px`);
 function App(): JSX.Element {
     function handleWindowSizeChange() {
         sessionManager.isMobile = window.innerWidth <= 768;
-
         document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
         document.documentElement.style.setProperty('--vw', `${window.innerWidth * 0.01}px`);
-
     }
 
     useEffect(() => {
