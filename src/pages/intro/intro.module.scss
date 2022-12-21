@@ -3,12 +3,13 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    height: 90vh;
-    overflow: auto;
+    height: 120vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .banner {
-    width: 100%;
+    max-width: 100%;
     height: auto;
 }
 
@@ -52,6 +53,8 @@
 .body {
     display: flex;
     flex-direction: column;
+    background-color: $color-white;
+    flex: 1;
 }
 
 .view-body {
@@ -81,7 +84,7 @@
 }
 
 .padding {
-    padding: 2% 15%;
+    padding: 2% 12%;
 }
 
 .circle {
@@ -121,7 +124,7 @@
 }
 
 .width {
-    width: 30%;
+    width: 80%;
 }
 
 ul {
@@ -131,4 +134,105 @@ ul {
 .banner-invest {
     background-repeat: no-repeat;
     background-origin: content-box;
+}
+
+.video-popup-container {
+    width: 100%;
+    height: 100%;
+}
+
+.invest-package-bar {
+    display: flex;
+    flex: 1;
+    border-top: 1px solid $color-gray-d8;
+}
+
+.content-container {
+    justify-content: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: $color-gray-f5;
+    padding: 5% 12%;
+}
+
+.inner-center {
+    width: 100%;
+    display: flex;
+}
+
+.text-content {
+    width: 100%;
+    display: flex;
+    gap: 10%;
+}
+
+.margin {
+    margin-bottom: 300px;
+}
+
+.hv:hover .txt-green {
+    color: $color-green1;
+}
+
+.hv:hover .circle {
+    border: 1px solid $color-green1;
+    background-color: $color-green1;
+}
+
+.hv:hover .txt-white {
+    color: $color-white;
+}
+
+.line-up {
+    animation: 3s anim-line-up ease-in-out inherit;
+}
+
+@keyframes anim-line-up {
+    0% {
+        opacity: 0;
+        transform: translateY(80%);
+    }
+    20% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+}
+
+#myVideo {
+    width: 100%;
+    margin-right: 50px;
+    border-radius: 10px;
+}
+
+.service {
+    overflow-x: auto;
+    width: 100vw;
+    display: flex;
+    gap: 50px;
+}
+
+.item-service {
+    width: 100%;
+    padding: 0px 20px;
+    margin-bottom: 300px;
+    border-radius: 10px;
+    margin-right: 5%;
+    background-color: $color-white;
+}
+
+.service-container {
+    justify-content: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: $color-gray-f5;
+    padding: 5% 0;
 }

@@ -162,7 +162,17 @@ const Languages = {
         lasting: 'Bền vững',
         lastingContent: 'Linh hoạt, sinh lời dài hạn và an toàn.',
         easy: 'Dễ dàng',
-        easyContent: 'Người không chuyên cũng có thể tham gia đầu tư với khởi điểm từ 3 triệu đồng.'
+        easyContent: 'Người không chuyên cũng có thể tham gia đầu tư với khởi điểm từ 3 triệu đồng.',
+        investAttractive: 'Các gói đầu tư hấp dẫn tại Tiện Ngay',
+        investors: 'Nhà đầu tư',
+        investmentMoney: 'Tiền đầu tư',
+        profit: 'Lợi nhuận',
+        contentInvest1: 'Gói đầu tư đa dạng với từng khách hàng',
+        contentInvest2: 'Lãi xuất lên đến 18%',
+        contentInvest3: 'Đầu tư linh động chỉ từ 3 tháng',
+        contentProfit1: 'Chi tiết các khoản đầu tư minh bạch',
+        contentProfit2: 'Lịch sử trả lãi rõ ràng',
+        contentProfit3: 'Lãi luôn về đúng hạn'
     }
 };
 
