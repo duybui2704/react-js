@@ -63,7 +63,8 @@ const Languages = {
         errMsgSpaceChar: 'Mật khẩu nhập không được chứa kí tự trống',
         errMsgUpperChar: 'Mật khẩu phải có 1 kí tự in hoa',
         errMsgGender: 'Giới tính không được bỏ trống',
-        genderRequired: 'Giới tính không được để trống'
+        genderRequired: 'Giới tính không được để trống',
+        emptyList:'Không có dữ liệu'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Báo cáo', 'Giao dịch'],
     header: {

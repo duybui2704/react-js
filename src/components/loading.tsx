@@ -1,5 +1,6 @@
+import { Skeleton } from 'antd';
 import React from 'react';
 
 export const Loading = ({ className }: { className?: string }) => {
-    return <span>Please implement</span>
+    return <Skeleton title paragraph={{ rows: 1 }} active />;
 };

@@ -220,7 +220,7 @@
     border-radius: 5px;
     min-width: 35%;
     justify-content: center;
-    animation: zoom 3s infinite;
+    animation: zoom 4s infinite;
     cursor: pointer;
     &:hover {
         opacity: 0.9;
@@ -233,7 +233,7 @@
 @keyframes zoom {
     0%,
     100% {
-        scale: 0.9;
+        scale: 1;
     }
     10%,
     30%,
@@ -246,7 +246,7 @@
     40%,
     60%,
     80% {
-        scale: 0.9;
+        scale: 1;
     }
 }
 

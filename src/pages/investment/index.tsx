@@ -1,21 +1,23 @@
 import { Col, Row } from 'antd';
+import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
+import { BUTTON_STYLES } from 'components/button/types';
 import InvestItem from 'components/invest-item';
+import { Loading } from 'components/loading';
+import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
+import PopupBaseMobile from 'components/popup-base-mobile';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { ItemProps } from 'models/common';
 import { InvestFilter, PackageInvest } from 'models/invest';
-import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
+import { amountListData, dateListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import styles from './investment.module.scss';
-import IcFilter from 'assets/image/ic_green_small_filter.svg';
-import { PopupBaseActions } from 'components/modal/modal';
-import PopupBaseMobile from 'components/popup-base-mobile';
-import { BUTTON_STYLES } from 'components/button/types';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +25,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
-    const { scrollTop } = useWindowScrollPositions(cx('page-container'));
+    const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
     const [superInvestList, setSuperInvestList] = useState<PackageInvest[]>(investListData);
@@ -31,6 +33,8 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [countInvest, setCountInvest] = useState<number>();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
+
+    const [loadMore, setLoadMore] = useState<boolean>(true);
 
     const divRef = useRef<HTMLDivElement>(null);
     const popupSearchRef = useRef<PopupBaseActions>(null);
@@ -45,7 +49,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
     }, [isMobile]);
 
     const handleScrollToTop = () => {
-        divRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
     const fetchData = useCallback(() => {
@@ -53,6 +57,20 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
         setAmountList(amountListData);
         setCountInvest(23);
     }, []);
+
+    const fetchDataMore = useCallback(() => {
+        setDateList(dateListData);
+        setAmountList(amountListData);
+
+        setTimeout(() => {
+            if (investList.length > 10) {
+                setLoadMore(false);
+            } else {
+                setInvestList(last => [...last, ...investListMoreData]);
+                console.log('fetch more');
+            }
+        }, 1500);
+    }, [investList.length]);
 
     const renderDivider = useCallback((_label: string, styleContainer?: string) => {
         return (
@@ -112,7 +130,7 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
             onNavigateDetail(dataInvest);
         };
         return (
-            <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={index}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={`${index}${dataInvest.id}`}>
                 <InvestItem onPressInvest={onNavigateInvestDetail} dataInvest={dataInvest} />
             </Col>
         );
@@ -149,19 +167,40 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
         );
     }, [onClosePopup, onSuccessPopup, renderTopWeb]);
 
+    const renderFlatList = useCallback((_list: PackageInvest[]) => {
+        return (
+            <div id='scrollableDivPackage' className={cx('bottom-container')} >
+                <InfiniteScroll
+                    dataLength={investList.length}
+                    next={fetchDataMore}
+                    hasMore={loadMore}
+                    loader={<Loading />}
+                    pullDownToRefreshThreshold={50}
+                    scrollableTarget={'scrollableDivPackage'}
+                    className={cx('bottom')}
+
+                >
+                    {renderDivider(Languages.invest.superInvestPackage)}
+                    {renderInvestList(superInvestList)}
+
+                    {renderDivider(Languages.invest.investPackage, cx('super-invest-package-container'))}
+                    {renderInvestList(_list)}
+                </InfiniteScroll>
+            </div>
+        );
+    }, [fetchDataMore, investList.length, loadMore, renderDivider, renderInvestList, superInvestList]);
+
     return (
         <div className={cx('page-container')}>
             {isMobile && renderTopMobile}
-            <div className={cx('page-wrap')}>
-                <div className={cx(isMobile ? 'content-mobile-container' : 'content-container')} ref={divRef}>
-                    {!isMobile && renderTopWeb}
-                    {renderDivider(Languages.invest.investPackage)}
-                    {renderInvestList(investList)}
-                    {renderDivider(Languages.invest.superInvestPackage, cx('super-invest-package-container'))}
-                    {renderInvestList(superInvestList)}
+            <div className={cx('page-wrap')} ref={divRef} >
+                {!isMobile && renderTopWeb}
+                <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
+                    {renderFlatList(investList)}
                     <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
                 </div>
             </div>
+
             {renderPopupSearchPackage()}
         </div>
     );
