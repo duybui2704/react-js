@@ -12,21 +12,32 @@ import ImgQRCode from 'assets/image/img_qr_code.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './intro.module.scss';
 import { Grid } from '@mui/material';
-import PickerComponent from 'components/picker-component/picker-component';
+import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import InvestItem from 'components/invest-item';
 import Marquee from 'react-fast-marquee';
 import { serviceList } from 'pages/__mocks__/intro';
 import { ServiceModel } from 'models/intro';
+import { Col, Row } from 'antd';
+import { InvestFilter, PackageInvest } from 'models/invest';
+import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
+import useIsMobile from 'hooks/use-is-mobile.hook';
+import { ItemProps } from 'models/common';
 
 const cx = classNames.bind(styles);
 
 function Intro() {
     const navigate = useNavigate();
     const [step, setStep] = useState<number>(1);
+    const isMobile = useIsMobile();
+    const [dataFilter, setDataFilter] = useState<InvestFilter>({});
+
+
+    const pickerAmountRef = useRef<PickerAction>(null);
+    const pickerDateRef = useRef<PickerAction>(null);
 
     const renderViewTop = useMemo(() => {
         return (
@@ -65,20 +76,27 @@ function Intro() {
         );
     }, []);
 
-
-    const renderPicker = useCallback((_title: string, _placeholder: string) => {
+    const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
+        const onSelectItem = (item: any) => {
+            setDataFilter({
+                dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
+                amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+            });
+        };
         return (
-            <Grid item xs={12} md={4} className={cx('column background-color')}>
-                <PickerComponent data={[]} title={_title} placeholder={_placeholder} />
-            </Grid>
+            <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={8} >
+                <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
+            </Col>
         );
-    }, []);
+    }, [dataFilter]);
 
-    const renderItemInvest = useCallback((investAmount?: string, interestPayForm?: string, interestYear?: string, dateInvest?: string, expectedProfit?: string) => {
+    const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
+        const onNavigateInvestDetail = () => {
+        };
         return (
-            <Grid item xs={12} md={4} className={cx('column')}>
-                <InvestItem investAmount={investAmount} interestPayForm={interestPayForm} interestYear={interestYear} dateInvest={dateInvest} expectedProfit={expectedProfit} />
-            </Grid>
+            <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={index}>
+                <InvestItem onPressInvest={onNavigateInvestDetail} dataInvest={dataInvest} />
+            </Col>
         );
     }, []);
 
@@ -86,21 +104,19 @@ function Intro() {
         return (
             <div className={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
-                <Grid container item spacing={2} >
-                    {renderPicker(Languages.invest.investAmount, Languages.invest.investAmountChoose)}
-                    {renderPicker(Languages.invest.dateInvest, Languages.invest.dateInvestChoose)}
-                </Grid>
+                <Row gutter={[24, 16]} className={cx('top-search-component')}>
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dateListData)}
+                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, amountListData)}
+                </Row>
 
-                <Grid container className={cx('grid-content-component y20')}>
-                    <Grid container item spacing={2} >
-                        {renderItemInvest()}
-                        {renderItemInvest()}
-                        {renderItemInvest()}
-                    </Grid>
-                </Grid>
+                <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
+                    {investListData?.map((itemInvest: PackageInvest, index: number) => {
+                        return renderItemInvest(index, itemInvest);
+                    })}
+                </Row>
             </div>
         );
-    }, [renderItemInvest, renderPicker]);
+    }, [isMobile, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 

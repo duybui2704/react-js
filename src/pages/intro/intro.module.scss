@@ -236,3 +236,18 @@ ul {
     background-color: $color-gray-f5;
     padding: 5% 0;
 }
+
+.top-search-component {
+    border-radius: 8px;
+    border: 1px solid $color-gray5;
+    display: flex;
+    padding: 16px 0;
+    box-shadow: $box-shadow;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+.invest-list-component {
+    display: flex;
+    flex: 1;
+}
