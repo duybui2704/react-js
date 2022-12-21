@@ -2,36 +2,23 @@
 .page {
     display: flex;
     flex-direction: column;
-    position: relative;
-    height: 120vh;
-    overflow-y: auto;
+    max-height: 100vh;
+    overflow-y: scroll;
     overflow-x: hidden;
 }
 
-.banner {
-    max-width: 100%;
-    height: auto;
-}
-
 .view-title {
-    position: absolute;
-    top: 5;
-    z-index: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 100%;
-    padding: 20px;
+    margin-top: 30px;
     flex-direction: column;
 }
 
-.view-intro-center {
-    padding: 15px 10px;
-    background-color: $color-white;
+.width-intro {
     width: 40%;
-    justify-content: center;
-    border-radius: 5px;
-    box-shadow: 5px 5px 5px 5px $color-t-gray;
+    @include mobile {
+        width: 80%;
+    }
 }
 
 .mrgBottom {
@@ -47,7 +34,15 @@
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin-top: -50px;
+    margin-top: -70px;
+    margin-bottom: 10px;
+    .view-intro-center {
+        padding: 15px 10px;
+        background-color: $color-white;
+        justify-content: center;
+        border-radius: 5px;
+        box-shadow: 5px 5px 5px 5px $color-t-gray;
+    }
 }
 
 .body {
@@ -60,7 +55,6 @@
 .view-body {
     background-color: $color-white;
     display: flex;
-    padding-bottom: 20px;
 }
 
 .view-body-right {
@@ -77,14 +71,14 @@
 .button-style {
     padding: 10px 20px;
     border-radius: 5px;
-    width: 80%;
+    width: 100%;
     background-color: $color-green;
     justify-content: center;
     align-items: center;
 }
 
-.padding {
-    padding: 2% 12%;
+.padding-not-bottom {
+    padding: 2% 12% 0% 12%;
 }
 
 .circle {
@@ -94,6 +88,15 @@
     justify-content: center;
     align-items: center;
     border-radius: 5vw;
+}
+
+.circle-small {
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px;
 }
 
 .border-green {
@@ -178,6 +181,7 @@ ul {
 .hv:hover .circle {
     border: 1px solid $color-green1;
     background-color: $color-green1;
+    padding: 10px;
 }
 
 .hv:hover .txt-white {
@@ -207,24 +211,20 @@ ul {
 }
 
 #myVideo {
-    width: 100%;
-    margin-right: 50px;
+    width: 90%;
     border-radius: 10px;
 }
 
 .service {
     overflow-x: auto;
-    width: 100vw;
     display: flex;
-    gap: 50px;
 }
 
 .item-service {
     width: 100%;
     padding: 0px 20px;
-    margin-bottom: 300px;
-    border-radius: 10px;
-    margin-right: 5%;
+    border-radius: 8px;
+    margin-right: 2%;
     background-color: $color-white;
 }
 
@@ -234,20 +234,53 @@ ul {
     display: flex;
     flex-direction: column;
     background-color: $color-gray-f5;
-    padding: 5% 0;
+    padding: 2% 12%;
 }
 
 .top-search-component {
-    border-radius: 8px;
-    border: 1px solid $color-gray5;
     display: flex;
     padding: 16px 0;
-    box-shadow: $box-shadow;
-    margin-top: 40px;
     margin-bottom: 20px;
 }
 
 .invest-list-component {
     display: flex;
     flex: 1;
+}
+
+.padding {
+    padding: 2% 12%;
+}
+
+.width-100 {
+    width: 100%;
+}
+
+.container {
+    justify-content: center;
+    flex: 1;
+    display: flex;
+}
+
+.flex {
+    display: flex;
+    flex: 1;
+}
+
+.animation-text {
+    animation: splash 3.5s normal forwards ease-in;
+}
+
+@keyframes splash {
+    from {
+        opacity: 0;
+        transform: scale(0, 0);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1, 1.1);
+    }
+    to {
+        transform: scale(1, 1);
+    }
 }

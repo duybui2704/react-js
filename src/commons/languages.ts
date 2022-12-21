@@ -175,7 +175,10 @@ const Languages = {
         contentInvest3: 'Đầu tư linh động chỉ từ 3 tháng',
         contentProfit1: 'Chi tiết các khoản đầu tư minh bạch',
         contentProfit2: 'Lịch sử trả lãi rõ ràng',
-        contentProfit3: 'Lãi luôn về đúng hạn'
+        contentProfit3: 'Lãi luôn về đúng hạn',
+        serviceHot: 'Dịch vụ siêu tiện ích',
+        downloadApp: 'Tải App ngay hôm nay',
+        appMobile: '- App Mobile'
     }
 };
 

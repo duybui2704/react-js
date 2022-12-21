@@ -3,9 +3,9 @@ import ImgPerson from 'assets/image/img_person.jpg';
 import ImgCircle from 'assets/image/img_circle.jpg';
 import ImgPhone from 'assets/image/img_phone.png';
 import ImgPhone1 from 'assets/image/img_phone1.png';
+import ImgHalf from 'assets/image/img_half_phone.jpg';
 import ImgPhone2 from 'assets/image/img_phone2.png';
 import ImgAppStore from 'assets/image/img_app_store.jpg';
-import ImgVideo from 'assets/image/img_video.jpg';
 import BannerInvest from 'assets/image/bg_banner_invest.jpg';
 import ImgGGPLay from 'assets/image/img_gg_chplay.jpg';
 import ImgQRCode from 'assets/image/img_qr_code.jpg';
@@ -35,16 +35,15 @@ function Intro() {
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
 
-
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
 
     const renderViewTop = useMemo(() => {
         return (
-            <Grid className={cx('view-body', 'padding')} container>
-                <Grid item xs={12} md={6} className={cx('row')}>
+            <Row className={cx('view-body', 'padding-not-bottom')} gutter={[24, 16]}>
+                <Col xs={24} sm={24} md={24} lg={24} xl={11} className={cx('row center')}>
                     <div className={cx('view-body-right')}>
-                        <span className={cx('text-green medium h3 white-space')}>{Languages.intro.advantagesTienngay}</span>
+                        <span className={cx('text-green medium h3 ')}>{Languages.intro.advantagesTienngay}</span>
                         <div className={cx('y10 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.riskReduction}</span>
                             <span className={cx('text-black regular h6')}>{Languages.intro.riskReductionContent}</span>
@@ -61,18 +60,20 @@ function Intro() {
                             <span className={cx('text-black medium h6')}>{Languages.intro.flexibleTime}</span>
                             <span className={cx('text-black regular h6')}>{Languages.intro.flexibleTimeContent}</span>
                         </div>
-                        <Button
-                            label={Languages.intro.seeInvest}
-                            containButtonStyles={cx('button-style', 'y20')}
-                            labelStyles={cx('text-white medium h6')}
-                            isLowerCase
-                        />
+                        <div className={cx('center')}>
+                            <Button
+                                label={Languages.intro.seeInvest}
+                                containButtonStyles={cx('button-style', 'y20')}
+                                labelStyles={cx('text-white medium h6')}
+                                isLowerCase
+                            />
+                        </div>
                     </div>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <img src={ImgPerson} className={cx('banner')} />
-                </Grid>
-            </Grid>
+                </Col>
+                <Col xs={24} md={24} lg={12} xl={13} >
+                    <img src={ImgPerson} width={'100%'} />
+                </Col>
+            </Row>
         );
     }, []);
 
@@ -137,6 +138,22 @@ function Intro() {
         );
     }, [step]);
 
+    const stepsMobile = useCallback((index: number) => {
+
+        const onChangeSteps = () => {
+            setStep(index);
+            document.getElementById('fade');
+        };
+
+        return (
+            <div className={cx('column y20 center', 'flex')}>
+                <div className={step === index ? cx('circle-small', 'border-green') : cx('circle-small', 'border-gray')} onClick={onChangeSteps}>
+                    <span className={step === index ? cx('text-green h6 text-center', 'txt-white') : cx('text-gray h6 text-center', 'txt-white')}>{`${index}`}</span>
+                </div>
+            </div>
+        );
+    }, [step]);
+
     const renderLeftBackground = useMemo(() => {
         return {
             backgroundImage: `url(${BannerInvest})`,
@@ -149,6 +166,18 @@ function Intro() {
             alignItems: 'center',
             display: 'flex',
             padding: '0 3%'
+        };
+    }, []);
+
+    const renderTopBackground = useMemo(() => {
+        return {
+            backgroundImage: `url(${ImgHeader})`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            width: '100%',
+            height: '30vh',
+            display: 'flex'
         };
     }, []);
 
@@ -214,43 +243,72 @@ function Intro() {
         }
     }, [step]);
 
+    const renderGroupStepWeb = useMemo(() => {
+        return (
+            <Row gutter={[24, 16]} className={cx('row y20')}>
+                <Col xs={24} sm={24} md={12} lg={12} xl={5} className={'row center'}>
+                    <div className={cx('column', 'width')}>
+                        {steps(1, Languages.intro.step1)}
+                        {steps(2, Languages.intro.step2)}
+                        {steps(3, Languages.intro.step3)}
+                    </div>
+                    <div className={cx('line-right')} />
+                </Col>
+                <Col xs={24} sm={24} md={12} lg={12} xl={7} className={cx('center')}>
+                    {renderImagePhone}
+                </Col>
+                <Col xs={24} sm={24} md={12} lg={12} xl={12} className={cx('center')}>
+                    <div
+                        style={{
+                            backgroundImage: `url(${ImgCircle})`,
+                            width: '100%',
+                            height: '100%',
+                            backgroundSize: 'contain',
+                            backgroundPositionX: 'center',
+                            marginLeft: 10,
+                            backgroundRepeat: 'no-repeat'
+                        }}
+                        className={cx('column center')}
+                    >
+                        <div className={cx('line-up')}>
+                            {renderContentStep(step)}
+                        </div>
+                    </div>
+                </Col>
+            </Row>
+        );
+    }, [renderContentStep, renderImagePhone, step, steps]);
+
+    const renderGroupStepMobile = useMemo(() => {
+        return (
+            <div className={cx('colum y20')}>
+                <div className={cx('column', 'width-100')}>
+                    <div className={cx('row', 'width-100')}>
+                        {stepsMobile(1)}
+                        {stepsMobile(2)}
+                        {stepsMobile(3)}
+                    </div>
+                    <span className={cx('text-green h7 regular y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
+                </div>
+                <div className={cx('center row')}>
+                    <div className={cx('flex')}>
+                        {renderImagePhone}
+                    </div>
+                    <div className={cx('line-up', 'flex', 'column')}>
+                        {renderContentStep(step)}
+                    </div>
+                </div>
+            </div>
+        );
+    }, [renderContentStep, renderImagePhone, step, stepsMobile]);
+
     const renderViewStepsInvest = useMemo(() => {
         return (
             <div className={cx('view-body column')}>
                 <div className={cx('column', 'padding')}>
                     <span className={cx('text-green medium h3')}>{Languages.intro.stepsInvest}</span>
                     <span className={cx('text-black regular h6')}>{Languages.intro.stepContent}</span>
-                    <Grid container xs={12} className={cx('row y20')}>
-                        <Grid item xs={8} md={2.5} className={'row'}>
-                            <div className={cx('column', 'width')}>
-                                {steps(1, Languages.intro.step1)}
-                                {steps(2, Languages.intro.step2)}
-                                {steps(3, Languages.intro.step3)}
-                            </div>
-                            <div className={cx('line-right')} />
-                        </Grid>
-                        <Grid item xs={8} md={2.5} >
-                            {renderImagePhone}
-                        </Grid>
-                        <Grid item xs={8} md={6} className={cx('center')}>
-                            <div
-                                style={{
-                                    backgroundImage: `url(${ImgCircle})`,
-                                    width: '100%',
-                                    height: '100%',
-                                    backgroundSize: 'contain',
-                                    backgroundPositionX: 'center',
-                                    marginLeft: 10,
-                                    backgroundRepeat: 'no-repeat'
-                                }}
-                                className={cx('column center')}
-                            >
-                                <div className={cx('line-up')}>
-                                    {renderContentStep(step)}
-                                </div>
-                            </div>
-                        </Grid>
-                    </Grid>
+                    {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
                 <div style={renderLeftBackground}>
                     <div className={cx('inner-center')}>
@@ -274,7 +332,7 @@ function Intro() {
                 </div>
             </div>
         );
-    }, [renderContentStep, renderImagePhone, renderLeftBackground, step, steps]);
+    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb, renderLeftBackground]);
 
     const renderViewNearBelow = useMemo(() => {
 
@@ -283,8 +341,8 @@ function Intro() {
         return (
             <div className={cx('view-body row')}>
                 <div className={cx('column', 'padding')}>
-                    <Grid container xs={12} className={cx('row y20')}>
-                        <Grid item xs={12} md={6}>
+                    <Row gutter={[24, 16]} className={cx('row y20')}>
+                        <Col xs={24} md={24} lg={12} xl={12}>
                             <div className={cx('view-body-right')}>
                                 <span className={cx('text-green medium h3')}>{Languages.intro.investmentReasons}</span>
                                 <div className={cx('y10 column')}>
@@ -306,18 +364,17 @@ function Intro() {
                                     isLowerCase
                                 />
                             </div>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
+                        </Col>
+                        <Col xs={24} md={24} lg={12} xl={12} className={cx('center')}>
                             <video
                                 controls autoPlay
-                                // poster={ImgVideo}
                                 loop
                                 id={cx('myVideo')}
                             >
                                 <source src="https://res.cloudinary.com/codelife/video/upload/v1637805738/intro_l5ul1k.mp4" type='video/mp4' />
                             </video>
-                        </Grid>
-                    </Grid>
+                        </Col>
+                    </Row>
                 </div>
 
             </div >
@@ -327,15 +384,16 @@ function Intro() {
     const renderViewService = useMemo(() => {
         return (
             <div className={cx('service-container')}>
-                <div className={cx('row', 'service')}>
+                <span className={cx('text-green medium h3')}>{Languages.intro.serviceHot}</span>
+                <div className={cx('row y20', 'service')}>
                     <Marquee pauseOnHover gradient={false}>
                         {serviceList.map((item: ServiceModel, index: number) => {
                             return (
                                 <div key={index} className={cx('item-service', 'row center')} onClick={() => console.log('item ===', item)}>
-                                    <img src={item.image} width={200} />
-                                    <div className={cx('column')}>
-                                        <span className={cx('text-black h6')}>{item.name}</span>
-                                        <span className={cx('text-black h6')}>{item.content}</span>
+                                    <img src={item.image} width={'40%'} />
+                                    <div className={cx('column xl10')}>
+                                        <span className={cx('text-red h7 medium')}>{item.name}</span>
+                                        <span className={cx('text-black h7')}>{item.content}</span>
                                     </div>
                                 </div>
                             );
@@ -345,30 +403,56 @@ function Intro() {
             </div>
         );
     }, []);
-    //FIXME: margin bottom 300px
+
+    const renderBottom = useMemo(() => {
+        return (
+            <div className={cx('column', 'padding', 'container')}>
+                <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
+                <Row gutter={[24, 16]} className={cx('container')}>
+                    <Col xs={24} md={24} lg={12} xl={12}>
+                        <div className={cx('column')}>
+                            <span className={cx('text-red medium h3 y10')}>{Languages.intro.appMobile}</span>
+                            <span className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</span>
+                            <div className={cx('row y40')}>
+                                <div className={cx('column x50 space-between')}>
+                                    <img src={ImgAppStore} className={cx('img-phone ')} />
+                                    <img src={ImgGGPLay} className={cx('img-phone ')} />
+                                </div>
+                                <img src={ImgQRCode} className={cx('img-phone')} />
+                            </div>
+                        </div>
+                    </Col>
+                    <Col xs={24} md={24} lg={12} xl={12}>
+                        <img src={ImgHalf} className={cx('img-phone')} width={'50%'} />
+                    </Col>
+                </Row>
+            </div>
+        );
+    }, []);
     return (
         <div className={cx('page')}>
-            <img src={ImgHeader} className={cx('banner')} />
-            <div className={cx('view-title')}>
-                <span className={cx('text-white medium h1 y10')}>{Languages.intro.invest}</span>
-                <span className={cx('text-white medium h4 y10')}>{Languages.intro.buildTheFuture}</span>
-                <span className={cx('text-white medium h6 y10')}>{Languages.intro.contentResult}</span>
+            <div className={cx('flex')}>
+                <div style={renderTopBackground}>
+                    <div className={cx('view-title')}>
+                        <span className={cx('text-white medium h1 y10', 'animation-text')}>{Languages.intro.invest}</span>
+                        <span className={cx('text-white medium h4 y10', 'animation-text')}>{Languages.intro.buildTheFuture}</span>
+                        <span className={cx('text-white medium h6 y10', 'animation-text')}>{Languages.intro.contentResult}</span>
+                    </div>
+                </div>
             </div>
-            {/* need fix view */}
             <div className={cx('view-intro')}>
-                <div className={cx('view-intro-center')}>
+                <div className={cx('view-intro-center', 'width-intro')}>
                     <span className={cx('text-green regular h6', 'line-height')}>{Languages.intro.contentStart}</span>
                     <span className={cx('text-black regular h6', 'line-height')}>{Languages.intro.contentEnd}</span>
                 </div>
             </div>
-
             <div className={cx('body')}>
                 {renderViewTop}
                 {renderViewInvest}
                 {renderViewStepsInvest}
                 {renderViewNearBelow}
                 {renderViewService}
-                <div className={cx('margin')}></div>
+                {renderBottom}
             </div>
         </div>
     );
