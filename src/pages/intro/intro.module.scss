@@ -7,6 +7,11 @@
     overflow-x: hidden;
 }
 
+.jus-content {
+    display: flex;
+    justify-content: center;
+}
+
 .view-title {
     display: flex;
     width: 100%;
@@ -123,7 +128,10 @@
 }
 
 .img-phone {
-    height: 100%;
+    width: '30%';
+    @include mobile {
+        width: 200px;
+    }
 }
 
 .width {
@@ -132,6 +140,7 @@
 
 ul {
     list-style-type: disc;
+    margin-left: -20px;
 }
 
 .banner-invest {
@@ -162,16 +171,24 @@ ul {
 .inner-center {
     width: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .text-content {
-    width: 100%;
+    width: 80%;
     display: flex;
-    gap: 10%;
-}
-
-.margin {
-    margin-bottom: 300px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    @include mobile {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .hv:hover .txt-green {
@@ -181,7 +198,6 @@ ul {
 .hv:hover .circle {
     border: 1px solid $color-green1;
     background-color: $color-green1;
-    padding: 10px;
 }
 
 .hv:hover .txt-white {
@@ -221,11 +237,18 @@ ul {
 }
 
 .item-service {
-    width: 100%;
-    padding: 0px 20px;
     border-radius: 8px;
-    margin-right: 2%;
+    margin-right: 5%;
     background-color: $color-white;
+    justify-content: center;
+    align-items: center;
+}
+
+.padding-item {
+    padding: 0px 20px;
+    @include mobile {
+        padding-left: 5px;
+    }
 }
 
 .service-container {
@@ -256,15 +279,36 @@ ul {
     width: 100%;
 }
 
+.height-100 {
+    height: 100%;
+}
+
 .container {
     justify-content: center;
     flex: 1;
     display: flex;
+    margin-bottom: 100px;
 }
 
 .flex {
     display: flex;
-    flex: 1;
+    width: 100%;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.width-20 {
+    width: 50%;
+    background-color: $color-dark-gray;
+}
+
+.image {
+    width: 50%;
+    @include mobile {
+        width: 80px;
+    }
 }
 
 .animation-text {

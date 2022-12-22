@@ -1,6 +1,7 @@
 import { ServiceModel } from "models/intro";
 import IcLuckyloot from 'assets/image/ic_luckylott.svg';
 import IcVPS from 'assets/image/ic_vps.svg';
+import Languages from "commons/languages";
 
 
 export const serviceList = [
@@ -15,17 +16,27 @@ export const serviceList = [
         image: IcVPS,
         name: 'Chứng khoán VPS',
         content: 'Đăng ký mở tài khoản miễn phí'
-    },
-    {
-        id: `3`,
-        image: IcVPS,
-        name: 'Chứng khoán VPS',
-        content: 'Đăng ký mở tài khoản miễn phí'
-    },
-    {
-        id: `4`,
-        image: IcVPS,
-        name: 'Chứng khoán VPS',
-        content: 'Đăng ký mở tài khoản miễn phí'
     }
 ] as ServiceModel[];
+
+
+export const infoInvest = [
+    {
+        id: "001",
+        label: Languages.intro.investors,
+        number: 900000,
+        duration: "2"
+    },
+    {
+        id: "002",
+        label: Languages.intro.investmentMoney,
+        number: 5321,
+        duration: "2"
+    },
+    {
+        id: "003",
+        label: Languages.intro.profit,
+        number: 100,
+        duration: "2"
+    }
+]

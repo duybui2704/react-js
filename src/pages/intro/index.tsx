@@ -1,30 +1,31 @@
+import { Col, Row } from 'antd';
+import BannerInvest from 'assets/image/bg_banner_invest.jpg';
+import ImgAppStore from 'assets/image/img_app_store.jpg';
+import ImgCircle from 'assets/image/img_circle.jpg';
+import ImgGGPLay from 'assets/image/img_gg_chplay.jpg';
+import ImgHalf from 'assets/image/img_half_phone.jpg';
 import ImgHeader from 'assets/image/img_home_header.jpg';
 import ImgPerson from 'assets/image/img_person.jpg';
-import ImgCircle from 'assets/image/img_circle.jpg';
 import ImgPhone from 'assets/image/img_phone.png';
 import ImgPhone1 from 'assets/image/img_phone1.png';
-import ImgHalf from 'assets/image/img_half_phone.jpg';
 import ImgPhone2 from 'assets/image/img_phone2.png';
-import ImgAppStore from 'assets/image/img_app_store.jpg';
-import BannerInvest from 'assets/image/bg_banner_invest.jpg';
-import ImgGGPLay from 'assets/image/img_gg_chplay.jpg';
 import ImgQRCode from 'assets/image/img_qr_code.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './intro.module.scss';
-import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import InvestItem from 'components/invest-item';
-import Marquee from 'react-fast-marquee';
-import { serviceList } from 'pages/__mocks__/intro';
-import { ServiceModel } from 'models/intro';
-import { Col, Row } from 'antd';
-import { InvestFilter, PackageInvest } from 'models/invest';
-import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
+import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { ItemProps } from 'models/common';
+import { ServiceModel } from 'models/intro';
+import { InvestFilter, PackageInvest } from 'models/invest';
+import { infoInvest, serviceList } from 'pages/__mocks__/intro';
+import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import Marquee from 'react-fast-marquee';
+import { useNavigate } from 'react-router-dom';
+import Count from './count';
+import styles from './intro.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -40,22 +41,22 @@ function Intro() {
     const renderViewTop = useMemo(() => {
         return (
             <Row className={cx('view-body', 'padding-not-bottom')} gutter={[24, 16]}>
-                <Col xs={24} sm={24} md={24} lg={24} xl={11} className={cx('row center')}>
+                <Col xs={24} sm={24} md={24} lg={24} xl={11} className={cx('jus-content')}>
                     <div className={cx('view-body-right')}>
                         <span className={cx('text-green medium h3 ')}>{Languages.intro.advantagesTienngay}</span>
-                        <div className={cx('y10 column')}>
+                        <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.riskReduction}</span>
                             <span className={cx('text-black regular h6')}>{Languages.intro.riskReductionContent}</span>
                         </div>
-                        <div className={cx('y10 column')}>
+                        <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.ecosystemNextTech}</span>
                             <span className={cx('text-black regular h6')}>{Languages.intro.ecosystemNextTechContent}</span>
                         </div>
-                        <div className={cx('y10 column')}>
+                        <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.appInvest}</span>
                             <span className={cx('text-black regular h6')}>{Languages.intro.appInvestContent}</span>
                         </div>
-                        <div className={cx('y10 column')}>
+                        <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.flexibleTime}</span>
                             <span className={cx('text-black regular h6')}>{Languages.intro.flexibleTimeContent}</span>
                         </div>
@@ -70,7 +71,7 @@ function Intro() {
                     </div>
                 </Col>
                 <Col xs={24} md={24} lg={12} xl={13} >
-                    <img src={ImgPerson} width={'100%'} />
+                    <img src={ImgPerson} width={'80%'} />
                 </Col>
             </Row>
         );
@@ -126,7 +127,7 @@ function Intro() {
         };
 
         return (
-            <div className={cx('column center y20', 'hv')}>
+            <div className={cx('column center y20', 'hv', 'invest-list-component')}>
                 <div className={step === index ? cx('circle', 'border-green') : cx('circle', 'border-gray')} onClick={onChangeSteps}>
                     <span className={step === index ? cx('text-green h6 text-center', 'txt-white') : cx('text-gray h6 text-center', 'txt-white')}>{`${index}`}</span>
                 </div>
@@ -160,11 +161,10 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            height: '200px',
+            height: '30vh',
             justifyContent: 'center',
             alignItems: 'center',
-            display: 'flex',
-            padding: '0 3%'
+            display: 'flex'
         };
     }, []);
 
@@ -175,7 +175,7 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            height: '30vh',
+            height: '35vh',
             display: 'flex'
         };
     }, []);
@@ -189,11 +189,11 @@ function Intro() {
                     <li className={cx('text-black h5 regular y5')}>{Languages.intro.register1Minute}</li>
                 </ul>
                 <div className={cx('row y20')}>
-                    <div className={cx('column x50 space-between')}>
-                        <img src={ImgAppStore} className={cx('img-phone ')} />
-                        <img src={ImgGGPLay} className={cx('img-phone ')} />
+                    <div className={cx('column x30 space-between')}>
+                        <img src={ImgAppStore} width={'100%'} height={'40%'} />
+                        <img src={ImgGGPLay} width={'100%'} height={'40%'} />
                     </div>
-                    <img src={ImgQRCode} className={cx('img-phone')} />
+                    <img src={ImgQRCode} width={'50%'} />
                 </div>
             </>
         );
@@ -233,11 +233,11 @@ function Intro() {
     const renderImagePhone = useMemo(() => {
         switch (step) {
             case 1:
-                return <img src={ImgPhone} className={cx('banner')} />;
+                return <img src={ImgPhone} width={'90%'} />;
             case 2:
-                return <img src={ImgPhone1} className={cx('banner')} />;
+                return <img src={ImgPhone1} width={'90%'} />;
             default:
-                return <img src={ImgPhone2} className={cx('banner')} />;
+                return <img src={ImgPhone2} width={'90%'} />;
 
         }
     }, [step]);
@@ -246,7 +246,7 @@ function Intro() {
         return (
             <Row gutter={[24, 16]} className={cx('row y20')}>
                 <Col xs={24} sm={24} md={12} lg={12} xl={5} className={'row center'}>
-                    <div className={cx('column', 'width')}>
+                    <div className={cx('column', 'width-100', 'height-100')}>
                         {steps(1, Languages.intro.step1)}
                         {steps(2, Languages.intro.step2)}
                         {steps(3, Languages.intro.step3)}
@@ -290,10 +290,10 @@ function Intro() {
                     <span className={cx('text-green h7 regular y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
                 </div>
                 <div className={cx('center row')}>
-                    <div className={cx('flex')}>
+                    <div className={cx('width-50')}>
                         {renderImagePhone}
                     </div>
-                    <div className={cx('line-up', 'flex', 'column')}>
+                    <div className={cx('width-50', 'column')}>
                         {renderContentStep(step)}
                     </div>
                 </div>
@@ -311,22 +311,15 @@ function Intro() {
                 </div>
                 <div style={renderLeftBackground}>
                     <div className={cx('inner-center')}>
-                        <Marquee pauseOnHover gradient={false}>
-                            <div className={cx('text-content')}>
-                                <div className={cx('column')}>
-                                    <span className={cx('text-white regular h3')}>100.100</span>
-                                    <span className={cx('text-white regular h5 y5')}>{Languages.intro.investors}</span>
-                                </div>
-                                <div className={cx('column')}>
-                                    <span className={cx('text-white regular h3')}>120.123</span>
-                                    <span className={cx('text-white regular h5 y5')}>{Languages.intro.investmentMoney}</span>
-                                </div>
-                                <div className={cx('column')}>
-                                    <span className={cx('text-white regular h3')}>300.000</span>
-                                    <span className={cx('text-white regular h5 y5')}>{Languages.intro.profit}</span>
-                                </div>
-                            </div>
-                        </Marquee>
+                        <div className={cx('text-content')}>
+                            {infoInvest.map((item, index) => {
+                                return (
+                                    <div className={cx('column center', 'flex')} key={index}>
+                                        <Count item={item} />
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -384,12 +377,13 @@ function Intro() {
         return (
             <div className={cx('service-container')}>
                 <span className={cx('text-green medium h3')}>{Languages.intro.serviceHot}</span>
+
                 <div className={cx('row y20', 'service')}>
                     <Marquee pauseOnHover gradient={false}>
                         {serviceList.map((item: ServiceModel, index: number) => {
                             return (
-                                <div key={index} className={cx('item-service', 'row center')} onClick={() => console.log('item ===', item)}>
-                                    <img src={item.image} width={'40%'} />
+                                <div key={index} className={cx('item-service', 'row center', 'padding-item')} onClick={() => console.log('item ===', item)}>
+                                    <img src={item.image} className={cx('image')} />
                                     <div className={cx('column xl10')}>
                                         <span className={cx('text-red h7 medium')}>{item.name}</span>
                                         <span className={cx('text-black h7')}>{item.content}</span>
@@ -422,7 +416,7 @@ function Intro() {
                         </div>
                     </Col>
                     <Col xs={24} md={24} lg={12} xl={12}>
-                        <img src={ImgHalf} className={cx('img-phone')} width={'50%'} />
+                        <img src={ImgHalf} className={cx('img-phone', 'center')} />
                     </Col>
                 </Row>
             </div>
