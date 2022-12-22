@@ -17,6 +17,7 @@ import { useAppStore } from 'hooks';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import TableInvest from 'components/table-invest';
 
 const cx = classNames.bind(styles);
 
@@ -121,7 +122,7 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
                         </div>
                         <div className={cx('invest-note-container')}>
                             <span className={cx('invest-note-text')}>{Languages.invest.estimatedPaymentSchedule}</span>
-                            <span className={cx('invest-note-describe-text')}>{Languages.invest.investNoteDescribe}</span>
+                            <TableInvest/>
                         </div>
                     </div>
                 </div>
