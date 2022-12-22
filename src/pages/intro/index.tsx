@@ -15,7 +15,6 @@ import { Button } from 'components/button';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './intro.module.scss';
-import { Grid } from '@mui/material';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import InvestItem from 'components/invest-item';
 import Marquee from 'react-fast-marquee';

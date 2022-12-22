@@ -1,5 +1,5 @@
 import { ItemProps } from './../../models/common.d';
-import { PackageInvest } from "models/invest";
+import { DataColumnInvestType, PackageInvest } from "models/invest";
 
 export const investListData =
     [
@@ -152,7 +152,7 @@ export const investListData =
         }
     ] as PackageInvest[];
 
-    export const investListMoreData =
+export const investListMoreData =
     [
         {
             id: 8,
@@ -357,3 +357,41 @@ export const dateListData = [
         value: '24 tháng',
     }
 ]
+
+export const dataColumnInvest: DataColumnInvestType[] = [
+    {
+        id: '1',
+        receivingPeriod: 'Kỳ 1',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000,000',
+        total: '1,000,000',
+        receivedDate: '12/05/2023'
+    },
+    {
+        id: '2',
+        receivingPeriod: 'Kỳ 2',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        receivedDate: '12/06/2023'
+    },
+    {
+        id: '3',
+        receivingPeriod: 'Kỳ 3',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        receivedDate: '12/07/2023'
+    },
+    {
+        id: '4',
+        receivingPeriod: 'Kỳ 4',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        receivedDate: '12/08/2023'
+    }
+];
+
+export const columnName = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+

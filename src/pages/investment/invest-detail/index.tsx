@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
+import { columnName, dataColumnInvest } from 'pages/__mocks__/invest';
 
 const cx = classNames.bind(styles);
 
@@ -122,7 +123,7 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
                         </div>
                         <div className={cx('invest-note-container')}>
                             <span className={cx('invest-note-text')}>{Languages.invest.estimatedPaymentSchedule}</span>
-                            <TableInvest/>
+                            <TableInvest dataTable={dataColumnInvest} columnName={columnName} />
                         </div>
                     </div>
                 </div>

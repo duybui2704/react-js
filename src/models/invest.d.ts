@@ -104,3 +104,12 @@ export interface InvestFilter {
    dateInvest?: string;
     amountInvest?: string;
 }
+
+export interface DataColumnInvestType {
+    id: string;
+    receivingPeriod: string;
+    principalAmount: string;
+    profitAmount: string;
+    total: string;
+    receivedDate: string;
+}
