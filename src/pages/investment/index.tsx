@@ -20,7 +20,7 @@ import styles from './investment.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInvest) => void }) {
+function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => void }) {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
@@ -126,14 +126,14 @@ function Investment({ onNavigateDetail }: { onNavigateDetail: (data: PackageInve
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
-            onNavigateDetail(dataInvest);
+            onNextScreen(dataInvest);
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={`${index}${dataInvest.id}`}>
                 <InvestItem onPressInvest={onNavigateInvestDetail} dataInvest={dataInvest} />
             </Col>
         );
-    }, [onNavigateDetail]);
+    }, [onNextScreen]);
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
