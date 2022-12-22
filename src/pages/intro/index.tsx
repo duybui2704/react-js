@@ -161,7 +161,7 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            height: '30vh',
+            height: '45vh',
             justifyContent: 'center',
             alignItems: 'center',
             display: 'flex'
@@ -415,7 +415,7 @@ function Intro() {
                             </div>
                         </div>
                     </Col>
-                    <Col xs={24} md={24} lg={12} xl={12}>
+                    <Col xs={24} md={24} lg={12} xl={12} className={cx('center')}>
                         <img src={ImgHalf} className={cx('img-phone', 'center')} />
                     </Col>
                 </Row>
