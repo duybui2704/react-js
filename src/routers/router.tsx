@@ -21,6 +21,12 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
 
         console.log(isLoggedIn);
 
+        // not back browser
+        history.pushState(null, '', location.href);
+        window.onpopstate = function () {
+            history.go(1);
+        };
+
         // if (!isLoggedIn && props.needAuth) {
         //     navigate(Paths.login);
         //     return;
