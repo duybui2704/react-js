@@ -142,7 +142,8 @@ const Languages = {
         cancel: 'Huỷ bỏ',
         seeMore: 'Xem thêm các gói đầu tư khác',
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
-        agreePolicy: 'Tôi đã đọc và đồng ý với Điều khoản sử dụng và chính sách của TienNgay.vn'
+        agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
+        policy:'Điều khoản sử dụng và chính sách'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',

@@ -16,12 +16,13 @@
     position: absolute;
     top: 40px;
     left: 40px;
-    background-color: $color-gray9;
+    background-color: $color-gray-button;
     width: 40px;
     height: 40px;
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     &:hover {
         opacity: 0.9;
     }
@@ -39,12 +40,13 @@
     position: absolute;
     top: 16px;
     left: 16px;
-    background-color: $color-gray9;
+    background-color: $color-gray-button;
     width: 30px;
     height: 30px;
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     z-index: 1000;
     &:hover {
         opacity: 0.9;
@@ -297,16 +299,6 @@
     justify-content: space-between;
     align-items: center;
     padding: 8px 16px 8px 8px;
-    .item-method-left-container {
-        display: flex;
-        align-items: center;
-    }
-    .item-method-text {
-        color: $color-gray2;
-        font-family: $font-medium;
-        font-size: $text-h6;
-        padding-left: 12px;
-    }
 }
 
 .invest-method-container {
@@ -344,4 +336,25 @@
     align-items: center;
     flex-direction: row;
     margin: 24px 0px 0px 0px;
+}
+
+.agree-policy-text-wrap {
+    font-size: $text-h6;
+    color: $color-gray7;
+    font-family: $font-regular;
+}
+
+.agree-policy-text {
+    font-size: $text-h6;
+    color: $color-green-header;
+    font-family: $font-regular;
+    &:hover {
+        text-decoration-line: underline;
+        cursor: pointer;
+    }
+    &:active {
+        text-decoration-line: underline;
+        opacity: 0.7;
+        cursor: pointer;
+    }
 }
