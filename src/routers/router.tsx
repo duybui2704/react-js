@@ -1,14 +1,13 @@
+import { ConfigProvider } from 'antd';
 import Footer from 'components/footer';
 import Header from 'components/header';
 import { useAppStore } from 'hooks';
 import OverlayLoader from 'pages/common/overlay-loader';
 import React, { ReactElement, Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router';
-import { BrowserRouter, useNavigate } from 'react-router-dom';
-import { publicRoutes, RouteProps } from './configs';
-import { AppStoreProvider } from 'providers/app-provider';
+import { useNavigate } from 'react-router-dom';
 import { COLORS } from 'theme/colors';
-import { ConfigProvider } from 'antd';
+import { publicRoutes, RouteProps } from './configs';
 
 const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
     const navigate = useNavigate();
@@ -19,7 +18,7 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
 
         const isLoggedIn = !!userManager.userInfo;
 
-        console.log(isLoggedIn);
+        // console.log(isLoggedIn);
 
         // if (!isLoggedIn && props.needAuth) {
         //     navigate(Paths.login);
@@ -50,21 +49,17 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
 
 const Router = () => {
     return (
-        <BrowserRouter>
-            <AppStoreProvider>
-                <Routes>
-                    {publicRoutes.map((route, index) => {
-                        return (
-                            <Route
-                                key={index}
-                                path={route.path}
-                                element={<RouteWrapper {...route} />}
-                            />
-                        );
-                    })}
-                </Routes>
-            </AppStoreProvider>
-        </BrowserRouter>
+        <Routes>
+            {publicRoutes.map((route, index) => {
+                return (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={<RouteWrapper {...route} />}
+                    />
+                );
+            })}
+        </Routes>
     );
 };
 export default Router;
