@@ -7,6 +7,18 @@
     overflow-x: hidden;
 }
 
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $color-green
+}
+
+::-webkit-scrollbar-track {
+    margin-bottom: 60px; //equal header tab's height
+}
+
 .jus-content {
     display: flex;
     justify-content: center;
@@ -128,7 +140,7 @@
 }
 
 .img-phone {
-    width: '30%';
+    width: "30%";
     @include mobile {
         width: 200px;
     }
@@ -287,7 +299,6 @@ ul {
     justify-content: center;
     flex: 1;
     display: flex;
-    margin-bottom: 100px;
 }
 
 .flex {

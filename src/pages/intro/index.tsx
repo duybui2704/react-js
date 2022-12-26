@@ -30,7 +30,6 @@ import styles from './intro.module.scss';
 const cx = classNames.bind(styles);
 
 function Intro() {
-    const navigate = useNavigate();
     const [step, setStep] = useState<number>(1);
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
