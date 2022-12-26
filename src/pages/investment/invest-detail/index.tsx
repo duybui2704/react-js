@@ -106,7 +106,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage }: { onBackScr
                         <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
                         <div className={cx('content-invest-container')}>
                             <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0').replace(' vnđ', '')}</span>
+                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
                             <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                                     {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
@@ -114,9 +114,9 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage }: { onBackScr
                                     {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatMoneyNotSuffixes(dataPackage?.tong_lai_nhan_duoc))}
+                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
                                     {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0').replaceAll(',', '.'))}
+                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
                                     {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
                                 </Col>
                             </Row>

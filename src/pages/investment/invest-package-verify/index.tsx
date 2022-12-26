@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
 import RadioInvestMethod from 'components/radio-invest-method';
 import { InvestMethod } from 'pages/__mocks__/invest';
+import { TYPE_TRANSFER_AMOUNT } from 'commons/constants';
 
 const cx = classNames.bind(styles);
 
@@ -37,9 +38,13 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
         onBackDetail();
     }, [onBackDetail]);
 
-    const renderKeyValue = useCallback((_key?: string, _value?: string, _redValue?: boolean) => {
+    const onNavigateTransferBank = useCallback(() => {
+        onNextScreen();
+    }, [onNextScreen]);
+
+    const renderKeyValue = useCallback((_key?: string, _value?: string, _redValue?: boolean, noBorder?: boolean) => {
         return (
-            <div className={cx('key-value-container')}>
+            <div className={cx(noBorder ? 'no-border-key-value-container' : 'key-value-container')}>
                 <span className={cx(isMobile ? 'text-gray h7 regular' : 'text-gray h6 regular')}>{_key}</span>
                 <span className={_redValue ?
                     cx(isMobile ? 'text-red h7 medium' : 'text-red h6 medium') :
@@ -70,7 +75,10 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
 
     const renderInvestMethod = useCallback(() => {
         const onChooseMethod = (event: any) => {
-            setInvestMethod(event.target.value);
+            setInvestMethod(event.target?.value);            
+            if (event.target.value === TYPE_TRANSFER_AMOUNT.BANK) {
+                onNavigateTransferBank();
+            }
         };
         const changeCheckboxStatus = (event: any) => {
             setCheckbox(event.target.checked);
@@ -82,7 +90,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                 <CheckBox title={renderLabelCheckbox} onChangeText={changeCheckboxStatus} groupCheckBoxContainer={cx(isMobile ? 'group-check-box-container-mobile' : 'group-check-box-container')} />
             </div>
         );
-    }, [investMethod, isMobile, renderLabelCheckbox]);
+    }, [investMethod, isMobile, onNavigateTransferBank, renderLabelCheckbox]);
 
     const renderButtonInvestNow = useMemo(() => {
         return (
@@ -109,19 +117,19 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                         <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
                         <div className={cx('content-invest-container')}>
                             <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0').replace(' vnđ', '')}</span>
+                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
                             <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                                     {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
                                     {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
                                     {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
-                                    {renderKeyValue(Languages.invest.amountDemandedForInvestment, utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0').replace(' vnđ', ''), true)}
+                                    {renderKeyValue(Languages.invest.amountDemandedForInvestment, utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0'), true)}
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatMoneyNotSuffixes(dataPackage?.tong_lai_nhan_duoc))}
+                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
                                     {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0').replaceAll(',', '.'))}
-                                    {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
+                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
+                                    {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai, false, isMobile ? true : false)}
                                 </Col>
                             </Row>
                             {!isMobile && renderInvestMethod()}

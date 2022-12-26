@@ -14,12 +14,12 @@ export class InvestServices extends BaseService {
         uriSegment
     }));
 
-    getListContractInvesting = async (option:string,textSearch: string, money: string, fdate: string, tdate: string, uriSegment: number, per_page: number) => this.api().post(API_CONFIG.LIST_CONTRACT_INVESTING, this.buildFormData({
+    getListContractInvesting = async (option: string, textSearch: string, money: string, fdate: string, tdate: string, uriSegment: number, per_page: number) => this.api().post(API_CONFIG.LIST_CONTRACT_INVESTING, this.buildFormData({
         option,
         fdate,
         tdate,
         money,
-        text:textSearch,
+        text: textSearch,
         per_page,
         uriSegment
     }));
@@ -56,5 +56,25 @@ export class InvestServices extends BaseService {
         client_code: platform
     }));
 
-    checkBill = async (bill_id: string) => this.api().post(API_CONFIG.CHECK_BILL, this.buildFormData({bill_id}));
+    checkBill = async (bill_id: string) => this.api().post(API_CONFIG.CHECK_BILL, this.buildFormData({ bill_id }));
+
+    createQRTransferBank = async (
+        accountNo: number, //113366668888,
+        accountName: string, // "QUY VAC XIN PHONG CHONG COVID" -  tên chủ tài khoản ngân hàng,
+        acqId: number, //970415 - mã ngân hàng, 
+        amount: number, //79000 - số tiền,
+        addInfo: string //Ung Ho Quy Vac Xin - noi dung chuyen khoản,
+        // format: string, //  Định dạng mã Qr trả về
+        // template: string  //compact2/compact/qr_only/print  - mẫu giao diện ảnh Qr trả về
+    ) => this.api(false, '').post(API_CONFIG.CREATE_TRANSFER_BANK_QR, {
+        accountNo,
+        accountName,
+        acqId,
+        amount,
+        addInfo,
+        format: 'text',
+        template: 'compact'
+    });
+
+
 }

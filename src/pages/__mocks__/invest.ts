@@ -1,5 +1,5 @@
 import { ItemProps } from './../../models/common.d';
-import { DataColumnInvestType, PackageInvest } from "models/invest";
+import { BankInformationModel, DataColumnInvestType, PackageInvest } from "models/invest";
 
 export const investListData =
     [
@@ -412,4 +412,17 @@ export const InvestMethod = [
         value: 'vimo'
     },
 ]
+
+export const BankTransferInfo: BankInformationModel = {
+    key: 1,
+    url: '',
+    bin: '970415',
+    account: '113366668888',
+    bank_code: '970415',
+    description: 'Tien dau tu',
+    money: '100000',
+    name_account: 'QUY VAC XIN PHONG CHONG COVID',
+    name_bank: 'ViettinBank',
+    id: '970415',
+}
 

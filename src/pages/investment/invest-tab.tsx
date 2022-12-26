@@ -9,6 +9,7 @@ import React, {
 import Investment from '.';
 import InvestDetail from './invest-detail';
 import InvestPackageVerify from './invest-package-verify';
+import TransferBank from './tranfer-bank';
 
 export type TabsActions = {
     goBack: () => void;
@@ -58,6 +59,8 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
                     return <InvestDetail onBackScreen={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
                 case '3':
                     return <InvestPackageVerify onBackDetail={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
+                case '4':
+                    return <TransferBank goBack={goBack} onNextScreen={onNextPage}  investPackage={investPackage}/>;
                 default:
                     break;
             }

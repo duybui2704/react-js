@@ -81,3 +81,9 @@ export enum TYPE_FILE {
     VIDEO = 'video',
 }
 
+export enum TYPE_TRANSFER_AMOUNT {
+    NGAN_LUONG = 'nganluong',
+    BANK = 'bank',
+    VIMO= 'vimo'
+}
+

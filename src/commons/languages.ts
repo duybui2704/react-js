@@ -64,7 +64,7 @@ const Languages = {
         errMsgUpperChar: 'Mật khẩu phải có 1 kí tự in hoa',
         errMsgGender: 'Giới tính không được bỏ trống',
         genderRequired: 'Giới tính không được để trống',
-        emptyList:'Không có dữ liệu'
+        emptyList: 'Không có dữ liệu'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Báo cáo', 'Giao dịch'],
     header: {
@@ -143,7 +143,7 @@ const Languages = {
         seeMore: 'Xem thêm các gói đầu tư khác',
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
         agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
-        policy:'Điều khoản sử dụng và chính sách'
+        policy: 'Điều khoản sử dụng và chính sách'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
@@ -189,6 +189,20 @@ const Languages = {
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
         appMobile: '- App Mobile'
+    },
+    transferBank: {
+        describeTransfer: 'Để nạp tiền, bạn hãy dùng bất kỳ ngân hàng nào để chuyển khoản đến tài khoản sau:',
+        receiverBankName: 'Ngân hàng nhận',
+        receiverBankOwner: 'Tên tài khoản nhận',
+        receiverBankNumber: 'Số tài khoản nhận',
+        transferAmount: 'Số tiền cần chuyển',
+        transferContent: 'Nội dung chuyển khoản',
+        noteTransfer: 'Nếu nội dung chuyển khoản thiếu hoặc không chính xác. Chúng tôi sẽ không thể nhận ra giao dịch của bạn.',
+        qrAction: 'Hoặc thực hiện scan mã Qr code sau:',
+        copy: 'Sao chép',
+        bank: 'Ngân hàng',
+        bankNumber: 'Số Tài khoản',
+        copySuccess: 'Sao chép hoàn tất!'
     }
 };
 
