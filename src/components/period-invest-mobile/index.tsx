@@ -36,9 +36,9 @@ const PeriodInvestMobile = ({ dataTable }: { dataTable: DataColumnInvestType[] }
     }, [renderKeyValue]);
 
     return (
-        <table className={cx('table-container')}>
+        <div className={cx('table-container')}>
             {renderPeriod(dataTable)}
-        </table>
+        </div>
     );
 };
 

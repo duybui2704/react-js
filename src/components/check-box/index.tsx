@@ -1,17 +1,12 @@
 import classNames from 'classnames/bind';
-import { ItemPropsModel } from 'models/item-props-model';
-import React, { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, ReactNode, useCallback, useImperativeHandle, useRef, useState } from 'react';
 import styles from './check-box.module.scss';
-import Validate from 'utils/validate';
 
 export type CheckBoxProps = {
-    title?: string,
-    data?: ItemPropsModel[],
-    groupCheckBoxContainer?: any,
-    groupInputContainer?: any,
-    titleCheckBoxStyle?: any,
+    title?: string | ReactNode;
+    value?: any;
+    groupCheckBoxContainer?: any;
     onChangeText?: (event?: any) => any;
-    titleContainer?: any;
 };
 
 export type CheckBoxAction = {
@@ -22,19 +17,11 @@ export type CheckBoxAction = {
 
 const cx = classNames.bind(styles);
 
-const CheckBox = forwardRef<CheckBoxAction, CheckBoxProps>(({ title, onChangeText, groupCheckBoxContainer }: CheckBoxProps, ref: any) => {
-    const [arraySelect, setArraySelect] = useState<Array<string>>([]);
+const CheckBox = forwardRef<CheckBoxAction, CheckBoxProps>(({ title, onChangeText, groupCheckBoxContainer, value }: CheckBoxProps, ref: any) => {
     const [isFocus, setIsFocus] = useState<boolean>(false);
     const orgTextInput = useRef<HTMLInputElement>(null);
-    const [errMsg, setErrMsg] = useState<string>('');
 
     const [isCheck, setIsCheck] = useState<boolean>(false);
-
-    // useEffect(() => {
-    //     if (onChangeText && isFocus) {
-    //         onChangeText?.(selectedInput, item?.ti);
-    //     }
-    // }, [isFocus, selectedInput]);
 
     const focus = useCallback(() => {
         if (orgTextInput.current) {
@@ -52,32 +39,32 @@ const CheckBox = forwardRef<CheckBoxAction, CheckBoxProps>(({ title, onChangeTex
     }));
 
     const getValue = useCallback(() => {
-        return arraySelect;
-    }, [arraySelect]);
+        return isCheck;
+    }, [isCheck]);
 
-    const renderItemCheckbox = useCallback((_title?: string, value?: any) => {
-        const onChange = (e: any) => {
+    const renderItemCheckbox = useCallback(() => {
+        const onChange = (e: any) => {            
             onChangeText?.(e);
-            setIsCheck(!isCheck);
+            setIsCheck(e.target.checked);
         };
         return (
             <div className={cx('container')}>
                 <input
+                    ref={orgTextInput}
                     type='checkbox'
-                    id={'k'}
-                    // value={item?.value}
+                    id={'check'}
                     onFocus={focus}
                     onChange={onChange}
                     checked={isCheck}
                 />
-                <label htmlFor={'k'} className={cx('check-mark')}></label>
+                <label htmlFor={'check'} className={cx('check-mark')}></label>
             </div>
         );
     }, [focus, isCheck, onChangeText]);
 
     return (
         <div className={cx(groupCheckBoxContainer || 'group-check-box-container')}>
-            {renderItemCheckbox(title)}
+            {renderItemCheckbox()}
             <span className={cx('title-check-box')}>{title}</span>
         </div>
     );

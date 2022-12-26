@@ -9,8 +9,8 @@ const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestTyp
     const renderTableColumnValue = useCallback((_arrayColumn: Array<string>) => {
         return (
             <thead>
-                <tr className={cx('text-column')}>
-                    {_arrayColumn.map((item: string, index: number) => { return (<td key={index}>{item}</td>); })}
+                <tr>
+                    {_arrayColumn?.map?.((item: string, index: number) => { return (<td key={index}>{item}</td>); })}
                 </tr>
             </thead>
         );
@@ -19,7 +19,7 @@ const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestTyp
 
     const renderTableRowValue = useCallback((_arrayRow: DataColumnInvestType[]) => {
         return (
-            <tbody className={cx('text-row')}>
+            <tbody>
                 {_arrayRow?.map?.((item: DataColumnInvestType, index: number) => {
                     return (
                         <tr key={index} className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}>
@@ -37,9 +37,9 @@ const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestTyp
     }, []);
 
     return (
-        <table className={cx('table-container')}>
-            {renderTableColumnValue(columnName)}
-            {renderTableRowValue(dataTable)}
+        <table >
+            {renderTableColumnValue(columnName || [])}
+            {renderTableRowValue(dataTable || [])}
         </table>
     );
 };

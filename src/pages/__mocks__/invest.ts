@@ -395,3 +395,21 @@ export const dataColumnInvest: DataColumnInvestType[] = [
 
 export const columnName = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
 
+export const InvestMethod = [
+    {
+        id: 1,
+        text: 'Tài khoản Ngân lượng',
+        value: 'nganluong'
+    },
+    {
+        id: 2,
+        text: 'Tài khoản ngân hàng',
+        value: 'bank'
+    },
+    {
+        id: 3,
+        text: 'Tài khoản Vimo',
+        value: 'vimo'
+    },
+]
+

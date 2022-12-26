@@ -58,9 +58,6 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
                     return <InvestDetail onBackScreen={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
                 case '3':
                     return <InvestPackageVerify onBackDetail={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
-                case '4':
-                    // return <InvestDetail onBackScreen={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
-                    return;
                 default:
                     break;
             }
