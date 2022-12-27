@@ -3,10 +3,16 @@
     display: flex;
     flex-direction: row;
     max-height: 100vh;
-    height: 100vh;
+    height: 85vh;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 2% 12%;
+}
+
+.padding {
+    padding: 2% 10%;
+    @include mobile() {
+        padding: 10px 5px;
+    }
 }
 
 .container-left {
@@ -20,5 +26,29 @@
     display: flex;
     flex: 1;
     flex-direction: column;
-    background-color: $color-blue;
+    background-color: $color-white;
+    padding: 0px 10px;
+}
+
+.line-bottom {
+    display: flex;
+    border-bottom: 1px solid $color-gray-e8;
+    width: 100%;
+}
+
+.img {
+    width: calc(100% - 20px);
+}
+
+.scroll-y {
+    overflow-y: auto;
+    width: 100vw;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.padding-top {
+    padding-top: 40px;
 }

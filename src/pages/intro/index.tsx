@@ -55,7 +55,7 @@ function Intro() {
     const renderViewTop = useMemo(() => {
         return (
             <Row className={cx('view-body', 'padding-not-bottom')} gutter={[24, 16]}>
-                <Col xs={24} sm={24} md={24} lg={24} xl={11} className={cx('jus-content')}>
+                <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('jus-start')}>
                     <div className={cx('view-body-right')}>
                         <span className={cx('text-green medium h3 ')}>{Languages.intro.advantagesTienngay}</span>
                         <div className={cx('y20 column')}>
@@ -84,8 +84,8 @@ function Intro() {
                         </div>
                     </div>
                 </Col>
-                <Col xs={24} md={24} lg={12} xl={13} >
-                    <img src={ImgPerson} width={'80%'} />
+                <Col xs={24} md={24} lg={12} xl={12} className={cx('jus-content')}>
+                    <img src={ImgPerson} width={'100%'} />
                 </Col>
             </Row>
         );
@@ -189,10 +189,10 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            height: '35vh',
+            minHeight: isMobile ? '30vh' : '35vh',
             display: 'flex'
         };
-    }, []);
+    }, [isMobile]);
 
     const stepOne = useMemo(() => {
         return (

@@ -265,6 +265,35 @@ $desktop-width: 1024px;
     }
 }
 
+.b10 {
+    margin-bottom: 10px
+}
+
+.b15 {
+    margin-bottom: 15px
+}
+
+.b20 {
+    margin-bottom: 20px;
+    @include mobile {
+        margin-bottom: 10px;
+    }
+}
+
+.b30 {
+    margin-bottom: 30px;
+    @include mobile {
+        margin-bottom: 18px;
+    }
+}
+
+.b40 {
+    margin-bottom: 40px;
+    @include mobile {
+        margin-bottom: 20px;
+    }
+}
+
 .p5 {
     padding-right: 5px;
     padding-left: 5px;
@@ -292,7 +321,8 @@ $desktop-width: 1024px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: $color-green
+    background: $color-green;
+    width: 1px;
 }
 
 ::-webkit-scrollbar-track {
