@@ -7,16 +7,10 @@
     overflow-x: hidden;
 }
 
-::-webkit-scrollbar {
-    width: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-    background: $color-green
-}
-
-::-webkit-scrollbar-track {
-    margin-bottom: 60px; //equal header tab's height
+div #count-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
 }
 
 .jus-content {
@@ -67,6 +61,12 @@
     flex-direction: column;
     background-color: $color-white;
     flex: 1;
+}
+
+#vd {
+    height: 300px;
+    width: 100%;
+    background-color: $color-dark-red;
 }
 
 .view-body {
@@ -140,7 +140,7 @@
 }
 
 .img-phone {
-    width: "30%";
+    width: 70%;
     @include mobile {
         width: 200px;
     }
@@ -171,7 +171,7 @@ ul {
     border-top: 1px solid $color-gray-d8;
 }
 
-.content-container {
+div #content-container {
     justify-content: center;
     flex: 1;
     display: flex;
@@ -180,7 +180,7 @@ ul {
     padding: 5% 12%;
 }
 
-.inner-center {
+#inner-center {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -188,7 +188,7 @@ ul {
     height: 100%;
 }
 
-.text-content {
+#text-content {
     width: 80%;
     display: flex;
     flex-direction: row;
@@ -338,4 +338,8 @@ ul {
     to {
         transform: scale(1, 1);
     }
+}
+
+.mrg-10 {
+    margin-top: 10%;
 }

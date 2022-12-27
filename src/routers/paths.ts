@@ -7,6 +7,6 @@ export const Paths = {
     login: '/login',
     register: '/register',
 
-    //account
-    profile: '/profile'
+    //news
+    news: '/news'
 };

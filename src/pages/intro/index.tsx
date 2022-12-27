@@ -21,7 +21,7 @@ import { ServiceModel } from 'models/intro';
 import { InvestFilter, PackageInvest } from 'models/invest';
 import { infoInvest, serviceList } from 'pages/__mocks__/intro';
 import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import { useNavigate } from 'react-router-dom';
 import Count from './count';
@@ -33,9 +33,24 @@ function Intro() {
     const [step, setStep] = useState<number>(1);
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
+    const [run, setRun] = useState<boolean>(false);
 
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
+
+    useEffect(() => {
+        const scrollHandler = () => {
+            const count = document.getElementById(cx('inner-center')) as HTMLElement;
+            const end = count?.getBoundingClientRect();
+            if (end.bottom < window.innerHeight && end.bottom > 0) {
+                setRun(true);
+            }
+        };
+        window.addEventListener('scroll', scrollHandler, true);
+        return () => {
+            window.removeEventListener('scroll', scrollHandler, true);
+        };
+    }, []);
 
     const renderViewTop = useMemo(() => {
         return (
@@ -102,7 +117,7 @@ function Intro() {
 
     const renderViewInvest = useMemo(() => {
         return (
-            <div className={cx('content-container')}>
+            <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
                 <Row gutter={[24, 16]} className={cx('top-search-component')}>
                     {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dateListData)}
@@ -160,12 +175,12 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            height: '45vh',
+            height: isMobile ? '45vh' : '25vh',
             justifyContent: 'center',
             alignItems: 'center',
             display: 'flex'
         };
-    }, []);
+    }, [isMobile]);
 
     const renderTopBackground = useMemo(() => {
         return {
@@ -181,20 +196,20 @@ function Intro() {
 
     const stepOne = useMemo(() => {
         return (
-            <>
+            <div className={cx('column center')}> 
                 <ul >
                     <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerApp}</li>
                     <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerPhone}</li>
                     <li className={cx('text-black h5 regular y5')}>{Languages.intro.register1Minute}</li>
                 </ul>
-                <div className={cx('row y20')}>
+                <div className={cx('row y20 center', 'width')}>
                     <div className={cx('column x30 space-between')}>
                         <img src={ImgAppStore} width={'100%'} height={'40%'} />
-                        <img src={ImgGGPLay} width={'100%'} height={'40%'} />
+                        <img src={ImgGGPLay} width={'100%'} height={'40%'} className={cx('mrg-10')} />
                     </div>
-                    <img src={ImgQRCode} width={'50%'} />
+                    <img src={ImgQRCode} width={'40%'} />
                 </div>
-            </>
+            </div>
         );
     }, []);
 
@@ -255,11 +270,12 @@ function Intro() {
                 <Col xs={24} sm={24} md={12} lg={12} xl={7} className={cx('center')}>
                     {renderImagePhone}
                 </Col>
-                <Col xs={24} sm={24} md={12} lg={12} xl={12} className={cx('center')}>
+                <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('center')}>
                     <div
                         style={{
                             backgroundImage: `url(${ImgCircle})`,
                             width: '100%',
+                            minHeight: '500px',
                             height: '100%',
                             backgroundSize: 'contain',
                             backgroundPositionX: 'center',
@@ -309,12 +325,12 @@ function Intro() {
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
                 <div style={renderLeftBackground}>
-                    <div className={cx('inner-center')}>
-                        <div className={cx('text-content')}>
+                    <div id={cx('inner-center')}>
+                        <div id={cx('text-content')}>
                             {infoInvest.map((item, index) => {
                                 return (
                                     <div className={cx('column center', 'flex')} key={index}>
-                                        <Count item={item} />
+                                        <Count item={item} visible={run} />
                                     </div>
                                 );
                             })}
@@ -323,7 +339,7 @@ function Intro() {
                 </div>
             </div>
         );
-    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb, renderLeftBackground]);
+    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb, renderLeftBackground, run]);
 
     const renderViewNearBelow = useMemo(() => {
 
@@ -406,11 +422,11 @@ function Intro() {
                             <span className={cx('text-red medium h3 y10')}>{Languages.intro.appMobile}</span>
                             <span className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</span>
                             <div className={cx('row y40')}>
-                                <div className={cx('column x50 space-between')}>
-                                    <img src={ImgAppStore} className={cx('img-phone ')} />
-                                    <img src={ImgGGPLay} className={cx('img-phone ')} />
+                                <div className={cx('column x50 space-between center pt5 pb5')}>
+                                    <img src={ImgAppStore} width={'100%'} />
+                                    <img src={ImgGGPLay} width={'100%'} />
                                 </div>
-                                <img src={ImgQRCode} className={cx('img-phone')} />
+                                <img src={ImgQRCode} />
                             </div>
                         </div>
                     </Col>

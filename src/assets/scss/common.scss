@@ -269,3 +269,32 @@ $desktop-width: 1024px;
     padding-right: 5px;
     padding-left: 5px;
 }
+
+.pl5 {
+    padding-left: 5px;
+}
+
+.pt5 {
+    padding-top: 5px;
+}
+
+.pb5 {
+    padding-bottom: 5px;
+}
+
+.pr5 {
+    padding-right: 5px;
+}
+
+//scroll
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $color-green
+}
+
+::-webkit-scrollbar-track {
+    margin-bottom: 60px; //equal header tab's height
+}

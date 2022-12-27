@@ -1,0 +1,24 @@
+@import "assets/scss";
+.page {
+    display: flex;
+    flex-direction: row;
+    max-height: 100vh;
+    height: 100vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 2% 12%;
+}
+
+.container-left {
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    background-color: $color-white;
+}
+
+.container-right {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background-color: $color-blue;
+}
