@@ -192,6 +192,20 @@ const Languages = {
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay'
+    },
+    transferBank: {
+        describeTransfer: 'Để nạp tiền, bạn hãy dùng bất kỳ ngân hàng nào để chuyển khoản đến tài khoản sau:',
+        receiverBankName: 'Ngân hàng nhận',
+        receiverBankOwner: 'Tên tài khoản nhận',
+        receiverBankNumber: 'Số tài khoản nhận',
+        transferAmount: 'Số tiền cần chuyển',
+        transferContent: 'Nội dung chuyển khoản',
+        noteTransfer: 'Nếu nội dung chuyển khoản thiếu hoặc không chính xác. Chúng tôi sẽ không thể nhận ra giao dịch của bạn.',
+        qrAction: 'Hoặc thực hiện scan mã Qr code sau:',
+        copy: 'Sao chép',
+        bank: 'Ngân hàng',
+        bankNumber: 'Số Tài khoản',
+        copySuccess: 'Sao chép hoàn tất!'
     }
 };
 
