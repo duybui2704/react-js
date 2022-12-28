@@ -72,9 +72,9 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage }: { onBackScr
     ) => {
         const handleLeftButton = () => {
             if (_title === Languages.invest.noteAuth) {
-                navigate(Paths.login);
+                navigate(Paths.auth);
             } else {
-                navigate(Paths.register);
+                // navigate(Paths.register);
             }
         };
 

@@ -4,8 +4,7 @@ export const Paths = {
     any: '*',
 
     //auth
-    login: '/login',
-    register: '/register',
+    auth: '/auth',
 
     //news
     news: '/news'

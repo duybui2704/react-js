@@ -3,97 +3,89 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    .wrap-all-title-picker {
+}
+
+.wrap-all-title-picker {
+    display: flex;
+    flex-direction: row;
+    .title-item-picker-container {
         display: flex;
         flex-direction: row;
-        .title-item-picker-container {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            padding: 0 0 4px 0px;
-            .title-item-picker-text {
-                color: $color-black;
-                font-family: $font-regular;
-                font-size: $text-h6;
-            }
-            .title-check-box-item-picker-text {
-                color: $color-gray2;
-                font-family: $font-regular;
-                font-size: $text-h7;
-                padding-left: 8px;
-            }
-            .title-item-must-choose-picker {
-                color: $color-red1;
-                font-family: $font-regular;
-                font-size: $text-h7;
-                padding-left: 2px;
-            }
-        }
-    }
-    .value-text {
-        color: $color-gray2;
-        font-size: $text-h7;
-        font-family: $font-regular;
-    }
-    .select-container {
-        display: flex;
-        width: 100%;
-        border: 1px solid $color-gray-d8;
-        border-radius: 5px;
-        padding: 3px 16px 3px 8px;
-        background-color: $color-white;
-        span {
-            color: $color-gray2;
-            font-size: $text-h7;
+        align-items: center;
+        padding: 0 0 4px 0px;
+        .title-item-picker-text {
+            color: $color-black;
             font-family: $font-regular;
+            font-size: $text-h6;
         }
-    }
-    .disable-select-container {
-        display: flex;
-        width: 100%;
-        border: 1px solid $color-gray-d8;
-        border-radius: 5px;
-        padding: 3px 16px 3px 8px;
-        background-color: $color-gray-e6;
-        span {
+        .title-check-box-item-picker-text {
             color: $color-gray2;
-            font-size: $text-h7;
             font-family: $font-regular;
+            font-size: $text-h7;
+            padding-left: 8px;
+        }
+        .title-item-must-choose-picker {
+            color: $color-red1;
+            font-family: $font-regular;
+            font-size: $text-h7;
+            padding-left: 3px;
         }
     }
-    .focus-select-container {
-        display: flex;
-        width: 100%;
-        border: 1px solid $color-green-header;
-        border-radius: 5px;
-        padding: 3px 16px 3px 8px;
-        span {
-            color: $color-gray2;
-            font-size: $text-h7;
-            font-family: $font-regular;
-        }
-    }
-    .error-select-container {
-        display: flex;
-        width: 100%;
-        border: 1px solid $color-red;
-        border-radius: 5px;
-        padding: 3px 16px 3px 8px;
-        animation: shake 0.9s ease 1;
-        span {
-            color: $color-gray2;
-            font-size: $text-h7;
-            font-family: $font-regular;
-        }
-    }
-    .text-error-picker {
-        display: flex;
-        width: 100%;
-        color: $color-red;
-        font-size: $text-h7;
-        font-family: $font-regular;
-        padding: 5px 0 0 0px;
-    }
+}
+
+.select-container {
+    display: flex;
+    width: 100%;
+    border: 1px solid $color-gray-d8;
+    border-radius: 5px;
+    color: $color-gray2;
+    font-size: $text-h7;
+    font-family: $font-regular;
+    background-color: $color-white;
+}
+
+.disable-select-container {
+    display: flex;
+    width: 100%;
+    border: 1px solid $color-gray-d8;
+    border-radius: 5px;
+    // padding: 3px 16px 3px 8px;
+    color: $color-gray2;
+    font-size: $text-h7;
+    font-family: $font-regular;
+    background-color: $color-gray-e6;
+}
+
+.focus-select-container {
+    display: flex;
+    width: 100%;
+    border: 1px solid $color-green-header;
+    border-radius: 5px;
+    // padding: 3px 16px 3px 8px;
+    color: $color-gray2;
+    font-size: $text-h7;
+    font-family: $font-regular;
+}
+
+.error-select-container {
+    display: flex;
+    width: 100%;
+    border: 1px solid $color-red;
+    border-radius: 5px;
+    // padding: 3px 16px 3px 8px;
+    color: $color-gray2;
+    font-size: $text-h7;
+    font-family: $font-regular;
+    animation: shake 0.9s ease 1;
+}
+
+.text-error-picker {
+    display: flex;
+    width: 100%;
+    color: $color-red;
+    font-size: $text-h7;
+    font-family: $font-regular;
+    padding: 5px 0 0 0px;
 }
 
 .item-container {

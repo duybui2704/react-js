@@ -24,11 +24,11 @@ function Home() {
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
         const navigateToLogin = () => {
-            navigate(Paths.login);
+            navigate(Paths.auth, { state: { name: Languages.auth.login } });
         };
 
         const navigateToRegister = () => {
-            navigate(Paths.register);
+            navigate(Paths.auth, { state: { name: Languages.auth.register } });
         };
 
         return {
