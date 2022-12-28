@@ -2,7 +2,7 @@ import { Tabs } from 'antd';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import Report from 'pages/report';
+import Report from 'pages/manage/report';
 import React, { useMemo } from 'react';
 import { COLORS } from 'theme/colors';
 import History from './history';
