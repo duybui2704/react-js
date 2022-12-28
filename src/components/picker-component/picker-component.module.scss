@@ -30,16 +30,23 @@
             }
         }
     }
+    .value-text {
+        color: $color-gray2;
+        font-size: $text-h7;
+        font-family: $font-regular;
+    }
     .select-container {
         display: flex;
         width: 100%;
         border: 1px solid $color-gray-d8;
         border-radius: 5px;
         padding: 3px 16px 3px 8px;
-        color: $color-gray2;
-        font-size: $text-h7;
-        font-family: $font-regular;
         background-color: $color-white;
+        span {
+            color: $color-gray2;
+            font-size: $text-h7;
+            font-family: $font-regular;
+        }
     }
     .disable-select-container {
         display: flex;
@@ -47,10 +54,12 @@
         border: 1px solid $color-gray-d8;
         border-radius: 5px;
         padding: 3px 16px 3px 8px;
-        color: $color-gray2;
-        font-size: $text-h7;
-        font-family: $font-regular;
         background-color: $color-gray-e6;
+        span {
+            color: $color-gray2;
+            font-size: $text-h7;
+            font-family: $font-regular;
+        }
     }
     .focus-select-container {
         display: flex;
@@ -58,9 +67,11 @@
         border: 1px solid $color-green-header;
         border-radius: 5px;
         padding: 3px 16px 3px 8px;
-        color: $color-gray2;
-        font-size: $text-h7;
-        font-family: $font-regular;
+        span {
+            color: $color-gray2;
+            font-size: $text-h7;
+            font-family: $font-regular;
+        }
     }
     .error-select-container {
         display: flex;
@@ -68,10 +79,12 @@
         border: 1px solid $color-red;
         border-radius: 5px;
         padding: 3px 16px 3px 8px;
-        color: $color-gray2;
-        font-size: $text-h7;
-        font-family: $font-regular;
         animation: shake 0.9s ease 1;
+        span {
+            color: $color-gray2;
+            font-size: $text-h7;
+            font-family: $font-regular;
+        }
     }
     .text-error-picker {
         display: flex;

@@ -45,11 +45,24 @@ function formatUpperCaseCharacter(str: string) {
     return str = str.toUpperCase?.();
 }
 
+function formatRoundNumberToDecimalMillion(number: number) { // from 1440000 to round 1.44
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    const format = (Math.abs(Number(number)) / 1.0e+6).toFixed(2);
+
+    return formatter.format(Number(format));
+}
+
 export default {
     formatLoanMoney,
     formatMoney,
     formatMoneyNotSuffixes,
     capitalizeFirstLetter,
     formatForEachWordCase,
-    formatUpperCaseCharacter
+    formatUpperCaseCharacter,
+    formatRoundNumberToDecimalMillion
 };

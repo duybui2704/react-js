@@ -34,7 +34,7 @@ function App(): JSX.Element {
         { path: '*', element: <Router /> }
     ]);
 
-    useEffect(()=>{
+    useEffect(() => {
         router.subscribe((state) => console.log('new state', state));
     }, [router]);
 

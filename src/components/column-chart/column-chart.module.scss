@@ -1,0 +1,12 @@
+@import 'assets/scss';
+.chart {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-million {
+    color: $color-gray2;
+    font-family: $font-regular;
+    font-size: $text-h7;
+    padding: 0 0 6px 12px;
+}

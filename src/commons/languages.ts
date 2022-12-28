@@ -15,7 +15,8 @@ const Languages = {
         mustChoose: '*',
         input: 'Nhập',
         add: 'Thêm',
-        filter: 'Bộ lọc'
+        filter: 'Bộ lọc',
+        filterCancel: 'Bỏ lọc'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',
@@ -210,6 +211,33 @@ const Languages = {
         bank: 'Ngân hàng',
         bankNumber: 'Số Tài khoản',
         copySuccess: 'Sao chép hoàn tất!'
+    },
+    report: {
+        title: 'Báo cáo',
+        quarterlyOverview: 'Tổng quan quý ',
+        financialChart: 'Biểu đồ chi phí đầu tư và thu về',
+        month: 'Tháng',
+        investment: 'Vốn đầu tư',
+        overview: 'Tổng quan',
+        overviewInvest: 'Tổng quan đầu tư',
+        quarter: 'Quý',
+        year: 'Năm',
+        million: 'Triệu',
+        monthOfQuarter: 'Chi tiết tháng trong quý',
+        contractNumber: 'Số hợp đồng',
+        investAmount: 'Tiền đầu tư',
+        amountOfInvest: 'Số tiền đầu tư',
+        amountCollected: 'Tiền thu về',
+        originAmountCollected: 'Số tiền gốc thu về',
+        interestAmount: 'Tiền lãi',
+        detailMonth: 'Chi tiết tháng ',
+        reportQuarter: 'Báo cáo quý ',
+        totalInterest: 'Tổng lãi',
+        totalProfitReceived: 'Tổng lãi đã nhận',
+        totalInvestment: 'Tổng vốn đầu tư',
+        totalCapitalReceived : 'Tổng vốn đã nhận',
+        totalRemainingCapital: 'Tổng vốn còn lại',
+        totalProfitRemaining:'Tổng lãi còn lại'
     }
 };
 

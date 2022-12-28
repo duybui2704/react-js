@@ -1,0 +1,77 @@
+@import 'assets/scss';
+.all-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $color-gray5;
+    border-radius: 5px;
+    padding: 16px 16px 8px 16px;
+    box-shadow: $box-shadow;
+    white-space: pre-wrap;
+    background-color: $color-white;
+}
+
+.all-container-overview {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $color-gray5;
+    border-radius: 5px;
+    padding: 16px 16px 8px 16px;
+    box-shadow: $box-shadow;
+    white-space: pre-wrap;
+    background-color: $color-white;
+    height: calc(100% - 24px);
+}
+
+.report-detail-month-text {
+    color: $color-black;
+    font-size: $text-h5;
+    font-family: $font-regular;
+    display: flex;
+    justify-content: center;
+}
+
+.report-detail-month-text-mobile {
+    color: $color-black;
+    font-size: $text-h6;
+    font-family: $font-regular;
+    display: flex;
+    justify-content: center;
+}
+
+.report-key-value-container {
+    display: flex;
+    flex-direction: row;
+    padding: 16px 0 8px 0;
+    border-top: 1px solid $color-gray-e8;
+    justify-content: space-between;
+}
+
+.label-item {
+    color: $color-gray7;
+    font-size: $text-h6;
+    font-family: $font-regular;
+}
+
+.label-item-mobile {
+    color: $color-gray7;
+    font-size: $text-h7;
+    font-family: $font-regular;
+}
+
+.value-item {
+    color: $color-black;
+    font-size: $text-h6;
+    font-family: $font-medium;
+}
+
+.last-value-item {
+    color: $color-green-header;
+    font-size: $text-h6;
+    font-family: $font-medium;
+}
+
+.last-value-item-mobile {
+    color: $color-green-header;
+    font-size: $text-h7;
+    font-family: $font-medium;
+}
