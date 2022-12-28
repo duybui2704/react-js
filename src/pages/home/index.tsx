@@ -6,8 +6,8 @@ import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import Intro from 'pages/intro';
 import InvestTab from 'pages/investment/invest-tab';
+import Manage from 'pages/manage';
 import News from 'pages/news';
-import Report from 'pages/report';
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
@@ -77,7 +77,7 @@ function Home() {
             {
                 label: Languages.tabs[2],
                 key: '2',
-                children: <Report />
+                children: <Manage />
             },
             {
                 label: Languages.tabs[3],

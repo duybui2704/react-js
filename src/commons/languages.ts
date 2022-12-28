@@ -67,7 +67,7 @@ const Languages = {
         genderRequired: 'Giới tính không được để trống',
         emptyList: 'Không có dữ liệu'
     },
-    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Báo cáo', 'Tin tức'],
+    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý của tôi', 'Tin tức'],
     header: {
         textCenter: 'HƯỚNG DẪN SỬ DỤNG CHỨC NĂNG CƠ CẤU, GIA HẠN',
         textCenter1: 'HƯỚNG DẪN SỬ DỤNG BẢO HIỂM',
@@ -235,10 +235,11 @@ const Languages = {
         totalInterest: 'Tổng lãi',
         totalProfitReceived: 'Tổng lãi đã nhận',
         totalInvestment: 'Tổng vốn đầu tư',
-        totalCapitalReceived : 'Tổng vốn đã nhận',
+        totalCapitalReceived: 'Tổng vốn đã nhận',
         totalRemainingCapital: 'Tổng vốn còn lại',
-        totalProfitRemaining:'Tổng lãi còn lại'
-    }
+        totalProfitRemaining: 'Tổng lãi còn lại'
+    },
+    manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch']
 };
 
 
