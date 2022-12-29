@@ -5,7 +5,7 @@ import classNames from 'classnames/bind';
 import IcLeftArrow from 'assets/image/ic_gray_small_arrow_left.svg';
 import Languages from 'commons/languages';
 import { Col, Row } from 'antd';
-import { PackageInvest } from 'models/invest';
+import { DataColumnInvestType, PackageInvest } from 'models/invest';
 import IcRightArrow from 'assets/image/ic_white_small_right_arrow.svg';
 import IcPopupAuth from 'assets/image/ic_popup_auth.svg';
 import IcPopupVerify from 'assets/image/ic_popup_verify.svg';
@@ -19,14 +19,16 @@ import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
 import { columnName, dataColumnInvest } from 'pages/__mocks__/invest';
+import PeriodInvestMobile from 'components/period-invest-mobile';
 
 const cx = classNames.bind(styles);
 
-function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: () => void, investPackage?: PackageInvest }) {
+function InvestDetail({ onBackScreen, onNextScreen, investPackage }: { onBackScreen: () => void, onNextScreen: () => void, investPackage?: PackageInvest }) {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
 
     const [dataPackage, setDataPackage] = useState<PackageInvest>();
+    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnInvestType[]>([]);
     const { userManager } = useAppStore();
 
     const popupAuthRef = useRef<PopupBaseActions>(null);
@@ -34,11 +36,16 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
 
     useEffect(() => {
         setDataPackage(investPackage);
+        setDataPeriodInvest(dataColumnInvest);
     }, [investPackage]);
 
     const onBack = useCallback(() => {
-        onNavigateInvest();
-    }, [onNavigateInvest]);
+        onBackScreen();
+    }, [onBackScreen]);
+
+    const onNextPage = useCallback(() => {
+        onNextScreen();
+    }, [onNextScreen]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string) => {
         return (
@@ -50,14 +57,14 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
     }, [isMobile]);
 
     const handleInvestNow = useCallback(() => {
-        if (userManager?.userInfo) {
-            popupAccVerifyRef.current?.showModal();
-        } else if (!userManager.userInfo?.tinh_trang) {
-            popupAuthRef.current?.showModal();
-        } else {
-            //invest now action
-        }
-    }, [userManager.userInfo]);
+        // if (userManager?.userInfo) {
+        //     popupAccVerifyRef.current?.showModal();
+        // } else if (!userManager.userInfo?.tinh_trang) {
+        //     popupAuthRef.current?.showModal();
+        // } else {
+        onNextPage();
+        // }
+    }, [onNextPage]);
 
     const renderPopup = useCallback((
         _ref: any, _labelLeft?: string, _labelRight?: string,
@@ -65,9 +72,9 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
     ) => {
         const handleLeftButton = () => {
             if (_title === Languages.invest.noteAuth) {
-                navigate(Paths.login);
+                navigate(Paths.auth);
             } else {
-                navigate(Paths.register);
+                // navigate(Paths.register);
             }
         };
 
@@ -99,7 +106,7 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
                         <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
                         <div className={cx('content-invest-container')}>
                             <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0').replace(' vnđ', '')}</span>
+                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
                             <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                                     {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
@@ -107,9 +114,9 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
                                     {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatMoneyNotSuffixes(dataPackage?.tong_lai_nhan_duoc))}
+                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
                                     {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0').replaceAll(',', '.'))}
+                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
                                     {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
                                 </Col>
                             </Row>
@@ -123,7 +130,9 @@ function InvestDetail({ onNavigateInvest, investPackage }: { onNavigateInvest: (
                         </div>
                         <div className={cx('invest-note-container')}>
                             <span className={cx('invest-note-text')}>{Languages.invest.estimatedPaymentSchedule}</span>
-                            <TableInvest dataTable={dataColumnInvest} columnName={columnName} />
+                            {isMobile ?
+                                <PeriodInvestMobile dataTable={dataPeriodInvest} /> :
+                                <TableInvest dataTable={dataPeriodInvest} columnName={columnName} />}
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,17 @@
+@import "assets/scss";
+.container {
+    display: flex;
+    height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.img {
+    width: 100%;
+    @include mobile {
+        width: 200px;
+    }
+}

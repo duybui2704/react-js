@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AppStoreProvider } from './providers/app-provider';
 import Router from './routers/router';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const container = document.getElementById('root');
 
@@ -29,10 +30,18 @@ function App(): JSX.Element {
         };
     }, []);
 
+    const router = createBrowserRouter([
+        { path: '*', element: <Router /> }
+    ]);
+
+    useEffect(() => {
+        router.subscribe((state) => console.log('new state', state));
+    }, [router]);
+
     return (
         <React.StrictMode>
             <AppStoreProvider>
-                <Router />
+                <RouterProvider router={router} />
             </AppStoreProvider>
         </React.StrictMode>
     );

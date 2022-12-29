@@ -100,6 +100,9 @@ export enum API_CONFIG {
 
     // notify
     NOTIF_ERROR = 'bot/send_error',
+
+    //createQRBank
+    CREATE_TRANSFER_BANK_QR = 'https://api.vietqr.io/v2/generate',
 }
 export const PAYMENT_URL = {
     NL_SUCCESSFULLY: `${config.baseURL}contract/success_nl_`,

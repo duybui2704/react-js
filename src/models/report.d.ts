@@ -15,8 +15,22 @@ export interface TotalOfQuarterModel {
     tong_lai_phi: number;
 }
 
-export interface OverviewDataReportModel {
+export interface OverviewQuarterReportModel {
     data: OverviewMonthOfQuarterModel[];
     status: number;
     total: TotalOfQuarterModel
+}
+
+export interface OverviewReportModel {
+    tong_von_dau_tu: number;
+    tong_von_da_nhan: number;
+    tong_von_con_lai: number;
+    tong_lai_da_nhan: number;
+    tong_lai_con_lai: number;
+    tong_lai: number;
+}
+export interface ReportChartModel {
+    month?: string;
+    type?: string;
+    value?: number;
 }

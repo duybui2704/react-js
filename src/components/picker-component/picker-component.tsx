@@ -45,7 +45,7 @@ export type PickerAction = {
     hide?: (content?: string) => any,
     getValue: (text?: string | number) => void,
     setValue?: (text: string | number) => void,
-    setError?: (text: string) => any,
+    setError: (text: string) => any,
     clearValue?: () => void,
     getCheckBox?: () => void,
 };
@@ -201,8 +201,9 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                         <span className={cx('check-mark')}></span>
                     </div>}
                     {title && <div className={cx('title-item-picker-container')}>
-                        <span className={titleItemPickerText ? titleItemPickerText : cx(isCheckbox ? 'title-check-box-item-picker-text' : 'title-item-picker-text')}>{title}</span>
-                        {isImportant && <span className={cx('title-item-must-choose-picker')}>{Languages.common.mustChoose}</span>}
+                        <label className={titleItemPickerText ? titleItemPickerText : cx(isCheckbox ? 'title-check-box-item-picker-text' : 'title-item-picker-text')}>{title}
+                            {isImportant && <span className={cx('title-item-must-choose-picker')}>{Languages.common.mustChoose}</span>}
+                        </label>
                     </div>}
                 </div>
 
@@ -236,13 +237,12 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                     dropdownMatchSelectWidth={false}
                     placement={'bottomLeft'}
                     getPopupContainer={trigger => trigger.parentNode}
-
                 >
                     {data.map((item: ItemPropsModel) => (
-                        <Option key={item?.id} value={item?.value}>
+                        <Option key={item?.id} value={item?.value} label={item?.text}>
                             <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : onSelectItem}>
                                 {icLeft && <img src={icLeft} />}
-                                <span className={cx(`${labelItemStyle}`)} >{item?.value}</span>
+                                <span className={cx('value-text')} >{item?.text}</span>
                                 {icRight && <img src={icRight} />}
                             </div>
                         </Option>

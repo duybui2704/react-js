@@ -50,7 +50,7 @@
 .label {
     font-family: $font-regular;
     font-size: $text-h7;
-    padding-bottom: 4px;
+    padding-bottom: 5px;
     span {
         color: $color-dark-red
     }
@@ -189,7 +189,7 @@ input[type=date]:valid::before {
 
 .input-style:focus {
     outline: none;
-  }
+}
 
 input[autoCapitalize=characters] {
     text-transform: uppercase;

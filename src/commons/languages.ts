@@ -15,7 +15,8 @@ const Languages = {
         mustChoose: '*',
         input: 'Nhập',
         add: 'Thêm',
-        filter: 'Bộ lọc'
+        filter: 'Bộ lọc',
+        filterCancel: 'Bỏ lọc'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',
@@ -64,9 +65,12 @@ const Languages = {
         errMsgUpperChar: 'Mật khẩu phải có 1 kí tự in hoa',
         errMsgGender: 'Giới tính không được bỏ trống',
         genderRequired: 'Giới tính không được để trống',
-        emptyList:'Không có dữ liệu'
+        emptyList: 'Không có dữ liệu',
+        emptyOTP: 'Mã OTP không được để trống',
+        userOTPLength: 'Mã OTP không đủ 6 kí tự',
+        errMsgOTP: 'Mã OTP không hợp lệ'
     },
-    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Báo cáo', 'Giao dịch'],
+    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý của tôi', 'Tin tức'],
     header: {
         textCenter: 'HƯỚNG DẪN SỬ DỤNG CHỨC NĂNG CƠ CẤU, GIA HẠN',
         textCenter1: 'HƯỚNG DẪN SỬ DỤNG BẢO HIỂM',
@@ -87,14 +91,29 @@ const Languages = {
         register: 'Đăng ký',
         intro: ['CHÀO MỪNG ĐẾN VỚI ĐẦU TƯ TIỆN NGAY', 'Xây dựng tương lai', 'Tiếp cận nhanh chóng các khoản đầu tư có chất lượng cao', 'Tải miễn phí trên AppStore/ Google Play'],
         notAccountYet: 'Bạn chưa có tài khoản?',
+        accountYet: 'Bạn đã có tài khoản?',
         registerNow: 'Đăng ký ngay',
+        loginNow: 'Đăng nhập ngay',
         savePwd: 'Lưu mật khẩu',
         forgotPwd: 'Quên mật khẩu',
         phone: 'Số điện thoại',
         pwd: 'Mật khẩu',
         or: 'Hoặc',
         facebook: 'facebook',
-        google: 'Google'
+        google: 'Google',
+        signUp: 'Đăng ký',
+        name: 'Họ và tên',
+        email: 'Email',
+        channel: 'Bạn biết chúng tôi qua kênh nào',
+        presenter: 'Mã giới thiệu',
+        pwdConfirm: 'Xác nhận mật khẩu',
+        sendConfirm: 'Gửi xác nhận',
+        getBackPass: 'Lấy lại mật khẩu',
+        enterAuthCode: 'Nhập mã xác thực',
+        confirm: 'Xác nhận',
+        contentForgotPwd: 'Chúng tôi đã gửi cho bạn một mã xác nhận 6 số qua số điện thoại 096*****37. Hãy kiểm tra và nhập mã xác nhận để lấy lại mật khẩu.',
+        codeConfirm: 'Mã xác nhận',
+        changePwd: 'Đổi mật khẩu'
     },
     home: {
     },
@@ -127,13 +146,23 @@ const Languages = {
         noteVerify: 'Bạn chưa đăng nhập tài khoản',
         describeAuth: 'Đăng nhập hoặc đăng ký để tiến hành đầu tư ngay hôm nay ',
         describeVerify: 'Xác thực tài khoản để tăng độ an toàn khi đầu tư và sử dụng ứng dụng',
+        datePayment: 'Ngày thanh toán',
+        principalAmount: 'Số tiền gốc',
+        interestAmount: 'Số tiền lãi',
+        totalAmount: 'Tổng tiền',
+        amountDemandedForInvestment: 'Số tiền cần đầu tư',
+        verifyInvest: 'Xác nhận đầu tư',
+        investMethod: 'Phương thức đầu tư',
+        nganLuongAcc: 'Tài khoản Ngân Lượng',
+        bankAcc: 'Tài khoản ngân hàng',
         next: 'Để sau',
         verifyNow: 'Xác thực ngay',
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         cancel: 'Huỷ bỏ',
         seeMore: 'Xem thêm các gói đầu tư khác',
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
-        investNoteDescribe: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'
+        agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
+        policy: 'Điều khoản sử dụng và chính sách'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
@@ -185,7 +214,56 @@ const Languages = {
         notification: 'Chưa xác thực tài khoản',
         edit: 'Chỉnh sửa'
         
-    }
+    },
+    news: {
+        investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',
+        view: 'Lượt xem',
+        loremIpsum: 'What is Lorem Ipsum?',
+        loremIpsumContent: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry is standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+        news: 'Tin mới'
+    },
+    transferBank: {
+        describeTransfer: 'Để nạp tiền, bạn hãy dùng bất kỳ ngân hàng nào để chuyển khoản đến tài khoản sau:',
+        receiverBankName: 'Ngân hàng nhận',
+        receiverBankOwner: 'Tên tài khoản nhận',
+        receiverBankNumber: 'Số tài khoản nhận',
+        transferAmount: 'Số tiền cần chuyển',
+        transferContent: 'Nội dung chuyển khoản',
+        noteTransfer: 'Nếu nội dung chuyển khoản thiếu hoặc không chính xác. Chúng tôi sẽ không thể nhận ra giao dịch của bạn.',
+        qrAction: 'Hoặc thực hiện scan mã Qr code sau:',
+        copy: 'Sao chép',
+        bank: 'Ngân hàng',
+        bankNumber: 'Số Tài khoản',
+        copySuccess: 'Sao chép hoàn tất!'
+    },
+    report: {
+        title: 'Báo cáo',
+        quarterlyOverview: 'Tổng quan quý ',
+        financialChart: 'Biểu đồ chi phí đầu tư và thu về',
+        month: 'Tháng',
+        investment: 'Vốn đầu tư',
+        overview: 'Tổng quan',
+        overviewInvest: 'Tổng quan đầu tư',
+        quarter: 'Quý',
+        year: 'Năm',
+        million: 'Triệu',
+        monthOfQuarter: 'Chi tiết tháng trong quý',
+        contractNumber: 'Số hợp đồng',
+        investAmount: 'Tiền đầu tư',
+        amountOfInvest: 'Số tiền đầu tư',
+        amountCollected: 'Tiền thu về',
+        originAmountCollected: 'Số tiền gốc thu về',
+        interestAmount: 'Tiền lãi',
+        detailMonth: 'Chi tiết tháng ',
+        reportQuarter: 'Báo cáo quý ',
+        totalInterest: 'Tổng lãi',
+        totalProfitReceived: 'Tổng lãi đã nhận',
+        totalInvestment: 'Tổng vốn đầu tư',
+        totalCapitalReceived: 'Tổng vốn đã nhận',
+        totalRemainingCapital: 'Tổng vốn còn lại',
+        totalProfitRemaining: 'Tổng lãi còn lại'
+    },
+    manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch']
 };
 
 

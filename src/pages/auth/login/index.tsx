@@ -1,28 +1,23 @@
-import IcPhone from 'assets/icon/ic_phone.svg';
-import IcGoogle from 'assets/icon/ic_google.svg';
+import { Checkbox } from 'antd';
+import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import IcFacebook from 'assets/icon/ic_facebook.svg';
-import BgAuth from 'assets/image/bg_auth.jpg';
-import ImgAppStore from 'assets/image/img_app_store.png';
-import ImgGooglePlay from 'assets/image/img_google_play.png';
-import ImgLogo from 'assets/image/img_logo_white.svg';
-import ImgQrCode from 'assets/image/img_qr_download.png';
+import IcGoogle from 'assets/icon/ic_google.svg';
+import IcPhone from 'assets/icon/ic_phone.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
+import { Button } from 'components/button';
+import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import React, { useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './login.module.scss';
-import { Checkbox } from 'antd';
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { Button } from 'components/button';
-import { BUTTON_STYLES } from 'components/button/types';
 import formValidate from 'utils/form-validate';
+import styles from './login.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Login() {
+function Login({ onPress }) {
     const isMobile = useIsMobile();
 
     const navigate = useNavigate();
@@ -44,7 +39,7 @@ function Login() {
         refPhone.current?.setErrorMsg(errMsgPhone);
         refPwd.current?.setErrorMsg(errMsgPwd);
 
-        if (formValidate.isValidAll([errMsgPhone, errMsgPwd])) {
+        if (!formValidate.isValidAll([errMsgPhone, errMsgPwd])) {
             return true;
         }
         return false;
@@ -58,42 +53,9 @@ function Login() {
         }
     }, [onValidate]);
 
-    const renderLeftBackground = useMemo(() => {
-        return {
-            backgroundImage: `url(${BgAuth})`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat'
-        };
-    }, []);
-
-    const renderLeftContent = useMemo(() => {
-        return <div className={cx('left-container')}
-            style={renderLeftBackground}>
-            <img src={ImgLogo} className={cx('img-logo')} />
-            <span className={cx('text-white medium h2 y40')}>
-                {Languages.auth.intro[0]}
-            </span>
-            <span className={cx('text-white medium h3 y15')}>
-                {Languages.auth.intro[1]}
-            </span>
-            <span className={cx('text-white medium h5 y10')}>
-                {Languages.auth.intro[2]}
-            </span>
-            <span className={cx('text-white h5 y40')}>
-                {Languages.auth.intro[3]}
-            </span>
-            <div className={cx('row y10')}>
-                <div className={cx('column x50')}>
-                    <img src={ImgAppStore} className={cx('img-store')} />
-                    <div className={cx('y40')}>
-                        <img src={ImgGooglePlay} className={cx('img-store')} />
-                    </div>
-                </div>
-                <img src={ImgQrCode} className={cx('img-qr')} />
-            </div>
-        </div>;
-    }, [renderLeftBackground]);
+    const onNavigate = useCallback((title: string) => {
+        onPress?.({ name: title });
+    }, [onPress]);
 
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
@@ -104,7 +66,7 @@ function Login() {
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.notAccountYet}
                 </span>
-                <span className={cx('text-green h6')}>
+                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
                     {Languages.auth.registerNow}
                 </span>
             </div>
@@ -135,7 +97,7 @@ function Login() {
                 <Checkbox className={cx('text-gray h7')}
                     onChange={onChange}>
                     {Languages.auth.savePwd}</Checkbox>
-                <span className={cx('text-red h7')}>
+                <span className={cx('text-red h7')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
                     {Languages.auth.forgotPwd}
                 </span>
             </div>
@@ -178,11 +140,10 @@ function Login() {
     }, [isMobile, onLogin]);
 
     const renderView = useMemo(() => {
-        return <div className={cx('root-container')}>
-            {!isMobile && renderLeftContent}
+        return <>
             {renderRightContent}
-        </div>;
-    }, [isMobile, renderLeftContent, renderRightContent]);
+        </>;
+    }, [renderRightContent]);
 
     return renderView;
 }

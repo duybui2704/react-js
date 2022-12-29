@@ -1,10 +1,10 @@
 import { action, makeObservable, observable } from 'mobx';
 
 import { UserInfoModel } from 'models/user-model';
-import SessionManager from './session-manager';
+import sessionManager from './session-manager';
 
 export class UserManager {
-    @observable userInfo?: UserInfoModel = SessionManager.userInfo;
+    @observable userInfo?: UserInfoModel = sessionManager.userInfo;
 
     constructor() {
         makeObservable(this);
@@ -12,6 +12,6 @@ export class UserManager {
 
     @action updateUserInfo(userInfo: any) {
         this.userInfo = userInfo;
-        SessionManager.setUserInfo(userInfo);
+        sessionManager.setUserInfo(userInfo);
     }
 }
