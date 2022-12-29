@@ -263,7 +263,17 @@ const Languages = {
         totalRemainingCapital: 'Tổng vốn còn lại',
         totalProfitRemaining: 'Tổng lãi còn lại'
     },
-    manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch']
+    manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch'],
+    transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
+    historyTabs: ['Đang đầu tư', 'Lịch sử'],
+    history:{
+        searchInvestPackage: 'Tìm kiếm gói đầu tư',
+        interestReceived: 'Lãi đã nhận',
+        remainingOriginal: 'Gốc còn lại',
+        havePackage: 'Bạn có $count gói đầu tư',
+        haveInvested: 'Bạn từng đầu tư $count gói'
+    }
+
 };
 
 

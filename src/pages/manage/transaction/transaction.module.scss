@@ -1,25 +1,37 @@
 @import 'assets/scss';
 .page-container {
-    width: 100%;
-    overflow: auto;
-    height: 92vh;
-}
-
-.all-content-container {
-    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    margin-top: 40px;
-    gap: 24px;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+}
+
+.page-container-mobile {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.all-content-container {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     padding-bottom: 60px;
+    align-self: center;
 }
 
 .all-content-container-mobile {
     display: flex;
-    margin-top: 40px;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
-    gap: 24px;
     padding: 0 16px 60px 16px;
+    align-self: center;
 }

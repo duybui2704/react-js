@@ -38,12 +38,12 @@ function Manage() {
     };
 
     return (
-        <div className={cx('page-container')}>
+        <div className={cx('page-wrap-container')}>
             <Tabs
                 defaultActiveKey='0'
                 onChange={onChange}
                 items={manageTabs}
-                tabBarStyle={{ marginBottom: 0, width: isMobile ? '100%' : '80%', alignSelf: 'center', paddingInline: 16, borderBottom: 'none' }}
+                tabBarStyle={{ marginBottom: 0, width: isMobile ? '100%' : '80%', alignSelf: 'center', paddingInline: 16 }}
                 color={COLORS.GREEN}
             />
         </div>
