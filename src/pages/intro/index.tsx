@@ -116,7 +116,7 @@ function Intro() {
                     })}
                 </Row>
             </div>
-        );
+        );      
     }, [isMobile, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {

@@ -179,6 +179,12 @@ const Languages = {
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
         appMobile: '- App Mobile'
+    },
+
+    profile: {
+        notification: 'Chưa xác thực tài khoản',
+        edit: 'Chỉnh sửa'
+        
     }
 };
 

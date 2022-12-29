@@ -1,0 +1,61 @@
+@import "assets/scss";
+
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 4% 25%;
+  gap: 24px;
+}
+
+.profile {
+  gap: 32px;
+  width: 377px;
+  height: 691px;
+  background: $color-white;
+  border: 1px solid $color-gray5;
+  box-shadow: 0px 4px 15px $color-t-gray;
+  border-radius: 8px;
+}
+
+.avatar {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.avatar label {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 4px;
+  background-color: $color-red-r1;
+  border-radius: 8px;
+  margin-top: 8px;
+  width: 97%;
+}
+
+.information {
+  padding: 16px;
+  gap: 32px;
+
+  width: 779px;
+  height: 388px;
+
+  /* Green/while */
+
+  background: #ffffff;
+  /* boder/boder 1 */
+
+  border: 1px solid #f0f0f0;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+}
+
+.line {
+    border-bottom: 1px solid $color-gray5;
+    width: 100%;
+}
