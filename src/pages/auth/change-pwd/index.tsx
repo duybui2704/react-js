@@ -9,39 +9,40 @@ import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import React, { useCallback, useMemo, useRef } from 'react';
 import formValidate from 'utils/form-validate';
-import styles from './forgot-pass.module.scss';
+import styles from './change-pwd.module.scss';
 
 const cx = classNames.bind(styles);
 
-function ForgotPass({ onPress }) {
+function ChangePwd({ onPress }) {
     const isMobile = useIsMobile();
 
     // const { apiServices } = useAppStore();
-    const refPhone = useRef<TextFieldActions>(null);
-
-    const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
+    const refPwd = useRef<TextFieldActions>(null);
+    const refPwdConfirm = useRef<TextFieldActions>(null);
 
     const onValidate = useCallback(() => {
-        const phone = refPhone.current?.getValue();
+        const pwd = refPwd.current?.getValue();
+        const pwdConfirm = refPwdConfirm.current?.getValue();
 
-        const errMsgPhone = formValidate.passConFirmPhone(phone);
+        const errMsgPwd = formValidate.passValidate(pwd);
+        const errMsgPwdConfirm = formValidate.passConFirmValidate(pwd, pwdConfirm);
 
-        refPhone.current?.setErrorMsg(errMsgPhone);
+        refPwd.current?.setErrorMsg(errMsgPwd);
+        refPwdConfirm.current?.setErrorMsg(errMsgPwdConfirm);
 
-        if (!formValidate.isValidAll([errMsgPhone])) {
+        if (!formValidate.isValidAll([errMsgPwd, errMsgPwdConfirm])) {
             return true;
         }
         return false;
     }, []);
 
-    const onForgotPwd = useCallback(async () => {
+    const onChangePass = useCallback(async () => {
+
         if (onValidate()) {
             // const response = await apiServices.common.checkAppState();
             // console.log(response);
             // userManager.updateDemo(response.data);
-            onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue() });
+            onPress?.({ name: Languages.auth.login });
 
         }
     }, [onPress, onValidate]);
@@ -53,38 +54,40 @@ function ForgotPass({ onPress }) {
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
             <span className={cx('text-black medium h4')}>
-                {Languages.auth.getBackPass}
+                {Languages.auth.changePwd}
             </span>
-            <div className={cx('row y10')}>
-                <span className={cx('text-gray h6 x5')}>
-                    {Languages.auth.notAccountYet}
-                </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
-                    {Languages.auth.registerNow}
-                </span>
-            </div>
             <MyTextInput
-                ref={refPhone}
-                type={'phone'}
-                label={Languages.auth.phone}
-                placeHolder={Languages.auth.phone}
+                ref={refPwd}
+                type={'password'}
+                label={Languages.auth.pwd}
+                placeHolder={Languages.auth.pwd}
+                containerStyle={cx('y15')}
                 important
-                containerStyle={cx('y30')}
-                rightIcon={IcPhone}
                 value={''}
-                maxLength={10}
+                maxLength={50}
+            />
+
+            <MyTextInput
+                ref={refPwdConfirm}
+                type={'password'}
+                label={Languages.auth.pwdConfirm}
+                placeHolder={Languages.auth.pwdConfirm}
+                containerStyle={cx('y15')}
+                important
+                value={''}
+                maxLength={50}
             />
 
             <Button
-                label={Languages.auth.sendConfirm}
+                label={Languages.auth.changePwd}
                 buttonStyle={BUTTON_STYLES.GREEN}
                 isLowerCase
-                onPress={onForgotPwd}
+                onPress={onChangePass}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
             />
         </div>;
-    }, [isMobile, onForgotPwd, onNavigate]);
+    }, [isMobile, onChangePass]);
 
     const renderView = useMemo(() => {
         return <>
@@ -95,4 +98,4 @@ function ForgotPass({ onPress }) {
     return renderView;
 }
 
-export default ForgotPass;
+export default ChangePwd;

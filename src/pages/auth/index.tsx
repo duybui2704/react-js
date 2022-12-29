@@ -13,6 +13,7 @@ import styles from './auth.module.scss';
 import SignUp from './sign-up';
 import ForgotPass from './forgot-pass';
 import OTPAuth from './otp-auth';
+import ChangePwd from './change-pwd';
 
 const cx = classNames.bind(styles);
 
@@ -82,6 +83,8 @@ function Auth() {
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
                 return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} />;
+            case Languages.auth.changePwd:
+                return <ChangePwd onPress={onChangeSteps} />;
             default:
                 return null;
         }

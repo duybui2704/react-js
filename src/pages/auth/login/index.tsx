@@ -39,7 +39,7 @@ function Login({ onPress }) {
         refPhone.current?.setErrorMsg(errMsgPhone);
         refPwd.current?.setErrorMsg(errMsgPwd);
 
-        if (formValidate.isValidAll([errMsgPhone, errMsgPwd])) {
+        if (!formValidate.isValidAll([errMsgPhone, errMsgPwd])) {
             return true;
         }
         return false;

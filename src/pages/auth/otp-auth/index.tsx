@@ -11,14 +11,6 @@ import OtpInput from 'react-otp-input';
 import formValidate from 'utils/form-validate';
 import styles from './otp-auth.module.scss';
 
-type OTPModel = {
-    otp1: string;
-    otp2: string;
-    otp3: string;
-    otp4: string;
-    otp5: string;
-    otp6: string;
-}
 
 const cx = classNames.bind(styles);
 
@@ -28,29 +20,33 @@ function OTPAuth({ onPress, phoneNumber }) {
     // const { apiServices } = useAppStore();
     const refPhone = useRef<TextFieldActions>(null);
     const [value, setValue] = useState<string>('');
+    const [errMsg, setErrMsg] = useState<string>('');
 
     const onChange = (e: CheckboxChangeEvent) => {
         console.log(`checked = ${e.target.checked}`);
     };
 
-    const onValidate = useCallback(() => {
-        const phone = refPhone.current?.getValue();
-
-        const errMsgPhone = formValidate.passConFirmPhone(phone);
-
-        refPhone.current?.setErrorMsg(errMsgPhone);
-
-        if (formValidate.isValidAll([errMsgPhone])) {
-            return true;
+    const onValidate = useCallback(() => { 
+        if (value.length === 0) {
+            setErrMsg(Languages.errorMsg.emptyOTP);
+            return false;
         }
-        return false;
-    }, []);
+        if (value.length < 6) {
+            setErrMsg(Languages.errorMsg.userOTPLength);
+            return false;
+        } else if (formValidate.validateNumber(value)) {
+            setErrMsg(Languages.errorMsg.errMsgOTP);
+            return false;
+        }
+
+        return true;
+
+    }, [value]);
 
     const onConfirm = useCallback(async () => {
-        onPress?.(Languages.auth.enterAuthCode);
-        // if (onValidate()) {
-
-        // }
+        if (onValidate()) {
+            onPress?.({ name: Languages.auth.changePwd });
+        }
     }, [onPress, onValidate]);
 
     const onNavigate = useCallback((title: string) => {
@@ -58,7 +54,7 @@ function OTPAuth({ onPress, phoneNumber }) {
     }, [onPress]);
 
     const onChangeOTP = useCallback((otp: string) => {
-        console.log('txt ===', otp);
+        setErrMsg('');
         setValue(otp);
     }, []);
 
@@ -84,7 +80,11 @@ function OTPAuth({ onPress, phoneNumber }) {
                     numInputs={6}
                     containerStyle={cx('container-input')}
                     shouldAutoFocus
+                    isInputNum
                 />
+            </div>
+            <div className={cx('message-error')}>
+                <span className={cx('text-red h7 regular')}>{errMsg}</span>
             </div>
             <Button
                 label={Languages.auth.confirm}
@@ -95,7 +95,7 @@ function OTPAuth({ onPress, phoneNumber }) {
                 customStyles={{ padding: 10 }}
             />
         </div>;
-    }, [isMobile, onChangeOTP, onConfirm, value]);
+    }, [errMsg, isMobile, onChangeOTP, onConfirm, value]);
 
     const renderView = useMemo(() => {
         return <>
@@ -107,3 +107,7 @@ function OTPAuth({ onPress, phoneNumber }) {
 }
 
 export default OTPAuth;
+function validateNumber(value: string) {
+    throw new Error('Function not implemented.');
+}
+

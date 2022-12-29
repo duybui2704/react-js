@@ -140,7 +140,10 @@ function userNameValidateSignUp (userName: string) {
 
 function emailValidate (email: string) {
     let errMsg = '';
-    if (!validateEmail(email)) {
+    if (email === '' || email === undefined) {
+        errMsg = Languages.errorMsg.emailNull;
+    }
+    else if (!validateEmail(email)) {
         errMsg = Languages.errorMsg.emailRegex;
     } 
     return errMsg;

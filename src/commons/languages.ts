@@ -65,7 +65,10 @@ const Languages = {
         errMsgUpperChar: 'Mật khẩu phải có 1 kí tự in hoa',
         errMsgGender: 'Giới tính không được bỏ trống',
         genderRequired: 'Giới tính không được để trống',
-        emptyList: 'Không có dữ liệu'
+        emptyList: 'Không có dữ liệu',
+        emptyOTP: 'Mã OTP không được để trống',
+        userOTPLength: 'Mã OTP không đủ 6 kí tự',
+        errMsgOTP: 'Mã OTP không hợp lệ'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý của tôi', 'Tin tức'],
     header: {
@@ -109,7 +112,8 @@ const Languages = {
         enterAuthCode: 'Nhập mã xác thực',
         confirm: 'Xác nhận',
         contentForgotPwd: 'Chúng tôi đã gửi cho bạn một mã xác nhận 6 số qua số điện thoại 096*****37. Hãy kiểm tra và nhập mã xác nhận để lấy lại mật khẩu.',
-        codeConfirm: 'Mã xác nhận'
+        codeConfirm: 'Mã xác nhận',
+        changePwd: 'Đổi mật khẩu'
     },
     home: {
     },

@@ -65,19 +65,19 @@ function SignUp({ onPress }) {
         refPresenter.current?.setErrorMsg(errMsgPresenter);
         refChannel?.current?.setError(errMsgChannel);
 
-        if (formValidate.isValidAll([errMsgPhone, errMsgPwd, errMsgName, errMsgConfirm, errMsgEmail, errMsgPresenter, errMsgChannel])) {
+        if (!formValidate.isValidAll([errMsgPhone, errMsgPwd, errMsgName, errMsgConfirm, errMsgEmail, errMsgPresenter, errMsgChannel])) {
             return true;
         }
         return false;
     }, []);
 
-    const onLogin = useCallback(async () => {
+    const onSignUp = useCallback(async () => {
         if (onValidate()) {
             // const response = await apiServices.common.checkAppState();
             // console.log(response);
             // userManager.updateDemo(response.data);
         }
-    }, [onValidate]);
+    }, [onPress, onValidate]);
 
     const onNavigate = useCallback(() => {
         onPress?.({ name: Languages.auth.login });
@@ -106,7 +106,7 @@ function SignUp({ onPress }) {
                 rightIcon={IcProfile}
                 containerStyle={cx('y15')}
                 value={''}
-                maxLength={10}
+                maxLength={50}
             />
 
             <MyTextInput
@@ -130,7 +130,7 @@ function SignUp({ onPress }) {
                 rightIcon={IcEmail}
                 containerStyle={cx('y15')}
                 value={''}
-                maxLength={10}
+                maxLength={50}
             />
 
             <MyTextInput
@@ -191,7 +191,7 @@ function SignUp({ onPress }) {
                 label={Languages.auth.login}
                 buttonStyle={BUTTON_STYLES.GREEN}
                 isLowerCase
-                onPress={onLogin}
+                onPress={onSignUp}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
             />
@@ -221,7 +221,7 @@ function SignUp({ onPress }) {
                 />
             </div>
         </div>;
-    }, [isMobile, onLogin, onNavigate]);
+    }, [isMobile, onSignUp, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>
