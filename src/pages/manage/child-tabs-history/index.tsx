@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import classNames from 'classnames/bind';
-import { TYPE_INPUT } from 'commons/constants';
+import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
@@ -11,6 +11,7 @@ import { TextFieldActions } from 'components/input/types';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
+import TabsButtonBar from 'components/tabs-button-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
@@ -28,11 +29,13 @@ interface HistoryFilter {
     toDate?: string;
 }
 
-function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean, onNextScreen: (data: PackageInvest) => void }) {
+function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest) => void }) {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
+
+    const [tabName, setTabName] = useState<number>(0);
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
@@ -57,8 +60,8 @@ function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean
 
     const fetchData = useCallback(() => {
         setAmountList(amountListData);
-        setCountInvest(isInvesting ? 8 : 12 || 0);
-    }, [isInvesting]);
+        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 8 : 12 || 0);
+    }, [tabName]);
 
     const fetchDataMore = useCallback(() => {
         setAmountList(amountListData);
@@ -114,20 +117,20 @@ function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean
     const renderFilterMobile = useMemo(() => {
         return (
             <div className={cx('top-search-mobile-component')}>
-                <span className={cx('text-your-mobile-chance')}>{(isInvesting ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
+                <span className={cx('text-your-mobile-chance')}>{(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
                 <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
                     <span className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
                 </div>
             </div>
         );
-    }, [countInvest, handleOpenPopupSearch, isInvesting]);
+    }, [countInvest, handleOpenPopupSearch, tabName]);
 
     const renderFilterWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
                 {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
-                    <span className={cx('text-your-chance')}>{(isInvesting ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
+                    <span className={cx('text-your-chance')}>{(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
                     <span className={cx('text-your-chance-search')}>{Languages.history.searchInvestPackage}</span>
                 </Col>}
                 <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
@@ -144,7 +147,7 @@ function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean
                 </Col>
             </Row>
         );
-    }, [amountList, countInvest, dataFilter.fromDate, dataFilter.toDate, isInvesting, isMobile, renderDate, renderPicker]);
+    }, [amountList, countInvest, dataFilter.fromDate, dataFilter.toDate, isMobile, renderDate, renderPicker, tabName]);
 
     const renderContentPopup = useMemo(() => {
         return (
@@ -165,17 +168,16 @@ function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean
         );
     }, [amountList, dataFilter.fromDate, dataFilter.toDate, renderDate, renderPicker]);
 
-
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
             onNextScreen(dataInvest);
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
-                <HistoryPackage onPressPackage={onNavigateInvestDetail} dataInvest={dataInvest} isInvesting={isInvesting} />
+                <HistoryPackage onPressPackage={onNavigateInvestDetail} dataInvest={dataInvest} isInvesting={tabName === TYPE_TAB_HISTORY.IS_INVESTING} />
             </Col>
         );
-    }, [isInvesting, onNextScreen]);
+    }, [onNextScreen, tabName]);
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
@@ -220,10 +222,15 @@ function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean
         );
     }, [fetchDataMore, renderInvestList]);
 
+    const onChangeTab = useCallback((tabNumber?: number) => {
+        setTabName(tabNumber || 0);        
+    }, []);
+
     return (
         <div className={cx('page-container')}>
+            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} />
             {isMobile && renderFilterMobile}
-            <div className={cx('page-wrap')}>
+            <div className={cx(isMobile ? 'page-wrap-mobile' : 'page-wrap')}>
                 {!isMobile && renderFilterWeb}
                 <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
                     {renderFlatList(investList)}

@@ -87,3 +87,8 @@ export enum TYPE_TRANSFER_AMOUNT {
     VIMO= 'vimo'
 }
 
+export enum TYPE_TAB_HISTORY {
+    IS_INVESTING = 0,
+    HISTORY = 1,
+}
+
