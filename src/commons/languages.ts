@@ -16,7 +16,8 @@ const Languages = {
         input: 'Nhập',
         add: 'Thêm',
         filter: 'Bộ lọc',
-        filterCancel: 'Bỏ lọc'
+        filterCancel: 'Bỏ lọc',
+        save: 'Lưu'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',
@@ -212,8 +213,21 @@ const Languages = {
 
     profile: {
         notification: 'Chưa xác thực tài khoản',
-        edit: 'Chỉnh sửa'
-        
+        edit: 'Chỉnh sửa',
+        infoAccount: 'Thông tin cá nhân',
+        userName: 'Họ và tên',
+        birthday: 'Ngày sinh',
+        gender: 'Giới tính',
+        phone: 'Số điện thoại',
+        email: 'Email',
+        address: 'Địa chỉ',
+        unconfirmed: 'Thông tin cá nhân của bạn chưa được xác thực, vui lòng xác thực tài khoản trước khi tiến hành đầu tư.',
+        editAccount: 'Chỉnh sửa thông tin cá nhân',
+        infoPayment: 'Thông tin thanh toán',
+        accountNumber: 'Số tài khoản',
+        accountName: 'Tên tài khoản',
+        bank: 'Ngân hàng',
+        nodeBank: 'Chú ý: Đây là tài khoản ngân hàng để nhận lãi, bạn cần đảm bảo chính xác thông tin tài khoản ngân hàng bạn cung cấp là chính xác. TienNgay.vn sẽ không chịu trách nghiệm khi bạn nhập sai thông tin. '
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',

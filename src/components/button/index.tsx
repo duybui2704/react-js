@@ -18,7 +18,8 @@ export const Button = ({
     customStyles,
     width,
     rightIcon,
-    rightIconStyles
+    rightIconStyles,
+    labelStyles
 }: ButtonProps) => {
 
     const _onPress = useCallback(() => {
@@ -76,7 +77,7 @@ export const Button = ({
         return `${style}`;
     }, [buttonStyle]);
 
-    return (
+    return (    
         <button
             disabled={isLoading || disabled}
             className={cx(`${containerStyle} ${containButtonStyles ? containButtonStyles : ''}`)}
@@ -85,7 +86,7 @@ export const Button = ({
         >
             {leftIcon}
             {
-                label && <span className={cx(`${mergerLabelStyle}`)}>
+                label && <span className={labelStyles ? labelStyles : cx(`${mergerLabelStyle}`)}>
                     {isLowerCase ? label : `${label}`.toUpperCase()}
                 </span>
             }

@@ -80,6 +80,11 @@ $desktop-width: 1024px;
     align-items: center;
 }
 
+.space-evenly {
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 //----------------TEXT----------------
 .text-white {
     font-family: $font-regular;
