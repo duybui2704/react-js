@@ -271,7 +271,10 @@ const Languages = {
         interestReceived: 'Lãi đã nhận',
         remainingOriginal: 'Gốc còn lại',
         havePackage: 'Bạn có $count gói đầu tư',
-        haveInvested: 'Bạn từng đầu tư $count gói'
+        haveInvested: 'Bạn từng đầu tư $count gói',
+        fromDate: 'Từ ngày',
+        toDate: 'Đến ngày',
+        searchProjectInvest: 'Tìm kiếm dự án đầu tư'
     }
 
 };

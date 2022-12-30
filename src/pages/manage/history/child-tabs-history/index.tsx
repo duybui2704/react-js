@@ -15,34 +15,34 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { ItemProps } from 'models/common';
-import { InvestFilter, PackageInvest } from 'models/invest';
-import { amountListData, dateListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
+import { PackageInvest } from 'models/invest';
+import { amountListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './child-tabs-history.module.scss';
 
 const cx = classNames.bind(styles);
+interface HistoryFilter {
+    amountInvest?: string;
+    fromDate?: string;
+    toDate?: string;
+}
 
-function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
-
+function ChildTabsHistory({ isInvesting, onNextScreen }: { isInvesting?: boolean, onNextScreen: (data: PackageInvest) => void }) {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
-    // const [superInvestList, setSuperInvestList] = useState<PackageInvest[]>(investListData);
-    const [dateList, setDateList] = useState<ItemProps[]>([]);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
-    const [countInvest, setCountInvest] = useState<number>();
-    const [dataFilter, setDataFilter] = useState<InvestFilter>({});
+    const [countInvest, setCountInvest] = useState<number>(0);
+    const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
 
     const [loadMore, setLoadMore] = useState<boolean>(true);
 
-    const divRef = useRef<HTMLDivElement>(null);
     const popupSearchRef = useRef<PopupBaseActions>(null);
     const pickerAmountRef = useRef<PickerAction>(null);
-    const pickerDateRef = useRef<PickerAction>(null);
 
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
@@ -56,13 +56,11 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
     };
 
     const fetchData = useCallback(() => {
-        setDateList(dateListData);
         setAmountList(amountListData);
-        setCountInvest(8);
-    }, []);
+        setCountInvest(isInvesting ? 8 : 12 || 0);
+    }, [isInvesting]);
 
     const fetchDataMore = useCallback(() => {
-        setDateList(dateListData);
         setAmountList(amountListData);
 
         setTimeout(() => {
@@ -78,19 +76,20 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
         const onSelectItem = (item: any) => {
             setDataFilter({
-                dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
+                ...dataFilter,
                 amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
             });
         };
         return (
-            <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
-                <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
-            </Col>
+            <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
         );
     }, [dataFilter]);
 
-    const renderDate = useCallback((_title: string, _refInput: TextFieldActions | any, _value?: string, _type?: any) => {
-        const onChangeInput = (event: any) => {
+    const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
+        const onChangeInput = (event: any) => { // format date: 2022-12-14
+            // const [year, month, day] = _refInput.current?.getValue?.()?.trim().split('-') || '';
+            // const value = `${day}/${month}/${year}` || '';
+            console.log('event==', _refInput.current?.getValue?.());
 
         };
         return (
@@ -98,9 +97,8 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
                 <MyTextInput
                     ref={_refInput}
                     type={TYPE_INPUT.DATE}
-                    label={_title}
                     inputStyle={cx('content-item-picker-text')}
-                    placeHolder={Languages.common.input}
+                    placeHolder={_placeHolder}
                     value={_value}
                     maxLength={8}
                     onChangeText={onChangeInput}
@@ -113,48 +111,71 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
         popupSearchRef.current?.showModal();
     }, []);
 
-    const renderTopMobile = useMemo(() => {
+    const renderFilterMobile = useMemo(() => {
         return (
             <div className={cx('top-search-mobile-component')}>
                 <span className={cx('text-your-mobile-chance')}>{(isInvesting ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
-                <div className={cx('right-top-search-component')} >
-                    <span onClick={handleOpenPopupSearch} className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
+                <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
+                    <span className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
-                    <span className={cx('text-red h7 regular xl10')}>{Languages.common.filter}</span>
                 </div>
             </div>
         );
     }, [countInvest, handleOpenPopupSearch, isInvesting]);
 
-    const renderTopWeb = useMemo(() => {
+    const renderFilterWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
                 {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
                     <span className={cx('text-your-chance')}>{(isInvesting ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
                     <span className={cx('text-your-chance-search')}>{Languages.history.searchInvestPackage}</span>
                 </Col>}
-                {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
+                <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
+                </Col>
                 <Col xs={12} sm={12} md={12} lg={12} xl={8} >
-                    <Row gutter={[16, 16]} className={cx('date-container')}>
-                        {renderDate('Tu ngay', fromDateRef)}
-                        {renderDate('Den  ngay', toDateRef)}
+                    <Row gutter={[16, 4]}>
+                        <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
+                            <span className={cx('text-black h6 regular')}>{Languages.invest.dateInvest}</span>
+                        </Col>
+                        {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
+                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
                     </Row>
-
                 </Col>
             </Row>
         );
-    }, [amountList, countInvest, isInvesting, isMobile, renderDate, renderPicker]);
+    }, [amountList, countInvest, dataFilter.fromDate, dataFilter.toDate, isInvesting, isMobile, renderDate, renderPicker]);
+
+    const renderContentPopup = useMemo(() => {
+        return (
+            <Row gutter={[24, 16]} className={cx('top-search-component')}>
+                <Col className={cx('picker-container')} xs={24} sm={24} md={24} >
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={24} xl={24} >
+                    <Row gutter={[16, 4]}>
+                        <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
+                            <span className={cx('text-black h6 regular')}>{Languages.invest.dateInvest}</span>
+                        </Col>
+                        {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
+                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
+                    </Row>
+                </Col>
+            </Row>
+        );
+    }, [amountList, dataFilter.fromDate, dataFilter.toDate, renderDate, renderPicker]);
+
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
-            // onNextScreen(dataInvest);
+            onNextScreen(dataInvest);
         };
         return (
-            <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={`${index}${dataInvest.id}`}>
+            <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
                 <HistoryPackage onPressPackage={onNavigateInvestDetail} dataInvest={dataInvest} isInvesting={isInvesting} />
             </Col>
         );
-    }, [isInvesting]);
+    }, [isInvesting, onNextScreen]);
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
@@ -168,7 +189,6 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
 
     const onClosePopup = useCallback(() => {
         pickerAmountRef.current?.clearValue?.();
-        pickerDateRef.current?.clearValue?.();
         setDataFilter({});
     }, []);
 
@@ -179,13 +199,13 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
     const renderPopupSearchPackage = useCallback(() => {
         return (
             <PopupBaseMobile ref={popupSearchRef} hasCloseIc
-                customerContent={renderTopWeb} hasTwoButton
+                customerContent={renderContentPopup} hasTwoButton
                 labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
-                titleHeader={Languages.invest.searchInvestPackage} buttonLeftStyle={BUTTON_STYLES.GRAY}
+                titleHeader={Languages.history.searchProjectInvest} buttonLeftStyle={BUTTON_STYLES.GRAY}
                 onClose={onClosePopup} onSuccessPress={onSuccessPopup}
             />
         );
-    }, [onClosePopup, onSuccessPopup, renderTopWeb]);
+    }, [onClosePopup, onSuccessPopup, renderContentPopup]);
 
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         return (
@@ -202,9 +222,9 @@ function ChildTabsHistory({ isInvesting }: { isInvesting?: boolean }) {
 
     return (
         <div className={cx('page-container')}>
-            {isMobile && renderTopMobile}
-            <div className={cx('page-wrap')} ref={divRef} >
-                {!isMobile && renderTopWeb}
+            {isMobile && renderFilterMobile}
+            <div className={cx('page-wrap')}>
+                {!isMobile && renderFilterWeb}
                 <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
                     {renderFlatList(investList)}
                     <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
