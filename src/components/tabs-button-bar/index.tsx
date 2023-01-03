@@ -6,7 +6,7 @@ const cx = classNames.bind(styles);
 
 function TabsButtonBar({ dataTabs, defaultTabs, isMobile, onChangeText }:
     {
-        dataTabs?: string[], defaultTabs?: string, isMobile: boolean, onChangeText?: (text?: number) => void
+        dataTabs?: string[], defaultTabs?: string, isMobile: boolean, onChangeText?: (text: number) => void
     }
 ) {
     const [tabsName, setTabsName] = useState<string>(defaultTabs || '0');

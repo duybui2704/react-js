@@ -84,11 +84,15 @@ export enum TYPE_FILE {
 export enum TYPE_TRANSFER_AMOUNT {
     NGAN_LUONG = 'nganluong',
     BANK = 'bank',
-    VIMO= 'vimo'
+    VIMO = 'vimo'
 }
 
 export enum TYPE_TAB_HISTORY {
     IS_INVESTING = 0,
     HISTORY = 1,
+}
+export enum TYPE_STATUS_DETAIL_HISTORY {
+    UN_PAYED = '0',
+    PAYED = '1',
 }
 

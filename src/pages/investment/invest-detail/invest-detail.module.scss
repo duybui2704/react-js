@@ -35,6 +35,55 @@
     }
 }
 
+.back-history {
+    display: flex;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    background-color: $color-gray-button;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.9;
+    }
+    &:active {
+        opacity: 0.7;
+    }
+    .ic-back {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.back-mobile-history {
+    display: flex;
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background-color: $color-gray-button;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    &:hover {
+        opacity: 0.9;
+    }
+    &:active {
+        opacity: 0.7;
+    }
+    .ic-back {
+        width: 10px;
+        height: 10px;
+    }
+}
+
 .back-mobile {
     display: flex;
     position: absolute;

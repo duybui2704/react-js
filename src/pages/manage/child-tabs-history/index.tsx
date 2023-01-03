@@ -29,13 +29,13 @@ interface HistoryFilter {
     toDate?: string;
 }
 
-function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest) => void }) {
+function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: PackageInvest, tabs: number) => void, tabsNumber: number }) {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
-    const [tabName, setTabName] = useState<number>(0);
+    const [tabName, setTabName] = useState<number>(tabsNumber);    
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
@@ -60,7 +60,7 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
 
     const fetchData = useCallback(() => {
         setAmountList(amountListData);
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 8 : 12 || 0);
+        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
     }, [tabName]);
 
     const fetchDataMore = useCallback(() => {
@@ -170,7 +170,9 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
-            onNextScreen(dataInvest);
+            onNextScreen(dataInvest, tabName);
+            console.log('tabName==', tabName);
+            
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
@@ -222,13 +224,13 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
         );
     }, [fetchDataMore, renderInvestList]);
 
-    const onChangeTab = useCallback((tabNumber?: number) => {
-        setTabName(tabNumber || 0);        
+    const onChangeTab = useCallback((tabNumber: number) => {
+        setTabName(tabNumber);
     }, []);
 
     return (
         <div className={cx('page-container')}>
-            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} />
+            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`}/>
             {isMobile && renderFilterMobile}
             <div className={cx(isMobile ? 'page-wrap-mobile' : 'page-wrap')}>
                 {!isMobile && renderFilterWeb}

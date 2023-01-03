@@ -280,7 +280,7 @@ const Languages = {
     manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch'],
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
     historyTabs: ['Đang đầu tư', 'Lịch sử'],
-    history:{
+    history: {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         interestReceived: 'Lãi đã nhận',
         remainingOriginal: 'Gốc còn lại',
@@ -289,6 +289,16 @@ const Languages = {
         fromDate: 'Từ ngày',
         toDate: 'Đến ngày',
         searchProjectInvest: 'Tìm kiếm dự án đầu tư'
+    },
+    historyDetail: {
+        remainingOriginalAmount: 'Số tiền gốc còn lại',
+        receivedOriginalAmount: 'Số tiền gốc đã nhận',
+        dateInvest: 'Ngày đầu tư',
+        receivedInterest: 'Lãi đã nhận',
+        remainingInterest: 'Lãi còn lại',
+        payInterestInfo: 'Thông tin trả lãi',
+        payed: 'Đã thanh toán',
+        unPayed: 'Chưa tới hạn'
     }
 
 };

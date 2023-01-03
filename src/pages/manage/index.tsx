@@ -14,27 +14,25 @@ const cx = classNames.bind(styles);
 
 function Manage({ defaultTabs }:
     {
-        defaultTabs?: string
+        defaultTabs?: number
     }
 ) {
-    const [tabsName, setTabsName] = useState<string>(defaultTabs || '0');
+    const [tabsName, setTabsName] = useState<number>(defaultTabs || 0);
     const isMobile = useIsMobile();
 
-    const [tabNameHistory, setTabNameHistory] = useState<string>('1');
+    const [tabNameHistory, setTabNameHistory] = useState<number>(0);
+    const [tabNameBackHistory, setTabNameBackHistory] = useState<number>(0);
     const [investPackage, setInvestPackage] = useState<PackageInvest>();
 
-    const onNavigateDetail = useCallback((data: PackageInvest) => {
-        setTabNameHistory(`${Number(tabNameHistory) + 1}`);
+    const onNavigateDetail = useCallback((data: PackageInvest, tabs: number) => {
+        setTabNameHistory(tabNameHistory + 1);
         setInvestPackage(data);
-    }, [tabNameHistory]);
-
-    const onNextPage = useCallback(() => {
-        setTabNameHistory(`${Number(tabNameHistory) + 1}`);
+        setTabNameBackHistory(tabs);
     }, [tabNameHistory]);
 
     const goBack = useCallback(() => {
-        setTabNameHistory(`${Number(tabNameHistory) - 1}`);
-    }, [tabNameHistory]);
+        setTabNameHistory(0);
+    }, []);
 
     const renderView = useCallback((_tab?: any) => {
         return (
@@ -42,7 +40,7 @@ function Manage({ defaultTabs }:
                 {_tab?.map((item: TabsItemManage, index: number) => {
                     return <div key={index}>
                         {
-                            tabsName === `${index}` && item?.renderComponent
+                            tabsName === index && item?.renderComponent
                         }
                     </div>;
                 })}
@@ -54,7 +52,7 @@ function Manage({ defaultTabs }:
         const TabsManage = [
             {
                 id: '1',
-                renderComponent: <ChildTabsHistory onNextScreen={onNavigateDetail} />,
+                renderComponent: <ChildTabsHistory onNextScreen={onNavigateDetail} tabsNumber={tabNameBackHistory} />,
                 title: Languages.manageTabs?.[0]
             },
             {
@@ -74,27 +72,27 @@ function Manage({ defaultTabs }:
                     <div className={cx(isMobile ? 'tabs-container-mobile' : 'tabs-container')} >
                         {TabsManage?.map((item: TabsItemManage, index: number) => {
                             const onChange = () => {
-                                setTabsName(`${index}`);
+                                setTabsName(index);
                             };
-                            return <span key={index} className={cx(tabsName === `${index}` ? 'tabs-text-active' : 'tabs-text')} onClick={onChange}>{item?.title}</span>;
+                            return <span key={index} className={cx(tabsName === index ? 'tabs-text-active' : 'tabs-text')} onClick={onChange}>{item?.title}</span>;
                         })}
                     </div>
                 </div>
                 {renderView(TabsManage)}
             </div>
         );
-    }, [isMobile, onNavigateDetail, renderView, tabsName]);
+    }, [isMobile, onNavigateDetail, renderView, tabNameBackHistory, tabsName]);
 
     const renderCustomTab = useMemo(() => {
         switch (tabNameHistory) {
-            case '1':
+            case 0:
                 return renderTabsView();
-            case '2':
-                return <InvestDetail onBackScreen={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
+            case 1:
+                return <InvestDetail onBackScreen={goBack} investPackage={investPackage} isDetailHistory tabDetailHistory={tabNameBackHistory} />;
             default:
                 break;
         }
-    }, [goBack, investPackage, onNextPage, renderTabsView, tabNameHistory]);
+    }, [goBack, investPackage, renderTabsView, tabNameHistory]);
 
     return <>{renderCustomTab}</>;
 }
