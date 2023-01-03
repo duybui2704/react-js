@@ -215,6 +215,7 @@ const Languages = {
         notification: 'Chưa xác thực tài khoản',
         edit: 'Chỉnh sửa',
         infoAccount: 'Thông tin cá nhân',
+        titleDrawerAccount: 'Tài khoản cá nhân',
         userName: 'Họ và tên',
         birthday: 'Ngày sinh',
         gender: 'Giới tính',

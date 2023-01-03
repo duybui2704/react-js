@@ -1,6 +1,6 @@
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './profile.module.scss';
 import classNames from 'classnames/bind';
@@ -13,6 +13,7 @@ import InfoAccount from './info-account';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { Paths } from 'routers/paths';
 import InfoPayment from './Info-payment';
+import DrawerMobileAccount from 'components/drawer-mobile-account';
 
 const cx = classNames.bind(styles);
 
@@ -22,6 +23,8 @@ function Profile() {
     const [info, setInfo] = useState<UserInfoModel>();
     const [step, setStep] = useState<number>(profile[0].id);
 
+    const refDrawer = useRef<any>(null);
+
     useEffect(() => {
         setInfo(InfoUser);
     }, []);
@@ -29,6 +32,10 @@ function Profile() {
     const onPress = useCallback(() => {
         navigate(-1);
     }, [navigate]);
+
+    const onOpenDrawer = useCallback(() => {
+        refDrawer.current.showModal();
+    }, []);
 
 
     const renderViewRight = useMemo(() => {
@@ -47,10 +54,10 @@ function Profile() {
             <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('profile')}>
                 <div className={cx('avatar')}>
                     <img src={ImgPortrait} width={'40%'} />
-                    <span className={cx('text-gray medium h5 y20')}>{info?.username}</span>
-                    <label className={cx('text-red medium h6')}>{info?.status}</label>
+                    <span className={cx('text-gray medium h5 y20')} >{info?.username}</span>
+                    <label className={cx('text-red medium h6')} onClick={onOpenDrawer}>{info?.status}</label>
                 </div>
-               
+
                 {profile.map((item, index) => {
 
                     const onChangeStep = () => {
@@ -68,10 +75,10 @@ function Profile() {
                         }
                     };
 
-                    return(
+                    return (
                         <div className={index === step - 1 ? cx('focus', 'column') : cx('column')} key={index} onClick={onChangeStep}>
                             <div className={cx('row p12')}>
-                                <img src={item.icon}/>
+                                <img src={item.icon} />
                                 <span className={cx('xl10 h7 text-gray regular b5')}>{item.title}</span>
                             </div>
                             <div className={cx('line')}></div>
@@ -83,9 +90,9 @@ function Profile() {
             {!isMobile && <Col xs={24} md={24} lg={12} xl={16} className={cx('information')}>
                 {renderViewRight}
             </Col>}
-
+            <DrawerMobileAccount ref={refDrawer}/>
         </Row>
-        
+
     );
 }
 
