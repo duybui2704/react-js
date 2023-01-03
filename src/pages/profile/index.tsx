@@ -13,7 +13,8 @@ import InfoAccount from './info-account';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { Paths } from 'routers/paths';
 import InfoPayment from './Info-payment';
-import DrawerMobileAccount from 'components/drawer-mobile-account';
+import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
+import InfoIdentity from './info-identity';
 
 const cx = classNames.bind(styles);
 
@@ -23,7 +24,7 @@ function Profile() {
     const [info, setInfo] = useState<UserInfoModel>();
     const [step, setStep] = useState<number>(profile[0].id);
 
-    const refDrawer = useRef<any>(null);
+    const refDrawer = useRef<DrawerBaseActions>(null);
 
     useEffect(() => {
         setInfo(InfoUser);
@@ -34,12 +35,18 @@ function Profile() {
     }, [navigate]);
 
     const onOpenDrawer = useCallback(() => {
-        refDrawer.current.showModal();
+        refDrawer.current?.showModal();
+    }, []);
+
+    const onOpenIdentity = useCallback(() => {
+        setStep(0);
     }, []);
 
 
     const renderViewRight = useMemo(() => {
         switch (step) {
+            case 0:
+                return <InfoIdentity />;
             case 1:
                 return <InfoAccount />;
             case 2:
@@ -55,7 +62,7 @@ function Profile() {
                 <div className={cx('avatar')}>
                     <img src={ImgPortrait} width={'40%'} />
                     <span className={cx('text-gray medium h5 y20')} >{info?.username}</span>
-                    <label className={cx('text-red medium h6')} onClick={onOpenDrawer}>{info?.status}</label>
+                    <label className={cx('text-red medium h6')} onClick={onOpenIdentity}>{info?.status}</label>
                 </div>
 
                 {profile.map((item, index) => {

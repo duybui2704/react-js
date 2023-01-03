@@ -1,14 +1,12 @@
 
-import { Drawer, Modal } from 'antd';
+import { Drawer } from 'antd';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
+import ImgPortrait from 'assets/image/img_portrait.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { Button } from 'components/button';
-import { BUTTON_STYLES } from 'components/button/types';
-import InfoAccount from 'pages/profile/info-account';
-import ImgPortrait from 'assets/image/img_portrait.jpg';
 import { InfoUser, profile } from 'pages/__mocks__/profile';
 
+import { UserInfoModel } from 'models/user-model';
 import React, {
     forwardRef,
     useCallback,
@@ -17,7 +15,6 @@ import React, {
     useState
 } from 'react';
 import styles from './drawer-mobile-account.module.scss';
-import { UserInfoModel } from 'models/user-model';
 
 interface ProfileModel {
     id: number;
@@ -25,22 +22,23 @@ interface ProfileModel {
     icon: any;
 }
 
-type PopupBaseProps = {
+type DrawerBaseProps = {
     onClose?: () => any;
-    onChangeStep?: (tabs: number) => any;
-    onBackdropPress?: () => any;
+    onChangeStep?: (tabs: number) => void;
+    onBackdropPress?: () => void;
+    onPressStatus?:()=>void;
 };
 
-type PopupBaseActions = {
-    showModal: (content?: any) => any;
-    hideModal: (content?: string) => any;
+export type DrawerBaseActions = {
+    showModal: () => void;
+    hideModal: () => void;
 };
 
 const cx = classNames.bind(styles);
 
-const DrawerMobileAccount = forwardRef<PopupBaseActions, PopupBaseProps>(
-    ({ onChangeStep, onClose, onBackdropPress
-    }: PopupBaseProps, ref) => {
+const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
+    ({ onChangeStep, onClose, onBackdropPress, onPressStatus
+    }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const [info, setInfo] = useState<UserInfoModel>();
 
@@ -63,6 +61,10 @@ const DrawerMobileAccount = forwardRef<PopupBaseActions, PopupBaseProps>(
             hideModal
         }));
 
+        const handlePressStatus = useCallback(() => {
+            onPressStatus?.();
+        }, [onPressStatus]);
+
         const onBackDrop = useCallback(() => {
             setVisible(false);
             onBackdropPress?.();
@@ -74,15 +76,15 @@ const DrawerMobileAccount = forwardRef<PopupBaseActions, PopupBaseProps>(
                 <div className={cx('container')}>
                     <div className={cx('drawer-container')}>
                         <span className={cx('title-drawer-container')}>{Languages.profile.titleDrawerAccount}</span>
-                        <img src={Ic_Close} onClick={hideModal} className={cx('close')}/>
+                        <img src={Ic_Close} onClick={hideModal} className={cx('close')} />
                     </div>
                     <div className={cx('avatar')}>
                         <img src={ImgPortrait} className={cx('avatar-img-container')} />
                         <span className={cx('user-name-text')}>{info?.username}</span>
-                        <span className={cx('status-text')}>{info?.status}</span>
+                        <span className={cx('status-text')} onClick={handlePressStatus}>{info?.status}</span>
                     </div>
 
-                    {profile.map((item: ProfileModel, index: number) => {
+                    {profile.map((item: ProfileModel) => {
                         const handleChangeStep = () => {
                             onChangeStep?.(item?.id || 1);
                             setTabs(item?.id);
@@ -100,13 +102,13 @@ const DrawerMobileAccount = forwardRef<PopupBaseActions, PopupBaseProps>(
                     })}
                 </div>
             );
-        }, [hideModal, info?.status, info?.username, onChangeStep, tabs]);
+        }, [handlePressStatus, hideModal, info?.status, info?.username, onChangeStep, tabs]);
 
         return (
             <Drawer
                 placement='left'
                 closable={false}
-                onClose={hideModal}
+                onClose={onBackDrop}
                 open={visible}
                 contentWrapperStyle={{ width: '80%' }}
             >

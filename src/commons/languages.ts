@@ -216,6 +216,7 @@ const Languages = {
         edit: 'Chỉnh sửa',
         infoAccount: 'Thông tin cá nhân',
         titleDrawerAccount: 'Tài khoản cá nhân',
+        infoIdentity:'Xác thực tài khoản',
         userName: 'Họ và tên',
         birthday: 'Ngày sinh',
         gender: 'Giới tính',
@@ -300,6 +301,13 @@ const Languages = {
         payInterestInfo: 'Thông tin trả lãi',
         payed: 'Đã thanh toán',
         unPayed: 'Chưa tới hạn'
+    },
+    identity:{
+        title: 'Xác thực tài khoản',
+        describeIdentity: 'Cập nhập thông tin chứng từ để xác thực tài khoản',
+        identity: 'Số CMND/CCCD',
+        inputIdentity: 'Nhập số CMND/CCCD'
+
     }
 
 };

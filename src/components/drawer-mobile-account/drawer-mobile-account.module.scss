@@ -24,6 +24,12 @@
     height: 15px;
     user-select: none;
     cursor: pointer;
+    &:hover {
+        opacity: 0.8;
+    }
+    &:active {
+        opacity: 0.6;
+    }
 }
 
 .avatar {
@@ -75,6 +81,14 @@
     border-radius: 8px;
     margin-bottom: 32px;
     width: 100%;
+    user-select: none;
+    cursor: pointer;
+    &:hover {
+        opacity: 0.8;
+    }
+    &:active {
+        opacity: 0.6;
+    }
 }
 
 .button-item-container {
@@ -108,4 +122,13 @@
     border-radius: 2px;
     user-select: none;
     cursor: pointer;
+    opacity: 0.8;
+}
+
+.column :active {
+    color: $color-green-header;
+    border-radius: 2px;
+    user-select: none;
+    cursor: pointer;
+    opacity: 0.6;
 }
