@@ -13,6 +13,7 @@ import ImgQRCode from 'assets/image/img_qr_code.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
+import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import useIsMobile from 'hooks/use-is-mobile.hook';
@@ -130,7 +131,7 @@ function Intro() {
                     })}
                 </Row>
             </div>
-        );      
+        );
     }, [isMobile, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
@@ -196,7 +197,7 @@ function Intro() {
 
     const stepOne = useMemo(() => {
         return (
-            <div className={cx('column center')}> 
+            <div className={cx('column center')}>
                 <ul >
                     <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerApp}</li>
                     <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerPhone}</li>
@@ -454,14 +455,15 @@ function Intro() {
                     <span className={cx('text-black regular h6', 'line-height')}>{Languages.intro.contentEnd}</span>
                 </div>
             </div>
-            <div className={cx('body')}>
-                {renderViewTop}
-                {renderViewInvest}
-                {renderViewStepsInvest}
-                {renderViewNearBelow}
-                {renderViewService}
-                {renderBottom}
-            </div>
+
+            {renderViewTop}
+            {renderViewInvest}
+            {renderViewStepsInvest}
+            {renderViewNearBelow}
+            {renderViewService}
+            {renderBottom}
+
+            <Footer/>
         </div>
     );
 }

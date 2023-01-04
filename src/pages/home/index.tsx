@@ -101,17 +101,15 @@ function Home() {
     };
 
     return (
-        <div className={cx('page')}>
-            <Tabs
-                defaultActiveKey="0"
-                onChange={onChange}
-                items={tabs}
-                tabBarExtraContent={slot}
-                centered
-                tabBarStyle={{ marginBottom: 0 }}
-                color={COLORS.GREEN}
-            />
-        </div>
+        <Tabs
+            defaultActiveKey="0"
+            onChange={onChange}
+            items={tabs}
+            tabBarExtraContent={slot}
+            centered
+            tabBarStyle={{ marginBottom: 0 }}
+            color={COLORS.GREEN}
+        />
     );
 }
 
