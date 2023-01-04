@@ -7,10 +7,6 @@ export const Paths = {
     auth: '/auth',
 
     //news
-    news: '/news',
+    news: '/news'
 
-    //profile
-    profile: '/profile',
-    infoAccount: '/info-account',
-    infoPayment: '/info-payment'
 };

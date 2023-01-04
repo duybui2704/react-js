@@ -2,12 +2,12 @@
 .all-container {
     display: flex;
     flex-direction: column;
-    flex: 1;
     padding: 0px 20px;
     box-shadow: $box-shadow;
     border-radius: 8px;
     border: 1px solid $color-gray5;
     padding: 16px;
+    height: fit-content;
 }
 
 .title-page {
@@ -27,10 +27,62 @@
     align-self: center;
     color: $color-gray2;
     font-size: $text-h6;
-    font-family: $font-regular;
     padding-bottom: 24px;
 }
 
 .input {
-    margin-bottom: 24px;
+    margin: 0 15px 24px 0;
+}
+
+.describe-photo-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 16px;
+}
+
+.describe-photo-title {
+    color: $color-red;
+    font-size: $text-h7;
+    font-family: $font-medium;
+}
+
+.describe-photo-text {
+    color: $color-gray7;
+    font-size: $text-h7;
+    padding-top: 4px;
+}
+
+.photo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.photo-title {
+    color: $color-gray8;
+    font-size: $text-h6;
+    padding-bottom: 16px;
+}
+
+.kyc-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.photo {
+    height: 215px;
+    object-fit: cover;
+}
+
+.photo-portrait {
+    height: 480px;
+    object-fit: cover;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 24px;
+    padding: 32px 0 0 0;
 }

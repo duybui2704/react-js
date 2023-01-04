@@ -88,6 +88,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         const handleChangeStep = () => {
                             onChangeStep?.(item?.id || 1);
                             setTabs(item?.id);
+                            setVisible(false);
                         };
 
                         return (
