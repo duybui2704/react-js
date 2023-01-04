@@ -63,6 +63,11 @@ $desktop-width: 1024px;
     flex: auto;
 }
 
+.flex-item{
+    display: flex;
+    align-items: center;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -82,7 +87,13 @@ $desktop-width: 1024px;
 }
 
 .space-between {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -220,6 +231,9 @@ $desktop-width: 1024px;
 .p12 {
     padding: 12px;
 }
+.p24{
+    padding: 24px;
+}
 
 .x5 {
     margin-right: 5px;
@@ -329,6 +343,9 @@ $desktop-width: 1024px;
 .pt5 {
     padding-top: 5px;
 }
+.pt12{
+    padding-top: 12px;
+}
 
 .pb5 {
     padding-bottom: 5px;
@@ -351,3 +368,15 @@ $desktop-width: 1024px;
 ::-webkit-scrollbar-track {
     margin-bottom: 60px; //equal header tab's height
 }
+
+//gap 
+.g-8{
+    gap: 8px;
+}
+.g-16{
+    gap: 16px;
+}
+.g-24{
+    gap: 24px;
+}
+

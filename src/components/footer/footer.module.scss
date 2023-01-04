@@ -1,61 +1,45 @@
 @import "assets/scss";
 
-.footerContainer{
-background-color: $color-green-header;
-}
-
-.box-footer-top {
-  padding: 2% 12%;
-}
-h3 {
-  margin: 0;
-  margin-bottom: 4px;
-  font-size: 20px;
-  line-height: 32px;
+.footerContainer {
+  background-color: $color-green-header;
   color: $color-white;
 }
 
-.box-footer-left {
-  display: flex;
-  align-items: center;
+.box-footer-top {
+  padding: 24px 12%;
 }
+
 .content-footer-left {
-  display: flex;
-  flex-direction: column;
   align-items: flex-start;
-}
-
-.box-information {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  align-items: center;
-}
-.information {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.style-input-input {
-  display: flex;
-  justify-content: space-between;
-}
-
-.box-footer-right {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  gap: 15px;
 }
 
 .textarea-footer {
   width: 100%;
   outline: none;
   border: none;
-  padding: 16px;
+  padding: 16px 24px 36px 16px;
 }
 
 .btn-footer-style {
   width: 100%;
   background-color: $color-white;
+}
+
+.box-footer-bottom {
+  padding: 24px 12%;
+  border-top: 1px solid $color-white;
+  gap: 10px;
+}
+
+.style-input {
+  width: 100%;
+  outline: none;
+  border: none;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 12px;
+  color: $color-white;
+}
+.style-input::placeholder {
+  color: $color-white;
 }
