@@ -1,11 +1,13 @@
 import 'assets/scss/index.scss';
 import 'assets/scss/global.css';
+import 'react-toastify/dist/ReactToastify.css';
 import sessionManager from 'managers/session-manager';
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AppStoreProvider } from './providers/app-provider';
 import Router from './routers/router';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 const container = document.getElementById('root');
 
@@ -43,6 +45,7 @@ function App(): JSX.Element {
             <AppStoreProvider>
                 <RouterProvider router={router} />
             </AppStoreProvider>
+            <ToastContainer theme="colored" className="customize-toast" limit={1} />
         </React.StrictMode>
     );
 }
