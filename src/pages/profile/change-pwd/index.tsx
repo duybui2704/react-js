@@ -1,17 +1,15 @@
-import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import IcCancel from 'assets/image/ic_cancel.svg';
 import IcSave from 'assets/image/ic_save.svg';
 
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './change-pwd.module.scss';
 
 import { Button } from 'components/button';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
-import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import formValidate from 'utils/form-validate';
 
@@ -19,7 +17,6 @@ const cx = classNames.bind(styles);
 
 function InfoChangePwd() {
     const navigate = useNavigate();
-    const { userManager } = useAppStore();
     const refPassCurrent = useRef<TextFieldActions>(null);
     const refPassNew = useRef<TextFieldActions>(null);
     const refPassNewConfirm = useRef<TextFieldActions>(null);
@@ -70,11 +67,7 @@ function InfoChangePwd() {
 
     return (
         <div className={cx('colum content')}>
-            {isMobile &&
-                <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.username}</span>
-                    <img src={IcTwoPeople} />
-                </div>}
+
             <div className={cx('column', 'flex')}>
                 <div className={cx('container-edit', 'shadow')}>
                     <span className={cx('text-black h5 bold')}>{Languages.profile.editAccount}</span>

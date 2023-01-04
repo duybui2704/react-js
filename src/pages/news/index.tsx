@@ -5,7 +5,7 @@ import Languages from 'commons/languages';
 import IcClock from 'assets/image/ic_clock.svg';
 import IcView from 'assets/image/ic_view.svg';
 import ImgContentNews from 'assets/image/img_content_news.jpg';
-import ImgPPNews from 'assets/image/img_pp_news.jpg';
+import ImgPPNews from 'assets/image/img_pp_news.jpeg';
 import { LinkComponent } from 'components/link/link';
 import { dataNews } from 'pages/__mocks__/news';
 import useIsMobile from 'hooks/use-is-mobile.hook';

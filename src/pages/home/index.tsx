@@ -32,7 +32,7 @@ function Home() {
         };
 
         const navigateToRegister = () => {
-            navigate(Paths.profile, { state: { name: Languages.auth.register } });
+            navigate(Paths.auth, { state: { name: Languages.auth.register } });
         };
 
         return {

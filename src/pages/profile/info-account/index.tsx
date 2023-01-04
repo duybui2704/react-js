@@ -1,7 +1,6 @@
 import ImgEdit from 'assets/icon/ic_update_user.svg';
-import IcSave from 'assets/image/ic_save.svg';
-import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import IcCancel from 'assets/image/ic_cancel.svg';
+import IcSave from 'assets/image/ic_save.svg';
 
 import IcErr from 'assets/image/ic_err.svg';
 import classNames from 'classnames/bind';
@@ -12,10 +11,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './info-account.module.scss';
 
 import { Button } from 'components/button';
-import { UserInfoModel } from 'models/user-model';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { UserInfoModel } from 'models/user-model';
 
 const cx = classNames.bind(styles);
 
@@ -88,11 +87,6 @@ function InfoAccount() {
 
     return (
         <div className={cx('colum content')}>
-            {isMobile &&
-                <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{info?.username}</span>
-                    <img src={IcTwoPeople} />
-                </div>}
             <div className={cx('column', 'flex')}>
                 {!isEdit ? <>
                     <div className={cx('container', 'shadow')}>

@@ -2,22 +2,19 @@
 .container {
     display: flex;
     flex-wrap: nowrap;
-    height: 90vh;
+    height: 85vh;
     overflow-y: auto;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 .padding {
-    padding: 2% 12%;
+    padding: 2% 6%;
     @include mobile {
-        padding: 2% 6%;
+        padding: 2%;
     }
 }
 
 .profile {
+    width: 30%;
     gap: 32px;
     margin-right: 2%;
     background: $color-white;
@@ -52,6 +49,10 @@
     display: flex;
 }
 
+.wid-70 {
+    width: 70%;
+}
+
 .line {
     border-bottom: 1px solid $color-gray5;
     width: 100%;
@@ -63,4 +64,9 @@
 
 .column :hover {
     background-color: $color-green-input;
+}
+
+.top {
+    padding: 16px 10px;
+    background-color: $color-gray-e8;
 }
