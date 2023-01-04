@@ -1,0 +1,16 @@
+@import "assets/scss";
+.page {
+    display: flex;
+    flex-direction: row;
+    max-height: 100vh;
+    height: 85vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.padding {
+    padding: 2% 10%;
+    @include mobile() {
+        padding: 10px 5px;
+    }
+}

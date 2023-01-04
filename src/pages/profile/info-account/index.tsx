@@ -19,7 +19,7 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 
 const cx = classNames.bind(styles);
 
-function InfoAccount() {
+function InfoAccount() {    
     const navigate = useNavigate();
     const [info, setInfo] = useState<UserInfoModel>({});
     const [isEdit, setIsEdit] = useState<boolean>(false);

@@ -229,7 +229,13 @@ const Languages = {
         accountNumber: 'Số tài khoản',
         accountName: 'Tên tài khoản',
         bank: 'Ngân hàng',
-        nodeBank: 'Chú ý: Đây là tài khoản ngân hàng để nhận lãi, bạn cần đảm bảo chính xác thông tin tài khoản ngân hàng bạn cung cấp là chính xác. TienNgay.vn sẽ không chịu trách nghiệm khi bạn nhập sai thông tin. '
+        nodeBank: 'Chú ý: Đây là tài khoản ngân hàng để nhận lãi, bạn cần đảm bảo chính xác thông tin tài khoản ngân hàng bạn cung cấp là chính xác. TienNgay.vn sẽ không chịu trách nghiệm khi bạn nhập sai thông tin. ',
+        passCurrent: 'Mật khẩu cũ',
+        passNew: 'Mật khẩu mới',
+        passConfirmNew: 'Nhập lại mật khẩu mới',
+        investmentIntroduction: 'Giới thiệu nhà đầu tư',
+        codeIntroduction: 'Mã giới thiệu của bạn',
+        qrApp: 'QR code tải App'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',

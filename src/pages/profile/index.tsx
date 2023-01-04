@@ -1,20 +1,20 @@
-import Languages from 'commons/languages';
-import { Button } from 'components/button';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './profile.module.scss';
-import classNames from 'classnames/bind';
 import { Col, Row } from 'antd';
 import ImgPortrait from 'assets/image/img_portrait.jpg';
-import { InfoUser, profile } from 'pages/__mocks__/profile';
-import ImgEdit from 'assets/icon/ic_update_user.svg';
-import { UserInfoModel } from 'models/user-model';
-import InfoAccount from './info-account';
+import classNames from 'classnames/bind';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { UserInfoModel } from 'models/user-model';
+import { InfoUser, profile } from 'pages/__mocks__/profile';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
+import InfoChangePwd from './change-pwd';
+import Conditions from './conditions';
+import InfoAccount from './info-account';
 import InfoPayment from './Info-payment';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
 import InfoIdentity from './info-identity';
+import InviteFriend from './invite-friend';
+import styles from './profile.module.scss';
 
 const cx = classNames.bind(styles);
 
@@ -51,6 +51,12 @@ function Profile() {
                 return <InfoAccount />;
             case 2:
                 return <InfoPayment />;
+            case 3:
+                return <InfoChangePwd />;
+            case 6:
+                return <Conditions />;
+            case 7:
+                return <InviteFriend />;
             default:
                 return;
         }
