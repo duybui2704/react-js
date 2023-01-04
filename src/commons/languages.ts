@@ -83,9 +83,21 @@ const Languages = {
     footer: {
         tienNgay: 'TienNgay',
         dotVn: '.vn',
-        copyRight: 'Bản quyền © 2019 - 2022 Công ty Cổ phần Công nghệ Tài chính Việt',
+        copyRight: '© 2022 - Bản quyền thuộc Công ty Cổ phần Tài chính Việt',
         contactAccessIfErr: 'Hotline: ',
-        sdtIfErrAccess: '1900 xxxx'
+        sdtIfErrAccess: '1900 xxxx',
+        CompanyName:' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
+        companyAddress1: ' Tầng 15, Khối B, Tòa nhà Sông Đà, Phạm Hùng,',
+        companyAddress2: 'Mỹ Đình 1, Nam Từ Liêm, Hà Nội',
+        email:'Email: contact@tienngay.vn',
+        phone:'Phone: contact@tienngay.vn',
+        information:['Thông tin','Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
+        customerSupport:['Hỗ trợ khách hàng','Sản phẩm','Điểm giao dịch'],
+        customerFeedback : 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
+        yourComments : 'Góp ý của bạn',
+        sendFeedback : 'Gửi phản hồi',
+        yourName : 'Tên của bạn',
+        PhoneNumber: 'Số điện thoại'
     },
     auth: {
         login: 'Đăng nhập',
