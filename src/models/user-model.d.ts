@@ -76,3 +76,9 @@ export interface UpdateInfoModal {
     message?: string;
     url_avatar?: string;
 }
+
+export interface BankModel {
+    account_name?: string;
+    account_number?: string;
+    name_bank?: string;
+}

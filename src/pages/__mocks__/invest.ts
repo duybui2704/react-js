@@ -1,5 +1,5 @@
 import { ItemProps } from './../../models/common.d';
-import { BankInformationModel, DataColumnInvestType, PackageInvest } from "models/invest";
+import { BankInformationModel, DataColumnHistoryType, DataColumnInvestType, PackageInvest } from "models/invest";
 
 export const investListData =
     [
@@ -393,7 +393,62 @@ export const dataColumnInvest: DataColumnInvestType[] = [
     }
 ];
 
-export const columnName = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+export const dataColumnHistory: DataColumnHistoryType[] = [
+    {
+        id: '1',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/05/2023'
+    },
+    {
+        id: '2',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/06/2023'
+    },
+    {
+        id: '3',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/07/2023'
+    }
+];
+
+export const dataColumnInvesting: DataColumnHistoryType[] = [
+    {
+        id: '1',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/05/2023'
+    },
+    {
+        id: '2',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/06/2023'
+    },
+    {
+        id: '3',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '0',
+        receivedDate: '12/07/2023'
+    }
+];
+
+export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
+export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
 
 export const InvestMethod = [
     {

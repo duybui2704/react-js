@@ -8,6 +8,7 @@ import IcInviteFriends from 'assets/icon/ic_invitefriends.svg';
 import IcTutorial from 'assets/icon/ic_tutorial.svg';
 import IcMessage from 'assets/icon/ic_message.svg'; 
 import IcGlobal from 'assets/icon/ic_global.svg';
+import { BankModel, RePay, UserInfoModel } from 'models/user-model';
 
  export const profile = [
     {
@@ -61,5 +62,21 @@ import IcGlobal from 'assets/icon/ic_global.svg';
         icon: IcGlobal
     }
 ];
+
+export const InfoUser = {
+    username: 'Bùi Xuân Duy',
+    birth_date: '27/04/1999',
+    gender: 'Nam',
+    phone_number: '0862319100',
+    email: 'buixuanduy2704@gmail.com',
+    address: 'Đình Thôn, Mỹ Đinh 1, Nam Từ Liêm, Hà Nội',
+    status: 'Chưa xác thực tài khoản'
+} as UserInfoModel
+
+export const InfoBank = {
+    account_name: 'Bui Xuan Duy',
+    account_number: '071053275',
+    name_bank: 'VPBank'
+} as BankModel
 
     // export

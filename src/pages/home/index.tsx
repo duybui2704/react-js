@@ -4,10 +4,12 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import useIsMobile from 'hooks/use-is-mobile.hook';
 import Intro from 'pages/intro';
 import InvestTab from 'pages/investment/invest-tab';
 import Manage from 'pages/manage';
 import News from 'pages/news';
+import Profile from 'pages/profile';
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
@@ -19,8 +21,10 @@ type PositionType = 'left' | 'right';
 
 function Home() {
     const navigate = useNavigate();
+    const isMobile = useIsMobile();
 
     const [position] = useState<PositionType[]>(['left', 'right']);
+
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
         const navigateToLogin = () => {
@@ -28,7 +32,7 @@ function Home() {
         };
 
         const navigateToRegister = () => {
-            navigate(Paths.auth, { state: { name: Languages.auth.register } });
+            navigate(Paths.profile, { state: { name: Languages.auth.register } });
         };
 
         return {
@@ -83,6 +87,11 @@ function Home() {
                 label: Languages.tabs[3],
                 key: '3',
                 children: <News />
+            },
+            {
+                label: 'Profile',
+                key: '4',
+                children: <Profile />
             }
         ];
     }, []);

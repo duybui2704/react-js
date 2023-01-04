@@ -79,8 +79,8 @@ function SignUp({ onPress }) {
         }
     }, [onPress, onValidate]);
 
-    const onNavigate = useCallback(() => {
-        onPress?.({ name: Languages.auth.login });
+    const onNavigate = useCallback((title: string) => {
+        onPress?.({ name: title });
     }, [onPress]);
 
     const renderRightContent = useMemo(() => {
@@ -92,7 +92,7 @@ function SignUp({ onPress }) {
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>
-                <span className={cx('text-green h6')} onClick={onNavigate}>
+                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.login)}>
                     {Languages.auth.loginNow}
                 </span>
             </div>
@@ -181,7 +181,7 @@ function SignUp({ onPress }) {
                 <Checkbox className={cx('text-gray h7')}
                     onChange={onChange}>
                     {Languages.auth.savePwd}</Checkbox>
-                <span className={cx('text-red h7')}>
+                <span className={cx('text-red h7')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
                     {Languages.auth.forgotPwd}
                 </span>
             </div>

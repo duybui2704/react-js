@@ -1,10 +1,12 @@
 import classNames from 'classnames/bind';
-import { DataColumnInvestType } from 'models/invest';
+import { TYPE_STATUS_DETAIL_HISTORY } from 'commons/constants';
+import Languages from 'commons/languages';
+import { DataColumnHistoryType, DataColumnInvestType } from 'models/invest';
 import React, { useCallback } from 'react';
 import style from './table-invest.module.scss';
 const cx = classNames.bind(style);
 
-const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestType[], columnName: string[] }) => {
+const TableInvest = ({ dataTableInvest, dataTableHistory, columnName, isDetailHistory }: { dataTableInvest?: DataColumnInvestType[], dataTableHistory?: DataColumnHistoryType[], columnName: string[], isDetailHistory?: boolean }) => {
 
     const renderTableColumnValue = useCallback((_arrayColumn: Array<string>) => {
         return (
@@ -14,10 +16,9 @@ const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestTyp
                 </tr>
             </thead>
         );
-
     }, []);
 
-    const renderTableRowValue = useCallback((_arrayRow: DataColumnInvestType[]) => {
+    const renderTableRowValueInvest = useCallback((_arrayRow: DataColumnInvestType[]) => {
         return (
             <tbody>
                 {_arrayRow?.map?.((item: DataColumnInvestType, index: number) => {
@@ -36,10 +37,29 @@ const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestTyp
         );
     }, []);
 
+    const renderTableRowValueHistory = useCallback((_arrayRow: DataColumnHistoryType[]) => {
+        return (
+            <tbody>
+                {_arrayRow?.map?.((item: DataColumnHistoryType, index: number) => {
+                    return (
+                        <tr key={index} className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}>
+                            <td>{item?.id}</td>
+                            <td>{item?.principalAmount}</td>
+                            <td>{item?.profitAmount}</td>
+                            <td>{item?.total}</td>
+                            <td className={cx(item?.status === TYPE_STATUS_DETAIL_HISTORY.PAYED ? 'green-value' : '')}>{item?.status === TYPE_STATUS_DETAIL_HISTORY.PAYED ? Languages.historyDetail.payed : Languages.historyDetail.unPayed}</td>
+                            <td>{item?.receivedDate}</td>
+                        </tr>
+                    );
+                })}
+            </tbody>
+        );
+    }, []);
+
     return (
         <table >
             {renderTableColumnValue(columnName || [])}
-            {renderTableRowValue(dataTable || [])}
+            {isDetailHistory ? renderTableRowValueHistory(dataTableHistory || []) : renderTableRowValueInvest(dataTableInvest || [])}
         </table>
     );
 };

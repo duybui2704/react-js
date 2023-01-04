@@ -1,0 +1,106 @@
+@import "assets/scss";
+.flex {
+    display: flex;
+    flex: 1;
+    padding: 0px 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 32px;
+    @include mobile {
+        padding: 10px 0px;
+        gap: 16px;
+    }
+}
+
+.shadow {
+    border: 1px solid $color-gray5;
+    box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    @include mobile {
+        background-color: $color-white;
+        border: none;
+        box-shadow: none;
+        border-radius: none;
+    }
+}
+
+.container-edit {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid $color-gray5;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    @include mobile {
+        background-color: $color-white;
+        border: none;
+        box-shadow: none;
+        border-radius: none;
+        padding: 16px 0px;
+    }
+}
+
+.wid-100 {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    @include mobile {
+        justify-content: space-between;
+        margin-top: 30px;
+    }
+}
+
+.btn-container {
+    background-color: $color-green;
+    padding: 10px 20px;
+    @include mobile {
+        padding: 5px 10px;
+    }
+}
+
+.btn-cancel {
+    background-color: $color-red-r1;
+    padding: 10px 20px;
+}
+
+.border-red {
+    padding: 3px 5px;
+    background-color: $color-red-r1;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.padding {
+    padding: 1% 8%;
+    @include mobile {
+        padding: 2% 15%;
+    }
+}
+
+.top {
+    padding: 16px 20px;
+    background-color: $color-gray-e8;
+}
+
+.img {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scroll {
+    height: 90vh;
+    overflow-y: auto;
+}
+
+.line {
+    border-bottom: 1px solid $color-gray5;
+    width: 100%;
+}

@@ -1,7 +1,5 @@
-import { Col, Row } from 'antd';
 import classNames from 'classnames/bind';
-import Languages from 'commons/languages';
-import History from 'pages/manage/history';
+import { PackageInvest } from 'models/invest';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import styles from './tabs-history.module.scss';
 
@@ -12,9 +10,9 @@ export interface TabsItemManage {
     title?: string;
 }
 
-function HistoryTabs({ title, onSearch, onCancel, dataTabs, defaultTabs, isMobile }:
+function HistoryTabs({ dataTabs, defaultTabs, isMobile }:
     {
-        title?: string, onSearch?: () => void, onCancel?: () => void, dataTabs?: TabsItemManage[], defaultTabs?: string, isMobile?: boolean
+        dataTabs?: TabsItemManage[], defaultTabs?: string, isMobile?: boolean
     }
 ) {
     const [tabsName, setTabsName] = useState<string>(defaultTabs || '0');
@@ -44,13 +42,10 @@ function HistoryTabs({ title, onSearch, onCancel, dataTabs, defaultTabs, isMobil
                             };
                             return <span key={index} className={cx(tabsName === `${index}` ? 'tabs-text-active' : 'tabs-text')} onClick={onChange}>{item?.title}</span>;
                         })}
-
                     </div>
-
                 </div>
                 {renderView}
             </div>
-
         );
     }, [dataTabs, isMobile, renderView, tabsName]);
 

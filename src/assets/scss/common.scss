@@ -19,6 +19,12 @@ $desktop-width: 1024px;
     }
 }
 
+.customize-toast {
+    @media (max-width: #{$mobile-width}) {
+        padding: 1.5rem;
+    }
+}
+
 .body {
     display: flex;
     flex-direction: column;
@@ -77,6 +83,11 @@ $desktop-width: 1024px;
 
 .space-between {
     justify-content: space-between;
+    align-items: center;
+}
+
+.space-evenly {
+    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -211,19 +222,19 @@ $desktop-width: 1024px;
 }
 
 .x5 {
-    margin-right: 5px
+    margin-right: 5px;
 }
 
 .x10 {
-    margin-right: 10px
+    margin-right: 10px;
 }
 
 .xl5 {
-    margin-left: 5px
+    margin-left: 5px;
 }
 
 .xl10 {
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 .x30 {
@@ -241,11 +252,11 @@ $desktop-width: 1024px;
 }
 
 .y10 {
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .y15 {
-    margin-top: 15px
+    margin-top: 15px;
 }
 
 .y20 {
@@ -274,11 +285,11 @@ $desktop-width: 1024px;
 }
 
 .b10 {
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
 .b15 {
-    margin-bottom: 15px
+    margin-bottom: 15px;
 }
 
 .b20 {

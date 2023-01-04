@@ -16,7 +16,8 @@ const Languages = {
         input: 'Nhập',
         add: 'Thêm',
         filter: 'Bộ lọc',
-        filterCancel: 'Bỏ lọc'
+        filterCancel: 'Bỏ lọc',
+        save: 'Lưu'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',
@@ -212,8 +213,23 @@ const Languages = {
 
     profile: {
         notification: 'Chưa xác thực tài khoản',
-        edit: 'Chỉnh sửa'
-        
+        edit: 'Chỉnh sửa',
+        infoAccount: 'Thông tin cá nhân',
+        titleDrawerAccount: 'Tài khoản cá nhân',
+        infoIdentity:'Xác thực tài khoản',
+        userName: 'Họ và tên',
+        birthday: 'Ngày sinh',
+        gender: 'Giới tính',
+        phone: 'Số điện thoại',
+        email: 'Email',
+        address: 'Địa chỉ',
+        unconfirmed: 'Thông tin cá nhân của bạn chưa được xác thực, vui lòng xác thực tài khoản trước khi tiến hành đầu tư.',
+        editAccount: 'Chỉnh sửa thông tin cá nhân',
+        infoPayment: 'Thông tin thanh toán',
+        accountNumber: 'Số tài khoản',
+        accountName: 'Tên tài khoản',
+        bank: 'Ngân hàng',
+        nodeBank: 'Chú ý: Đây là tài khoản ngân hàng để nhận lãi, bạn cần đảm bảo chính xác thông tin tài khoản ngân hàng bạn cung cấp là chính xác. TienNgay.vn sẽ không chịu trách nghiệm khi bạn nhập sai thông tin. '
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',
@@ -266,12 +282,32 @@ const Languages = {
     manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch'],
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
     historyTabs: ['Đang đầu tư', 'Lịch sử'],
-    history:{
+    history: {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         interestReceived: 'Lãi đã nhận',
         remainingOriginal: 'Gốc còn lại',
         havePackage: 'Bạn có $count gói đầu tư',
-        haveInvested: 'Bạn từng đầu tư $count gói'
+        haveInvested: 'Bạn từng đầu tư $count gói',
+        fromDate: 'Từ ngày',
+        toDate: 'Đến ngày',
+        searchProjectInvest: 'Tìm kiếm dự án đầu tư'
+    },
+    historyDetail: {
+        remainingOriginalAmount: 'Số tiền gốc còn lại',
+        receivedOriginalAmount: 'Số tiền gốc đã nhận',
+        dateInvest: 'Ngày đầu tư',
+        receivedInterest: 'Lãi đã nhận',
+        remainingInterest: 'Lãi còn lại',
+        payInterestInfo: 'Thông tin trả lãi',
+        payed: 'Đã thanh toán',
+        unPayed: 'Chưa tới hạn'
+    },
+    identity:{
+        title: 'Xác thực tài khoản',
+        describeIdentity: 'Cập nhập thông tin chứng từ để xác thực tài khoản',
+        identity: 'Số CMND/CCCD',
+        inputIdentity: 'Nhập số CMND/CCCD'
+
     }
 
 };
