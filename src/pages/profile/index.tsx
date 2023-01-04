@@ -74,7 +74,7 @@ function Profile() {
     }, []);
 
     return (
-        <div className={isMobile ? cx('container', 'column') : cx('container', 'padding')}>
+        <div className={isMobile ? cx('container-mobile') : cx('container', 'padding')}>
             {isMobile ?
                 <>
                     <div className={cx('row space-between y20', 'top')}>
