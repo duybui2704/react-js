@@ -46,7 +46,7 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
                     <div className={'content'}>
                         <props.page />
                     </div>
-                    {/* {props.hasFooter && <Footer />} */}
+                    {props.hasFooter && <Footer />}
                 </ConfigProvider>
             </div>
         </Suspense>
