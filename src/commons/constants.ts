@@ -95,4 +95,22 @@ export enum TYPE_STATUS_DETAIL_HISTORY {
     UN_PAYED = '0',
     PAYED = '1',
 }
+export enum TYPE_SIZE {
+    BYTES = 'Bytes',
+    KB = 'KB',
+    MB = 'MB',
+    GB = 'GB',
+    TB = 'TB',
+    PB = 'PB',
+}
+export const DescribePhoto = {
+    noteKYC: [
+        '1. Mặt trước rõ, đủ 4 góc',
+        '2. Không chụp giấy tờ tuỳ thân photo, chụp thông qua màn hình thiết bị điện tử.'
+    ],
+    notePortrait: [
+        '1. Chụp cận mặt, rõ, thẳng góc, không bị che, không chụp quá xa.',
+        '2. Không chụp chân dung từ ảnh, màn hình thiết bị điện tử.'
+    ]
+};
 
