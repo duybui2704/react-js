@@ -163,6 +163,18 @@ $desktop-width: 1024px;
     text-align: start;
 }
 
+.center-flex-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include tablet {
+        align-items: flex-start;
+    }
+    @include mobile {
+    align-items: flex-start;
+    }
+}
+
 .h1 {
     font-size: $text-h1;
     @include mobile {

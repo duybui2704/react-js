@@ -1,6 +1,6 @@
 @import "assets/scss";
 
-.footerContainer {
+.footer-container {
   background-color: $color-green-header;
   color: $color-white;
 }
@@ -19,6 +19,11 @@
   outline: none;
   border: none;
   padding: 16px 24px 36px 16px;
+  background: $color-transparent-footer;
+  color: $color-white;
+}
+.textarea-footer::placeholder {
+  color: $color-white;
 }
 
 .btn-footer-style {
@@ -36,7 +41,7 @@
   width: 100%;
   outline: none;
   border: none;
-  background: rgba(255, 255, 255, 0.3);
+  background: $color-transparent-footer;
   padding: 12px;
   color: $color-white;
 }

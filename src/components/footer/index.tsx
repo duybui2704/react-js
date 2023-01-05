@@ -10,11 +10,40 @@ import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input/index';
 import { MyTextAreaInput } from 'components/text-area';
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import styles from './footer.module.scss';
+import { TextFieldActions } from 'components/input/types';
 
 const cx = classNames.bind(styles);
+type PostDataModel = {
+  user: string;
+  phone: string;
+  note: string;
+};
 function Footer() {
+    const refName = useRef<TextFieldActions>(null);
+    const refPhone = useRef<TextFieldActions>(null);
+    const refNote = useRef<TextFieldActions>(null);
+
+    const [postData, setPostData] = useState<PostDataModel>({
+        user: '',
+        phone: '',
+        note: ''
+    });
+    const send = () => {
+
+        // api call
+        
+        refName.current?.setValue?.('');
+        refPhone.current?.setValue(''); 
+        refNote.current?.setValue(''); 
+        setPostData({
+            user: '',
+            phone: '',
+            note: ''
+        });    
+    };
+
     const renderButton = useCallback((_label: string) => {
         return (
             <Button
@@ -22,31 +51,61 @@ function Footer() {
                 buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
                 width={100}
                 containButtonStyles={cx('btn-footer-style')}
+                onPress={send}
             />
         );
     }, []);
 
-    const renderInput = useCallback((_type: string, _placeholder: string) => {
-        return <MyTextInput type={_type} placeHolder={_placeholder} value="" 
-            inputStyle={cx('style-input')}
-            containerInput={cx('ctn-style-input')} />;
-    }, []);
+    const renderInput = useCallback(
+        (_ref: any,_value: any, _type: string, _placeholder: string) => {
+            const onChange = (e: string) => {
+                switch (_placeholder) {
+                    case Languages.footer.yourName:
+                        setPostData({...postData, user: e});
+                        break;
+                    case Languages.footer.PhoneNumber:
+                        setPostData({...postData, phone: e});
+                        break;
+                    default:
+                        break;
+                }
+            };
+            return (
+                <MyTextInput
+                    ref={_ref}
+                    value={_value}
+                    type={_type}
+                    placeHolder={_placeholder}
+                    inputStyle={cx('style-input')}
+                    containerInput={cx('ctn-style-input')}
+                    onChangeText={onChange}
+                />
+            );
+        },
+        [postData]
+    );
 
-    const renderTextarea = useCallback((_placeholder: string) => {
+    const renderTextarea = useCallback((_ref:any,_placeholder: string) => {
+        const onChange = (e: string) => {
+            setPostData({...postData, note: e});
+        };
         return (
             <MyTextAreaInput
+                ref={_ref}
                 placeHolder={_placeholder}
                 inputStyle={cx('textarea-footer')}
-                value=""
+                value={postData.note}
+                onChangeText={onChange}
             />
         );
-    }, []);
+    }, [postData]);
+
     const renderFooter = useMemo(() => {
         return (
             <div className={cx('text-left ')}>
                 <div className={cx('box-footer-top')}>
                     <Row>
-                        <Col span={9}>
+                        <Col span={9} xs={24}  md={24} lg={8}>
                             <div className={cx('box-footer-left')}>
                                 <div className={cx('content-footer-left', 'column')}>
                                     <img src={IcLogo} className={cx('icon-tienngay')} />
@@ -67,8 +126,13 @@ function Footer() {
                                 </div>
                             </div>
                         </Col>
-                        <Col span={6}>
-                            <div className={cx('box-information', 'column g-24')}>
+                        <Col span={6} xs={24} md={12} lg={8} >
+                            <div
+                                className={cx(
+                                    'box-information',
+                                    'column g-24 center-flex-left'
+                                )}
+                            >
                                 <div className={cx('information', 'column g-8')}>
                                     <div className={cx('h5')}>
                                         {Languages.footer.information[0]}
@@ -96,22 +160,22 @@ function Footer() {
                                 </div>
                             </div>
                         </Col>
-                        <Col span={9}>
+                        <Col span={9} xs={24} md={12} lg={8} >
                             <div className={cx('box-footer-right', 'column g-8')}>
                                 <div className={cx('h5')}>
                                     {Languages.footer.customerFeedback}
                                 </div>
                                 <Row className={cx('space-between')}>
                                     <Col span={12}>
-                                        {renderInput('text', Languages.footer.yourName)}
+                                        {renderInput(refName, postData.user, 'text', Languages.footer.yourName)}
                                     </Col>
                                     <Col span={11}>
-                                        {renderInput('text', Languages.footer.PhoneNumber)}
+                                        {renderInput( refPhone,postData.phone, 'text', Languages.footer.PhoneNumber)}
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        {renderTextarea(Languages.footer.yourComments)}
+                                        {renderTextarea(refNote,Languages.footer.yourComments)}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -128,8 +192,8 @@ function Footer() {
                 </div>
             </div>
         );
-    }, [renderButton, renderInput, renderTextarea]);
-    return <div className={cx('footerContainer')}>{renderFooter}</div>;
+    }, [postData.phone, postData.user, renderButton, renderInput, renderTextarea]);
+    return <div className={cx('footer-container')}>{renderFooter}</div>;
 }
 
 export default memo(Footer);
