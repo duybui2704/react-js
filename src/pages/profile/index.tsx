@@ -74,7 +74,7 @@ function Profile() {
 
     return (
         <div className={cx('column', 'container')}>
-            <div className={isMobile ? cx('row', 'wid-100') : cx('row', 'wid-100', 'padding')}>
+            <div className={isMobile ? cx('row') : cx('row', 'padding')}>
                 {isMobile ?
                     <div className={cx('column', 'wid-100')}>
                         <div className={cx('row space-between y20', 'top')}>
