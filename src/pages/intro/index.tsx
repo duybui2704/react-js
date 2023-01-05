@@ -61,19 +61,19 @@ function Intro() {
                         <span className={cx('text-green medium h3 ')}>{Languages.intro.advantagesTienngay}</span>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.riskReduction}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.riskReductionContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.riskReductionContent}</span>
                         </div>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.ecosystemNextTech}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.ecosystemNextTechContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.ecosystemNextTechContent}</span>
                         </div>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.appInvest}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.appInvestContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.appInvestContent}</span>
                         </div>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.flexibleTime}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.flexibleTimeContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.flexibleTimeContent}</span>
                         </div>
                         <div className={cx('center')}>
                             <Button
@@ -199,9 +199,9 @@ function Intro() {
         return (
             <div className={cx('column center')}>
                 <ul >
-                    <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerApp}</li>
-                    <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerPhone}</li>
-                    <li className={cx('text-black h5 regular y5')}>{Languages.intro.register1Minute}</li>
+                    <li className={cx('text-black h5 y5')}>{Languages.intro.registerApp}</li>
+                    <li className={cx('text-black h5 y5')}>{Languages.intro.registerPhone}</li>
+                    <li className={cx('text-black h5 y5')}>{Languages.intro.register1Minute}</li>
                 </ul>
                 <div className={cx('row y20 center', 'width')}>
                     <div className={cx('column x30 space-between')}>
@@ -217,9 +217,9 @@ function Intro() {
     const stepTwo = useMemo(() => {
         return (
             <ul>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentInvest1}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentInvest2}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentInvest3}</li>
+                <li className={cx('text-black h5 y5')}>{Languages.intro.contentInvest1}</li>
+                <li className={cx('text-black h5 y5')}>{Languages.intro.contentInvest2}</li>
+                <li className={cx('text-black h5 y5')}>{Languages.intro.contentInvest3}</li>
             </ul>
         );
     }, []);
@@ -227,9 +227,9 @@ function Intro() {
     const stepThree = useMemo(() => {
         return (
             <ul >
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentProfit1}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentProfit2}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentProfit3}</li>
+                <li className={cx('text-black h5 y5')}>{Languages.intro.contentProfit1}</li>
+                <li className={cx('text-black h5 y5')}>{Languages.intro.contentProfit2}</li>
+                <li className={cx('text-black h5 y5')}>{Languages.intro.contentProfit3}</li>
             </ul>
         );
     }, []);
@@ -303,7 +303,7 @@ function Intro() {
                         {stepsMobile(2)}
                         {stepsMobile(3)}
                     </div>
-                    <span className={cx('text-green h7 regular y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
+                    <span className={cx('text-green h7 y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
                 </div>
                 <div className={cx('center row')}>
                     <div className={cx('width-50')}>
@@ -322,7 +322,7 @@ function Intro() {
             <div className={cx('view-body column')}>
                 <div className={cx('column', 'padding')}>
                     <span className={cx('text-green medium h3')}>{Languages.intro.stepsInvest}</span>
-                    <span className={cx('text-black regular h6')}>{Languages.intro.stepContent}</span>
+                    <span className={cx('text-black h6')}>{Languages.intro.stepContent}</span>
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
                 <div style={renderLeftBackground}>
@@ -355,15 +355,15 @@ function Intro() {
                                 <span className={cx('text-green medium h3')}>{Languages.intro.investmentReasons}</span>
                                 <div className={cx('y10 column')}>
                                     <span className={cx('text-black medium h6')}>{Languages.intro.transparency}</span>
-                                    <span className={cx('text-black regular h6')}>{Languages.intro.transparencyContent}</span>
+                                    <span className={cx('text-black h6')}>{Languages.intro.transparencyContent}</span>
                                 </div>
                                 <div className={cx('y10 column')}>
                                     <span className={cx('text-black medium h6')}>{Languages.intro.lasting}</span>
-                                    <span className={cx('text-black regular h6')}>{Languages.intro.lastingContent}</span>
+                                    <span className={cx('text-black h6')}>{Languages.intro.lastingContent}</span>
                                 </div>
                                 <div className={cx('y10 column')}>
                                     <span className={cx('text-black medium h6')}>{Languages.intro.easy}</span>
-                                    <span className={cx('text-black regular h6')}>{Languages.intro.easyContent}</span>
+                                    <span className={cx('text-black h6')}>{Languages.intro.easyContent}</span>
                                 </div>
                                 <Button
                                     label={Languages.intro.seeInvest}
@@ -451,8 +451,8 @@ function Intro() {
             </div>
             <div className={cx('view-intro')}>
                 <div className={cx('view-intro-center', 'width-intro')}>
-                    <span className={cx('text-green regular h6', 'line-height')}>{Languages.intro.contentStart}</span>
-                    <span className={cx('text-black regular h6', 'line-height')}>{Languages.intro.contentEnd}</span>
+                    <span className={cx('text-green h6', 'line-height')}>{Languages.intro.contentStart}</span>
+                    <span className={cx('text-black h6', 'line-height')}>{Languages.intro.contentEnd}</span>
                 </div>
             </div>
 

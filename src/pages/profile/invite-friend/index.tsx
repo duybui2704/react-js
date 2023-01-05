@@ -4,7 +4,8 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import styles from './invite-friend.module.scss';
-import IcCode from 'assets/image/ic_code_introduction.svg';
+import ImgQr from 'assets/image/img_qr.jpeg';
+import IcCopy from 'assets/image/ic_copy.svg';
 import IcDownload from 'assets/image/ic_green_download.svg';
 import toasty from 'utils/toasty';
 
@@ -21,7 +22,7 @@ function InviteFriend() {
         ta.select();
         document.execCommand('copy');
         if (ta.textContent) {
-            toasty.info('Copy thành công');
+            toasty.info(Languages.profile.copySuccess);
         }
         ta.remove();
     }, [value]);
@@ -39,7 +40,7 @@ function InviteFriend() {
                                 <span className={cx('h7 text-black')} ref={myRef} >{value}</span>
 
                                 <img
-                                    src={IcCode}
+                                    src={IcCopy}
                                     className={cx('download')}
                                     onClick={copyToClipboard}
                                 />
@@ -52,12 +53,12 @@ function InviteFriend() {
 
                             <div className={cx('column', 'qr-style')}>
                                 <div className={cx('flex-end')}>
-                                    <div className={cx('download')}>
+                                    <a className={cx('download')} href={ImgQr} download={'qr-code'} >
                                         <img src={IcDownload} className={cx('icon-small')} />
-                                    </div>
+                                    </a>
                                 </div>
                                 <div className={cx('row center')}>
-                                    {/* <img src={IcDownload} className={cx('icon')} /> */}
+                                    <img src={ImgQr} className={cx('qr-code')} />
                                 </div>
                             </div>
                         </div>

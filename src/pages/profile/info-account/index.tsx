@@ -37,7 +37,7 @@ function InfoAccount() {
         return (
             <div className={cx('row space-between')}>
                 <span className={cx('h6 text-gray bold')}>{title}</span>
-                <span className={cx('h6 text-gray regular')}>{value}</span>
+                <span className={cx('h6 text-gray')}>{value}</span>
             </div>
         );
     }, []);
@@ -94,7 +94,7 @@ function InfoAccount() {
                             <span className={cx('text-black h5 bold')}>{Languages.profile.infoAccount}</span>
                             <Button
                                 label={Languages.profile.edit}
-                                labelStyles={cx('text-white h7 regular')}
+                                labelStyles={cx('text-white h7')}
                                 rightIcon={ImgEdit}
                                 containButtonStyles={cx('btn-container')}
                                 onPress={onEdit}
@@ -112,7 +112,7 @@ function InfoAccount() {
                         <div className={cx('img')}>
                             <img src={IcErr} className={cx('p5')} />
                         </div>
-                        <span className={cx('h6 text-red regular')}>{Languages.profile.unconfirmed}</span>
+                        <span className={cx('h6 text-red')}>{Languages.profile.unconfirmed}</span>
                     </div>
                 </>
                     :
@@ -127,7 +127,7 @@ function InfoAccount() {
                             <div className={cx('wid-100', 'row y20')}>
                                 <Button
                                     label={Languages.common.save}
-                                    labelStyles={cx('text-white h7 regular')}
+                                    labelStyles={cx('text-white h7')}
                                     rightIcon={IcSave}
                                     containButtonStyles={cx('btn-container', 'padding')}
                                     isLowerCase
