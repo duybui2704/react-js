@@ -51,6 +51,7 @@ $desktop-width: 1024px;
 .row {
     display: flex;
     flex-direction: row;
+    flex: 1;
 }
 
 .row-center {
@@ -63,7 +64,7 @@ $desktop-width: 1024px;
     flex: auto;
 }
 
-.flex-item{
+.flex-item {
     display: flex;
     align-items: center;
 }
@@ -91,6 +92,7 @@ $desktop-width: 1024px;
     justify-content: space-between;
     align-items: center;
 }
+
 .flex-start {
     display: flex;
     justify-content: flex-start;
@@ -243,7 +245,8 @@ $desktop-width: 1024px;
 .p12 {
     padding: 12px;
 }
-.p24{
+
+.p24 {
     padding: 24px;
 }
 
@@ -355,7 +358,8 @@ $desktop-width: 1024px;
 .pt5 {
     padding-top: 5px;
 }
-.pt12{
+
+.pt12 {
     padding-top: 12px;
 }
 
@@ -382,13 +386,14 @@ $desktop-width: 1024px;
 }
 
 //gap 
-.g-8{
+.g-8 {
     gap: 8px;
 }
-.g-16{
+
+.g-16 {
     gap: 16px;
 }
-.g-24{
+
+.g-24 {
     gap: 24px;
 }
-

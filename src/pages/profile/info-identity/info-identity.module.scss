@@ -7,7 +7,7 @@
     border-radius: 8px;
     border: 1px solid $color-gray5;
     padding: 16px;
-    height: fit-content;
+    overflow-y: auto;
 }
 
 .title-page {
@@ -71,12 +71,12 @@
 
 .photo {
     height: 215px;
-    object-fit: cover;
+    object-fit: fill;
 }
 
 .photo-portrait {
     height: 480px;
-    object-fit: cover;
+    object-fit: fill;
 }
 
 .button-container {
@@ -85,4 +85,8 @@
     flex-direction: row;
     gap: 24px;
     padding: 32px 0 0 0;
+}
+
+.image-group {
+    display: none;
 }

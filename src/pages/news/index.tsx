@@ -31,14 +31,14 @@ function News() {
         var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
         return (
             <div className={cx('column')}>
-                <span className={cx('text-green medium h4 regular')}>{Languages.news.investTienngay}</span>
+                <span className={cx('text-green medium h4')}>{Languages.news.investTienngay}</span>
                 <div className={cx('row')}>
                     <img src={IcClock} className={cx('pr5')} />
-                    <span className={cx('text-gray h7 pl5 regular')}>{`${time}`}</span>
-                    <span className={cx('text-gray h7 pl5 x30 regular')}>{`${date}`}</span>
+                    <span className={cx('text-gray h7 pl5')}>{`${time}`}</span>
+                    <span className={cx('text-gray h7 pl5 x30')}>{`${date}`}</span>
                     <img src={IcView} className={cx('pr5')} />
-                    <span className={cx('text-gray h7 pl5 regular')}>{`${903}`}</span>
-                    <span className={cx('text-gray h7 pl5 regular')}>{Languages.news.view}</span>
+                    <span className={cx('text-gray h7 pl5')}>{`${903}`}</span>
+                    <span className={cx('text-gray h7 pl5')}>{Languages.news.view}</span>
                 </div>
                 <div className={cx('line-bottom', 'y10')} />
             </div>
@@ -54,14 +54,14 @@ function News() {
 
     const renderContent = useMemo(() => {
         return (
-            <div className={cx('column flex y15')}>
+            <div className={cx('column flex y15', 'content-view')}>
                 <span className={cx('text-gray h7 bold')}>{Languages.news.loremIpsum}</span>
-                <span className={cx('text-gray h7 regular y10')}>{Languages.news.loremIpsumContent}</span>
+                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
                 <img src={ImgContentNews} className={cx('y10')} width={'100%'} />
                 <span className={cx('text-gray h7 bold y10')}>{Languages.news.loremIpsum}</span>
-                <span className={cx('text-gray h7 regular y10')}>{Languages.news.loremIpsumContent}</span>
-                <span className={cx('text-gray h7 regular y10')}>{Languages.news.loremIpsumContent}</span>
-                <span className={cx('text-gray h7 regular y10')}>{Languages.news.loremIpsumContent}</span>
+                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
+                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
+                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
 
             </div>
         );
@@ -70,7 +70,7 @@ function News() {
     const renderLink = useMemo(() => {
         return (
             <div className={cx('column')}>
-                <span className={cx('text-green medium h6 regular')}>{Languages.news.news}</span>
+                <span className={cx('text-green medium h6')}>{Languages.news.news}</span>
                 <LinkComponent
                     dataLink={dataNews}
                     styleContainer={isMobile ? cx('row', 'scroll-y') : undefined}
@@ -87,7 +87,6 @@ function News() {
                     {renderLink}
                     <div className={cx('padding-top')}>{renderTimeDate()}</div>
                     {renderContent}
-
                 </div> :
                 <>
                     <div className={cx('container-left')}>

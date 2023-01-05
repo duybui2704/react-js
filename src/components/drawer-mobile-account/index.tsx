@@ -63,6 +63,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
 
         const handlePressStatus = useCallback(() => {
             onPressStatus?.();
+            setVisible(false);
         }, [onPressStatus]);
 
         const onBackDrop = useCallback(() => {

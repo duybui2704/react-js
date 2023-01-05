@@ -247,7 +247,8 @@ const Languages = {
         passConfirmNew: 'Nhập lại mật khẩu mới',
         investmentIntroduction: 'Giới thiệu nhà đầu tư',
         codeIntroduction: 'Mã giới thiệu của bạn',
-        qrApp: 'QR code tải App'
+        qrApp: 'QR code tải App',
+        copySuccess: 'Copy bản ghi thành công'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',

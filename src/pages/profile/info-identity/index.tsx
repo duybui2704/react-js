@@ -3,6 +3,7 @@ import IcFront from 'assets/image/ic_gray_front.svg';
 import IcBehind from 'assets/image/ic_gray_behind.svg';
 import IcRefresh from 'assets/image/ic_black_refresh.svg';
 import IcTicked from 'assets/image/ic_white_ticked.svg';
+import { Image, Col, Row } from 'antd';
 
 import IcWarning from 'assets/image/ic_yellow_warning.svg';
 import classNames from 'classnames/bind';
@@ -16,11 +17,11 @@ import { UserInfoModel } from 'models/user-model';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { MyTextInput } from 'components/input';
-import { Col, Row } from 'antd';
 import { DescribePhoto } from 'commons/constants';
 import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 
@@ -31,9 +32,11 @@ type PostData = {
     portrait: string;
 }
 
-function InfoIdentity() {
+const InfoIdentity = observer(() => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
+    const [visible, setVisible] = useState<boolean>(false);
+    const [positionImage, setPositionImage] = useState<number>(0);
 
     const [info, setInfo] = useState<UserInfoModel>({});
     const [postData, setPostData] = useState<PostData>({
@@ -83,7 +86,7 @@ function InfoIdentity() {
         );
     }, [postData]);
 
-    const renderPhoto = useCallback((_title: string, img: any, imgCache: string) => {
+    const renderPhoto = useCallback((_title: string, icon: any, imgCache: string) => {
         const openDialogFiles = () => {
             switch (_title) {
                 case Languages.identity.frontKyc:
@@ -99,13 +102,53 @@ function InfoIdentity() {
                     break;
             }
         };
+        const openPreview = () => {
+            setVisible(true);
+            switch (_title) {
+                case Languages.identity.frontKyc:
+                    setPositionImage(0);
+                    break;
+                case Languages.identity.behindKyc:
+                    setPositionImage(1);
+                    break;
+                case Languages.identity.portrait:
+                    setPositionImage(2);
+                    break;
+                default:
+                    break;
+            }
+        };
+
         return (
             <div className={cx('photo-container')}>
                 <span className={cx('photo-title')}>{_title}</span>
-                <img src={imgCache || img} className={cx(imgCache ? (_title === Languages.identity.portrait ? 'photo-portrait' : 'photo') : '')} onClick={openDialogFiles} />
+                {imgCache
+                    ? <Image
+                        preview={{ visible: false }}
+                        height={_title === Languages.identity.portrait ? 480 : 215}
+                        src={imgCache}
+                        onClick={openPreview}
+                    />
+                    : <img src={icon} className={cx(_title === Languages.identity.portrait ? 'photo-portrait' : 'photo')} onClick={openDialogFiles} />
+                }
             </div>
         );
     }, []);
+
+    const renderDialogPreviewImageGroup = useCallback(() => {
+        const onChangePreview = (viewable: boolean) => {
+            setVisible(viewable);
+        };
+        return (
+            <div className={cx('image-group')}>
+                <Image.PreviewGroup preview={{ visible, onVisibleChange: onChangePreview, current: positionImage }}>
+                    <Image src={postData?.frontCard} />
+                    <Image src={postData?.behindCard} />
+                    <Image src={postData?.portrait} />
+                </Image.PreviewGroup>
+            </div>
+        );
+    }, [positionImage, postData?.behindCard, postData?.frontCard, postData?.portrait, visible]);
 
     const renderSelectPhoto = useCallback((_ref: any) => {
         const onChange = (e: any) => {
@@ -172,8 +215,9 @@ function InfoIdentity() {
             {renderSelectPhoto(refFrontCard)}
             {renderSelectPhoto(refBehindCard)}
             {renderSelectPhoto(refPortrait)}
+            {renderDialogPreviewImageGroup()}
         </div>
     );
-}
+});
 
 export default InfoIdentity;

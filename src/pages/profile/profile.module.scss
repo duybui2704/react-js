@@ -2,7 +2,7 @@
 .container {
     display: flex;
     flex-wrap: nowrap;
-    height: 85vh;
+    height: 93vh;
     overflow-y: auto;
 }
 
@@ -53,6 +53,10 @@
     width: 70%;
 }
 
+.wid-100 {
+    width: 100%;
+}
+
 .line {
     border-bottom: 1px solid $color-gray5;
     width: 100%;
@@ -62,7 +66,7 @@
     background-color: $color-green-input;
 }
 
-.column :hover {
+.hover :hover {
     background-color: $color-green-input;
 }
 

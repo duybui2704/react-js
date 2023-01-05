@@ -56,6 +56,7 @@ const SelectPhoto = forwardRef<SelectPhotoAction, SelectPhotoProps>(({
         accept={'image/png, image/jpeg, image/jpg'}
         size={60}
         multiple={false}
+        onClick={(e: any) => (e.target.value = null)}
     />;
 });
 

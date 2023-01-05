@@ -9,8 +9,9 @@ import IcTutorial from 'assets/icon/ic_tutorial.svg';
 import IcMessage from 'assets/icon/ic_message.svg'; 
 import IcGlobal from 'assets/icon/ic_global.svg';
 import { BankModel, RePay, UserInfoModel } from 'models/user-model';
+import { ItemScreenModel } from 'models/profile';
 
- export const profile = [
+ export const profile: ItemScreenModel[] = [
     {
         id: 1,
         title: 'Thông tin tài khoản',
