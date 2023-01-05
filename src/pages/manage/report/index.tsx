@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { BUTTON_STYLES } from 'components/button/types';
 import ColumnChart from 'components/column-chart';
+import Footer from 'components/footer';
 import ItemReport from 'components/item-report';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
@@ -191,6 +192,7 @@ function Report() {
                 </div>
             </div>
             {renderPopupSearchPackage()}
+            <Footer/>
         </div>
     );
 }

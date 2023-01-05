@@ -92,7 +92,7 @@ function Manage({ defaultTabs }:
             default:
                 break;
         }
-    }, [goBack, investPackage, renderTabsView, tabNameHistory]);
+    }, [goBack, investPackage, renderTabsView, tabNameBackHistory, tabNameHistory]);
 
     return <>{renderCustomTab}</>;
 }

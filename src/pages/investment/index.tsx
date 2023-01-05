@@ -4,6 +4,7 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
@@ -73,7 +74,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
 
     const renderDivider = useCallback((_label: string, styleContainer?: string) => {
         return (
-            <div className={cx(styleContainer || 'invest-package-container')}>
+            <div className={cx(isMobile ? 'mobile-invest' : (styleContainer || 'invest-package-container'))}>
                 <span className={cx(isMobile ? 'invest-package-mobile-text' : 'invest-package-text')}>{_label}</span>
                 <div className={cx('invest-package-bar')} />
             </div>
@@ -98,6 +99,9 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
         popupSearchRef.current?.showModal();
     }, []);
 
+    const handleCancelFilter = useCallback(() => {
+    }, []);
+
     const renderTopMobile = useMemo(() => {
         return (
             <div className={cx('top-search-mobile-component')}>
@@ -105,11 +109,11 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
                 <div className={cx('right-top-search-component')} >
                     <span onClick={handleOpenPopupSearch} className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
-                    <span className={cx('text-red h7 regular xl10')}>{Languages.common.filter}</span>
+                    <span className={cx('text-red h7 regular xl10')} onClick={handleCancelFilter}>{Languages.common.filterCancel}</span>
                 </div>
             </div>
         );
-    }, [countInvest, handleOpenPopupSearch]);
+    }, [countInvest, handleCancelFilter, handleOpenPopupSearch]);
 
     const renderTopWeb = useMemo(() => {
         return (
@@ -137,11 +141,14 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
-            <Row gutter={isMobile ? [24, 36] : [24, 44]}>
-                {_dataList?.map((itemInvest: PackageInvest, index: number) => {
-                    return renderItemInvest(index, itemInvest);
-                })}
-            </Row>
+            <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
+                <Row gutter={isMobile ? [24, 36] : [24, 44]}>
+                    {_dataList?.map((itemInvest: PackageInvest, index: number) => {
+                        return renderItemInvest(index, itemInvest);
+                    })}
+                </Row>
+            </div>
+
         );
     }, [isMobile, renderItemInvest]);
 
@@ -174,21 +181,22 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
 
                 {renderDivider(Languages.invest.investPackage, cx('super-invest-package-container'))}
                 {renderInvestList(_list)}
-                <Row gutter={[24, 44]} className={cx('button-see-more')} onClick={fetchDataMore}>
+                <Row gutter={[24, 44]} className={cx(isMobile ? 'button-see-more-mobile' : 'button-see-more')} onClick={fetchDataMore}>
                     <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                         <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
                     </Col>
                 </Row>
+                <Footer />
             </div>
         );
-    }, [fetchDataMore, renderDivider, renderInvestList, superInvestList]);
+    }, [fetchDataMore, isMobile, renderDivider, renderInvestList, superInvestList]);
 
     return (
         <div className={cx('page-container')}>
             {isMobile && renderTopMobile}
             <div className={cx('page-wrap')} ref={divRef} >
                 {!isMobile && renderTopWeb}
-                <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
+                <div className={cx('page-content')} >
                     {renderFlatList(investList)}
                     <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
                 </div>

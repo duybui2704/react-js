@@ -36,10 +36,6 @@ function Profile() {
         navigate(-1);
     }, [navigate]);
 
-    const onOpenDrawer = useCallback(() => {
-        refDrawer.current?.showModal();
-    }, []);
-
     const onOpenIdentity = useCallback(() => {
         setStep(0);
     }, []);
@@ -66,6 +62,10 @@ function Profile() {
 
     const onTabs = useCallback((index: number) => {
         setStep(index);
+    }, []);
+
+    const onPressStatus = useCallback(() => {
+        setStep(0);
     }, []);
 
     const onShowDrawer = useCallback(() => {
@@ -114,7 +114,7 @@ function Profile() {
                         </div>
                     </>}
 
-                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} />
+                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} onPressStatus={onPressStatus}/>
             </div>
             <Footer />
         </div>
