@@ -1,27 +1,10 @@
 @import "assets/scss";
-.container {
-    display: flex;
-    flex-wrap: nowrap;
-    height: 85vh;
-    overflow-y: auto;
-}
-
-.padding {
-    padding: 2% 6%;
-    @include mobile {
-        padding: 2%;
-    }
-}
-
 .profile {
-    width: 30%;
-    gap: 32px;
-    margin-right: 2%;
+    width: 100%;
     background: $color-white;
     border: 1px solid $color-gray5;
-    box-shadow: 0px 4px 15px $color-t-gray;
+    box-shadow: $box-shadow;
     border-radius: 8px;
-    height: fit-content;
 }
 
 .avatar {
@@ -42,7 +25,25 @@
     background-color: $color-red-r1;
     border-radius: 8px;
     margin-top: 8px;
-    width: 97%;
+    width: calc(100% - 32px);
+}
+
+.container-mobile {
+    display: flex;
+    flex-direction: column;
+}
+
+.container-web {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: auto;
+    justify-content: center;
+}
+
+.content-mobile {
+    height: 85vh;
+    overflow-y: auto;
 }
 
 .information {
