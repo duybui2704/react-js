@@ -54,7 +54,7 @@ function News() {
 
     const renderContent = useMemo(() => {
         return (
-            <div className={cx('column flex y15')}>
+            <div className={cx('column flex y15', 'content-view')}>
                 <span className={cx('text-gray h7 bold')}>{Languages.news.loremIpsum}</span>
                 <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
                 <img src={ImgContentNews} className={cx('y10')} width={'100%'} />
@@ -87,7 +87,6 @@ function News() {
                     {renderLink}
                     <div className={cx('padding-top')}>{renderTimeDate()}</div>
                     {renderContent}
-
                 </div> :
                 <>
                     <div className={cx('container-left')}>

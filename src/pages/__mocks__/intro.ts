@@ -40,3 +40,10 @@ export const infoInvest = [
         duration: "2"
     }
 ]
+
+export const videoIntro = {
+    link: 'https://res.cloudinary.com/codelife/video/upload/v1637805738/intro_l5ul1k.mp4',
+    type: 'video/mp4',
+    title: 'Ông Nguyễn Hoà Bình',
+    content: 'Nhà sáng lập kiêm chủ tịch tập đoàn Nexttech'
+} 

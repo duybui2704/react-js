@@ -9,6 +9,7 @@ import ImgPerson from 'assets/image/img_person.jpeg';
 import ImgPhone from 'assets/image/img_phone1.jpeg';
 import ImgPhone1 from 'assets/image/img_phone2.jpeg';
 import ImgPhone2 from 'assets/image/img_phone3.jpeg';
+import ImgPosterVideo from 'assets/image/img_poster.jpeg';
 import ImgQRCode from 'assets/image/img_qr_code.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
@@ -20,7 +21,7 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 import { ItemProps } from 'models/common';
 import { ServiceModel } from 'models/intro';
 import { InvestFilter, PackageInvest } from 'models/invest';
-import { infoInvest, serviceList } from 'pages/__mocks__/intro';
+import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
 import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
@@ -190,7 +191,7 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            minHeight: isMobile ? '30vh' : '35vh',
+            minHeight: isMobile ? '45vh' : '35vh',
             display: 'flex'
         };
     }, [isMobile]);
@@ -344,8 +345,6 @@ function Intro() {
 
     const renderViewNearBelow = useMemo(() => {
 
-        var video = document.getElementById('myVideo');
-
         return (
             <div className={cx('view-body row')}>
                 <div className={cx('column', 'padding')}>
@@ -373,14 +372,19 @@ function Intro() {
                                 />
                             </div>
                         </Col>
-                        <Col xs={24} md={24} lg={12} xl={12} className={cx('center')}>
+                        <Col xs={24} md={24} lg={12} xl={12} className={cx('center column')}>
                             <video
                                 controls autoPlay
                                 loop
                                 id={cx('myVideo')}
+                                poster={ImgPosterVideo}
                             >
-                                <source src="https://res.cloudinary.com/codelife/video/upload/v1637805738/intro_l5ul1k.mp4" type='video/mp4' />
+                                <source src={videoIntro.link} type={videoIntro.type} />
                             </video>
+                            <div className={cx('column', 'title-vd')}>
+                                <span className={cx('text-green h6 bold')}>{videoIntro.title}</span>
+                                <span className={cx('text-gray h6')}>{videoIntro.content}</span>
+                            </div>
                         </Col>
                     </Row>
                 </div>
@@ -455,14 +459,12 @@ function Intro() {
                     <span className={cx('text-black h6', 'line-height')}>{Languages.intro.contentEnd}</span>
                 </div>
             </div>
-
             {renderViewTop}
             {renderViewInvest}
             {renderViewStepsInvest}
             {renderViewNearBelow}
             {renderViewService}
             {renderBottom}
-
             <Footer/>
         </div>
     );
