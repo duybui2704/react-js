@@ -32,7 +32,7 @@ function News() {
         return (
             <div className={cx('column')}>
                 <span className={cx('text-green medium h4')}>{Languages.news.investTienngay}</span>
-                <div className={cx('row')}>
+                <div className={cx('row y10')}>
                     <img src={IcClock} className={cx('pr5')} />
                     <span className={cx('text-gray h7 pl5')}>{`${time}`}</span>
                     <span className={cx('text-gray h7 pl5 x30')}>{`${date}`}</span>
@@ -74,7 +74,7 @@ function News() {
                 <LinkComponent
                     dataLink={dataNews}
                     styleContainer={isMobile ? cx('row', 'scroll-y') : undefined}
-                    styleRow={isMobile ? cx('row x10') : undefined}
+                    styleRow={isMobile ? cx('row x10', 'style') : undefined}
                 />
             </div>
         );

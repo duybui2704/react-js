@@ -248,7 +248,12 @@ const Languages = {
         investmentIntroduction: 'Giới thiệu nhà đầu tư',
         codeIntroduction: 'Mã giới thiệu của bạn',
         qrApp: 'QR code tải App',
-        copySuccess: 'Copy bản ghi thành công'
+        copySuccess: 'Copy bản ghi thành công',
+        accountLink: 'Các tài khoản liên kết',
+        ggLink: 'Liên kết Goggle',
+        linked: 'Đã liên kết',
+        unlinked: 'Chưa liên kết',
+        logout: 'Đăng xuất'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',

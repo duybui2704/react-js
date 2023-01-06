@@ -53,7 +53,7 @@ function Report() {
     const renderKeyValue = useCallback((_key?: string, _value?: string, noBorder?: boolean) => {
         return (
             <div className={cx(noBorder ? 'no-border-key-value-container' : 'key-value-container')}>
-                <span className={cx('text-gray h6 regular')}>{_key}</span>
+                <span className={cx('text-gray h6')}>{_key}</span>
                 <span className={cx('text-gray h6 medium')}>{_value}</span>
             </div>
         );

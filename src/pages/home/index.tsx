@@ -1,5 +1,6 @@
 import { Tabs } from 'antd';
-import IcLogo from 'assets/image/img_logo.svg';
+import IcLogo from 'assets/image/img_logo.jpeg';
+import IcMenu from 'assets/image/ic_menu.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -10,11 +11,14 @@ import InvestTab from 'pages/investment/invest-tab';
 import Manage from 'pages/manage';
 import News from 'pages/news';
 import Profile from 'pages/profile';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
 import { COLORS } from 'theme/colors';
 import styles from './home.module.scss';
+import { DrawerBaseActions } from 'components/drawer-mobile-account';
+import { dataMenu } from 'pages/__mocks__/menu';
+import MenuMobile from 'components/menu-mobile';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
@@ -22,6 +26,8 @@ type PositionType = 'left' | 'right';
 function Home() {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
+    const [steps, setSteps] = useState<number>(1);
+    const refDrawer = useRef<DrawerBaseActions>(null);
 
     const [position] = useState<PositionType[]>(['left', 'right']);
 
@@ -100,16 +106,52 @@ function Home() {
         console.log(key);
     };
 
+    const renderBody = useMemo(() => {
+        switch (steps) {
+            case 1:
+                return <Intro />;
+            case 2:
+                return <InvestTab />;
+            case 3:
+                return <Manage />;
+            case 4:
+                return <News />;
+            default:
+                return <Profile />;
+        }
+    }, [steps]);
+
+    const onShowMenu = useCallback(() => {
+        refDrawer.current?.showModal();
+    }, []);
+
+    const onTabs = useCallback((index: number) => {
+        setSteps(index);
+    }, []);
+
     return (
-        <Tabs
-            defaultActiveKey="0"
-            onChange={onChange}
-            items={tabs}
-            tabBarExtraContent={slot}
-            centered
-            tabBarStyle={{ marginBottom: 0 }}
-            color={COLORS.GREEN}
-        />
+        <>
+            {isMobile ?
+                <div className={cx('container')}>
+                    <div className={cx('header')}>
+                        <img src={IcLogo} className={cx('icon-tienngay')} />
+                        <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
+                    </div>
+                    {renderBody}
+                    <MenuMobile ref={refDrawer} onChangeStep={onTabs} data={dataMenu} />
+
+                </div> : 
+                <Tabs
+                    defaultActiveKey="0"
+                    onChange={onChange}
+                    items={tabs}
+                    tabBarExtraContent={slot}
+                    centered
+                    tabBarStyle={{ marginBottom: 0 }}
+                    color={COLORS.GREEN}
+                />
+            }
+        </>
     );
 }
 

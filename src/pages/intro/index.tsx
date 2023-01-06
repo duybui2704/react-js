@@ -200,9 +200,9 @@ function Intro() {
         return (
             <div className={cx('column center')}>
                 <ul >
-                    <li className={cx('text-black h5 y5')}>{Languages.intro.registerApp}</li>
-                    <li className={cx('text-black h5 y5')}>{Languages.intro.registerPhone}</li>
-                    <li className={cx('text-black h5 y5')}>{Languages.intro.register1Minute}</li>
+                    <li className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</li>
+                    <li className={cx('text-black h5 y10')}>{Languages.intro.registerPhone}</li>
+                    <li className={cx('text-black h5 y10')}>{Languages.intro.register1Minute}</li>
                 </ul>
                 <div className={cx('row y20 center', 'width')}>
                     <div className={cx('column x30 space-between')}>
@@ -218,9 +218,9 @@ function Intro() {
     const stepTwo = useMemo(() => {
         return (
             <ul>
-                <li className={cx('text-black h5 y5')}>{Languages.intro.contentInvest1}</li>
-                <li className={cx('text-black h5 y5')}>{Languages.intro.contentInvest2}</li>
-                <li className={cx('text-black h5 y5')}>{Languages.intro.contentInvest3}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest1}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest2}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest3}</li>
             </ul>
         );
     }, []);
@@ -228,9 +228,9 @@ function Intro() {
     const stepThree = useMemo(() => {
         return (
             <ul >
-                <li className={cx('text-black h5 y5')}>{Languages.intro.contentProfit1}</li>
-                <li className={cx('text-black h5 y5')}>{Languages.intro.contentProfit2}</li>
-                <li className={cx('text-black h5 y5')}>{Languages.intro.contentProfit3}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit1}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit2}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit3}</li>
             </ul>
         );
     }, []);
@@ -306,7 +306,7 @@ function Intro() {
                     </div>
                     <span className={cx('text-green h7 y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
                 </div>
-                <div className={cx('center row')}>
+                <div className={cx('center row y10')}>
                     <div className={cx('width-50')}>
                         {renderImagePhone}
                     </div>
@@ -419,7 +419,7 @@ function Intro() {
 
     const renderBottom = useMemo(() => {
         return (
-            <div className={cx('column', 'padding', 'container')}>
+            <div className={cx('column', 'padding-bottom', 'container')}>
                 <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
                 <Row gutter={[24, 16]} className={cx('container')}>
                     <Col xs={24} md={24} lg={12} xl={12}>

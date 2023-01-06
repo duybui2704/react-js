@@ -45,7 +45,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
     const renderKeyValue = useCallback((_key?: string, _value?: string, _redValue?: boolean, noBorder?: boolean) => {
         return (
             <div className={cx(noBorder ? 'no-border-key-value-container' : 'key-value-container')}>
-                <span className={cx(isMobile ? 'text-gray h7 regular' : 'text-gray h6 regular')}>{_key}</span>
+                <span className={cx(isMobile ? 'text-gray h7' : 'text-gray h6')}>{_key}</span>
                 <span className={_redValue ?
                     cx(isMobile ? 'text-red h7 medium' : 'text-red h6 medium') :
                     cx(isMobile ? 'text-gray h7 medium' : 'text-gray h6 medium')}>
