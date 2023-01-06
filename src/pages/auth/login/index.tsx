@@ -9,8 +9,11 @@ import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
+import { useAppStore } from 'hooks';
+import { UserInfoModel } from 'models/user-model';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useMemo, useRef } from 'react';
+import sessionManager from 'managers/session-manager';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formValidate from 'utils/form-validate';
 import styles from './login.module.scss';
@@ -21,19 +24,31 @@ function Login({ onPress }) {
     const isMobile = useIsMobile();
 
     const navigate = useNavigate();
-    // const { apiServices } = useAppStore();
+    const { apiServices, userManager } = useAppStore();
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [checkBox, setCheckBox] = useState<boolean>(false);
+    const [userData, setUserData] = useState<UserInfoModel>();
+
+    const [phone, setPhone] = useState<string>('');
     const refPhone = useRef<TextFieldActions>(null);
     const refPwd = useRef<TextFieldActions>(null);
 
+
+    useEffect(() => {
+        if (sessionManager.getPhoneLogin()) {
+            setPhone(sessionManager.getPhoneLogin() || '');
+        }
+    }, []);
+
     const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
+        setCheckBox(e.target.checked);
     };
 
     const onValidate = useCallback(() => {
-        const phone = refPhone.current?.getValue();
+        const _phone = refPhone.current?.getValue();
         const pwd = refPwd.current?.getValue();
 
-        const errMsgPhone = formValidate.passConFirmPhone(phone);
+        const errMsgPhone = formValidate.passConFirmPhone(_phone);
         const errMsgPwd = formValidate.passValidate(pwd);
 
         refPhone.current?.setErrorMsg(errMsgPhone);
@@ -47,11 +62,36 @@ function Login({ onPress }) {
 
     const onLogin = useCallback(async () => {
         if (onValidate()) {
-            // const response = await apiServices.common.checkAppState();
-            // console.log(response);
-            // userManager.updateDemo(response.data);
+            setLoading(true);
+            console.log('login ===', refPhone.current?.getValue(), refPwd.current?.getValue());
+            const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue());
+            setLoading(false);
+
+            // if (res.data) {
+            //     const resData = res.data as UserInfoModel;
+            //     sessionManager.setAccessToken(resData?.token);
+            //     const resInfoAcc = await apiServices.auth.getUserInfo();
+            //     if (resInfoAcc.data) {
+            //         if (!checkBox) {
+            //             sessionManager.setSavePhoneLogin('');
+            //             sessionManager.setSavePassLogin('');
+            //         } else {
+            //             sessionManager.setSavePhoneLogin(phone);
+            //             sessionManager.setSavePassLogin('');
+            //         }
+            //         const data = resInfoAcc?.data as UserInfoModel;
+            //         setUserData(data);
+            //         userManager.updateUserInfo({
+            //             ...data
+            //         });
+            //     }
+            //     setTimeout(() => {
+
+            //     }, 200);
+            // }
+            // userManager.updateUserInfo(res.data);
         }
-    }, [onValidate]);
+    }, [apiServices.auth, checkBox, onValidate, phone, userManager]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
@@ -78,7 +118,7 @@ function Login({ onPress }) {
                 important
                 containerStyle={cx('y30')}
                 rightIcon={IcPhone}
-                value={''}
+                value={phone || ''}
                 maxLength={10}
             />
 
@@ -137,7 +177,7 @@ function Login({ onPress }) {
                 />
             </div>
         </div>;
-    }, [isMobile, onLogin]);
+    }, [isMobile, onLogin, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>
