@@ -32,8 +32,8 @@ function Count(props) {
 
     return (
         <div id={cx('count-container')}>
-            <span className={cx('text-white regular h1')}>{count}</span>
-            <span className={cx('text-white regular h3 y5')}>{label}</span>
+            <span className={cx('text-white h1')}>{count}</span>
+            <span className={cx('text-white h3 y5')}>{label}</span>
         </div>
     );
 }

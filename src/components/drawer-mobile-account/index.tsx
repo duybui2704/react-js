@@ -15,18 +15,14 @@ import React, {
     useState
 } from 'react';
 import styles from './drawer-mobile-account.module.scss';
-
-interface ProfileModel {
-    id: number;
-    title: string;
-    icon: any;
-}
+import { ItemScreenModel } from 'models/profile';
 
 type DrawerBaseProps = {
     onClose?: () => any;
     onChangeStep?: (tabs: number) => void;
     onBackdropPress?: () => void;
     onPressStatus?:()=>void;
+    data: ItemScreenModel[]
 };
 
 export type DrawerBaseActions = {
@@ -37,7 +33,7 @@ export type DrawerBaseActions = {
 const cx = classNames.bind(styles);
 
 const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
-    ({ onChangeStep, onClose, onBackdropPress, onPressStatus
+    ({ onChangeStep, onClose, onBackdropPress, onPressStatus, data
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const [info, setInfo] = useState<UserInfoModel>();
@@ -85,7 +81,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         <span className={cx('status-text')} onClick={handlePressStatus}>{info?.status}</span>
                     </div>
 
-                    {profile.map((item: ProfileModel) => {
+                    {data?.map((item: ItemScreenModel) => {
                         const handleChangeStep = () => {
                             onChangeStep?.(item?.id || 1);
                             setTabs(item?.id);
@@ -104,7 +100,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     })}
                 </div>
             );
-        }, [handlePressStatus, hideModal, info?.status, info?.username, onChangeStep, tabs]);
+        }, [data, handlePressStatus, hideModal, info?.status, info?.username, onChangeStep, tabs]);
 
         return (
             <Drawer

@@ -1,13 +1,12 @@
-import ImgContentNews from 'assets/image/img_content_news.jpg';
 import { Col, Row } from 'antd';
-import classNames from 'classnames/bind';
-import Languages from 'commons/languages';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import styles from './invite-friend.module.scss';
-import ImgQr from 'assets/image/img_qr.jpeg';
 import IcCopy from 'assets/image/ic_copy.svg';
 import IcDownload from 'assets/image/ic_green_download.svg';
+import ImgQr from 'assets/image/img_qr.jpeg';
+import classNames from 'classnames/bind';
+import Languages from 'commons/languages';
+import React, { useCallback, useRef, useState } from 'react';
 import toasty from 'utils/toasty';
+import styles from './invite-friend.module.scss';
 
 const cx = classNames.bind(styles);
 function InviteFriend() {

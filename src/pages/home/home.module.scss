@@ -17,8 +17,20 @@
 }
 
 .icon-tienngay {
-    width: auto;
-    height: 50px;
-    // justify-items: center;
-    // align-items: center;
+    width: 200px;
+}
+
+.icon-menu {
+    width: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    padding: 10px;
+    justify-content: space-between;
 }

@@ -119,7 +119,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
             <div className={cx('top-search-mobile-component')}>
                 <span className={cx('text-your-mobile-chance')}>{(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
                 <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
-                    <span className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
+                    <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
                 </div>
             </div>
@@ -139,7 +139,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
                 <Col xs={12} sm={12} md={12} lg={12} xl={8} >
                     <Row gutter={[16, 4]}>
                         <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
-                            <span className={cx('text-black h6 regular')}>{Languages.invest.dateInvest}</span>
+                            <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                         </Col>
                         {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
                         {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
@@ -158,7 +158,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
                 <Col xs={24} sm={24} md={24} lg={24} xl={24} >
                     <Row gutter={[16, 4]}>
                         <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
-                            <span className={cx('text-black h6 regular')}>{Languages.invest.dateInvest}</span>
+                            <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                         </Col>
                         {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
                         {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}

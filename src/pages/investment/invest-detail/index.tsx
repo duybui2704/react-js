@@ -58,7 +58,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     const renderKeyValue = useCallback((_key?: string, _value?: string) => {
         return (
             <div className={cx('key-value-container')}>
-                <span className={cx(isMobile ? 'text-gray h7 regular' : 'text-gray h6 regular')}>{_key}</span>
+                <span className={cx(isMobile ? 'text-gray h7' : 'text-gray h6')}>{_key}</span>
                 <span className={cx(isMobile ? 'text-gray h7 medium' : 'text-gray h6 medium')}>{_value}</span>
             </div>
         );

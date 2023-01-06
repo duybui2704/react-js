@@ -107,13 +107,13 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
             <div className={cx('top-search-mobile-component')}>
                 <span className={cx('text-your-mobile-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span>
                 <div className={cx('right-top-search-component')} >
-                    <span onClick={handleOpenPopupSearch} className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
+                    <span onClick={handleOpenPopupSearch} className={cx('text-green h7 x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
-                    <span className={cx('text-red h7 regular xl10')} onClick={handleCancelFilter}>{Languages.common.filterCancel}</span>
+                    <span className={cx('text-red h7 xl10')}>{Languages.common.filter}</span>
                 </div>
             </div>
         );
-    }, [countInvest, handleCancelFilter, handleOpenPopupSearch]);
+    }, [countInvest, handleOpenPopupSearch]);
 
     const renderTopWeb = useMemo(() => {
         return (

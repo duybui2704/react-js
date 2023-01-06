@@ -9,6 +9,7 @@ import { UserInfoModel } from 'models/user-model';
 import { InfoUser, profile } from 'pages/__mocks__/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Conditions from './conditions';
 import InfoAccount from './info-account';
@@ -51,6 +52,8 @@ function Profile() {
                 return <InfoPayment />;
             case 3:
                 return <InfoChangePwd />;
+            case 4:
+                return <AccountLink />;
             case 6:
                 return <Conditions />;
             case 7:
@@ -114,7 +117,7 @@ function Profile() {
                         </div>
                     </>}
 
-                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} onPressStatus={onPressStatus}/>
+                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} data={profile} />
             </div>
             <Footer />
         </div>

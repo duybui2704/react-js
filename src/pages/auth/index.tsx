@@ -1,6 +1,7 @@
 import BgAuth from 'assets/image/bg_auth.jpg';
 import ImgAppStore from 'assets/image/img_app_store.png';
 import ImgGooglePlay from 'assets/image/img_google_play.png';
+import Ic_Close from 'assets/image/ic_black_close_popup.svg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgQrCode from 'assets/image/img_qr_download.png';
 import classNames from 'classnames/bind';
@@ -14,6 +15,7 @@ import SignUp from './sign-up';
 import ForgotPass from './forgot-pass';
 import OTPAuth from './otp-auth';
 import ChangePwd from './change-pwd';
+import { Paths } from 'routers/paths';
 
 const cx = classNames.bind(styles);
 
@@ -44,6 +46,9 @@ function Auth() {
     const renderLeftContent = useMemo(() => {
         return <div className={cx('left-container', 'wid-left')}
             style={renderLeftBackground}>
+            <div className={cx('style-close')}>
+                <img src={Ic_Close} className={cx('img-close')} onClick={() => navigate(Paths.home)} />
+            </div>
             <img src={ImgLogo} className={cx('img-logo')} />
             <span className={cx('text-white medium h2 y40')}>
                 {Languages.auth.intro[0]}
@@ -67,7 +72,7 @@ function Auth() {
                 <img src={ImgQrCode} className={cx('img-qr')} />
             </div>
         </div>;
-    }, [renderLeftBackground]);
+    }, [navigate, renderLeftBackground]);
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
         setSteps(transmissionName);
