@@ -6,6 +6,7 @@
 
 .wid-left {
     width: 66%;
+    position: relative;
     @include mobile {
         width: 100%;
     }
@@ -23,6 +24,7 @@
         @include mobile {
             width: auto;
             height: 50px;
+            margin-top: 30px;
         }
     }
     .img-store {
@@ -81,7 +83,9 @@
 
 .style-close {
     width: 100%;
-    margin-left: 20px;
+    left: 20px;
+    position: absolute;
+    top: 20px;
 }
 
 .img-close {
