@@ -51,7 +51,6 @@ $desktop-width: 1024px;
 .row {
     display: flex;
     flex-direction: row;
-    flex: 1;
 }
 
 .row-center {
@@ -171,7 +170,7 @@ $desktop-width: 1024px;
         align-items: flex-start;
     }
     @include mobile {
-    align-items: flex-start;
+        align-items: flex-start;
     }
 }
 
