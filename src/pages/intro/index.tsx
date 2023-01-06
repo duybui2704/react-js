@@ -18,6 +18,7 @@ import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { useWindowSize } from 'hooks/use-window-size';
 import { ItemProps } from 'models/common';
 import { ServiceModel } from 'models/intro';
 import { InvestFilter, PackageInvest } from 'models/invest';
@@ -36,9 +37,17 @@ function Intro() {
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
     const [run, setRun] = useState<boolean>(false);
+    const [topIntroHeight, setTopIntroHeight] = useState(0);
 
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
+    const elementRef = useRef<any>(null);
+
+    const screenSize = useWindowSize();
+
+    useEffect(() => {
+        setTopIntroHeight(elementRef?.current?.clientHeight);
+    }, [screenSize]);
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -170,6 +179,11 @@ function Intro() {
         );
     }, [step]);
 
+    const getTopHeight = useCallback(() => {
+        const screenHeight = window.innerHeight;
+        return isMobile ? 0.45 * screenHeight : 0.45 * screenHeight;
+    }, [isMobile]);
+
     const renderLeftBackground = useMemo(() => {
         return {
             backgroundImage: `url(${BannerInvest})`,
@@ -191,10 +205,10 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            minHeight: isMobile ? '45vh' : '35vh',
+            height: getTopHeight(),
             display: 'flex'
         };
-    }, [isMobile]);
+    }, [getTopHeight]);
 
     const stepOne = useMemo(() => {
         return (
@@ -442,6 +456,7 @@ function Intro() {
             </div>
         );
     }, []);
+
     return (
         <div className={cx('page')}>
             <div className={cx('flex')}>
@@ -453,8 +468,14 @@ function Intro() {
                     </div>
                 </div>
             </div>
-            <div className={cx('view-intro')}>
-                <div className={cx('view-intro-center', 'width-intro')}>
+            <div
+                className={cx('view-intro')}
+                style={{ marginTop: `${-topIntroHeight/2}px` }}
+                // style={{ top: `${getTopHeight() - topIntroHeight / 2}px` }}
+            // style={{ top: '103' }}
+            >
+                <div className={cx('view-intro-center', 'width-intro')}
+                    ref={elementRef}>
                     <span className={cx('text-green h6', 'line-height')}>{Languages.intro.contentStart}</span>
                     <span className={cx('text-black h6', 'line-height')}>{Languages.intro.contentEnd}</span>
                 </div>
@@ -465,7 +486,7 @@ function Intro() {
             {renderViewNearBelow}
             {renderViewService}
             {renderBottom}
-            <Footer/>
+            <Footer />
         </div>
     );
 }
