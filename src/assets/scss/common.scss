@@ -109,6 +109,10 @@ $desktop-width: 1024px;
     color: $color-white;
     text-align: center;
 }
+.text-white-style {
+    font-family: $font-regular;
+    color: $color-white;
+}
 
 .text-black {
     font-family: $font-regular;
@@ -369,6 +373,9 @@ $desktop-width: 1024px;
 .pb5 {
     padding-bottom: 5px;
 }
+.pb16 {
+    padding-bottom: 16px;
+}
 
 .pr5 {
     padding-right: 5px;
@@ -391,6 +398,16 @@ $desktop-width: 1024px;
 //gap 
 .g-8 {
     gap: 8px;
+    @include mobile{
+        gap: 16px;
+    }
+}
+
+.g-15{
+    gap: 15px;
+    @include mobile{
+        gap: 16px;
+    }
 }
 
 .g-16 {
@@ -399,4 +416,7 @@ $desktop-width: 1024px;
 
 .g-24 {
     gap: 24px;
+    @include mobile{
+        gap: 16px;
+    }
 }

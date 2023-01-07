@@ -5,7 +5,7 @@ import IcYT from 'assets/icon/ic_youtube.svg';
 import IcFR from 'assets/icon/ic_frame.svg';
 import IcPublic from 'assets/icon/ic_public.svg';
 import classNames from 'classnames/bind';
-import Languages from 'commons/languages';
+import Languages from 'commons/languages'; 
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input/index';
@@ -13,31 +13,33 @@ import { MyTextAreaInput } from 'components/text-area';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import styles from './footer.module.scss';
 import { TextFieldActions } from 'components/input/types';
+import { TYPE_INPUT } from 'commons/constants';
 
 const cx = classNames.bind(styles);
-type PostDataModel = {
+
+type FormFeedbackModel = {
   user: string;
   phone: string;
   note: string;
 };
+
 function Footer() {
     const refName = useRef<TextFieldActions>(null);
     const refPhone = useRef<TextFieldActions>(null);
     const refNote = useRef<TextFieldActions>(null);
 
-    const [postData, setPostData] = useState<PostDataModel>({
+    const [formFeedback, setFormFeedback] = useState<FormFeedbackModel>({
         user: '',
         phone: '',
         note: ''
     });
-    const send = () => {
 
+    const onSend = () => {
         // api call
-        
         refName.current?.setValue?.('');
         refPhone.current?.setValue(''); 
         refNote.current?.setValue(''); 
-        setPostData({
+        setFormFeedback({
             user: '',
             phone: '',
             note: ''
@@ -51,20 +53,20 @@ function Footer() {
                 buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
                 width={100}
                 containButtonStyles={cx('btn-footer-style')}
-                onPress={send}
+                onPress={onSend}
             />
         );
     }, []);
 
     const renderInput = useCallback(
-        (_ref: any,_value: any, _type: string, _placeholder: string) => {
+        (_ref: any, _value: any, _type: string, _placeholder: string) => {
             const onChange = (e: string) => {
                 switch (_placeholder) {
                     case Languages.footer.yourName:
-                        setPostData({...postData, user: e});
+                        setFormFeedback({...formFeedback, user: e});
                         break;
-                    case Languages.footer.PhoneNumber:
-                        setPostData({...postData, phone: e});
+                    case Languages.footer.phoneNumber:
+                        setFormFeedback({...formFeedback, phone: e});
                         break;
                     default:
                         break;
@@ -81,42 +83,42 @@ function Footer() {
                     onChangeText={onChange}
                 />
             );
-        },
-        [postData]
+        }, [formFeedback]
     );
 
-    const renderTextarea = useCallback((_ref:any,_placeholder: string) => {
+    const renderTextarea = useCallback((_ref:any, _placeholder: string) => {
         const onChange = (e: string) => {
-            setPostData({...postData, note: e});
+            setFormFeedback({...formFeedback, note: e});
         };
         return (
             <MyTextAreaInput
                 ref={_ref}
                 placeHolder={_placeholder}
                 inputStyle={cx('textarea-footer')}
-                value={postData.note}
+                containerInput={cx('textarea-container')}
+                value={formFeedback.note}
                 onChangeText={onChange}
             />
         );
-    }, [postData]);
+    }, [formFeedback]);
 
     const renderFooter = useMemo(() => {
         return (
-            <div className={cx('text-left ')}>
+            <div className={cx('text-left')}>
                 <div className={cx('box-footer-top')}>
                     <Row>
                         <Col span={9} xs={24}  md={24} lg={8}>
-                            <div className={cx('box-footer-left')}>
-                                <div className={cx('content-footer-left', 'column')}>
+                            <div className={cx('box-footer-left pb16 ')}>
+                                <div className={cx('content-footer-left', 'column g-15')}>
                                     <img src={IcLogo} className={cx('icon-tienngay')} />
-                                    <div className={cx('h5')}>{Languages.footer.CompanyName}</div>
-                                    <span className={cx('h6', 'company')}>
+                                    <div className={cx('h5 medium text-white-style')}>{Languages.footer.companyName}</div>
+                                    <span className={cx('h6 text-white-style', 'company')}>
                                         {Languages.footer.companyAddress1}
                                         <br />
                                         {Languages.footer.companyAddress2}
                                     </span>
-                                    <span className={cx('h6')}>{Languages.footer.email}</span>
-                                    <span className={cx('h6')}>{Languages.footer.phone}</span>
+                                    <span className={cx('h6 text-white-style')}>{Languages.footer.email}</span>
+                                    <span className={cx('h6 text-white-style')}>{Languages.footer.phone}</span>
                                     <div className={cx('footer-icon', 'jus-start g-16')}>
                                         <img src={IcFB} alt="" />
                                         <img src={IcFR} alt="" />
@@ -127,55 +129,41 @@ function Footer() {
                             </div>
                         </Col>
                         <Col span={6} xs={24} md={12} lg={8} >
-                            <div
-                                className={cx(
-                                    'box-information',
-                                    'column g-24 center-flex-left'
-                                )}
-                            >
-                                <div className={cx('information', 'column g-8')}>
-                                    <div className={cx('h5')}>
-                                        {Languages.footer.information[0]}
+                            <div className={cx('box-information', 'column g-24 center-flex-left pb16')}>
+                                <div className={cx('information', 'column g-8 text-white-style')}>
+                                    <div className={cx('h5 medium text-white-style ')}>
+                                        {Languages.footer.information}
                                     </div>
-                                    <span className={cx('h6')}>
-                                        {Languages.footer.information[1]}
-                                    </span>
-                                    <span className={cx('h6')}>
-                                        {Languages.footer.information[2]}
-                                    </span>
-                                    <span className={cx('h6')}>
-                                        {Languages.footer.information[3]}
-                                    </span>
+                                    {Languages.footer.informationChild.map((item)=><span className={cx('h6')} key={item}> 
+                                        {item} 
+                                    </span>)}
                                 </div>
-                                <div className={cx('information', 'column g-8')}>
-                                    <div className={cx('h5')}>
-                                        {Languages.footer.customerSupport[0]}
+                                <div className={cx('information', 'column g-8 text-white-style')}>
+                                    <div className={cx('h5 medium text-white-style')}>
+                                        {Languages.footer.customerSupport}
                                     </div>
-                                    <span className={cx('h6')}>
-                                        {Languages.footer.customerSupport[1]}
-                                    </span>
-                                    <span className={cx('h6')}>
-                                        {Languages.footer.customerSupport[2]}
-                                    </span>
+                                    {Languages.footer.customerChild.map((item)=><span className={cx('h6 text-white-style')} key={item}>
+                                        {item}
+                                    </span>)}
                                 </div>
                             </div>
                         </Col>
                         <Col span={9} xs={24} md={12} lg={8} >
-                            <div className={cx('box-footer-right', 'column g-8')}>
-                                <div className={cx('h5')}>
+                            <div className={cx('box-footer-right', 'column g-8 text-white-style')}>
+                                <div className={cx('h5 medium text-white-style')}>
                                     {Languages.footer.customerFeedback}
                                 </div>
                                 <Row className={cx('space-between')}>
                                     <Col span={12}>
-                                        {renderInput(refName, postData.user, 'text', Languages.footer.yourName)}
+                                        {renderInput(refName, formFeedback.user, TYPE_INPUT.TEXT, Languages.footer.yourName)}
                                     </Col>
                                     <Col span={11}>
-                                        {renderInput( refPhone,postData.phone, 'text', Languages.footer.PhoneNumber)}
+                                        {renderInput( refPhone, formFeedback.phone, TYPE_INPUT.PHONE, Languages.footer.phoneNumber)}
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        {renderTextarea(refNote,Languages.footer.yourComments)}
+                                        {renderTextarea(refNote, Languages.footer.yourComments)}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -188,11 +176,11 @@ function Footer() {
                     </Row>
                 </div>
                 <div className={cx('box-footer-bottom')}>
-                    <span className={cx('h6')}> {Languages.footer.copyRight}</span>
+                    <span className={cx('h6 text-white-style')}>{Languages.footer.copyRight}</span>
                 </div>
             </div>
         );
-    }, [postData.phone, postData.user, renderButton, renderInput, renderTextarea]);
+    }, [formFeedback.phone, formFeedback.user, renderButton, renderInput, renderTextarea]);
     return <div className={cx('footer-container')}>{renderFooter}</div>;
 }
 
