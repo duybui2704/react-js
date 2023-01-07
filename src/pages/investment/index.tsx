@@ -89,11 +89,11 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
             });
         };
         return (
-            <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
+            <Col className={cx('picker-container')} xs={isMobile ? 24 : 12} sm={12} md={12} lg={12} xl={8} >
                 <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
             </Col>
         );
-    }, [dataFilter]);
+    }, [dataFilter.amountInvest, dataFilter.dateInvest, isMobile]);
 
     const handleOpenPopupSearch = useCallback(() => {
         popupSearchRef.current?.showModal();

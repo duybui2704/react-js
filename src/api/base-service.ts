@@ -5,6 +5,7 @@ import { TIMEOUT_API } from 'commons/configs';
 import Languages from 'commons/languages';
 import config from 'config';
 import SessionManager from 'managers/session-manager';
+import { toJS } from 'mobx';
 import toasty from 'utils/toasty';
 import validate from 'utils/validate';
 import { API_CONFIG } from './constants';
@@ -167,7 +168,7 @@ export class BaseService {
             });
         }
 
-        // console.log('formData = ', formData);
+        formData.forEach(entries => console.log(entries));
         return formData;
     };
 

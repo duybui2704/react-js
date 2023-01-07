@@ -14,7 +14,6 @@ class SessionManager {
         this.accessToken = localStorage.getItem(StorageKeys.KEY_ACCESS_TOKEN);
         this.savePhone = localStorage.getItem(StorageKeys.KEY_SAVE_PHONE);
         this.savePwd = localStorage.getItem(StorageKeys.KEY_SAVE_PWD);
-
         const tmpUserInfo = localStorage.getItem(StorageKeys.KEY_USER_INFO);
         this.userInfo = tmpUserInfo && JSON.parse(tmpUserInfo);
     }
@@ -31,7 +30,7 @@ class SessionManager {
     setAccessToken(token?: string) {
         this.accessToken = token;
         if (token) {
-            localStorage.setItem(StorageKeys.KEY_ACCESS_TOKEN, token);
+            localStorage.setItem(StorageKeys.KEY_ACCESS_TOKEN, JSON.stringify(token));
         } else {
             localStorage.removeItem(StorageKeys.KEY_ACCESS_TOKEN);
         }
@@ -40,7 +39,7 @@ class SessionManager {
     setSavePhoneLogin(phone?: string) {
         this.savePhone = phone;
         if (phone) {
-            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PHONE, this.savePhone);
+            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PHONE, JSON.stringify(this.savePhone));
         } else {
             localStorage.clearDataOfKey(StorageKeys.KEY_SAVE_PHONE);
         }
@@ -49,7 +48,7 @@ class SessionManager {
     setSavePassLogin(pass?: string) {
         this.savePwd = pass;
         if (pass) {
-            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PWD, this.savePwd);
+            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PWD, JSON.stringify(this.savePwd));
         } else {
             localStorage.clearDataOfKey(StorageKeys.KEY_SAVE_PWD);
         }
