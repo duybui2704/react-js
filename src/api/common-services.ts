@@ -3,10 +3,12 @@ import { BaseService } from './base-service';
 import { API_CONFIG } from './constants';
 
 export class CommonServices extends BaseService {
-    getListInvest = async (pageSize: number, lastIndex: number) =>
+    getListInvest = async (pageSize: number, lastIndex: number, timeInvestment: string, moneyInvestment: string) =>
         this.api().post(
             API_CONFIG.CONTRACTS_HOT,
             this.buildFormData({
+                loan: timeInvestment,
+                money: moneyInvestment,
                 per_page: pageSize,
                 uriSegment: lastIndex
             })

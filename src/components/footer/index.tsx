@@ -113,9 +113,7 @@ function Footer() {
                                     <img src={IcLogo} className={cx('icon-tienngay')} />
                                     <div className={cx('h5 medium text-white-style')}>{Languages.footer.companyName}</div>
                                     <span className={cx('h6 text-white-style', 'company')}>
-                                        {Languages.footer.companyAddress1}
-                                        <br />
-                                        {Languages.footer.companyAddress2}
+                                        {Languages.footer.companyAddress}
                                     </span>
                                     <span className={cx('h6 text-white-style')}>{Languages.footer.email}</span>
                                     <span className={cx('h6 text-white-style')}>{Languages.footer.phone}</span>
@@ -158,7 +156,7 @@ function Footer() {
                                         {renderInput(refName, formFeedback.user, TYPE_INPUT.TEXT, Languages.footer.yourName)}
                                     </Col>
                                     <Col span={11}>
-                                        {renderInput( refPhone, formFeedback.phone, TYPE_INPUT.PHONE, Languages.footer.phoneNumber)}
+                                        {renderInput( refPhone, formFeedback.phone, TYPE_INPUT.TEL, Languages.footer.phoneNumber)}
                                     </Col>
                                 </Row>
                                 <Row>

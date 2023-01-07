@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd';
+import { Col, Row, Pagination } from 'antd';
 import BannerInvest from 'assets/image/bg_banner_invest.jpeg';
 import ImgAppStore from 'assets/image/img_app_store.jpg';
 import ImgCircle from 'assets/image/img_circle.jpeg';
@@ -26,18 +26,35 @@ import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
 import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import { useNavigate } from 'react-router-dom';
+import type { PaginationProps } from 'antd';
 import Count from './count';
 import styles from './intro.module.scss';
+import { useAppStore } from 'hooks';
+import { Loading } from 'components/loading';
+import { DashBroadModel } from 'models/dash';
 
 const cx = classNames.bind(styles);
 
 function Intro() {
     const [step, setStep] = useState<number>(1);
+    const { apiServices } = useAppStore();
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
     const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
+    const [numberPage, setNumberPage] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [dataArr, setDataArr] = useState<PackageInvest[]>();
+    const [dataDash, setDataDash] = useState<DashBroadModel>();
+
+    const PAGE_SIZE = 9;
+    const condition = useRef({
+        isLoading: true,
+        offset: 0,
+        canLoadMore: true,
+        timeInvestment: '',
+        moneyInvest: ''
+    });
 
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
@@ -47,6 +64,8 @@ function Intro() {
 
     useEffect(() => {
         setTopIntroHeight(elementRef?.current?.clientHeight);
+        fetchDataInvest();
+        fetchContractsDash();
     }, [screenSize]);
 
     useEffect(() => {
@@ -62,6 +81,38 @@ function Intro() {
             window.removeEventListener('scroll', scrollHandler, true);
         };
     }, []);
+
+    const fetchContractsDash = useCallback(async () => {
+        setIsLoading(true);
+        const resContractsDash = await apiServices.common.getContractsDash() as any;
+        setIsLoading(false);
+        if (resContractsDash.success) {
+            const data = resContractsDash?.data as DashBroadModel;
+            setDataDash(data);
+        }
+    }, [apiServices.common]);
+
+    const fetchDataInvest = useCallback(async (number_page?: number) => {
+
+        setIsLoading(true);
+        const resInvest = await apiServices.common.getListInvest(
+            PAGE_SIZE,
+            condition.current.offset * (number_page || 0),
+            condition.current.timeInvestment,
+            condition.current.moneyInvest,
+        ) as any;
+        setIsLoading(false);
+        if (resInvest.success) {
+            const data = resInvest?.data as PackageInvest[];
+            const dataSize = data.length;
+            if (dataSize > 0) {
+                setDataArr(data);
+            }
+        }
+        condition.current.isLoading = false;
+        setIsLoading(false);
+
+    }, [apiServices.common]);
 
     const renderViewTop = useMemo(() => {
         return (
@@ -104,17 +155,24 @@ function Intro() {
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
         const onSelectItem = (item: any) => {
-            setDataFilter({
-                dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-                amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-            });
+            // setDataFilter({
+            //     dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
+            //     amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+            // });
+            condition.current.timeInvestment = item.id;
+            if (_title === Languages.invest.dateInvest) {
+                condition.current.timeInvestment = item.id;
+            } else {
+                condition.current.moneyInvest = item.id;
+            }
+            fetchDataInvest(numberPage);
         };
         return (
             <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={8} >
                 <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
             </Col>
         );
-    }, [dataFilter]);
+    }, []);
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
@@ -127,22 +185,36 @@ function Intro() {
     }, []);
 
     const renderViewInvest = useMemo(() => {
+
+        const onchange: PaginationProps['onChange'] = (page) => {
+            console.log(page);
+            setNumberPage(page);
+            fetchDataInvest(page);
+        };
+
         return (
             <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
                 <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dateListData)}
-                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, amountListData)}
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountListData)}
+                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateListData)}
                 </Row>
 
                 <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
-                    {investListData?.map((itemInvest: PackageInvest, index: number) => {
+                    {dataArr?.map((itemInvest: PackageInvest, index: number) => {
                         return renderItemInvest(index, itemInvest);
                     })}
                 </Row>
+                <Pagination
+                    current={numberPage}
+                    total={30}
+                    className={cx('pagination')}
+                    onChange={onchange}
+                    pageSize={9}
+                />
             </div>
         );
-    }, [isMobile, renderItemInvest, renderPicker]);
+    }, [dataArr, isMobile, numberPage, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 
@@ -416,13 +488,13 @@ function Intro() {
                     <Marquee pauseOnHover gradient={false}>
                         {serviceList.map((item: ServiceModel, index: number) => {
                             return (
-                                <div key={index} className={cx('item-service', 'row center', 'padding-item')} onClick={() => console.log('item ===', item)}>
+                                <a key={index} className={cx('item-service', 'row center', 'padding-item')} href={item.link}>
                                     <img src={item.image} className={cx('image')} />
                                     <div className={cx('column xl10')}>
                                         <span className={cx('text-red h7 medium')}>{item.name}</span>
                                         <span className={cx('text-black h7')}>{item.content}</span>
                                     </div>
-                                </div>
+                                </a>
                             );
                         })}
                     </Marquee>
@@ -484,6 +556,7 @@ function Intro() {
             {renderViewNearBelow}
             {renderViewService}
             {renderBottom}
+            {isLoading && <Loading />}
             <Footer />
         </div>
     );

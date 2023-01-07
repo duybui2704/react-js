@@ -12,17 +12,21 @@ import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import { useNavigate } from 'react-router-dom';
 import formValidate from 'utils/form-validate';
 import styles from './sign-up.module.scss';
 import { dataChannel } from 'pages/__mocks__/auth';
+import toasty from 'utils/toasty';
+import { useAppStore } from 'hooks';
 
 const cx = classNames.bind(styles);
 
 function SignUp({ onPress }) {
     const isMobile = useIsMobile();
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const { apiServices } = useAppStore();
 
     const navigate = useNavigate();
     // const { apiServices } = useAppStore();
@@ -73,11 +77,21 @@ function SignUp({ onPress }) {
 
     const onSignUp = useCallback(async () => {
         if (onValidate()) {
-            // const response = await apiServices.common.checkAppState();
-            // console.log(response);
-            // userManager.updateDemo(response.data);
+            setLoading(true);
+            const res = await apiServices.auth.registerAuth(
+                refPhone.current?.getValue(),
+                refName.current?.getValue(),
+                refPwd.current?.getValue(),
+                refPwdConfirm.current?.getValue(),
+                refEmail.current?.getValue(),
+                refChannel.current?.getValue() || '',
+                refPresenter.current?.getValue()) as any;
+            setLoading(false);
+            if (res.success) {
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.signUp });
+            }
         }
-    }, [onPress, onValidate]);
+    }, [apiServices.auth, onPress, onValidate]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
