@@ -4,7 +4,7 @@ import Ic_Close from 'assets/image/ic_black_close_popup.svg';
 import ImgPortrait from 'assets/image/img_portrait.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { InfoUser, profile } from 'pages/__mocks__/profile';
+import { InfoUser } from 'pages/__mocks__/profile';
 
 import { UserInfoModel } from 'models/user-model';
 import React, {
@@ -26,8 +26,8 @@ type DrawerBaseProps = {
 };
 
 export type DrawerBaseActions = {
-    showModal: () => void;
-    hideModal: () => void;
+    show: () => void;
+    hide: () => void;
 };
 
 const cx = classNames.bind(styles);
@@ -44,17 +44,17 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             setInfo(InfoUser);
         }, []);
 
-        const hideModal = useCallback(() => {
+        const hide = useCallback(() => {
             setVisible(false);
         }, []);
 
-        const showModal = useCallback(() => {
+        const show = useCallback(() => {
             setVisible(true);
         }, []);
 
         useImperativeHandle(ref, () => ({
-            showModal,
-            hideModal
+            show,
+            hide
         }));
 
         const handlePressStatus = useCallback(() => {
@@ -67,13 +67,13 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             onBackdropPress?.();
         }, [onBackdropPress]);
 
-        const renderCustomModal = useCallback(() => {
+        const renderCustomView = useCallback(() => {
 
             return (
                 <div className={cx('container')}>
                     <div className={cx('drawer-container')}>
                         <span className={cx('title-drawer-container')}>{Languages.profile.titleDrawerAccount}</span>
-                        <img src={Ic_Close} onClick={hideModal} className={cx('close')} />
+                        <img src={Ic_Close} onClick={hide} className={cx('close')} />
                     </div>
                     <div className={cx('avatar')}>
                         <img src={ImgPortrait} className={cx('avatar-img-container')} />
@@ -100,7 +100,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     })}
                 </div>
             );
-        }, [data, handlePressStatus, hideModal, info?.status, info?.username, onChangeStep, tabs]);
+        }, [data, handlePressStatus, hide, info?.status, info?.username, onChangeStep, tabs]);
 
         return (
             <Drawer
@@ -110,7 +110,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                 open={visible}
                 contentWrapperStyle={{ width: '80%' }}
             >
-                {renderCustomModal()}
+                {renderCustomView()}
             </Drawer>
         );
     }

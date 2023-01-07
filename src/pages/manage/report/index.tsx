@@ -168,7 +168,7 @@ function Report() {
     }, [renderItemMonthReport]);
 
     return (
-        <div className={cx('page-container')}>
+        <div className={cx(isMobile ? 'page-container-mobile' : 'page-container')}>
             <div className={cx(isMobile ? 'all-content-container-mobile' : 'all-content-container')}>
                 <Row gutter={[24, 0]} className={cx(isMobile ? 'row-content-mobile' : 'row-content')}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -192,7 +192,7 @@ function Report() {
                 </div>
             </div>
             {renderPopupSearchPackage()}
-            <Footer/>
+            <Footer />
         </div>
     );
 }

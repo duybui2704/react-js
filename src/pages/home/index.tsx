@@ -122,7 +122,7 @@ function Home() {
     }, [steps]);
 
     const onShowMenu = useCallback(() => {
-        refDrawer.current?.showModal();
+        refDrawer.current?.show();
     }, []);
 
     const onTabs = useCallback((index: number) => {
@@ -131,18 +131,17 @@ function Home() {
 
     return (
         <>
-            {isMobile ?
-                <div className={cx('container')}>
+            {isMobile
+                ? <div className={cx('container')}>
                     <div className={cx('header')}>
                         <img src={IcLogo} className={cx('icon-tienngay')} />
                         <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
                     </div>
                     {renderBody}
                     <MenuMobile ref={refDrawer} onChangeStep={onTabs} data={dataMenu} />
-
-                </div> : 
-                <Tabs
-                    defaultActiveKey="0"
+                </div>
+                : <Tabs
+                    defaultActiveKey={'0'}
                     onChange={onChange}
                     items={tabs}
                     tabBarExtraContent={slot}

@@ -13,6 +13,7 @@ import React, {
     useCallback,
     useEffect,
     useImperativeHandle,
+    useMemo,
     useState
 } from 'react';
 import styles from './menu-mobile.module.scss';
@@ -20,24 +21,20 @@ import { ItemScreenModel } from 'models/profile';
 import { Button } from 'components/button';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
+import { DrawerBaseActions } from 'components/drawer-mobile-account';
+import { BUTTON_STYLES } from 'components/button/types';
 
 type DrawerBaseProps = {
     onClose?: () => any;
     onChangeStep?: (tabs: number) => void;
     onBackdropPress?: () => void;
-    onPressStatus?: () => void;
     data: ItemScreenModel[]
-};
-
-export type DrawerBaseActions = {
-    showModal: () => void;
-    hideModal: () => void;
 };
 
 const cx = classNames.bind(styles);
 
 const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
-    ({ onChangeStep, onClose, onBackdropPress, onPressStatus, data
+    ({ onChangeStep, onClose, onBackdropPress, data
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const [info, setInfo] = useState<UserInfoModel>({});
@@ -50,80 +47,43 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             setInfo(InfoUser);
         }, []);
 
-        const hideModal = useCallback(() => {
+        const hide = useCallback(() => {
             setVisible(false);
         }, []);
 
-        const showModal = useCallback(() => {
+        const show = useCallback(() => {
             setVisible(true);
         }, []);
 
         useImperativeHandle(ref, () => ({
-            showModal,
-            hideModal
+            show,
+            hide
         }));
-
-        const handlePressStatus = useCallback(() => {
-            onPressStatus?.();
-            setVisible(false);
-        }, [onPressStatus]);
 
         const onBackDrop = useCallback(() => {
             setVisible(false);
             onBackdropPress?.();
         }, [onBackdropPress]);
 
-        const renderCustomModal = useCallback(() => {
-
+        const renderTokenView = useMemo(() => {
             return (
-                <div className={cx('container', 'y20')}>
-
-                    {data?.map((item: ItemScreenModel) => {
-                        const handleChangeStep = () => {
-                            onChangeStep?.(item?.id || 1);
-                            setTabs(item?.id);
-                            setVisible(false);
-                        };
-
-                        return (
-                            <>
-                                {item.is_login ?
-                                    <>
-                                        {info.token && <div className={tabs === item?.id ? cx('column-active') : cx('column')} key={item?.id} onClick={handleChangeStep}>
-                                            <div className={cx('button-item-container')}>
-                                                <img src={item?.icon} className={cx('icon-close')} />
-                                                <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
-                                            </div>
-                                        </div>}
-                                    </>
-                                    :
-                                    <div className={tabs === item?.id ? cx('column-active') : cx('column')} key={item?.id} onClick={handleChangeStep}>
-                                        <div className={cx('button-item-container')}>
-                                            <img src={item?.icon} />
-                                            <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
-                                        </div>
-                                    </div>
-                                }
-                            </>
-                        );
-                    })}
-                    {info.token ?
-                        <div className={cx('row')}>
+                <>
+                    {info.token
+                        ? <div className={cx('row')}>
                             <Button
                                 label={Languages.profile.logout}
                                 labelStyles={cx('text-red h6 medium')}
                                 containButtonStyles={cx('button-gray', 'y20')}
-                                buttonStyle={'GRAY'}
+                                buttonStyle={BUTTON_STYLES.GRAY}
                                 isLowerCase
                             />
                         </div>
-                        :
-                        <div className={cx('column')}>
+                        : <div className={cx('column')}>
                             <Button
                                 label={Languages.auth.login}
                                 containButtonStyles={cx('button-white', 'y30')}
                                 labelStyles={cx('text-green h6 medium')}
-                                buttonStyle={'WHITE'}
+                                buttonStyle={BUTTON_STYLES.WHITE}
                                 isLowerCase
                                 onPress={() => navigate(Paths.auth, { state: { name: Languages.auth.login } })}
                             />
@@ -131,19 +91,52 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                                 label={Languages.auth.signUp}
                                 labelStyles={cx('text-white h6 medium')}
                                 containButtonStyles={cx('button-green', 'y20')}
-                                buttonStyle={'GREEN'}
+                                buttonStyle={BUTTON_STYLES.GREEN}
                                 isLowerCase
                                 onPress={() => navigate(Paths.auth, { state: { name: Languages.auth.register } })}
                             />
                         </div>
                     }
+                </>
+            );
+        }, [info.token, navigate]);
+
+        const renderCustom = useCallback(() => {
+            return (
+                <div className={cx('container', 'y20')}>
+                    {data?.map((item: ItemScreenModel) => {
+                        const handleChangeStep = () => {
+                            onChangeStep?.(item?.id || 1);
+                            setTabs(item?.id);
+                            setVisible(false);
+                        };
+                        return (
+                            <div key={item?.id}>
+                                {item.is_login
+                                    ? (info.token && <div className={tabs === item?.id ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
+                                        <div className={cx('button-item-container')}>
+                                            <img src={item?.icon} className={cx('icon-close')} />
+                                            <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
+                                        </div>
+                                    </div>)
+                                    : <div className={tabs === item?.id ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
+                                        <div className={cx('button-item-container')}>
+                                            <img src={item?.icon} />
+                                            <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        );
+                    })}
+                    {renderTokenView}
                 </div>
             );
-        }, [data, info.token, navigate, onChangeStep, tabs]);
+        }, [data, info.token, onChangeStep, renderTokenView, tabs]);
 
         return (
             <Drawer
-                placement='left'
+                placement={'left'}
                 closable={false}
                 onClose={onBackDrop}
                 open={visible}
@@ -151,10 +144,10 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             >
                 <div className={cx('drawer-container')}>
                     <img src={IcLogo} className={cx('logo')} />
-                    <img src={Ic_Close} onClick={hideModal} className={cx('close')} />
+                    <img src={Ic_Close} onClick={hide} className={cx('close')} />
                 </div>
                 <div className={cx('body')}>
-                    {renderCustomModal()}
+                    {renderCustom()}
                 </div>
             </Drawer>
         );
