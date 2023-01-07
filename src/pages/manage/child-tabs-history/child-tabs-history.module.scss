@@ -1,6 +1,6 @@
 @import 'assets/scss';
 .page-container {
-    padding: 0 0 32px 0;
+    padding-bottom: 32px;
     justify-content: center;
     flex-direction: column;
     display: flex;
@@ -9,7 +9,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 80%;
+        width: 100%;
         align-self: center;
     }
     .page-wrap-mobile {
@@ -22,14 +22,14 @@
     .content-web-container {
         display: flex;
         flex-direction: column;
-        max-height: 70vh;
+        height: 66vh;
         position: relative;
     }
     .content-mobile-container {
         display: flex;
         flex-direction: column;
-        max-height: 80vh;
-        padding: 0 16px 100px 16px;
+        height: 72vh;
+        position: relative;
     }
     .top-search-component {
         border-radius: 8px;
@@ -38,7 +38,7 @@
         padding: 16px 0;
         box-shadow: $box-shadow;
         margin-top: 30px;
-        width: 100%;
+        width: 80%;
     }
     .top-search-mobile-component {
         display: flex;
@@ -48,6 +48,7 @@
         background-color: $color-gray10;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        width: calc(100% - 32px);
     }
     .top-search-mobile-component::-webkit-scrollbar {
         display: none;
@@ -173,21 +174,38 @@
 }
 
 .bottom-container {
-    height: 90vh;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     overflow: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    padding: 24px 0 80px 0;
+    padding-top: 24px;
     &::-webkit-scrollbar {
         display: none;
     }
 }
 
-.bottom {
+.flat-list {
     -ms-overflow-style: none;
     scrollbar-width: none;
-    width: 100%;
+    width: 80%;
+    display: flex;
+    align-self: center;
+    flex-direction: column;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.flat-list-mobile {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    width: calc(100% - 32px);
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    flex-direction: column;
     &::-webkit-scrollbar {
         display: none;
     }
@@ -196,7 +214,8 @@
 .button-see-more {
     align-self: center;
     justify-content: center;
-    margin: 24px 0 80px 0;
+    margin-top: 24px;
+    width: 100%;
 }
 
 .content-item-picker-text {
@@ -209,4 +228,8 @@
     border-radius: 5px;
     border: none;
     outline: none;
+}
+
+.footer {
+    margin: 40px 0 0 0;
 }

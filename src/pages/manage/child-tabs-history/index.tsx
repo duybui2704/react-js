@@ -5,6 +5,7 @@ import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import Footer from 'components/footer';
 import HistoryPackage from 'components/history-package';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
@@ -35,7 +36,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
     const { apiServices } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
-    const [tabName, setTabName] = useState<number>(tabsNumber);    
+    const [tabName, setTabName] = useState<number>(tabsNumber);
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
@@ -172,7 +173,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
         const onNavigateInvestDetail = () => {
             onNextScreen(dataInvest, tabName);
             console.log('tabName==', tabName);
-            
+
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
@@ -214,15 +215,20 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         return (
             <div className={cx('bottom-container')} >
-                {renderInvestList(_list)}
-                <Row gutter={[24, 44]} className={cx('button-see-more')} onClick={fetchDataMore}>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                        <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
-                    </Col>
-                </Row>
+                <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
+                    {renderInvestList(_list)}
+                    <Row gutter={[24, 0]}  onClick={fetchDataMore} className={cx('button-see-more')}>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                            <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
+                        </Col>
+                    </Row>
+                </div>
+                <div className={cx('footer')}>
+                    <Footer />
+                </div>
             </div>
         );
-    }, [fetchDataMore, renderInvestList]);
+    }, [fetchDataMore, isMobile, renderInvestList]);
 
     const onChangeTab = useCallback((tabNumber: number) => {
         setTabName(tabNumber);
@@ -230,7 +236,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
 
     return (
         <div className={cx('page-container')}>
-            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`}/>
+            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`} />
             {isMobile && renderFilterMobile}
             <div className={cx(isMobile ? 'page-wrap-mobile' : 'page-wrap')}>
                 {!isMobile && renderFilterWeb}
