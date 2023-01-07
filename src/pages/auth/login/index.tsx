@@ -17,6 +17,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import formValidate from 'utils/form-validate';
 import styles from './login.module.scss';
+import { Paths } from 'routers/paths';
 
 const cx = classNames.bind(styles);
 
@@ -32,13 +33,6 @@ function Login({ onPress }) {
     const [phone, setPhone] = useState<string>('');
     const refPhone = useRef<TextFieldActions>(null);
     const refPwd = useRef<TextFieldActions>(null);
-
-
-    useEffect(() => {
-        if (sessionManager.getPhoneLogin()) {
-            setPhone(sessionManager.getPhoneLogin() || '');
-        }
-    }, []);
 
     const onChange = (e: CheckboxChangeEvent) => {
         setCheckBox(e.target.checked);
@@ -63,35 +57,36 @@ function Login({ onPress }) {
     const onLogin = useCallback(async () => {
         if (onValidate()) {
             setLoading(true);
-            console.log('login ===', refPhone.current?.getValue(), refPwd.current?.getValue());
-            const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue());
+            const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue()) as any;
+            console.log('login ===', res);
+
             setLoading(false);
 
-            // if (res.data) {
-            //     const resData = res.data as UserInfoModel;
-            //     sessionManager.setAccessToken(resData?.token);
-            //     const resInfoAcc = await apiServices.auth.getUserInfo();
-            //     if (resInfoAcc.data) {
-            //         if (!checkBox) {
-            //             sessionManager.setSavePhoneLogin('');
-            //             sessionManager.setSavePassLogin('');
-            //         } else {
-            //             sessionManager.setSavePhoneLogin(phone);
-            //             sessionManager.setSavePassLogin('');
-            //         }
-            //         const data = resInfoAcc?.data as UserInfoModel;
-            //         setUserData(data);
-            //         userManager.updateUserInfo({
-            //             ...data
-            //         });
-            //     }
-            //     setTimeout(() => {
-
-            //     }, 200);
-            // }
+            if (res?.success) {
+                const resData = res.data as UserInfoModel;
+                sessionManager.setAccessToken(resData?.token);
+                const resInfoAcc = await apiServices.auth.getUserInfo();
+                if (resInfoAcc.data) {
+                    // if (!checkBox) {
+                    //     sessionManager.setSavePhoneLogin();
+                    //     sessionManager.setSavePassLogin();
+                    // } else {
+                    //     sessionManager.setSavePhoneLogin(phone);
+                    //     sessionManager.setSavePassLogin();
+                    // }
+                    const data = resInfoAcc?.data as UserInfoModel;
+                    setUserData(data);
+                    userManager.updateUserInfo({
+                        ...data
+                    });
+                }
+                setTimeout(() => {
+                    navigate(Paths.home);
+                }, 200);
+            }
             // userManager.updateUserInfo(res.data);
         }
-    }, [apiServices.auth, checkBox, onValidate, phone, userManager]);
+    }, [apiServices.auth, navigate, onValidate, userManager]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
@@ -177,7 +172,7 @@ function Login({ onPress }) {
                 />
             </div>
         </div>;
-    }, [isMobile, onLogin, onNavigate]);
+    }, [isMobile, onLogin, onNavigate, phone]);
 
     const renderView = useMemo(() => {
         return <>

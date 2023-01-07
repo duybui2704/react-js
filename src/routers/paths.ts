@@ -6,7 +6,8 @@ export const Paths = {
     //auth
     auth: '/auth',
 
-    //news
-    news: '/news'
+    //profile
+    profile: '/profile'
+
 
 };
