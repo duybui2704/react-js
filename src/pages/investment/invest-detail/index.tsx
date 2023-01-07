@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ImgHeader from 'assets/image/img_home_header.jpg';
 import styles from './invest-detail.module.scss';
 import classNames from 'classnames/bind';
@@ -22,6 +22,7 @@ import TableInvest from 'components/table-invest';
 import { columnNameHistory, columnNameInvest, dataColumnHistory, dataColumnInvest, dataColumnInvesting } from 'pages/__mocks__/invest';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { TYPE_TAB_HISTORY } from 'commons/constants';
+import Footer from 'components/footer';
 
 const cx = classNames.bind(styles);
 
@@ -100,6 +101,53 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         );
     }, [navigate]);
 
+    const renderDetailPackage = useMemo(() => {
+        return (
+            <div className={cx(isMobile ? 'content-invest-container-mobile' : 'content-invest-container')}>
+                <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
+                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
+                <Row gutter={[24, 0]} className={cx('invest-wrap')}>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
+                        {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_con_lai || '0'))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_da_tra || '0'))}
+                        {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, dataPackage?.ngay_dau_tu)}
+                        {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
+                        {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
+                        {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
+                        {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_nhan || '0'))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_tra || '0'))}
+                        {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
+                    </Col>
+                </Row>
+                {!isDetailHistory && <div className={cx('invest-now-wrap')}>
+                    <div className={cx('invest-now-container')} onClick={handleInvestNow} >
+                        <span className={cx('invest-now-text')}>{Languages.invest.investNow}</span>
+                        <img src={IcRightArrow} className={cx('ic_arrow')} />
+                    </div>
+                </div>}
+            </div>
+        );
+    }, [dataPackage?.hinh_thuc_tra_lai, dataPackage?.ki_han_dau_tu, dataPackage?.lai_hang_thang, dataPackage?.ma_hop_dong, dataPackage?.ngay_dao_han_du_kien, dataPackage?.ngay_dau_tu, dataPackage?.so_tien_dau_tu, dataPackage?.ti_le_lai_suat_hang_thang, dataPackage?.tong_goc_con_lai, dataPackage?.tong_goc_da_tra, dataPackage?.tong_lai_da_nhan, dataPackage?.tong_lai_da_tra, dataPackage?.tong_lai_nhan_duoc, handleInvestNow, isDetailHistory, isMobile, renderKeyValue]);
+
+    const renderDetailPayment = useMemo(() => {
+        return (
+            <div className={cx(isMobile ? 'invest-note-container-mobile' :'invest-note-container')}>
+                <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
+                {isMobile ?
+                    <PeriodInvestMobile dataTableInvest={dataPeriodInvest} dataTableHistory={dataDetailHistory} isDetailHistory={isDetailHistory} /> :
+                    <TableInvest dataTableInvest={dataPeriodInvest} dataTableHistory={dataDetailHistory} isDetailHistory={isDetailHistory}
+                        columnName={isDetailHistory ? columnNameHistory : columnNameInvest}
+                    />
+                }
+            </div>
+        );
+    }, [dataDetailHistory, dataPeriodInvest, isDetailHistory, isMobile]);
+
     return (
         <div className={cx('page')}>
             <div className={cx('banner-container')}>
@@ -108,47 +156,14 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                     <img src={isDetailHistory ? IcWhiteLeftArrow : IcLeftArrow} className={cx('ic-back')} />
                 </div>
                 <div className={cx('content-container')}>
-                    <div className={cx(isMobile ? 'text-banner-mobile-container' : 'text-banner-container')}>
+                    <div className={cx('text-banner-container')}>
                         <span className={cx(isMobile ? 'h11 text-white medium' : 'invest-tien-ngay-text')}>{Languages.invest.investTienNgay}</span>
                         <span className={cx(isMobile ? 'h6 text-white medium' : 'invest-build-future-text')}>{Languages.invest.buildFuture}</span>
                         <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
-                        <div className={cx('content-invest-container')}>
-                            <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                            <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
-                            <Row gutter={[24, 0]} className={cx('invest-wrap')}>
-                                <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                                    {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
-                                    {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_con_lai || '0'))}
-                                    {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_da_tra || '0'))}
-                                    {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
-                                    {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, dataPackage?.ngay_dau_tu)}
-                                    {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                                    {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
-                                    {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                                    {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
-                                    {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_nhan || '0'))}
-                                    {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_tra || '0'))}
-                                    {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
-                                </Col>
-                            </Row>
-                            {!isDetailHistory && <div className={cx('invest-now-wrap')}>
-                                <div className={cx('invest-now-container')} onClick={handleInvestNow} >
-                                    <span className={cx('invest-now-text')}>{Languages.invest.investNow}</span>
-                                    <img src={IcRightArrow} className={cx('ic_arrow')} />
-                                </div>
-                            </div>}
-
-                        </div>
-                        <div className={cx('invest-note-container')}>
-                            <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
-                            {isMobile ?
-                                <PeriodInvestMobile dataTableInvest={dataPeriodInvest} dataTableHistory={dataDetailHistory} isDetailHistory={isDetailHistory} /> :
-                                <TableInvest dataTableInvest={dataPeriodInvest} dataTableHistory={dataDetailHistory} isDetailHistory={isDetailHistory}
-                                    columnName={isDetailHistory ? columnNameHistory : columnNameInvest}
-                                />
-                            }
+                        {renderDetailPackage}
+                        {renderDetailPayment}
+                        <div className={cx('footer')}>
+                            <Footer />
                         </div>
                     </div>
                 </div>
