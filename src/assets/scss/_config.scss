@@ -3,6 +3,7 @@
     @return math.div($pixel, 16px) *1rem;
 }
 
+$text-h0: pxToRem(64px);
 $text-h1: pxToRem(48px);
 $text-h2: pxToRem(40px);
 $text-h3: pxToRem(32px);
@@ -12,5 +13,3 @@ $text-h6: pxToRem(16px);
 $text-h7: pxToRem(14px);
 $text-h8: pxToRem(12px);
 $text-h9: pxToRem(10px);
-$text-h10: pxToRem(64px);
-$text-h11: pxToRem(36px);

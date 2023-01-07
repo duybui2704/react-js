@@ -157,8 +157,8 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                 </div>
                 <div className={cx('content-container')}>
                     <div className={cx('text-banner-container')}>
-                        <span className={cx(isMobile ? 'h11 text-white medium' : 'invest-tien-ngay-text')}>{Languages.invest.investTienNgay}</span>
-                        <span className={cx(isMobile ? 'h6 text-white medium' : 'invest-build-future-text')}>{Languages.invest.buildFuture}</span>
+                        <span className={cx(isMobile ? 'h3 text-white medium' : 'invest-tien-ngay-text')}>{Languages.invest.investTienNgay}</span>
+                        <span className={cx(isMobile ? 'h6 text-white medium b5' : 'invest-build-future-text')}>{Languages.invest.buildFuture}</span>
                         <span className={cx(isMobile ? 'describe-mobile-text' : 'describe-text')}>{Languages.invest.describe}</span>
                         {renderDetailPackage}
                         {renderDetailPayment}
