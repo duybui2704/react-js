@@ -20,6 +20,12 @@ export enum CONTACT {
 }
 
 export enum API_CONFIG {
+    BASE_URL_ERROR = 'https://sandboxapindt.tienngay.vn/',
+    // BASE_URL_ERROR = 'https://apindt.tienngay.vn/',
+
+    // BASE_URL = 'https://appndt.tienngay.vn/V2/',
+    BASE_URL = 'https://appndt.tienvui.vn/V2/',
+
     // common
     GET_BANNERS = '/banner/news', // banner app
     GET_BANNERS_HOME = '/banner/home_V2',

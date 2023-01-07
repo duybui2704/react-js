@@ -1,8 +1,13 @@
 @import 'assets/scss';
 .page {
-    width: --vh;
+    width: 100%;
     overflow: auto;
-    height: 92vh;
+    height: 95vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .banner {
@@ -22,6 +27,7 @@
     border-radius: 5px;
     justify-content: center;
     align-items: center;
+    z-index: 10000;
     cursor: pointer;
     &:hover {
         opacity: 0.9;
@@ -44,6 +50,7 @@
     width: 40px;
     height: 40px;
     border-radius: 5px;
+    z-index: 10000;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -68,6 +75,7 @@
     width: 30px;
     height: 30px;
     border-radius: 5px;
+    z-index: 10000;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -93,6 +101,7 @@
     width: 30px;
     height: 30px;
     border-radius: 5px;
+    z-index: 10000;
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -130,17 +139,7 @@
     position: absolute;
     flex-direction: column;
     top: 0px;
-    width: 70%;
-    justify-content: center;
-    align-items: center;
-}
-
-.text-banner-mobile-container {
-    display: flex;
-    position: absolute;
-    flex-direction: column;
-    top: 0px;
-    width: calc(100% - 32px);
+    width: 100%;
     justify-content: center;
     align-items: center;
 }
@@ -184,55 +183,81 @@
     border: 1px solid $color-gray5;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 80%;
     background-color: $color-white;
     box-shadow: $box-shadow;
     border-radius: 8px;
     position: relative;
-    .info-contract-text {
-        color: $color-gray2;
-        padding-top: 16px;
-        font-family: $font-medium;
-        font-size: $text-h6;
-    }
-    .amount-invest-text {
-        color: $color-green-header;
-        font-family: $font-medium;
-        font-size: $text-h10;
-    }
-    .amount-invest-mobile-text {
-        color: $color-green-header;
-        font-family: $font-medium;
-        font-size: $text-h11;
-    }
-    .invest-wrap {
+}
+
+.content-invest-container-mobile {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $color-gray5;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 32px);
+    background-color: $color-white;
+    box-shadow: $box-shadow;
+    border-radius: 8px;
+    position: relative;
+}
+
+.info-contract-text {
+    color: $color-gray2;
+    padding-top: 16px;
+    font-family: $font-medium;
+    font-size: $text-h6;
+}
+
+.amount-invest-text {
+    color: $color-green-header;
+    font-family: $font-medium;
+    font-size: $text-h10;
+}
+
+.amount-invest-mobile-text {
+    color: $color-green-header;
+    font-family: $font-medium;
+    font-size: $text-h11;
+}
+
+.invest-wrap {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    padding: 0px 0 48px 0;
+    .column-wrap {
+        flex-direction: column;
         display: flex;
-        width: 100%;
-        flex-direction: row;
-        padding: 0px 0 48px 0;
-        .column-wrap {
-            flex-direction: column;
-            display: flex;
-        }
     }
 }
 
 .invest-note-container {
     display: flex;
     flex-direction: column;
-    padding: 48px 0 100px 0;
-    width: 100%;
-    .invest-note-text {
-        color: $color-gray3;
-        font-family: $font-medium;
-        font-size: $text-h6;
-        padding-bottom: 24px;
-    }
-    .invest-note-describe-text {
-        color: $color-gray2;
-        font-family: $font-regular;
-        font-size: $text-h6;
-    }
+    padding: 48px 0;
+    width: 80%;
+}
+
+.invest-note-container-mobile {
+    display: flex;
+    flex-direction: column;
+    padding: 48px 0;
+    width: calc(100% - 32px);
+}
+
+.invest-note-text {
+    color: $color-gray3;
+    font-family: $font-medium;
+    font-size: $text-h6;
+    padding-bottom: 24px;
+}
+
+.invest-note-describe-text {
+    color: $color-gray2;
+    font-family: $font-regular;
+    font-size: $text-h6;
 }
 
 .key-value-container {
@@ -314,4 +339,8 @@
     to {
         transform: scale(1, 1);
     }
+}
+
+.footer {
+    width: 100%;
 }
