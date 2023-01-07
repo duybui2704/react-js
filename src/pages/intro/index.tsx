@@ -470,9 +470,7 @@ function Intro() {
             </div>
             <div
                 className={cx('view-intro')}
-                style={{ marginTop: `${-topIntroHeight/2}px` }}
-                // style={{ top: `${getTopHeight() - topIntroHeight / 2}px` }}
-            // style={{ top: '103' }}
+                style={{ marginTop: `${-topIntroHeight / 2}px` }}
             >
                 <div className={cx('view-intro-center', 'width-intro')}
                     ref={elementRef}>
