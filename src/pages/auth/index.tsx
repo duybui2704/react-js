@@ -87,7 +87,7 @@ function Auth() {
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
-                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} />;
+                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} title={steps?.title} />;
             case Languages.auth.changePwd:
                 return <ChangePwd onPress={onChangeSteps} />;
             default:

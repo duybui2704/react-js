@@ -1,30 +1,28 @@
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
-import { MyTextInput } from 'components/input';
-import { TextFieldActions } from 'components/input/types';
+import { Loading } from 'components/loading';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import sessionManager from 'managers/session-manager';
+import { UserInfoModel } from 'models/user-model';
+import React, { useCallback, useMemo, useState } from 'react';
 import OtpInput from 'react-otp-input';
+import { useNavigate } from 'react-router-dom';
+import { Paths } from 'routers/paths';
 import formValidate from 'utils/form-validate';
 import styles from './otp-auth.module.scss';
 
-
 const cx = classNames.bind(styles);
 
-function OTPAuth({ onPress, phoneNumber }) {
+function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: string, title: string }) {
     const isMobile = useIsMobile();
-
-    // const { apiServices } = useAppStore();
-    const refPhone = useRef<TextFieldActions>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { apiServices, userManager } = useAppStore();
+    const navigator = useNavigate();
     const [value, setValue] = useState<string>('');
     const [errMsg, setErrMsg] = useState<string>('');
-
-    const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
 
     const onValidate = useCallback(() => { 
         if (value.length === 0) {
@@ -38,19 +36,42 @@ function OTPAuth({ onPress, phoneNumber }) {
             setErrMsg(Languages.errorMsg.errMsgOTP);
             return false;
         }
-
         return true;
 
     }, [value]);
 
     const onConfirm = useCallback(async () => {
         if (onValidate()) {
-            onPress?.({ name: Languages.auth.changePwd });
+            if (title === Languages.auth.changePwd) {
+                const res = await apiServices.auth.validateToken(value, phoneNumber) as any;
+                if (res.success) {
+                    onPress?.({ name: Languages.auth.login });
+                }
+            } else if (title === Languages.auth.signUp) {
+                setIsLoading(true);
+                const res = await apiServices.auth.activeAccount(
+                    value,
+                    phoneNumber
+                ) as any;
+                setIsLoading(false);
+                if (res.success) {
+                    const temp = res?.data as UserInfoModel;
+                    if (temp?.token) {
+                        sessionManager.setAccessToken(temp?.token);
+                        const resInfoAcc = await apiServices.auth.getUserInfo() as any;
+                        if (resInfoAcc.success) {
+                            const resData = resInfoAcc.data as UserInfoModel;
+                            userManager.updateUserInfo(resData);
+                        }
+                        navigator(Paths.home);
+                    }
+                }
+            }
         }
-    }, [onPress, onValidate]);
+    }, [apiServices.auth, navigator, onPress, onValidate, phoneNumber, title, userManager, value]);
 
-    const onNavigate = useCallback((title: string) => {
-        onPress?.({ name: title });
+    const onNavigate = useCallback(async (nameTabs: string) => {
+        onPress?.({ name: nameTabs });
     }, [onPress]);
 
     const onChangeOTP = useCallback((otp: string) => {
@@ -94,8 +115,9 @@ function OTPAuth({ onPress, phoneNumber }) {
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
             />
+            {isLoading && <Loading />}
         </div>;
-    }, [errMsg, isMobile, onChangeOTP, onConfirm, value]);
+    }, [errMsg, isLoading, isMobile, onChangeOTP, onConfirm, value]);
 
     const renderView = useMemo(() => {
         return <>
@@ -107,7 +129,4 @@ function OTPAuth({ onPress, phoneNumber }) {
 }
 
 export default OTPAuth;
-function validateNumber(value: string) {
-    throw new Error('Function not implemented.');
-}
 

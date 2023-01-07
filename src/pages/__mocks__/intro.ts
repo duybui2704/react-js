@@ -9,13 +9,15 @@ export const serviceList = [
         id: `1`,
         image: IcLuckyloot,
         name: 'Vé số Vietllot trực tuyến',
-        content: 'Thuận tiện, nhanh chóng, an toàn'
+        content: 'Thuận tiện, nhanh chóng, an toàn',
+        link: 'https://luckylott.vn/'
     },
     {
         id: `2`,
         image: IcVPS,
         name: 'Chứng khoán VPS',
-        content: 'Đăng ký mở tài khoản miễn phí'
+        content: 'Đăng ký mở tài khoản miễn phí',
+        link: 'https://www.vps.com.vn'
     }
 ] as ServiceModel[];
 
