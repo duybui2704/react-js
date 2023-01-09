@@ -71,7 +71,7 @@ const Languages = {
         userOTPLength: 'Mã OTP không đủ 6 kí tự',
         errMsgOTP: 'Mã OTP không hợp lệ'
     },
-    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý của tôi', 'Tin tức'],
+    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {
         textCenter: 'HƯỚNG DẪN SỬ DỤNG CHỨC NĂNG CƠ CẤU, GIA HẠN',
         textCenter1: 'HƯỚNG DẪN SỬ DỤNG BẢO HIỂM',

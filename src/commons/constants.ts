@@ -29,7 +29,7 @@ export enum GAEvents {
 }
 
 export enum Events {
-    TOAST = 'TOAST',
+    CHANGE_TAB = 'CHANGE_TAB',
     LOGOUT = 'LOGOUT',
 }
 
@@ -48,6 +48,14 @@ export enum POSITION_TYPE {
     BO = 1, // back office
     OO_M = 2, // out of office with many agents eg: ASM
     OO_O = 3, // out of office with one agent 
+}
+
+export enum TAB_INDEX {
+    INTRO = 0,
+    INVESTMENT = 1,
+    MANAGEMENT = 2,
+    NEWS = 3,
+    PROFILE = 4,
 }
 
 export enum TYPE_TOAST {

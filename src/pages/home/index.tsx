@@ -25,25 +25,45 @@ import { dataMenu } from 'pages/__mocks__/menu';
 import MenuMobile from 'components/menu-mobile';
 import sessionManager from 'managers/session-manager';
 import { useAppStore } from 'hooks';
-import { toJS } from 'mobx';
+import { EventEmitter } from 'utils/event-emitter';
+import { Events, TAB_INDEX } from 'commons/constants';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
 
-function Home() {
+const Home = observer(() => {
     const navigate = useNavigate();
     const { userManager } = useAppStore();
     const isMobile = useIsMobile();
-    const [steps, setSteps] = useState<number>(1);
-    const [toggle, setToggle] = useState<boolean>(false);
+    const [stepIndex, setStepIndex] = useState<number>(0);
+    // const [toggle, setToggle] = useState<boolean>(false);
 
     const refDrawer = useRef<DrawerBaseActions>(null);
 
     const [position] = useState<PositionType[]>(['left', 'right']);
 
+    const onLogOut = useCallback(() => {
+        setStepIndex(0);
+        userManager.updateUserInfo(undefined);
+        sessionManager.logout();
+    }, [userManager]);
+
+    const onHandleChangeTab = useCallback((index: number) => {
+        setStepIndex(index);
+    }, []);
+
+    useEffect(() => {
+        EventEmitter.on(Events.CHANGE_TAB, onHandleChangeTab);
+        EventEmitter.on(Events.LOGOUT, onLogOut);
+        return () => {
+            EventEmitter.remove();
+        };
+    }, [onHandleChangeTab, onLogOut]);
+
     const onTabs = useCallback((index: number) => {
-        setSteps(index);
-        setToggle(last => !last);
+        setStepIndex(index);
+        // setToggle(last => !last);
     }, []);
 
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
@@ -57,7 +77,7 @@ function Home() {
         };
 
         const navigateToProfile = () => {
-            navigate(Paths.profile);
+            setStepIndex(TAB_INDEX.PROFILE);
         };
 
         return {
@@ -104,7 +124,7 @@ function Home() {
     }, [OperationsSlot, position]);
 
     const tabs = useMemo(() => {
-        if (sessionManager.accessToken) {
+        if (userManager.userInfo) {
             return [
                 {
                     label: Languages.tabs[0],
@@ -125,6 +145,11 @@ function Home() {
                     label: Languages.tabs[3],
                     key: '3',
                     children: <News />
+                },
+                {
+                    label: Languages.tabs[4],
+                    key: '4',
+                    children: <Profile />
                 }
             ];
         } else {
@@ -146,14 +171,14 @@ function Home() {
                 }
             ];
         }
-    }, []);
+    }, [userManager.userInfo]);
 
     const onChange = (key: string) => {
-        console.log(key);
+        setStepIndex(parseInt(key));
     };
 
     const renderBody = useMemo(() => {
-        switch (steps) {
+        switch (stepIndex) {
             case 1:
                 return <Intro />;
             case 2:
@@ -165,7 +190,7 @@ function Home() {
             default:
                 return <Profile />;
         }
-    }, [steps]);
+    }, [stepIndex]);
 
     const onShowMenu = useCallback(() => {
         refDrawer.current?.show();
@@ -184,6 +209,7 @@ function Home() {
                 </div>
                 : <Tabs
                     defaultActiveKey={'0'}
+                    activeKey={`${stepIndex}`}
                     onChange={onChange}
                     items={tabs}
                     tabBarExtraContent={slot}
@@ -195,6 +221,6 @@ function Home() {
             }
         </>
     );
-}
+});
 
 export default Home;
