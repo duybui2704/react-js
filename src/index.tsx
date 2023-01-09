@@ -45,7 +45,7 @@ function App(): JSX.Element {
             <AppStoreProvider>
                 <RouterProvider router={router} />
             </AppStoreProvider>
-            <ToastContainer theme="colored" className="customize-toast" limit={1} />
+            <ToastContainer theme="colored" className="customize-toast" limit={1} autoClose={5000} />
         </React.StrictMode>
     );
 }

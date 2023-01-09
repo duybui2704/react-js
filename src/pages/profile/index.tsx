@@ -10,6 +10,7 @@ import { UserInfoModel } from 'models/user-model';
 import { InfoUser, profile } from 'pages/__mocks__/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { EventEmitter } from 'utils/event-emitter';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Commission from './commission';
