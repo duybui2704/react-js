@@ -41,7 +41,7 @@ function InvestItem({ dataInvest, onPressInvest }:
             {renderKeyValue(Languages.invest.expectedProfit, utils.formatLoanMoney(dataInvest?.tong_lai_du_kien || '0'))}
             <div className={cx('invest-now-wrap')}>
                 <div className={cx('invest-now-container')} onClick={handlePressInvest} >
-                    <span className={cx('invest-now-text')}>{Languages.invest.investNow}</span>
+                    <span className={cx('invest-now-text')}>{Languages.invest.discoveryNow}</span>
                     <img src={IcRightArrow} className={cx('ic_arrow')} />
                 </div>
             </div>

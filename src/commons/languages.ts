@@ -176,7 +176,8 @@ const Languages = {
         seeMore: 'Xem thêm các gói đầu tư khác',
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
         agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
-        policy: 'Điều khoản sử dụng và chính sách'
+        policy: 'Điều khoản sử dụng và chính sách',
+        discoveryNow: 'Khám phá ngay'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
