@@ -61,7 +61,7 @@ const Home = observer(() => {
         };
     }, [onHandleChangeTab, onLogOut]);
 
-    const onTabs = useCallback((index: number) => {
+    const onChangeMenu = useCallback((index: number) => {
         setStepIndex(index);
         // setToggle(last => !last);
     }, []);
@@ -173,7 +173,7 @@ const Home = observer(() => {
         }
     }, [userManager.userInfo]);
 
-    const onChange = (key: string) => {
+    const onChangeTab = (key: string) => {
         setStepIndex(parseInt(key));
     };
 
@@ -205,12 +205,12 @@ const Home = observer(() => {
                         <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
                     </div>
                     {renderBody}
-                    <MenuMobile ref={refDrawer} onChangeStep={onTabs} data={dataMenu} />
+                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={dataMenu} />
                 </div>
                 : <Tabs
                     defaultActiveKey={'0'}
                     activeKey={`${stepIndex}`}
-                    onChange={onChange}
+                    onChange={onChangeTab}
                     items={tabs}
                     tabBarExtraContent={slot}
                     centered

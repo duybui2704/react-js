@@ -1,7 +1,8 @@
+@import "assets/scss";
 .header_side {
     display: flex;
     width: calc(var(--vw)* 25);
-    height: 60px;
+    height: $header-height;
     align-items: center;
 }
 
@@ -17,7 +18,7 @@
 }
 
 .icon-tienngay {
-    width: 200px;
+    max-height: calc($header-height - 10px);
 }
 
 .icon-menu {
