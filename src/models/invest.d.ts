@@ -122,3 +122,15 @@ export interface DataColumnHistoryType {
     status: string;
     receivedDate: string;
 }
+
+export interface DataColumnCommissionType {
+    id: string;
+    phoneNumber: string;
+    totalInvest: string;
+    commissionAmount: string;
+}
+
+export interface DataTotalColumnCommissionType {
+    totalInvest: string;
+    totalCommission: string;
+}
