@@ -65,7 +65,8 @@ function Home() {
                 <img src={IcLogo} className={cx('icon-tienngay')} />
             </div>,
             right: <div className={cx('header_right')}>
-                {!sessionManager.accessToken ? <>
+                {/* {!sessionManager.accessToken ? <> */}
+                {sessionManager.accessToken ? <> {/*tắt đăng nhập cần pass*/}
                     <Button
                         label={Languages.auth.login}
                         buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}

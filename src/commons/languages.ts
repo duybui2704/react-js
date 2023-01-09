@@ -339,6 +339,15 @@ const Languages = {
         portrait: 'Chân dung khuôn mặt',
         reChoose: 'Chọn lại',
         verify: 'Xác nhận chứng từ'
+    },
+    commission:{
+        investmentCommission : 'Hoa hoa hồng nhà đầu tư',
+        itemOne: ' Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
+        itemTwo: ' Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày 01/09/2022',
+        star: '*'
+    },
+    tableCommission : {
+        sum : 'Tổng'
     }
 };
 

@@ -375,6 +375,14 @@ $desktop-width: 1024px;
     padding-bottom: 16px;
 }
 
+.pt-16{
+    padding-top: 16px;
+}
+
+.pl-16{
+    padding-left: 16px;
+}
+
 .pr5 {
     padding-right: 5px;
 }
@@ -390,6 +398,10 @@ $desktop-width: 1024px;
 }
 
 //gap 
+.g-4{
+    gap: 4px;
+}
+
 .g-8 {
     gap: 8px;
     @include mobile {
@@ -406,6 +418,10 @@ $desktop-width: 1024px;
 
 .g-16 {
     gap: 16px;
+}
+
+.g-20{
+    gap: 20px;
 }
 
 .g-24 {

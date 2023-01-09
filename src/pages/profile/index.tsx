@@ -12,6 +12,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
+import Commission from './commission';
 import Conditions from './conditions';
 import InfoAccount from './info-account';
 import InfoIdentity from './info-identity';
@@ -50,6 +51,8 @@ function Profile() {
                 return <InfoChangePwd />;
             case 4:
                 return <AccountLink />;
+            case 5:
+                return <Commission />;
             case 6:
                 return <Conditions />;
             case 7:
