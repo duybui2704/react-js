@@ -9,7 +9,7 @@
         120
     ],
     "files.insertFinalNewline": true,
-    "files.autoSave": "onFocusChange",
+    "files.autoSave": "afterDelay",
     "typescript.tsdk": "node_modules/typescript/lib",
     "eslint.workingDirectories": [
         "./src/"
