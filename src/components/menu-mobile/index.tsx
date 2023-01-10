@@ -5,13 +5,9 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import IcLogo from 'assets/image/img_logo.jpeg';
 
-import { InfoUser } from 'pages/__mocks__/profile';
-
-import { UserInfoModel } from 'models/user-model';
 import React, {
     forwardRef,
     useCallback,
-    useEffect,
     useImperativeHandle,
     useMemo,
     useState

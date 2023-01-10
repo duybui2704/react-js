@@ -4,7 +4,6 @@ import Ic_Close from 'assets/image/ic_black_close_popup.svg';
 import ImgPortrait from 'assets/image/img_portrait.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { InfoUser } from 'pages/__mocks__/profile';
 
 import { UserInfoModel } from 'models/user-model';
 import React, {
@@ -16,12 +15,13 @@ import React, {
 } from 'react';
 import styles from './drawer-mobile-account.module.scss';
 import { ItemScreenModel } from 'models/profile';
+import { useAppStore } from 'hooks';
 
 type DrawerBaseProps = {
     onClose?: () => any;
     onChangeStep?: (tabs: number) => void;
     onBackdropPress?: () => void;
-    onPressStatus?:()=>void;
+    onPressStatus?: () => void;
     data: ItemScreenModel[]
 };
 
@@ -37,12 +37,12 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const [info, setInfo] = useState<UserInfoModel>();
-
+        const { userManager } = useAppStore();
         const [tabs, setTabs] = useState<number>(1);
 
         useEffect(() => {
-            setInfo(InfoUser);
-        }, []);
+            setInfo(userManager.userInfo);
+        }, [userManager.userInfo]);
 
         const hide = useCallback(() => {
             setVisible(false);
@@ -76,9 +76,9 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         <img src={Ic_Close} onClick={hide} className={cx('close')} />
                     </div>
                     <div className={cx('avatar')}>
-                        <img src={ImgPortrait} className={cx('avatar-img-container')} />
-                        <span className={cx('user-name-text')}>{info?.username}</span>
-                        <span className={cx('status-text')} onClick={handlePressStatus}>{info?.status}</span>
+                        <img src={info?.avatar_user || ImgPortrait} className={cx('avatar-img-container')} />
+                        <span className={cx('user-name-text')}>{info?.full_name}</span>
+                        <span className={cx('status-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
                     </div>
 
                     {data?.map((item: ItemScreenModel) => {
@@ -100,7 +100,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     })}
                 </div>
             );
-        }, [data, handlePressStatus, hide, info?.status, info?.username, onChangeStep, tabs]);
+        }, [data, handlePressStatus, hide, info?.avatar_user, info?.full_name, info?.tinh_trang?.status, onChangeStep, tabs]);
 
         return (
             <Drawer

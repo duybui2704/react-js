@@ -33,8 +33,8 @@ function Profile() {
     const refDrawer = useRef<DrawerBaseActions>(null);
 
     useEffect(() => {
-        setInfo(InfoUser);
-    }, []);
+        setInfo(userManager.userInfo);
+    }, [userManager.userInfo]);
 
     const onOpenIdentity = useCallback(() => {
         setStep(0);
@@ -75,7 +75,7 @@ function Profile() {
         return (
             <div className={cx('column', 'wid-100')}>
                 <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.username}</span>
+                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.full_name}</span>
                     <img src={IcTwoPeople} onClick={onShowDrawer} />
                 </div>
                 <div className={cx('information', 'padding')}>
@@ -83,16 +83,16 @@ function Profile() {
                 </div>
             </div>
         );
-    }, [onShowDrawer, renderViewRight, userManager.userInfo?.username]);
+    }, [onShowDrawer, renderViewRight, userManager.userInfo?.full_name]);
 
     const renderViewWeb = useMemo(() => {
         return (
             <>
                 <div className={cx('profile')}>
                     <div className={cx('avatar')}>
-                        <img src={ImgPortrait} width={'40%'} />
-                        <span className={cx('text-gray medium h5 y20')} >{info?.username}</span>
-                        <label className={cx('text-red medium h6')} onClick={onOpenIdentity}>{info?.status}</label>
+                        <img src={info?.avatar_user || ImgPortrait} width={'40%'} />
+                        <span className={cx('text-gray medium h5 y20')} >{info?.full_name}</span>
+                        <label className={cx('text-red medium h6')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</label>
                     </div>
                     {profile.map((item: ItemScreenModel, index: number) => {
                         const onChangeStep = () => {
@@ -104,7 +104,7 @@ function Profile() {
                                     <img src={item.icon} />
                                     <span className={cx('xl10 h7 text-gray regular b5')}>{item.title}</span>
                                 </div>
-                                <div className={cx('line')}/>
+                                <div className={cx('line')} />
                             </div>
                         );
                     })}
@@ -114,7 +114,7 @@ function Profile() {
                 </div>
             </>
         );
-    }, [info?.status, info?.username, onOpenIdentity, renderViewRight, step]);
+    }, [info?.avatar_user, info?.full_name, info?.tinh_trang?.status, onOpenIdentity, renderViewRight, step]);
 
     return (
         <div className={cx('column', 'container')}>

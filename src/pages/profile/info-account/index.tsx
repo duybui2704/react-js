@@ -5,8 +5,7 @@ import IcSave from 'assets/image/ic_save.svg';
 import IcErr from 'assets/image/ic_err.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { InfoUser } from 'pages/__mocks__/profile';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './info-account.module.scss';
 
@@ -15,11 +14,14 @@ import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { UserInfoModel } from 'models/user-model';
+import { useAppStore } from 'hooks';
+import { toJS } from 'mobx';
 
 const cx = classNames.bind(styles);
 
-function InfoAccount() {    
+function InfoAccount() {
     const navigate = useNavigate();
+    const { userManager } = useAppStore();
     const [info, setInfo] = useState<UserInfoModel>({});
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const refName = useRef<TextFieldActions>(null);
@@ -30,19 +32,17 @@ function InfoAccount() {
     const isMobile = useIsMobile();
 
     useEffect(() => {
-        setInfo(InfoUser);
-    }, []);
+        setInfo(userManager.userInfo || {});
+    }, [userManager.userInfo]);
 
     const renderItem = useCallback((title: string, value?: string) => {
         return (
             <div className={cx('row space-between')}>
-                <span className={cx('h6 text-gray bold')}>{title}</span>
+                <span className={cx('h6 text-gray medium')}>{title}</span>
                 <span className={cx('h6 text-gray')}>{value}</span>
             </div>
         );
     }, []);
-
-
 
     const renderInput = useCallback((_ref: any, value: string, type: string, label?: string, maxLength?: number, disabled?: boolean, key?: string) => {
 
@@ -84,67 +84,76 @@ function InfoAccount() {
     const onEdit = useCallback(() => {
         setIsEdit(last => !last);
     }, []);
+    console.log(toJS(userManager.userInfo));
+    
+
+    const renderEditView = useMemo(() => {
+        return (
+            <div className={cx('container-edit', 'shadow')}>
+                <span className={cx('text-black h5 medium')}>{Languages.profile.editAccount}</span>
+                {renderInput(refName, info?.full_name || '', 'text', Languages.profile.userName, 50, false, 'username')}
+                {renderInput(refBirth, info?.birth_date || '', 'date', Languages.profile.birthday, 50, false, 'birth_date')}
+                {renderInput(refEmail, info?.email || '', 'email', Languages.profile.edit, 50, false, 'email')}
+                {renderInput(refAddress, info?.address || '', 'text', Languages.profile.address, 50, false, 'address')}
+                {renderInput(refPhone, info?.phone_number || '', 'text', Languages.profile.phone, 10, true, 'phone_number')}
+                <div className={cx('wid-100', 'row y20')}>
+                    <Button
+                        label={Languages.common.save}
+                        labelStyles={cx('text-white h7')}
+                        rightIcon={IcSave}
+                        containButtonStyles={cx('btn-container', 'padding')}
+                        isLowerCase
+                        onPress={onSave}
+                    />
+                    <Button
+                        label={Languages.common.cancel}
+                        labelStyles={cx('text-red h7 medium')}
+                        rightIcon={IcCancel}
+                        containButtonStyles={cx('btn-cancel', 'padding')}
+                        isLowerCase
+                        onPress={oncancel}
+                    />
+                </div>
+            </div>
+        );
+    }, [info?.address, info?.birth_date, info?.email, info?.full_name, info?.phone_number, onSave, oncancel, renderInput]);
+
+    const renderAccountInfoView = useMemo(() => {
+        return (
+            <>
+                <div className={cx('container', 'shadow')}>
+                    <div className={cx('row space-between')}>
+                        <span className={cx('text-black h5 medium')}>{Languages.profile.infoAccount}</span>
+                        <Button
+                            label={Languages.profile.edit}
+                            labelStyles={cx('text-white h7')}
+                            rightIcon={ImgEdit}
+                            containButtonStyles={cx('btn-container')}
+                            onPress={onEdit}
+                            isLowerCase
+                        />
+                    </div>
+                    {renderItem(Languages.profile.userName, info?.full_name)}
+                    {renderItem(Languages.profile.birthday, info?.birth_date)}
+                    {renderItem(Languages.profile.gender, info?.gender)}
+                    {renderItem(Languages.profile.phone, info?.phone_number)}
+                    {renderItem(Languages.profile.email, info?.email)}
+                    {renderItem(Languages.profile.address, info?.address)}
+                </div>
+                <div className={cx('y20 row', 'border-red',)}>
+                    <div className={cx('img')}>
+                        <img src={IcErr} className={cx('p5')} />
+                    </div>
+                    <span className={cx('h6 text-red')}>{Languages.profile.unconfirmed}</span>
+                </div>
+            </>
+        );
+    }, [info?.address, info?.birth_date, info?.email, info?.full_name, info?.gender, info?.phone_number, onEdit, renderItem]);
 
     return (
         <div className={cx('colum content')}>
             <div className={cx('column', 'flex')}>
-                {!isEdit ? <>
-                    <div className={cx('container', 'shadow')}>
-                        <div className={cx('row space-between')}>
-                            <span className={cx('text-black h5 bold')}>{Languages.profile.infoAccount}</span>
-                            <Button
-                                label={Languages.profile.edit}
-                                labelStyles={cx('text-white h7')}
-                                rightIcon={ImgEdit}
-                                containButtonStyles={cx('btn-container')}
-                                onPress={onEdit}
-                                isLowerCase
-                            />
-                        </div>
-                        {renderItem(Languages.profile.userName, info?.username)}
-                        {renderItem(Languages.profile.birthday, info?.birth_date)}
-                        {renderItem(Languages.profile.gender, info?.gender)}
-                        {renderItem(Languages.profile.phone, info?.phone_number)}
-                        {renderItem(Languages.profile.email, info?.email)}
-                        {renderItem(Languages.profile.address, info?.address)}
-                    </div>
-                    <div className={cx('y20 row', 'border-red',)}>
-                        <div className={cx('img')}>
-                            <img src={IcErr} className={cx('p5')} />
-                        </div>
-                        <span className={cx('h6 text-red')}>{Languages.profile.unconfirmed}</span>
-                    </div>
-                </>
-                    :
-                    <>
-                        <div className={cx('container-edit', 'shadow')}>
-                            <span className={cx('text-black h5 bold')}>{Languages.profile.editAccount}</span>
-                            {renderInput(refName, info?.username || '', 'text', Languages.profile.userName, 50, false, 'username')}
-                            {renderInput(refBirth, info?.birth_date || '', 'date', Languages.profile.birthday, 50, false, 'birth_date')}
-                            {renderInput(refEmail, info?.email || '', 'email', Languages.profile.edit, 50, false, 'email')}
-                            {renderInput(refAddress, info?.address || '', 'text', Languages.profile.address, 50, false, 'address')}
-                            {renderInput(refPhone, info?.phone_number || '', 'text', Languages.profile.phone, 10, true, 'phone_number')}
-                            <div className={cx('wid-100', 'row y20')}>
-                                <Button
-                                    label={Languages.common.save}
-                                    labelStyles={cx('text-white h7')}
-                                    rightIcon={IcSave}
-                                    containButtonStyles={cx('btn-container', 'padding')}
-                                    isLowerCase
-                                    onPress={onSave}
-                                />
-                                <Button
-                                    label={Languages.common.cancel}
-                                    labelStyles={cx('text-red h7 bold')}
-                                    rightIcon={IcCancel}
-                                    containButtonStyles={cx('btn-cancel', 'padding')}
-                                    isLowerCase
-                                    onPress={oncancel}
-                                />
-                            </div>
-                        </div>
-                    </>
-                }
+                {!isEdit ? renderAccountInfoView : renderEditView}
             </div>
         </div>
 
