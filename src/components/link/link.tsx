@@ -27,8 +27,8 @@ export const LinkComponent = ({ dataLink, styleContainer, styleContent, styleImg
                                 <img src={item.image} className={styleImg ? styleImg : cx('img', 'center')} />
                             </Col>
                             <Col xs={24} md={24} lg={12} xl={12} className={cx('column')}>
-                                <span className={styleContent ? styleContent : cx('h6 text-black regular')}>{item.content_vi}</span>
-                                <span className={styleDate ? styleDate : cx('h7 text-gray regular y5')}>{item.date}</span>
+                                <span className={styleContent ? styleContent : cx('h6 text-black')}>{item.content_vi}</span>
+                                <span className={styleDate ? styleDate : cx('h7 text-gray y5')}>{item.date}</span>
                             </Col>
                         </Row>
                     </a>

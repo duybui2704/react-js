@@ -162,7 +162,6 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
 
         const filterNumber = (event: any) => {
             let charCode = event.which ? event.which : event.keyCode;
-            console.log(event);
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                 event.preventDefault();
                 return false;

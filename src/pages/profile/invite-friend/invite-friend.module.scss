@@ -1,0 +1,139 @@
+@import "assets/scss";
+.page {
+    display: flex;
+    flex-direction: row;
+    max-height: 100vh;
+    height: 85vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+.padding {
+    padding: 2% 10%;
+    @include mobile() {
+        padding: 10px 5px;
+    }
+}
+
+.container-edit {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid $color-gray5;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    @include mobile {
+        background-color: $color-white;
+        border: none;
+        box-shadow: none;
+        border-radius: none;
+        padding: 16px 0px;
+    }
+}
+
+.button-style {
+    padding: 5px 5px 5px 16px;
+    border-radius: 5px;
+    width: 95%;
+    display: flex;
+    background-color: $color-gray-e8;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.qr-style {
+    border: 1px solid $color-gray-d8;
+    border-radius: 5px;
+    background-color: $color-white;
+    padding: 5px;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.flex-end {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.button {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+}
+
+.download:hover {
+    transition-duration: 0.1s;
+    background-color: $color-gray-d8;
+    border-radius: 5px;
+}
+
+.download:after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: 5px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+    box-shadow: 0 0 10px 40px $color-white;
+}
+
+.download:active:after {
+    box-shadow: 0 0 0 0 $color-white;
+    position: absolute;
+    border-radius: 4em;
+    left: 0;
+    top: 0;
+    opacity: 1;
+    transition: 0s;
+}
+
+.download:active {
+    top: 1px;
+}
+
+.flex-end {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.download {
+    border-radius: 5px;
+    border: 1px solid $color-green;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+}
+
+.icon-small {
+    width: 25px;
+    height: 25px;
+}
+
+.qr-code {
+    width: 80%;
+    margin-bottom: 25px;
+}

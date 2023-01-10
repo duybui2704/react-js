@@ -1,7 +1,6 @@
 import ImgEdit from 'assets/icon/ic_update_user.svg';
-import IcSave from 'assets/image/ic_save.svg';
-import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import IcCancel from 'assets/image/ic_cancel.svg';
+import IcSave from 'assets/image/ic_save.svg';
 
 import IcErr from 'assets/image/ic_err.svg';
 import classNames from 'classnames/bind';
@@ -12,14 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import styles from './info-account.module.scss';
 
 import { Button } from 'components/button';
-import { UserInfoModel } from 'models/user-model';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { UserInfoModel } from 'models/user-model';
 
 const cx = classNames.bind(styles);
 
-function InfoAccount() {
+function InfoAccount() {    
     const navigate = useNavigate();
     const [info, setInfo] = useState<UserInfoModel>({});
     const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -38,7 +37,7 @@ function InfoAccount() {
         return (
             <div className={cx('row space-between')}>
                 <span className={cx('h6 text-gray bold')}>{title}</span>
-                <span className={cx('h6 text-gray regular')}>{value}</span>
+                <span className={cx('h6 text-gray')}>{value}</span>
             </div>
         );
     }, []);
@@ -88,11 +87,6 @@ function InfoAccount() {
 
     return (
         <div className={cx('colum content')}>
-            {isMobile &&
-                <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{info?.username}</span>
-                    <img src={IcTwoPeople} />
-                </div>}
             <div className={cx('column', 'flex')}>
                 {!isEdit ? <>
                     <div className={cx('container', 'shadow')}>
@@ -100,7 +94,7 @@ function InfoAccount() {
                             <span className={cx('text-black h5 bold')}>{Languages.profile.infoAccount}</span>
                             <Button
                                 label={Languages.profile.edit}
-                                labelStyles={cx('text-white h7 regular')}
+                                labelStyles={cx('text-white h7')}
                                 rightIcon={ImgEdit}
                                 containButtonStyles={cx('btn-container')}
                                 onPress={onEdit}
@@ -118,7 +112,7 @@ function InfoAccount() {
                         <div className={cx('img')}>
                             <img src={IcErr} className={cx('p5')} />
                         </div>
-                        <span className={cx('h6 text-red regular')}>{Languages.profile.unconfirmed}</span>
+                        <span className={cx('h6 text-red')}>{Languages.profile.unconfirmed}</span>
                     </div>
                 </>
                     :
@@ -133,7 +127,7 @@ function InfoAccount() {
                             <div className={cx('wid-100', 'row y20')}>
                                 <Button
                                     label={Languages.common.save}
-                                    labelStyles={cx('text-white h7 regular')}
+                                    labelStyles={cx('text-white h7')}
                                     rightIcon={IcSave}
                                     containButtonStyles={cx('btn-container', 'padding')}
                                     isLowerCase

@@ -1,9 +1,9 @@
-function formatLoanMoney(number: string) {
+function formatLoanMoney(number: string | undefined) {
     if (!number) {
-        return '';
+        return '0';
     }
     return (
-        `${parseInt(number.replace(/\./g, ''), 10)
+        `${parseInt((number || '0').replace(/\./g, ''), 10)
             .toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, '.')} vnđ`
     );
@@ -57,6 +57,21 @@ function formatRoundNumberToDecimalMillion(number: number) { // from 1440000 to 
     return formatter.format(Number(format));
 }
 
+function formatObjectToKeyLabel(data: any) {
+    const lengthArray = new Array(Object.keys(data).length);
+    if (lengthArray.length > 0) {
+        for (let i = 0; i < lengthArray.length; i++) {
+            lengthArray[i] = {
+                id: i,
+                text: Object.values(data)[i],
+                value: Object.values(data)[i]
+            };
+        }
+        return lengthArray;
+    }
+    return [];
+}
+
 export default {
     formatLoanMoney,
     formatMoney,
@@ -64,5 +79,6 @@ export default {
     capitalizeFirstLetter,
     formatForEachWordCase,
     formatUpperCaseCharacter,
-    formatRoundNumberToDecimalMillion
+    formatRoundNumberToDecimalMillion,
+    formatObjectToKeyLabel
 };

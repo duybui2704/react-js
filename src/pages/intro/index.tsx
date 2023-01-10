@@ -1,42 +1,72 @@
-import { Col, Row } from 'antd';
-import BannerInvest from 'assets/image/bg_banner_invest.jpg';
+import { Col, Row, Pagination } from 'antd';
+import BannerInvest from 'assets/image/bg_banner_invest.jpeg';
 import ImgAppStore from 'assets/image/img_app_store.jpg';
-import ImgCircle from 'assets/image/img_circle.jpg';
+import ImgCircle from 'assets/image/img_circle.jpeg';
 import ImgGGPLay from 'assets/image/img_gg_chplay.jpg';
-import ImgHalf from 'assets/image/img_half_phone.jpg';
+import ImgHalf from 'assets/image/img_half_phone.jpeg';
 import ImgHeader from 'assets/image/img_home_header.jpg';
-import ImgPerson from 'assets/image/img_person.jpg';
-import ImgPhone from 'assets/image/img_phone.png';
-import ImgPhone1 from 'assets/image/img_phone1.png';
-import ImgPhone2 from 'assets/image/img_phone2.png';
+import ImgPerson from 'assets/image/img_person.jpeg';
+import ImgPhone from 'assets/image/img_phone1.jpeg';
+import ImgPhone1 from 'assets/image/img_phone2.jpeg';
+import ImgPhone2 from 'assets/image/img_phone3.jpeg';
+import ImgPosterVideo from 'assets/image/img_poster.jpeg';
 import ImgQRCode from 'assets/image/img_qr_code.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
+import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { useWindowSize } from 'hooks/use-window-size';
 import { ItemProps } from 'models/common';
 import { ServiceModel } from 'models/intro';
 import { InvestFilter, PackageInvest } from 'models/invest';
-import { infoInvest, serviceList } from 'pages/__mocks__/intro';
+import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
 import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import { useNavigate } from 'react-router-dom';
+import type { PaginationProps } from 'antd';
 import Count from './count';
 import styles from './intro.module.scss';
+import { useAppStore } from 'hooks';
+import { Loading } from 'components/loading';
+import { DashBroadModel } from 'models/dash';
 
 const cx = classNames.bind(styles);
 
 function Intro() {
     const [step, setStep] = useState<number>(1);
+    const { apiServices } = useAppStore();
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
     const [run, setRun] = useState<boolean>(false);
+    const [topIntroHeight, setTopIntroHeight] = useState(0);
+    const [numberPage, setNumberPage] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [dataArr, setDataArr] = useState<PackageInvest[]>();
+    const [dataDash, setDataDash] = useState<DashBroadModel>();
+
+    const PAGE_SIZE = 9;
+    const condition = useRef({
+        isLoading: true,
+        offset: 0,
+        canLoadMore: true,
+        timeInvestment: '',
+        moneyInvest: ''
+    });
 
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
+    const elementRef = useRef<any>(null);
+
+    const screenSize = useWindowSize();
+
+    useEffect(() => {
+        setTopIntroHeight(elementRef?.current?.clientHeight);
+        fetchDataInvest();
+        fetchContractsDash();
+    }, [screenSize]);
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -52,6 +82,38 @@ function Intro() {
         };
     }, []);
 
+    const fetchContractsDash = useCallback(async () => {
+        setIsLoading(true);
+        const resContractsDash = await apiServices.common.getContractsDash() as any;
+        setIsLoading(false);
+        if (resContractsDash.success) {
+            const data = resContractsDash?.data as DashBroadModel;
+            setDataDash(data);
+        }
+    }, [apiServices.common]);
+
+    const fetchDataInvest = useCallback(async (number_page?: number) => {
+
+        setIsLoading(true);
+        const resInvest = await apiServices.common.getListInvest(
+            PAGE_SIZE,
+            condition.current.offset * (number_page || 0),
+            condition.current.timeInvestment,
+            condition.current.moneyInvest,
+        ) as any;
+        setIsLoading(false);
+        if (resInvest.success) {
+            const data = resInvest?.data as PackageInvest[];
+            const dataSize = data.length;
+            if (dataSize > 0) {
+                setDataArr(data);
+            }
+        }
+        condition.current.isLoading = false;
+        setIsLoading(false);
+
+    }, [apiServices.common]);
+
     const renderViewTop = useMemo(() => {
         return (
             <Row className={cx('view-body', 'padding-not-bottom')} gutter={[24, 16]}>
@@ -60,19 +122,19 @@ function Intro() {
                         <span className={cx('text-green medium h3 ')}>{Languages.intro.advantagesTienngay}</span>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.riskReduction}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.riskReductionContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.riskReductionContent}</span>
                         </div>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.ecosystemNextTech}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.ecosystemNextTechContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.ecosystemNextTechContent}</span>
                         </div>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.appInvest}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.appInvestContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.appInvestContent}</span>
                         </div>
                         <div className={cx('y20 column')}>
                             <span className={cx('text-black medium h6')}>{Languages.intro.flexibleTime}</span>
-                            <span className={cx('text-black regular h6')}>{Languages.intro.flexibleTimeContent}</span>
+                            <span className={cx('text-black h6')}>{Languages.intro.flexibleTimeContent}</span>
                         </div>
                         <div className={cx('center')}>
                             <Button
@@ -93,17 +155,24 @@ function Intro() {
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
         const onSelectItem = (item: any) => {
-            setDataFilter({
-                dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-                amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-            });
+            // setDataFilter({
+            //     dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
+            //     amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+            // });
+            condition.current.timeInvestment = item.id;
+            if (_title === Languages.invest.dateInvest) {
+                condition.current.timeInvestment = item.id;
+            } else {
+                condition.current.moneyInvest = item.id;
+            }
+            fetchDataInvest(numberPage);
         };
         return (
             <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={8} >
                 <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
             </Col>
         );
-    }, [dataFilter]);
+    }, []);
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
@@ -116,22 +185,36 @@ function Intro() {
     }, []);
 
     const renderViewInvest = useMemo(() => {
+
+        const onchange: PaginationProps['onChange'] = (page) => {
+            console.log(page);
+            setNumberPage(page);
+            fetchDataInvest(page);
+        };
+
         return (
             <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
                 <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dateListData)}
-                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, amountListData)}
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountListData)}
+                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateListData)}
                 </Row>
 
                 <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
-                    {investListData?.map((itemInvest: PackageInvest, index: number) => {
+                    {dataArr?.map((itemInvest: PackageInvest, index: number) => {
                         return renderItemInvest(index, itemInvest);
                     })}
                 </Row>
+                <Pagination
+                    current={numberPage}
+                    total={30}
+                    className={cx('pagination')}
+                    onChange={onchange}
+                    pageSize={9}
+                />
             </div>
-        );      
-    }, [isMobile, renderItemInvest, renderPicker]);
+        );
+    }, [dataArr, isMobile, numberPage, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 
@@ -168,6 +251,11 @@ function Intro() {
         );
     }, [step]);
 
+    const getTopHeight = useCallback(() => {
+        const screenHeight = window.innerHeight;
+        return isMobile ? 0.45 * screenHeight : 0.45 * screenHeight;
+    }, [isMobile]);
+
     const renderLeftBackground = useMemo(() => {
         return {
             backgroundImage: `url(${BannerInvest})`,
@@ -189,18 +277,18 @@ function Intro() {
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             width: '100%',
-            minHeight: isMobile ? '30vh' : '35vh',
+            height: getTopHeight(),
             display: 'flex'
         };
-    }, [isMobile]);
+    }, [getTopHeight]);
 
     const stepOne = useMemo(() => {
         return (
-            <div className={cx('column center')}> 
+            <div className={cx('column center')}>
                 <ul >
-                    <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerApp}</li>
-                    <li className={cx('text-black h5 regular y5')}>{Languages.intro.registerPhone}</li>
-                    <li className={cx('text-black h5 regular y5')}>{Languages.intro.register1Minute}</li>
+                    <li className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</li>
+                    <li className={cx('text-black h5 y10')}>{Languages.intro.registerPhone}</li>
+                    <li className={cx('text-black h5 y10')}>{Languages.intro.register1Minute}</li>
                 </ul>
                 <div className={cx('row y20 center', 'width')}>
                     <div className={cx('column x30 space-between')}>
@@ -216,9 +304,9 @@ function Intro() {
     const stepTwo = useMemo(() => {
         return (
             <ul>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentInvest1}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentInvest2}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentInvest3}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest1}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest2}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest3}</li>
             </ul>
         );
     }, []);
@@ -226,9 +314,9 @@ function Intro() {
     const stepThree = useMemo(() => {
         return (
             <ul >
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentProfit1}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentProfit2}</li>
-                <li className={cx('text-black h5 regular y5')}>{Languages.intro.contentProfit3}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit1}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit2}</li>
+                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit3}</li>
             </ul>
         );
     }, []);
@@ -302,9 +390,9 @@ function Intro() {
                         {stepsMobile(2)}
                         {stepsMobile(3)}
                     </div>
-                    <span className={cx('text-green h7 regular y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
+                    <span className={cx('text-green h7 y10')}>{step === 1 ? Languages.intro.step1 : step === 2 ? Languages.intro.step2 : Languages.intro.step3}</span>
                 </div>
-                <div className={cx('center row')}>
+                <div className={cx('center row y10')}>
                     <div className={cx('width-50')}>
                         {renderImagePhone}
                     </div>
@@ -321,7 +409,7 @@ function Intro() {
             <div className={cx('view-body column')}>
                 <div className={cx('column', 'padding')}>
                     <span className={cx('text-green medium h3')}>{Languages.intro.stepsInvest}</span>
-                    <span className={cx('text-black regular h6')}>{Languages.intro.stepContent}</span>
+                    <span className={cx('text-black h6')}>{Languages.intro.stepContent}</span>
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
                 <div style={renderLeftBackground}>
@@ -343,8 +431,6 @@ function Intro() {
 
     const renderViewNearBelow = useMemo(() => {
 
-        var video = document.getElementById('myVideo');
-
         return (
             <div className={cx('view-body row')}>
                 <div className={cx('column', 'padding')}>
@@ -354,15 +440,15 @@ function Intro() {
                                 <span className={cx('text-green medium h3')}>{Languages.intro.investmentReasons}</span>
                                 <div className={cx('y10 column')}>
                                     <span className={cx('text-black medium h6')}>{Languages.intro.transparency}</span>
-                                    <span className={cx('text-black regular h6')}>{Languages.intro.transparencyContent}</span>
+                                    <span className={cx('text-black h6')}>{Languages.intro.transparencyContent}</span>
                                 </div>
                                 <div className={cx('y10 column')}>
                                     <span className={cx('text-black medium h6')}>{Languages.intro.lasting}</span>
-                                    <span className={cx('text-black regular h6')}>{Languages.intro.lastingContent}</span>
+                                    <span className={cx('text-black h6')}>{Languages.intro.lastingContent}</span>
                                 </div>
                                 <div className={cx('y10 column')}>
                                     <span className={cx('text-black medium h6')}>{Languages.intro.easy}</span>
-                                    <span className={cx('text-black regular h6')}>{Languages.intro.easyContent}</span>
+                                    <span className={cx('text-black h6')}>{Languages.intro.easyContent}</span>
                                 </div>
                                 <Button
                                     label={Languages.intro.seeInvest}
@@ -372,14 +458,19 @@ function Intro() {
                                 />
                             </div>
                         </Col>
-                        <Col xs={24} md={24} lg={12} xl={12} className={cx('center')}>
+                        <Col xs={24} md={24} lg={12} xl={12} className={cx('center column')}>
                             <video
                                 controls autoPlay
                                 loop
                                 id={cx('myVideo')}
+                                poster={ImgPosterVideo}
                             >
-                                <source src="https://res.cloudinary.com/codelife/video/upload/v1637805738/intro_l5ul1k.mp4" type='video/mp4' />
+                                <source src={videoIntro.link} type={videoIntro.type} />
                             </video>
+                            <div className={cx('column', 'title-vd')}>
+                                <span className={cx('text-green h6 bold')}>{videoIntro.title}</span>
+                                <span className={cx('text-gray h6')}>{videoIntro.content}</span>
+                            </div>
                         </Col>
                     </Row>
                 </div>
@@ -397,13 +488,13 @@ function Intro() {
                     <Marquee pauseOnHover gradient={false}>
                         {serviceList.map((item: ServiceModel, index: number) => {
                             return (
-                                <div key={index} className={cx('item-service', 'row center', 'padding-item')} onClick={() => console.log('item ===', item)}>
+                                <a key={index} className={cx('item-service', 'row center', 'padding-item')} href={item.link}>
                                     <img src={item.image} className={cx('image')} />
                                     <div className={cx('column xl10')}>
                                         <span className={cx('text-red h7 medium')}>{item.name}</span>
                                         <span className={cx('text-black h7')}>{item.content}</span>
                                     </div>
-                                </div>
+                                </a>
                             );
                         })}
                     </Marquee>
@@ -414,7 +505,7 @@ function Intro() {
 
     const renderBottom = useMemo(() => {
         return (
-            <div className={cx('column', 'padding', 'container')}>
+            <div className={cx('column', 'padding-bottom', 'container')}>
                 <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
                 <Row gutter={[24, 16]} className={cx('container')}>
                     <Col xs={24} md={24} lg={12} xl={12}>
@@ -437,6 +528,7 @@ function Intro() {
             </div>
         );
     }, []);
+
     return (
         <div className={cx('page')}>
             <div className={cx('flex')}>
@@ -448,20 +540,24 @@ function Intro() {
                     </div>
                 </div>
             </div>
-            <div className={cx('view-intro')}>
-                <div className={cx('view-intro-center', 'width-intro')}>
-                    <span className={cx('text-green regular h6', 'line-height')}>{Languages.intro.contentStart}</span>
-                    <span className={cx('text-black regular h6', 'line-height')}>{Languages.intro.contentEnd}</span>
+            <div
+                className={cx('view-intro')}
+                style={{ marginTop: `${-topIntroHeight / 2}px` }}
+            >
+                <div className={cx('view-intro-center', 'width-intro')}
+                    ref={elementRef}>
+                    <span className={cx('text-green h6', 'line-height')}>{Languages.intro.contentStart}</span>
+                    <span className={cx('text-black h6', 'line-height')}>{Languages.intro.contentEnd}</span>
                 </div>
             </div>
-            <div className={cx('body')}>
-                {renderViewTop}
-                {renderViewInvest}
-                {renderViewStepsInvest}
-                {renderViewNearBelow}
-                {renderViewService}
-                {renderBottom}
-            </div>
+            {renderViewTop}
+            {renderViewInvest}
+            {renderViewStepsInvest}
+            {renderViewNearBelow}
+            {renderViewService}
+            {renderBottom}
+            {isLoading && <Loading />}
+            <Footer />
         </div>
     );
 }

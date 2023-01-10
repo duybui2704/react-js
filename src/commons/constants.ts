@@ -29,7 +29,7 @@ export enum GAEvents {
 }
 
 export enum Events {
-    TOAST = 'TOAST',
+    CHANGE_TAB = 'CHANGE_TAB',
     LOGOUT = 'LOGOUT',
 }
 
@@ -48,6 +48,14 @@ export enum POSITION_TYPE {
     BO = 1, // back office
     OO_M = 2, // out of office with many agents eg: ASM
     OO_O = 3, // out of office with one agent 
+}
+
+export enum TAB_INDEX {
+    INTRO = 0,
+    INVESTMENT = 1,
+    MANAGEMENT = 2,
+    NEWS = 3,
+    PROFILE = 4,
 }
 
 export enum TYPE_TOAST {
@@ -81,14 +89,38 @@ export enum TYPE_FILE {
     VIDEO = 'video',
 }
 
+export enum TYPE_STATUS_INVEST {
+    PAYED = '1',
+    UN_PAYED = '0',
+}
+
 export enum TYPE_TRANSFER_AMOUNT {
     NGAN_LUONG = 'nganluong',
     BANK = 'bank',
-    VIMO= 'vimo'
+    VIMO = 'vimo'
 }
 
 export enum TYPE_TAB_HISTORY {
     IS_INVESTING = 0,
     HISTORY = 1,
 }
+
+export enum TYPE_SIZE {
+    BYTES = 'Bytes',
+    KB = 'KB',
+    MB = 'MB',
+    GB = 'GB',
+    TB = 'TB',
+    PB = 'PB',
+}
+export const DescribePhoto = {
+    noteKYC: [
+        '1. Mặt trước rõ, đủ 4 góc',
+        '2. Không chụp giấy tờ tuỳ thân photo, chụp thông qua màn hình thiết bị điện tử.'
+    ],
+    notePortrait: [
+        '1. Chụp cận mặt, rõ, thẳng góc, không bị che, không chụp quá xa.',
+        '2. Không chụp chân dung từ ảnh, màn hình thiết bị điện tử.'
+    ]
+};
 

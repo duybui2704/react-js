@@ -1,5 +1,5 @@
 import { ItemProps } from './../../models/common.d';
-import { BankInformationModel, DataColumnInvestType, PackageInvest } from "models/invest";
+import { BankInformationModel, DataColumnCommissionType, DataColumnHistoryType, DataColumnInvestType, DataTotalColumnCommissionType, PackageInvest } from "models/invest";
 
 export const investListData =
     [
@@ -393,10 +393,97 @@ export const dataColumnInvest: DataColumnInvestType[] = [
     }
 ];
 
-export const columnName = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+export const dataColumnHistory: DataColumnHistoryType[] = [
+    {
+        id: '1',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/05/2023'
+    },
+    {
+        id: '2',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/06/2023'
+    },
+    {
+        id: '3',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/07/2023'
+    }
+];
+
+export const dataColumnInvesting: DataColumnHistoryType[] = [
+    {
+        id: '1',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/05/2023'
+    },
+    {
+        id: '2',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '1',
+        receivedDate: '12/06/2023'
+    },
+    {
+        id: '3',
+        principalAmount: '1,000,000,000',
+        profitAmount: '1,000,000',
+        total: '1,000,000',
+        status: '0',
+        receivedDate: '12/07/2023'
+    }
+];
+
+export const dataColumnCommission: DataColumnCommissionType[] = [
+    {
+        id: '1',
+        phoneNumber: '0123456789',
+        totalInvest: '1,000,000,000',
+        commissionAmount: '1,000,000',
+    },
+    {
+        id: '2',
+        phoneNumber: '0123456789',
+        totalInvest: '1,000,000,000',
+        commissionAmount: '1,000,000',
+    },
+    {
+        id: '3',
+        phoneNumber: '0123456789',
+        totalInvest: '1,000,000,000',
+        commissionAmount: '1,000,000',
+    }
+];
+
+const totalCommission: DataTotalColumnCommissionType= {
+    totalInvest: '3,000,000',
+    totalCommission: '2,000,000'
+}
+
+export const DataCommission = {
+body: dataColumnCommission,
+total:totalCommission
+}
+
+export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
+export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const InvestMethod = [
-    {
+    {   
         id: 1,
         text: 'Tài khoản Ngân lượng',
         value: 'nganluong'
@@ -425,4 +512,11 @@ export const BankTransferInfo: BankInformationModel = {
     name_bank: 'ViettinBank',
     id: '970415',
 }
+
+export const arrKey = ['stt', 'receivingPeriod', 'principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total', 'status', 'receivedDate'];
+
+export const arrKeyMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+
 

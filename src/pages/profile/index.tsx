@@ -1,91 +1,130 @@
-import Languages from 'commons/languages';
-import { Button } from 'components/button';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './profile.module.scss';
-import classNames from 'classnames/bind';
-import { Col, Row } from 'antd';
+import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import ImgPortrait from 'assets/image/img_portrait.jpg';
-import { InfoUser, profile } from 'pages/__mocks__/profile';
-import ImgEdit from 'assets/icon/ic_update_user.svg';
-import { UserInfoModel } from 'models/user-model';
-import InfoAccount from './info-account';
+import classNames from 'classnames/bind';
+import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
+import Footer from 'components/footer';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { Paths } from 'routers/paths';
+import { ItemScreenModel } from 'models/profile';
+import { UserInfoModel } from 'models/user-model';
+import { InfoUser, profile } from 'pages/__mocks__/profile';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { EventEmitter } from 'utils/event-emitter';
+import AccountLink from './account-link';
+import InfoChangePwd from './change-pwd';
+import Commission from './commission';
+import Conditions from './conditions';
+import InfoAccount from './info-account';
+import InfoIdentity from './info-identity';
 import InfoPayment from './Info-payment';
+import InviteFriend from './invite-friend';
+import styles from './profile.module.scss';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
     const navigate = useNavigate();
+    const { userManager } = useAppStore();
     const isMobile = useIsMobile();
     const [info, setInfo] = useState<UserInfoModel>();
     const [step, setStep] = useState<number>(profile[0].id);
+
+    const refDrawer = useRef<DrawerBaseActions>(null);
 
     useEffect(() => {
         setInfo(InfoUser);
     }, []);
 
-    const onPress = useCallback(() => {
-        navigate(-1);
-    }, [navigate]);
-
+    const onOpenIdentity = useCallback(() => {
+        setStep(0);
+    }, []);
 
     const renderViewRight = useMemo(() => {
         switch (step) {
+            case 0:
+                return <InfoIdentity />;
             case 1:
                 return <InfoAccount />;
             case 2:
                 return <InfoPayment />;
+            case 3:
+                return <InfoChangePwd />;
+            case 4:
+                return <AccountLink />;
+            case 5:
+                return <Commission />;
+            case 6:
+                return <Conditions />;
+            case 7:
+                return <InviteFriend />;
             default:
                 return;
         }
     }, [step]);
 
-    return (
-        <Row className={cx('container', 'padding')}>
-            <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('profile')}>
-                <div className={cx('avatar')}>
-                    <img src={ImgPortrait} width={'40%'} />
-                    <span className={cx('text-gray medium h5 y20')}>{info?.username}</span>
-                    <label className={cx('text-red medium h6')}>{info?.status}</label>
+    const onTabs = useCallback((indexTabs: number) => {
+        setStep(indexTabs);
+    }, []);
+
+    const onShowDrawer = useCallback(() => {
+        refDrawer.current?.show();
+    }, []);
+
+    const renderViewMobile = useMemo(() => {
+        return (
+            <div className={cx('column', 'wid-100')}>
+                <div className={cx('row space-between y20', 'top')}>
+                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.username}</span>
+                    <img src={IcTwoPeople} onClick={onShowDrawer} />
                 </div>
-               
-                {profile.map((item, index) => {
+                <div className={cx('information', 'padding')}>
+                    {renderViewRight}
+                </div>
+            </div>
+        );
+    }, [onShowDrawer, renderViewRight, userManager.userInfo?.username]);
 
-                    const onChangeStep = () => {
-                        if (!isMobile) {
+    const renderViewWeb = useMemo(() => {
+        return (
+            <>
+                <div className={cx('profile')}>
+                    <div className={cx('avatar')}>
+                        <img src={ImgPortrait} width={'40%'} />
+                        <span className={cx('text-gray medium h5 y20')} >{info?.username}</span>
+                        <label className={cx('text-red medium h6')} onClick={onOpenIdentity}>{info?.status}</label>
+                    </div>
+                    {profile.map((item: ItemScreenModel, index: number) => {
+                        const onChangeStep = () => {
                             setStep(item.id);
-                        } else {
-                            switch (index) {
-                                case 0:
-                                    return navigate(Paths.infoAccount);
-                                case 1:
-                                    return navigate(Paths.infoPayment);
-                                default:
-                                    return;
-                            }
-                        }
-                    };
-
-                    return(
-                        <div className={index === step - 1 ? cx('focus', 'column') : cx('column')} key={index} onClick={onChangeStep}>
-                            <div className={cx('row p12')}>
-                                <img src={item.icon}/>
-                                <span className={cx('xl10 h7 text-gray regular b5')}>{item.title}</span>
+                        };
+                        return (
+                            <div className={item?.id === step ? cx('focus', 'column', 'hover') : cx('column', 'hover')} key={index} onClick={onChangeStep}>
+                                <div className={cx('row p12', 'item')}>
+                                    <img src={item.icon} />
+                                    <span className={cx('xl10 h7 text-gray regular b5')}>{item.title}</span>
+                                </div>
+                                <div className={cx('line')}/>
                             </div>
-                            <div className={cx('line')}></div>
-                        </div>
-                    );
-                })}
-            </Col>
+                        );
+                    })}
+                </div>
+                <div className={cx('information', 'wid-70')}>
+                    {renderViewRight}
+                </div>
+            </>
+        );
+    }, [info?.status, info?.username, onOpenIdentity, renderViewRight, step]);
 
-            {!isMobile && <Col xs={24} md={24} lg={12} xl={16} className={cx('information')}>
-                {renderViewRight}
-            </Col>}
+    return (
+        <div className={cx('column', 'container')}>
+            <div className={isMobile ? cx('row') : cx('row', 'padding')}>
+                {isMobile ? renderViewMobile : renderViewWeb}
+                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} data={profile} onPressStatus={onOpenIdentity} />
+            </div>
+            <Footer />
+        </div>
 
-        </Row>
-        
     );
 }
 

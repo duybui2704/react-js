@@ -49,6 +49,14 @@
     }
 }
 
+.content-view {
+    width: calc(100% - 10px);
+}
+
 .padding-top {
     padding-top: 40px;
+}
+
+.style {
+    text-decoration: none;
 }

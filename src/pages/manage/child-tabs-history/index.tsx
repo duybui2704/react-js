@@ -5,6 +5,7 @@ import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
+import Footer from 'components/footer';
 import HistoryPackage from 'components/history-package';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
@@ -29,13 +30,13 @@ interface HistoryFilter {
     toDate?: string;
 }
 
-function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest) => void }) {
+function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: PackageInvest, tabs: number) => void, tabsNumber: number }) {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
-    const [tabName, setTabName] = useState<number>(0);
+    const [tabName, setTabName] = useState<number>(tabsNumber);
 
     const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
@@ -60,7 +61,7 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
 
     const fetchData = useCallback(() => {
         setAmountList(amountListData);
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 8 : 12 || 0);
+        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
     }, [tabName]);
 
     const fetchDataMore = useCallback(() => {
@@ -119,7 +120,7 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
             <div className={cx('top-search-mobile-component')}>
                 <span className={cx('text-your-mobile-chance')}>{(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
                 <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
-                    <span className={cx('text-green h7 regular x10')}>{Languages.common.search}</span>
+                    <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
                 </div>
             </div>
@@ -139,7 +140,7 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
                 <Col xs={12} sm={12} md={12} lg={12} xl={8}>
                     <Row gutter={[16, 4]}>
                         <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
-                            <span className={cx('text-black h6 regular')}>{Languages.invest.dateInvest}</span>
+                            <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                         </Col>
                         {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
                         {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
@@ -158,7 +159,7 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
                 <Col xs={24} sm={24} md={24} lg={24} xl={24} >
                     <Row gutter={[16, 4]}>
                         <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
-                            <span className={cx('text-black h6 regular')}>{Languages.invest.dateInvest}</span>
+                            <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                         </Col>
                         {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
                         {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
@@ -170,7 +171,9 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
-            onNextScreen(dataInvest);
+            onNextScreen(dataInvest, tabName);
+            console.log('tabName==', tabName);
+
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
@@ -212,23 +215,28 @@ function ChildTabsHistory({ onNextScreen }: { onNextScreen: (data: PackageInvest
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         return (
             <div className={cx('bottom-container')} >
-                {renderInvestList(_list)}
-                <Row gutter={[24, 44]} className={cx('button-see-more')} onClick={fetchDataMore}>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                        <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
-                    </Col>
-                </Row>
+                <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
+                    {renderInvestList(_list)}
+                    <Row gutter={[24, 0]}  onClick={fetchDataMore} className={cx('button-see-more')}>
+                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                            <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
+                        </Col>
+                    </Row>
+                </div>
+                <div className={cx('footer')}>
+                    <Footer />
+                </div>
             </div>
         );
-    }, [fetchDataMore, renderInvestList]);
+    }, [fetchDataMore, isMobile, renderInvestList]);
 
-    const onChangeTab = useCallback((tabNumber?: number) => {
-        setTabName(tabNumber || 0);        
+    const onChangeTab = useCallback((tabNumber: number) => {
+        setTabName(tabNumber);
     }, []);
 
     return (
         <div className={cx('page-container')}>
-            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} />
+            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`} />
             {isMobile && renderFilterMobile}
             <div className={cx(isMobile ? 'page-wrap-mobile' : 'page-wrap')}>
                 {!isMobile && renderFilterWeb}

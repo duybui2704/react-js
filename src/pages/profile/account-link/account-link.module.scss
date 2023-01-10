@@ -1,0 +1,35 @@
+@import "assets/scss";
+.page {
+    display: flex;
+    width: 100%;
+}
+
+.padding {
+    padding: 10px 5px;
+}
+
+.img {
+    width: 200px;
+    @include mobile {
+        width: 100px;
+    }
+}
+
+.content-container {
+    display: flex;
+    background-color: $color-white;
+    padding: 10px 20px;
+    border: 1px solid $color-gray-e8;
+    border-radius: 20px;
+    box-shadow: $box-shadow;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.img-small {
+    width: 30px;
+}
+
+.align-center {
+    align-items: center;
+}

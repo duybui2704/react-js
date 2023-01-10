@@ -9,31 +9,39 @@ import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
+import { useAppStore } from 'hooks';
+import { UserInfoModel } from 'models/user-model';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useMemo, useRef } from 'react';
+import sessionManager from 'managers/session-manager';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formValidate from 'utils/form-validate';
 import styles from './login.module.scss';
+import { Paths } from 'routers/paths';
 
 const cx = classNames.bind(styles);
 
 function Login({ onPress }) {
     const isMobile = useIsMobile();
-
     const navigate = useNavigate();
-    // const { apiServices } = useAppStore();
+    const { apiServices, userManager } = useAppStore();
+    const [isLoading, setLoading] = useState<boolean>(false);
+    const [checkBox, setCheckBox] = useState<boolean>(false);
+    const [userData, setUserData] = useState<UserInfoModel>();
+
+    const [phone, setPhone] = useState<string>('');
     const refPhone = useRef<TextFieldActions>(null);
     const refPwd = useRef<TextFieldActions>(null);
 
     const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
+        setCheckBox(e.target.checked);
     };
 
     const onValidate = useCallback(() => {
-        const phone = refPhone.current?.getValue();
+        const _phone = refPhone.current?.getValue();
         const pwd = refPwd.current?.getValue();
 
-        const errMsgPhone = formValidate.passConFirmPhone(phone);
+        const errMsgPhone = formValidate.passConFirmPhone(_phone);
         const errMsgPwd = formValidate.passValidate(pwd);
 
         refPhone.current?.setErrorMsg(errMsgPhone);
@@ -47,15 +55,53 @@ function Login({ onPress }) {
 
     const onLogin = useCallback(async () => {
         if (onValidate()) {
-            // const response = await apiServices.common.checkAppState();
-            // console.log(response);
-            // userManager.updateDemo(response.data);
+            setLoading(true);
+            const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue()) as any;
+            console.log('login ===', res);
+
+            setLoading(false);
+
+            if (res?.success) {
+                const resData = res.data as UserInfoModel;
+                sessionManager.setAccessToken(resData?.token);
+                const resInfoAcc = await apiServices.auth.getUserInfo();
+                if (resInfoAcc.data) {
+                    // if (!checkBox) {
+                    //     sessionManager.setSavePhoneLogin();
+                    //     sessionManager.setSavePassLogin();
+                    // } else {
+                    //     sessionManager.setSavePhoneLogin(phone);
+                    //     sessionManager.setSavePassLogin();
+                    // }
+                    const data = resInfoAcc?.data as UserInfoModel;
+                    setUserData(data);
+                    userManager.updateUserInfo({
+                        ...data
+                    });
+                }
+                setTimeout(() => {
+                    navigate(Paths.home);
+                }, 200);
+            }
+            // userManager.updateUserInfo(res.data);
         }
-    }, [onValidate]);
+    }, [apiServices.auth, navigate, onValidate, userManager]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
     }, [onPress]);
+
+    const responseFacebook = (response) => {
+        console.log(response);
+    };
+
+    const onGoogleSign = useCallback(async () => {
+        try {
+            // await loginGoogle();
+        } catch (error) {
+            console.log('error ===', error);
+        }
+    }, []);
 
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
@@ -78,7 +124,7 @@ function Login({ onPress }) {
                 important
                 containerStyle={cx('y30')}
                 rightIcon={IcPhone}
-                value={''}
+                value={phone || ''}
                 maxLength={10}
             />
 
@@ -121,6 +167,7 @@ function Login({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
+
                 <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
@@ -134,10 +181,11 @@ function Login({ onPress }) {
                     isLowerCase
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
+                    onPress={onGoogleSign}
                 />
             </div>
         </div>;
-    }, [isMobile, onLogin]);
+    }, [isMobile, onGoogleSign, onLogin, onNavigate, phone]);
 
     const renderView = useMemo(() => {
         return <>

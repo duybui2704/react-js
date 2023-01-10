@@ -26,6 +26,7 @@ export interface DataColumnTrasactionType {
     id: string;
     money: string;
     content: string;
-    contractId: string;
+    ma_hop_dong: string;
     time: string;
+    stt?: string;
 }

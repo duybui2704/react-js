@@ -3,4 +3,5 @@ export interface ServiceModel {
     name: string;
     image: string;
     content: string;
+    link: string;
 }

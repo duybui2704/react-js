@@ -2,7 +2,7 @@
 .page {
     display: flex;
     flex-direction: column;
-    max-height: 100vh;
+    height: calc(var(--vh, 1vh) * 100 - $header-height); // margin size equal tab-bar height
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -11,6 +11,7 @@ div #count-container {
     display: flex;
     flex: 1;
     flex-direction: column;
+    justify-content: center;
 }
 
 .jus-content {
@@ -50,7 +51,6 @@ div #count-container {
     width: 100%;
     justify-content: center;
     align-items: center;
-    margin-top: -70px;
     margin-bottom: 10px;
     .view-intro-center {
         padding: 15px 10px;
@@ -101,6 +101,9 @@ div #count-container {
 
 .padding-not-bottom {
     padding: 2% 12% 0% 12%;
+    @include mobile {
+        padding: 2% 6% 0% 6%;
+    }
 }
 
 .circle {
@@ -183,6 +186,9 @@ div #content-container {
     flex-direction: column;
     background-color: $color-gray-f5;
     padding: 5% 12%;
+    @include mobile {
+        padding: 5% 6%;
+    }
 }
 
 #inner-center {
@@ -246,6 +252,9 @@ div #content-container {
 #myVideo {
     width: 90%;
     border-radius: 10px;
+    @include mobile {
+        width: 100%;
+    }
 }
 
 .service {
@@ -275,6 +284,9 @@ div #content-container {
     flex-direction: column;
     background-color: $color-gray-f5;
     padding: 2% 12%;
+    @include mobile {
+        padding: 2% 6%;
+    }
 }
 
 .top-search-component {
@@ -290,6 +302,16 @@ div #content-container {
 
 .padding {
     padding: 2% 12%;
+    @include mobile {
+        padding: 2% 6%;
+    }
+}
+
+.padding-bottom {
+    padding: 2% 12% 0% 12%;
+    @include mobile {
+        padding: 2% 6% 0% 6%;
+    }
 }
 
 .width-100 {
@@ -347,4 +369,18 @@ div #content-container {
 
 .mrg-10 {
     margin-top: 10%;
+}
+
+.title-vd {
+    margin-top: -25px;
+    background-color: $color-white;
+    padding: 5px 20px;
+    border-radius: 5px;
+    max-width: 80%;
+    box-shadow: $box-shadow;
+    z-index: 100;
+}
+
+.pagination {
+    margin-top: 50px;
 }

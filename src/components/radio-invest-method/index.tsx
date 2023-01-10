@@ -68,32 +68,34 @@ const RadioInvestMethod = forwardRef<RadioAction, RadioProps>(({
     }, [onChangeText]);
 
     return (
-        <Row gutter={[24, 8]} className={groupRadioContainer || cx('invest-wrap')}>
-            {
-                data?.map((item: RadioModel, index: number) => {
-                    return (
-                        <Col xs={24} sm={24} md={24} lg={24} xl={12} key={index}>
-                            <div className={cx(groupInputContainer || 'item-method-container')}>
-                                <div className={cx('item-method-left-container')}>
-                                    <img src={item?.icon || IcBank} />
-                                    <span className={cx('item-method-text')}>{item?.text}</span>
+        <div className={groupRadioContainer || cx('invest-wrap')}>
+            <Row gutter={[24, 8]} >
+                {
+                    data?.map((item: RadioModel, index: number) => {
+                        return (
+                            <Col xs={24} sm={24} md={24} lg={24} xl={12} key={index}>
+                                <div className={cx(groupInputContainer || 'item-method-container')}>
+                                    <div className={cx('item-method-left-container')}>
+                                        <img src={item?.icon || IcBank} />
+                                        <span className={cx('item-method-text')}>{item?.text}</span>
+                                    </div>
+                                    <div className={cx('container')}>
+                                        <input
+                                            type='radio'
+                                            id={item?.value}
+                                            value={item?.value}
+                                            checked={selectedInput === item?.value}
+                                            onFocus={focus}
+                                            onChange={onChange} />
+                                        <label htmlFor={item?.value} className={cx('check-mark')}></label>
+                                    </div>
                                 </div>
-                                <div className={cx('container')}>
-                                    <input
-                                        type='radio'
-                                        id={item?.value}
-                                        value={item?.value}
-                                        checked={selectedInput === item?.value}
-                                        onFocus={focus}
-                                        onChange={onChange} />
-                                    <label htmlFor={item?.value} className={cx('check-mark')}></label>
-                                </div>
-                            </div>
-                        </Col>
-                    );
-                })
-            }
-        </Row>
+                            </Col>
+                        );
+                    })
+                }
+            </Row>
+        </div>
     );
 });
 

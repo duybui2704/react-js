@@ -6,11 +6,8 @@ export const Paths = {
     //auth
     auth: '/auth',
 
-    //news
-    news: '/news',
-
     //profile
-    profile: '/profile',
-    infoAccount: '/info-account',
-    infoPayment: '/info-payment'
+    profile: '/profile'
+
+
 };

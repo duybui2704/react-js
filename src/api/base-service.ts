@@ -2,9 +2,13 @@ import axios from 'axios';
 // import { HeaderType } from './types';
 // import { browserName, fullBrowserVersion, osName, osVersion } from 'react-device-detect';
 import { TIMEOUT_API } from 'commons/configs';
+import { Events } from 'commons/constants';
 import Languages from 'commons/languages';
 import config from 'config';
+import useIsMobile from 'hooks/use-is-mobile.hook';
 import SessionManager from 'managers/session-manager';
+import { toJS } from 'mobx';
+import { EventEmitter } from 'utils/event-emitter';
 import toasty from 'utils/toasty';
 import validate from 'utils/validate';
 import { API_CONFIG } from './constants';
@@ -102,12 +106,12 @@ export class BaseService {
                 } else {
                     toasty.error(Languages.errorMsg.sessionExpired);
                 }
-                // EventEmitter.emit(Events.LOGOUT);
+                EventEmitter.emit(Events.LOGOUT);
                 return { success: false, data: null, message };
             }
             case ResponseCodes.Expires:
             {
-                // EventEmitter.emit(Events.LOGOUT);
+                EventEmitter.emit(Events.LOGOUT);
                 return { success: false, data: null };
             }
             default:
@@ -167,7 +171,7 @@ export class BaseService {
             });
         }
 
-        // console.log('formData = ', formData);
+        formData.forEach(entries => console.log(entries));
         return formData;
     };
 

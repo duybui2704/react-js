@@ -1,63 +1,65 @@
-@import 'assets/scss';
+@import "assets/scss";
 
-.footerContainer{
-    background-color: $color-white;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 5px 0px 5px 0px;
-    justify-content: space-between;
+.footer-container {
+  background-color: $color-green-header;
+  color: $color-white;
 }
 
-.footerContainerLeft{
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
+.box-footer-top {
+  padding: 24px 12%;
 }
 
-.textTienNgay{
-    color: $color-green;
-    font-size: $text-h6;
-    justify-content: center;
-    margin: 0px 20px 0px 20px;
-    font-family: $font-bold;
-}
-.textVn{
-    color: $color-red;
-    font-family: $font-bold;
-    font-size: $text-h6;
+.content-footer-left {
+  align-items: flex-start;
 }
 
-.textCopyRight{
-    color: $color-gray2;
-    text-align: center;
-    font-size: $text-h7;
-    display: flex;
-    flex: 1; 
-    font-family: $font-regular; 
+.textarea-container {
+  height: 100px;
+  padding: 8px 0px;
 }
 
-.textErrAccess{
-    color: $color-gray2;
-    text-align: center;
-    margin-right: 5px;
-    font-size: $text-h7;
-    font-family: $font-regular;
+.textarea-footer {
+  width: 100% !important;
+  height: 100px !important;
+  outline: none;
+  border: none;
+  background: $color-transparent-footer;
+  color: $color-white;
+  padding: 8px 10px;
 }
 
-.textSdtIfErrAccess{
-    color: $color-red1;
-    text-align: center;
-    align-items: center;
-    font-size: $text-h7;
-    font-family: $font-regular;
+.textarea-footer::placeholder {
+  color: $color-white;
 }
 
-.footerContainerRight{
-    display: flex;
-    margin: 0px 20px 0px 20px;
-    align-items: center;
-    justify-content: center; 
+.btn-footer-style {
+  width: 100%;
+  background-color: $color-white;
+}
 
+.box-footer-bottom {
+  padding: 24px 12%;
+  border-top: 1px solid $color-white;
+  gap: 10px;
+}
+
+.style-input {
+  width: 100%;
+  outline: none;
+  border: none;
+  background: $color-transparent-footer;
+  padding: 12px;
+  color: $color-white;
+}
+.style-input::placeholder {
+  color: $color-white;
+}
+
+@media screen and (max-width: 768px) {
+  .box-footer-top {
+    padding: 5% 6%;
+  }
+  .box-footer-bottom {
+    padding: 24px 4%;
+  }
 }

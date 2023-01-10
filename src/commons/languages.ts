@@ -71,7 +71,7 @@ const Languages = {
         userOTPLength: 'Mã OTP không đủ 6 kí tự',
         errMsgOTP: 'Mã OTP không hợp lệ'
     },
-    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý của tôi', 'Tin tức'],
+    tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {
         textCenter: 'HƯỚNG DẪN SỬ DỤNG CHỨC NĂNG CƠ CẤU, GIA HẠN',
         textCenter1: 'HƯỚNG DẪN SỬ DỤNG BẢO HIỂM',
@@ -83,9 +83,22 @@ const Languages = {
     footer: {
         tienNgay: 'TienNgay',
         dotVn: '.vn',
-        copyRight: 'Bản quyền © 2019 - 2022 Công ty Cổ phần Công nghệ Tài chính Việt',
+        copyRight: '© 2022 - Bản quyền thuộc Công ty Cổ phần Tài chính Việt',
         contactAccessIfErr: 'Hotline: ',
-        sdtIfErrAccess: '1900 xxxx'
+        sdtIfErrAccess: '1900 xxxx',
+        companyName:' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
+        companyAddress: ' Tầng 15, Khối B, Tòa nhà Sông Đà, Phạm Hùng, Mỹ Đình 1, Nam Từ Liêm, Hà Nội',
+        email:'Email: contact@tienngay.vn',
+        phone:'Phone: contact@tienngay.vn',
+        information:'Thông tin',
+        informationChild:['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
+        customerSupport:'Hỗ trợ khách hàng',
+        customerChild:['Sản phẩm','Điểm giao dịch'],
+        customerFeedback : 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
+        yourComments : 'Góp ý của bạn',
+        sendFeedback : 'Gửi phản hồi',
+        yourName : 'Tên của bạn',
+        phoneNumber: 'Số điện thoại'
     },
     auth: {
         login: 'Đăng nhập',
@@ -163,7 +176,8 @@ const Languages = {
         seeMore: 'Xem thêm các gói đầu tư khác',
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
         agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
-        policy: 'Điều khoản sử dụng và chính sách'
+        policy: 'Điều khoản sử dụng và chính sách',
+        discoveryNow: 'Khám phá ngay'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
@@ -215,6 +229,8 @@ const Languages = {
         notification: 'Chưa xác thực tài khoản',
         edit: 'Chỉnh sửa',
         infoAccount: 'Thông tin cá nhân',
+        titleDrawerAccount: 'Tài khoản cá nhân',
+        infoIdentity:'Xác thực tài khoản',
         userName: 'Họ và tên',
         birthday: 'Ngày sinh',
         gender: 'Giới tính',
@@ -227,7 +243,19 @@ const Languages = {
         accountNumber: 'Số tài khoản',
         accountName: 'Tên tài khoản',
         bank: 'Ngân hàng',
-        nodeBank: 'Chú ý: Đây là tài khoản ngân hàng để nhận lãi, bạn cần đảm bảo chính xác thông tin tài khoản ngân hàng bạn cung cấp là chính xác. TienNgay.vn sẽ không chịu trách nghiệm khi bạn nhập sai thông tin. '
+        nodeBank: 'Chú ý: Đây là tài khoản ngân hàng để nhận lãi, bạn cần đảm bảo chính xác thông tin tài khoản ngân hàng bạn cung cấp là chính xác. TienNgay.vn sẽ không chịu trách nghiệm khi bạn nhập sai thông tin. ',
+        passCurrent: 'Mật khẩu cũ',
+        passNew: 'Mật khẩu mới',
+        passConfirmNew: 'Nhập lại mật khẩu mới',
+        investmentIntroduction: 'Giới thiệu nhà đầu tư',
+        codeIntroduction: 'Mã giới thiệu của bạn',
+        qrApp: 'QR code tải App',
+        copySuccess: 'Copy bản ghi thành công',
+        accountLink: 'Các tài khoản liên kết',
+        ggLink: 'Liên kết Goggle',
+        linked: 'Đã liên kết',
+        unlinked: 'Chưa liên kết',
+        logout: 'Đăng xuất'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',
@@ -252,13 +280,14 @@ const Languages = {
     },
     report: {
         title: 'Báo cáo',
-        quarterlyOverview: 'Tổng quan quý ',
+        quarterlyOverview: 'Tổng quan ',
         financialChart: 'Biểu đồ chi phí đầu tư và thu về',
         month: 'Tháng',
         investment: 'Vốn đầu tư',
         overview: 'Tổng quan',
         overviewInvest: 'Tổng quan đầu tư',
         quarter: 'Quý',
+        quarterPost: 'Quý ',
         year: 'Năm',
         million: 'Triệu',
         monthOfQuarter: 'Chi tiết tháng trong quý',
@@ -269,7 +298,7 @@ const Languages = {
         originAmountCollected: 'Số tiền gốc thu về',
         interestAmount: 'Tiền lãi',
         detailMonth: 'Chi tiết tháng ',
-        reportQuarter: 'Báo cáo quý ',
+        reportQuarter: 'Báo cáo ',
         totalInterest: 'Tổng lãi',
         totalProfitReceived: 'Tổng lãi đã nhận',
         totalInvestment: 'Tổng vốn đầu tư',
@@ -281,13 +310,16 @@ const Languages = {
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
     transaction: {
         infoTransactions: 'Thông tin giao dịch',
-        money: 'Số tiền',
-        content: 'Nội dung',
-        contractId: 'Mã hợp đồng',
-        time: 'Thời gian'
+        table: {
+            stt: 'STT',
+            money: 'Tổng',
+            content: 'Nội dung',
+            contractId: 'Mã hợp đồng',
+            time: 'Thời gian'
+        }
     },
     historyTabs: ['Đang đầu tư', 'Lịch sử'],
-    history:{
+    history: {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         interestReceived: 'Lãi đã nhận',
         remainingOriginal: 'Gốc còn lại',
@@ -295,9 +327,41 @@ const Languages = {
         haveInvested: 'Bạn từng đầu tư $count gói',
         fromDate: 'Từ ngày',
         toDate: 'Đến ngày',
-        searchProjectInvest: 'Tìm kiếm dự án đầu tư'
+        searchProjectInvest: 'Tìm kiếm dự án đầu tư',
+      
+    },
+    historyDetail: {
+        remainingOriginalAmount: 'Số tiền gốc còn lại',
+        receivedOriginalAmount: 'Số tiền gốc đã nhận',
+        dateInvest: 'Ngày đầu tư',
+        receivedInterest: 'Lãi đã nhận',
+        remainingInterest: 'Lãi còn lại',
+        payInterestInfo: 'Thông tin trả lãi',
+        payed: 'Đã thanh toán',
+        unPayed: 'Chưa tới hạn'
+    },
+    identity:{
+        title: 'Xác thực tài khoản',
+        describeIdentity: 'Cập nhập thông tin chứng từ để xác thực tài khoản',
+        identity: 'Số CMND/CCCD',
+        inputIdentity: 'Nhập số CMND/CCCD',
+        photoKyc: 'Ảnh giấy tờ tùy thân',
+        photoPortrait: 'Ảnh chân dung chụp:',
+        frontKyc: 'Mặt trước chứng từ',
+        behindKyc: 'Mặt sau chứng từ',
+        portrait: 'Chân dung khuôn mặt',
+        reChoose: 'Chọn lại',
+        verify: 'Xác nhận chứng từ'
+    },
+    commission:{
+        investmentCommission : 'Hoa hoa hồng nhà đầu tư',
+        itemOne: ' Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
+        itemTwo: ' Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày 01/09/2022',
+        star: '*'
+    },
+    tableCommission : {
+        sum : 'Tổng'
     }
-
 };
 
 

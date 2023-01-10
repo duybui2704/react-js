@@ -6,6 +6,7 @@
 
 .wid-left {
     width: 66%;
+    position: relative;
     @include mobile {
         width: 100%;
     }
@@ -20,6 +21,11 @@
     .img-logo {
         width: auto;
         height: 90px;
+        @include mobile {
+            width: auto;
+            height: 50px;
+            margin-top: 30px;
+        }
     }
     .img-store {
         width: auto;
@@ -73,4 +79,22 @@
 
 .wid-100 {
     width: 100%;
+}
+
+.style-close {
+    width: 100%;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+}
+
+.img-close {
+    width: 30px;
+    border-radius: 5px;
+    border: 1px solid $color-gray-d8;
+    // background-color: $color-gray-d8;
+}
+
+.img-close:hover {
+    background-color: $color-gray-e8;
 }

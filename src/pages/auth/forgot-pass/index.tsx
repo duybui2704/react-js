@@ -6,8 +6,10 @@ import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
+import { Loading } from 'components/loading';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import formValidate from 'utils/form-validate';
 import styles from './forgot-pass.module.scss';
 
@@ -15,8 +17,9 @@ const cx = classNames.bind(styles);
 
 function ForgotPass({ onPress }) {
     const isMobile = useIsMobile();
+    const [isLoading, setLoading] = useState<boolean>(false);
 
-    // const { apiServices } = useAppStore();
+    const { apiServices } = useAppStore();
     const refPhone = useRef<TextFieldActions>(null);
 
     const onChange = (e: CheckboxChangeEvent) => {
@@ -38,13 +41,14 @@ function ForgotPass({ onPress }) {
 
     const onForgotPwd = useCallback(async () => {
         if (onValidate()) {
-            // const response = await apiServices.common.checkAppState();
-            // console.log(response);
-            // userManager.updateDemo(response.data);
-            onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue() });
-
+            setLoading(true);
+            const response = await apiServices.auth.otpResetPwd(refPhone.current?.getValue()) as any;
+            setLoading(false);
+            if (response.success) {
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.changePwd });
+            }
         }
-    }, [onPress, onValidate]);
+    }, [apiServices.auth, onPress, onValidate]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
@@ -89,8 +93,9 @@ function ForgotPass({ onPress }) {
     const renderView = useMemo(() => {
         return <>
             {renderRightContent}
+            {isLoading && <Loading />}
         </>;
-    }, [renderRightContent]);
+    }, []);
 
     return renderView;
 }

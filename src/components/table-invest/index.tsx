@@ -1,47 +1,58 @@
 import classNames from 'classnames/bind';
+import { TYPE_STATUS_INVEST } from 'commons/constants';
+import Languages from 'commons/languages';
 import { DataColumnInvestType } from 'models/invest';
 import React, { useCallback } from 'react';
 import style from './table-invest.module.scss';
 const cx = classNames.bind(style);
 
-const TableInvest = ({ dataTable, columnName }: { dataTable: DataColumnInvestType[], columnName: string[] }) => {
+const TableInvest = ({ dataTableInvest, arrKey, columnName }: { dataTableInvest: any, arrKey: Array<string>, columnName: string[] }) => {
 
-    const renderTableColumnValue = useCallback((_arrayColumn: Array<string>) => {
+    const renderTableRowValueInvest = useCallback((_arrayRow: any, _arrayColumn: Array<string>, _arrKey: Array<string>) => {
         return (
-            <thead>
-                <tr>
-                    {_arrayColumn?.map?.((item: string, index: number) => { return (<td key={index}>{item}</td>); })}
-                </tr>
-            </thead>
-        );
+            <>
+                <thead>
+                    <tr>
+                        {_arrayColumn?.map?.((item: string, index: number) => { return (<td className={cx('text-black h7 bold')} key={index}>{item}</td>); })}
+                    </tr>
+                </thead>
+                <tbody>
+                    {_arrayRow?.map?.((item: DataColumnInvestType, index: number) => {
 
-    }, []);
+                        const renderItem = (key: string) => {
+                            if (key === 'status') {
+                                return <td className={cx('h7', item[key] === TYPE_STATUS_INVEST.PAYED ? 'text-green' : 'text-gray')}>
+                                    {item[key] === TYPE_STATUS_INVEST.PAYED ? Languages.historyDetail.payed : Languages.historyDetail.unPayed}</td>;
+                            } else {
+                                return <td className={cx('text-gray h7')}>{item[key]}</td>;
+                            }
+                        };
 
-    const renderTableRowValue = useCallback((_arrayRow: DataColumnInvestType[]) => {
-        return (
-            <tbody>
-                {_arrayRow?.map?.((item: DataColumnInvestType, index: number) => {
-                    return (
-                        <tr key={index} className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}>
-                            <td>{item?.id}</td>
-                            <td>{item?.receivingPeriod}</td>
-                            <td>{item?.principalAmount}</td>
-                            <td>{item?.profitAmount}</td>
-                            <td>{item?.total}</td>
-                            <td>{item?.receivedDate}</td>
-                        </tr>
-                    );
-                })}
-            </tbody>
+                        return (
+                            <tr key={index} className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}>
+                                {_arrKey?.map((keyItem: string) => {
+                                    if (Object.keys(item).some((key => key === keyItem))) {
+                                        return (
+                                            <>
+                                                {renderItem(keyItem)}
+                                            </>
+                                        );
+                                    }
+                                })}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </>
         );
     }, []);
 
     return (
-        <table >
-            {renderTableColumnValue(columnName || [])}
-            {renderTableRowValue(dataTable || [])}
+        <table>
+            {renderTableRowValueInvest(dataTableInvest, columnName, arrKey)}
         </table>
     );
 };
 
 export default TableInvest;
+

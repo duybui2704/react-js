@@ -9,7 +9,7 @@ import { TYPE_INPUT } from 'commons/constants';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import TableInvest from 'components/table-invest';
-import {dataColumnTransaction, TransactionMoneyOut, transactionMoneyIn, columnNameTransaction, columnNameTransactionMobile} from 'pages/__mocks__/transaction';
+import {dataColumnTransaction, transactionMoneyOut, transactionMoneyIn, columnNameTransaction, columnNameTransactionMobile} from 'pages/__mocks__/transaction';
 
 import { DataColumnTrasactionType } from 'models/transaction';
 
@@ -19,6 +19,25 @@ interface HistoryFilter {
     fromDate?: string;
     toDate?: string;
 }
+
+const labelArrMobile = {
+
+    money: Languages.transaction.table.money,
+    content: Languages.transaction.table.content,
+    time: Languages.transaction.table.time
+};
+
+const labelArrWeb = [
+    Languages.transaction.table.stt,
+    Languages.transaction.table.money,
+    Languages.transaction.table.content,
+    Languages.transaction.table.contractId,
+    Languages.transaction.table.time
+];
+
+const arrKeyMobile = ['money', 'content', 'time'];
+const arrKeyWeb = ['stt','money', 'content', 'ma_hop_dong', 'time'];
+
 
 function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
     const fromDateRef = useRef<TextFieldActions>(null);
@@ -30,14 +49,21 @@ function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
     useEffect(() => {
         console.log('keyTabs', keyTabs);
         if (keyTabs === '1') {
-            setDataPeriodInvest(dataColumnTransaction);
+            setDataPeriodInvest(convertData(dataColumnTransaction));
         } else if (keyTabs === '2'){
-            setDataPeriodInvest(TransactionMoneyOut);
+            setDataPeriodInvest(convertData(transactionMoneyOut));
         } else {
-            setDataPeriodInvest(transactionMoneyIn);
+            setDataPeriodInvest(convertData(transactionMoneyIn));
         }
     }, [keyTabs]);
 
+    // thêm trường stt vào từng item trong mảng
+    const convertData = useCallback((data: any) => {
+        for (let i = 0; i < data?.length; i++) {
+            data[i].stt = (i + 1).toString();
+        }
+        return data;
+    }, []);
     
     const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
         const onChangeInput = (event: any) => { // format date: 2022-12-14
@@ -83,8 +109,8 @@ function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
             { renderFilterWeb}
             <div className={cx('invest-note-container')}>
                 {isMobile ?
-                    <PeriodInvestMobile dataTable={dataPeriodInvest} columnName={columnNameTransactionMobile} /> :
-                    <TableInvest dataTable={dataPeriodInvest} columnName={columnNameTransaction} />}
+                    <PeriodInvestMobile dataTableInvest={dataPeriodInvest} labelArr={labelArrMobile} arrKey={arrKeyMobile}  /> :
+                    <TableInvest dataTableInvest={dataPeriodInvest} columnName={labelArrWeb} arrKey={arrKeyWeb}/> }
             </div>
         </div>
     );

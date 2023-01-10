@@ -1,6 +1,7 @@
 $mobile-width: 480px;
 $tablet-width: 768px;
 $desktop-width: 1024px;
+
 @mixin mobile {
     @media (max-width: #{$mobile-width - 1px}) {
         @content;
@@ -16,6 +17,12 @@ $desktop-width: 1024px;
 @mixin desktop {
     @media (min-width: #{$desktop-width}) {
         @content;
+    }
+}
+
+.customize-toast {
+    @media (max-width: #{$mobile-width}) {
+        padding: 1.5rem;
     }
 }
 
@@ -57,6 +64,11 @@ $desktop-width: 1024px;
     flex: auto;
 }
 
+.flex-item {
+    display: flex;
+    align-items: center;
+}
+
 .center {
     display: flex;
     justify-content: center;
@@ -76,7 +88,14 @@ $desktop-width: 1024px;
 }
 
 .space-between {
+    display: flex;
     justify-content: space-between;
+    align-items: center;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
 }
 
@@ -90,6 +109,11 @@ $desktop-width: 1024px;
     font-family: $font-regular;
     color: $color-white;
     text-align: center;
+}
+
+.text-white-style {
+    font-family: $font-regular;
+    color: $color-white;
 }
 
 .text-black {
@@ -149,6 +173,18 @@ $desktop-width: 1024px;
     text-align: start;
 }
 
+.center-flex-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include tablet {
+        align-items: flex-start;
+    }
+    @include mobile {
+        align-items: flex-start;
+    }
+}
+
 .h1 {
     font-size: $text-h1;
     @include mobile {
@@ -203,12 +239,8 @@ $desktop-width: 1024px;
     font-size: $text-h9;
 }
 
-.h10 {
-    font-size: $text-h10;
-}
-
-.h11 {
-    font-size: $text-h11;
+.h0 {
+    font-size: $text-h0;
 }
 
 .white-space {
@@ -220,20 +252,24 @@ $desktop-width: 1024px;
     padding: 12px;
 }
 
+.p24 {
+    padding: 24px;
+}
+
 .x5 {
-    margin-right: 5px
+    margin-right: 5px;
 }
 
 .x10 {
-    margin-right: 10px
+    margin-right: 10px;
 }
 
 .xl5 {
-    margin-left: 5px
+    margin-left: 5px;
 }
 
 .xl10 {
-    margin-left: 10px
+    margin-left: 10px;
 }
 
 .x30 {
@@ -250,12 +286,16 @@ $desktop-width: 1024px;
     }
 }
 
+.y5 {
+    margin-top: 5px;
+}
+
 .y10 {
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .y15 {
-    margin-top: 15px
+    margin-top: 15px;
 }
 
 .y20 {
@@ -284,11 +324,11 @@ $desktop-width: 1024px;
 }
 
 .b10 {
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
 .b15 {
-    margin-bottom: 15px
+    margin-bottom: 15px;
 }
 
 .b20 {
@@ -329,8 +369,24 @@ $desktop-width: 1024px;
     padding-top: 5px;
 }
 
+.pt12 {
+    padding-top: 12px;
+}
+
 .pb5 {
     padding-bottom: 5px;
+}
+
+.pb16 {
+    padding-bottom: 16px;
+}
+
+.pt-16{
+    padding-top: 16px;
+}
+
+.pl-16{
+    padding-left: 16px;
 }
 
 .pr5 {
@@ -349,4 +405,37 @@ $desktop-width: 1024px;
 
 ::-webkit-scrollbar-track {
     margin-bottom: 60px; //equal header tab's height
+}
+//gap 
+.g-4{
+    gap: 4px;
+}
+
+.g-8 {
+    gap: 8px;
+    @include mobile {
+        gap: 16px;
+    }
+}
+
+.g-15 {
+    gap: 15px;
+    @include mobile {
+        gap: 16px;
+    }
+}
+
+.g-16 {
+    gap: 16px;
+}
+
+.g-20{
+    gap: 20px;
+}
+
+.g-24 {
+    gap: 24px;
+    @include mobile {
+        gap: 16px;
+    }
 }

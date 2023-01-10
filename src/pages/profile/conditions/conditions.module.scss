@@ -1,0 +1,12 @@
+@import "assets/scss";
+.page {
+    display: flex;
+    flex-direction: row;
+}
+
+.padding {
+    padding: 2% 10%;
+    @include mobile() {
+        padding: 10px 5px;
+    }
+}

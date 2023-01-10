@@ -78,9 +78,9 @@ export interface PagingConditionTypes {
     fromDate: string,
     toDate: string,
     moneyInvested: string,
-    option:string
+    option: string
 }
-export interface HistoryModel{
+export interface HistoryModel {
     color: string,
     ngay_tra_lai: string,
     so_tien: string,
@@ -101,7 +101,7 @@ export interface BankInformationModel {
 }
 
 export interface InvestFilter {
-   dateInvest?: string;
+    dateInvest?: string;
     amountInvest?: string;
 }
 
@@ -112,4 +112,27 @@ export interface DataColumnInvestType {
     profitAmount: string;
     total: string;
     receivedDate: string;
+    stt?: string;
+}
+
+export interface DataColumnHistoryType {
+    id: string;
+    principalAmount: string;
+    profitAmount: string;
+    total: string;
+    status: string;
+    receivedDate: string;
+    stt?: string;
+}
+
+export interface DataColumnCommissionType {
+    id: string;
+    phoneNumber: string;
+    totalInvest: string;
+    commissionAmount: string;
+}
+
+export interface DataTotalColumnCommissionType {
+    totalInvest: string;
+    totalCommission: string;
 }
