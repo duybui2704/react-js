@@ -57,24 +57,17 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
 
     useEffect(() => {
-        const _dataColumnInvest = dataColumnInvest;
-
-        // thêm trường stt vào từng item trong mảng
-        for (let i = 0; i < _dataColumnInvest?.length; i++) {
-            _dataColumnInvest[i].stt = (i + 1).toString();
-        }
-        const _dataColumnInvesting = dataColumnInvesting;
-        for (let i = 0; i < _dataColumnInvesting?.length; i++) {
-            _dataColumnInvesting[i].stt = (i + 1).toString();
-        }
-        const _dataColumnHistory = dataColumnHistory;
-        for (let i = 0; i < _dataColumnHistory?.length; i++) {
-            _dataColumnHistory[i].stt = (i + 1).toString();
-        }
         setDataPackage(investPackage);
-        setDataPeriodInvest(_dataColumnInvest);
-        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? _dataColumnInvesting : _dataColumnHistory);
+        setDataPeriodInvest(convertData(dataColumnInvest));
+        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? convertData(dataColumnInvesting) : convertData(dataColumnHistory));
     }, [investPackage, tabDetailHistory]);
+
+    const convertData = useCallback((data: any) => {
+        for (let i = 0; i < data?.length; i++) {
+            data[i].stt = (i + 1).toString();
+        }
+        return data;
+    }, []);
 
     const onBack = useCallback(() => {
         onBackScreen();

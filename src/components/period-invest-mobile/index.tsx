@@ -18,7 +18,7 @@ const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey} : { dataTableIn
                     {item[key] === TYPE_STATUS_INVEST.PAYED ? Languages.historyDetail.payed : Languages.historyDetail.unPayed}</span>;
             }
             if (key === 'ma_hop_dong') {    
-                return <span className={cx('medium h7 text-center text-green')}>{item['ma_hop_dong']}</span>;
+                return <span className={cx('medium h7 text-center text-blue')}>{item['ma_hop_dong']}</span>;
             }
         }
     }, []);

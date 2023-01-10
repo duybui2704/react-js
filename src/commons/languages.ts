@@ -328,7 +328,6 @@ const Languages = {
         fromDate: 'Từ ngày',
         toDate: 'Đến ngày',
         searchProjectInvest: 'Tìm kiếm dự án đầu tư'
-      
     },
     historyDetail: {
         remainingOriginalAmount: 'Số tiền gốc còn lại',
