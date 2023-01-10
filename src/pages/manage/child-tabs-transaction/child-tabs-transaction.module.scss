@@ -1,16 +1,15 @@
 @import "assets/scss";
-
-.container {
-  border-radius: 8px; 
-  flex: 1;  
-  border: 1px solid $color-gray5;
-  box-shadow: $box-shadow;
-  margin-top: 25px;
+.page-container {
+    padding-bottom: 32px;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
 }
 
 .container {
-  color: $color-gray8
+    color: $color-gray8
 }
+
 .top-intro {
     display: flex;
     flex-direction: column;

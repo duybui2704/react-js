@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState, useEffect} from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import styles from './child-tabs-transaction.module.scss';
@@ -9,9 +9,10 @@ import { TYPE_INPUT } from 'commons/constants';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import TableInvest from 'components/table-invest';
-import {dataColumnTransaction, transactionMoneyOut, transactionMoneyIn, columnNameTransaction, columnNameTransactionMobile} from 'pages/__mocks__/transaction';
+import { dataColumnTransaction, transactionMoneyOut, transactionMoneyIn, columnNameTransaction, columnNameTransactionMobile } from 'pages/__mocks__/transaction';
 
-import { DataColumnTrasactionType } from 'models/transaction';
+import { DataColumnTransactionType as DataColumnTransactionType } from 'models/transaction';
+import TabsButtonBar from 'components/tabs-button-bar';
 
 const cx = classNames.bind(styles);
 interface HistoryFilter {
@@ -21,41 +22,33 @@ interface HistoryFilter {
 }
 
 const labelArrMobile = {
-
     money: Languages.transaction.table.money,
     content: Languages.transaction.table.content,
     time: Languages.transaction.table.time
 };
 
-const labelArrWeb = [
-    Languages.transaction.table.stt,
-    Languages.transaction.table.money,
-    Languages.transaction.table.content,
-    Languages.transaction.table.contractId,
-    Languages.transaction.table.time
-];
-
 const arrKeyMobile = ['money', 'content', 'time'];
-const arrKeyWeb = ['stt','money', 'content', 'ma_hop_dong', 'time'];
+const arrKeyWeb = ['stt', 'money', 'content', 'ma_hop_dong', 'time'];
 
-
-function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
+function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
     const isMobile = useIsMobile();
     const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
-    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnTrasactionType[]>([]);
+    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnTransactionType[]>([]);
+
+    const [tabName, setTabName] = useState<number>(keyTabs);
 
     useEffect(() => {
         console.log('keyTabs', keyTabs);
-        if (keyTabs === '1') {
+        if (tabName === 1) {
             setDataPeriodInvest(convertData(dataColumnTransaction));
-        } else if (keyTabs === '2'){
+        } else if (tabName === 2) {
             setDataPeriodInvest(convertData(transactionMoneyOut));
         } else {
             setDataPeriodInvest(convertData(transactionMoneyIn));
         }
-    }, [keyTabs]);
+    }, [keyTabs, tabName]);
 
     // thêm trường stt vào từng item trong mảng
     const convertData = useCallback((data: any) => {
@@ -64,7 +57,7 @@ function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
         }
         return data;
     }, []);
-    
+
     const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
         const onChangeInput = (event: any) => { // format date: 2022-12-14
             // const [year, month, day] = _refInput.current?.getValue?.()?.trim().split('-') || '';
@@ -90,7 +83,7 @@ function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
     const renderFilterWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                {!isMobile && <Col xs={24} sm={24} md={12} lg={8} xl={6} className={cx('title')}>                  
+                {!isMobile && <Col xs={24} sm={24} md={12} lg={8} xl={6} className={cx('title')}>
                     <span className={cx('text-gray8 medium h6')}>{Languages.transaction.infoTransactions}</span>
                 </Col>}
                 <Col xs={24} sm={24} md={12} lg={16} xl={18} className={cx('flex-end')}>
@@ -104,13 +97,22 @@ function ChildTabsTransaction({keyTabs}: {keyTabs?: string}) {
             </Row>
         );
     }, [dataFilter.fromDate, dataFilter.toDate, isMobile, renderDate]);
+
+    const onChangeTab = useCallback((tabNumber: number) => {
+        if (tabName !== tabNumber) {
+            setTabName(tabNumber);
+            console.log(tabNumber);
+        }
+    }, [tabName]);
+
     return (
-        <div className={cx('container')}>
-            { renderFilterWeb}
+        <div className={cx('page-container')}>
+            <TabsButtonBar dataTabs={Languages.transactionTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${keyTabs}`} />
+            {renderFilterWeb}
             <div className={cx('invest-note-container')}>
                 {isMobile ?
-                    <PeriodInvestMobile dataTableInvest={dataPeriodInvest} labelArr={labelArrMobile} arrKey={arrKeyMobile}  /> :
-                    <TableInvest dataTableInvest={dataPeriodInvest} columnName={labelArrWeb} arrKey={arrKeyWeb}/> }
+                    <PeriodInvestMobile dataTableInvest={dataPeriodInvest} labelArr={labelArrMobile} arrKey={arrKeyMobile} /> :
+                    <TableInvest dataTableInvest={dataPeriodInvest} columnName={columnNameTransaction} arrKey={arrKeyWeb} />}
             </div>
         </div>
     );

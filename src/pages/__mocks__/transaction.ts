@@ -1,7 +1,7 @@
-import { DataColumnTrasactionType } from './../../models/transaction.d';
+import { DataColumnTransactionType } from "models/transaction";
 
 
-export const dataColumnTransaction: DataColumnTrasactionType[] = [
+export const dataColumnTransaction: DataColumnTransactionType[] = [
     {
         id: '1',
         money: '1,000,000',
@@ -53,7 +53,7 @@ export const dataColumnTransaction: DataColumnTrasactionType[] = [
     }
 ];
 
-export const transactionMoneyOut: DataColumnTrasactionType[] = [
+export const transactionMoneyOut: DataColumnTransactionType[] = [
     {
         id: '1',
         money: '2,000,000',
@@ -93,7 +93,7 @@ export const transactionMoneyOut: DataColumnTrasactionType[] = [
     }
 ];
 
-export const transactionMoneyIn: DataColumnTrasactionType[] = [
+export const transactionMoneyIn: DataColumnTransactionType[] = [
     {
         id: '1',
         money: '2,000,000',

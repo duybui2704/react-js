@@ -327,7 +327,7 @@ const Languages = {
         haveInvested: 'Bạn từng đầu tư $count gói',
         fromDate: 'Từ ngày',
         toDate: 'Đến ngày',
-        searchProjectInvest: 'Tìm kiếm dự án đầu tư',
+        searchProjectInvest: 'Tìm kiếm dự án đầu tư'
       
     },
     historyDetail: {

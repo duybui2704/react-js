@@ -22,7 +22,7 @@ export interface TransactionTypeModel {
     created_at: string;
 }
 
-export interface DataColumnTrasactionType {
+export interface DataColumnTransactionType {
     id: string;
     money: string;
     content: string;

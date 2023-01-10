@@ -8,8 +8,8 @@ import InvestDetail from 'pages/investment/invest-detail';
 import Report from 'pages/manage/report';
 import React, { useCallback, useMemo, useState } from 'react';
 import ChildTabsHistory from './child-tabs-history';
+import ChildTabsTransaction from './child-tabs-transaction';
 import styles from './manage.module.scss';
-import Transaction from './transaction';
 
 const cx = classNames.bind(styles);
 
@@ -63,7 +63,7 @@ const Manage = observer(({ defaultTabs }:
             },
             {
                 id: '3',
-                renderComponent: <Transaction />,
+                renderComponent: <ChildTabsTransaction keyTabs={0}/>,
                 title: Languages.manageTabs?.[2]
             }
         ];
