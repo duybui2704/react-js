@@ -21,7 +21,7 @@ function AccountLink() {
                     <img src={IcGoggle} className={cx('img')} />
                     <div className={cx('column')}>
                         <span className={cx('text-black medium h6')}>{Languages.profile.ggLink}</span>
-                        <span className={userManager.userInfo?.id_google ? cx('text-green medium h6 y10') : cx('text-red medium h6 y10')}>
+                        <span className={cx('medium h6 y10', userManager.userInfo?.id_google ? 'text-green' : 'text-red')}>
                             {userManager.userInfo?.id_google ? Languages.profile.linked : Languages.profile.unlinked}</span>
                     </div>
                 </div>

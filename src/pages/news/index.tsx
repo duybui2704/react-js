@@ -46,7 +46,7 @@ function News() {
     }, []);
 
     const renderImage = useMemo(() => {
-
+        
         return (
             <img src={ImgPPNews} className={cx('xl10', 'img')} />
         );

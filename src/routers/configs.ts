@@ -21,11 +21,8 @@ const publicRoutes = [
     { path: Paths.any, page: NotFound},
 
     //auth
-    { path: Paths.auth, page: Auth, hasHeader: true },
+    { path: Paths.auth, page: Auth, hasHeader: true }
 
-    //profile
-
-    { path: Paths.profile, page: Profile, hasHeader: true }
 ] as RouteProps[];
 
 const privateRoutes = [];

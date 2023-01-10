@@ -132,7 +132,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                 </div>}
             </div>
         );
-    }, [dataPackage?.hinh_thuc_tra_lai, dataPackage?.ki_han_dau_tu, dataPackage?.lai_hang_thang, dataPackage?.ma_hop_dong, dataPackage?.ngay_dao_han_du_kien, dataPackage?.ngay_dau_tu, dataPackage?.so_tien_dau_tu, dataPackage?.ti_le_lai_suat_hang_thang, dataPackage?.tong_goc_con_lai, dataPackage?.tong_goc_da_tra, dataPackage?.tong_lai_da_nhan, dataPackage?.tong_lai_da_tra, dataPackage?.tong_lai_nhan_duoc, handleInvestNow, isDetailHistory, isMobile, renderKeyValue]);
+    }, [dataPackage, handleInvestNow, isDetailHistory, isMobile, renderKeyValue]);
 
     const renderDetailPayment = useMemo(() => {
         return (

@@ -123,74 +123,75 @@ const Home = observer(() => {
         );
     }, [OperationsSlot, position]);
 
+    const getStepLayout = useCallback((index: number) => {
+        switch (index) {
+            case TAB_INDEX.INTRO:
+                return <Intro />;
+            case TAB_INDEX.INVESTMENT:
+                return <InvestTab />;
+            case TAB_INDEX.MANAGEMENT:
+                return <Manage />;
+            case TAB_INDEX.NEWS:
+                return <News />;
+            case TAB_INDEX.PROFILE:
+            default:
+                return <Profile />;
+        }
+    }, []);
+
     const tabs = useMemo(() => {
         if (userManager.userInfo) {
             return [
                 {
                     label: Languages.tabs[0],
-                    key: '0',
-                    children: <Intro />
+                    key: `${TAB_INDEX.INTRO}`,
+                    children: getStepLayout(TAB_INDEX.INTRO)
                 },
                 {
                     label: Languages.tabs[1],
-                    key: '1',
-                    children: <InvestTab />
+                    key: `${TAB_INDEX.INVESTMENT}`,
+                    children: getStepLayout(TAB_INDEX.INVESTMENT)
                 },
                 {
                     label: Languages.tabs[2],
-                    key: '2',
-                    children: <Manage />
+                    key: `${TAB_INDEX.MANAGEMENT}`,
+                    children: getStepLayout(TAB_INDEX.MANAGEMENT)
                 },
                 {
                     label: Languages.tabs[3],
-                    key: '3',
-                    children: <News />
+                    key: `${TAB_INDEX.NEWS}`,
+                    children: getStepLayout(TAB_INDEX.NEWS)
                 },
                 {
                     label: Languages.tabs[4],
-                    key: '4',
-                    children: <Profile />
+                    key: `${TAB_INDEX.PROFILE}`,
+                    children: getStepLayout(TAB_INDEX.PROFILE)
                 }
             ];
         } else {
             return [
                 {
                     label: Languages.tabs[0],
-                    key: '0',
-                    children: <Intro />
+                    key: `${TAB_INDEX.INTRO}`,
+                    children: getStepLayout(TAB_INDEX.INTRO)
                 },
                 {
                     label: Languages.tabs[1],
-                    key: '1',
-                    children: <InvestTab />
+                    key: `${TAB_INDEX.INVESTMENT}`,
+                    children: getStepLayout(TAB_INDEX.INVESTMENT)
                 },
                 {
                     label: Languages.tabs[3],
-                    key: '3',
-                    children: <News />
+                    key: `${TAB_INDEX.NEWS}`,
+                    children: getStepLayout(TAB_INDEX.NEWS)
                 }
             ];
         }
-    }, [userManager.userInfo]);
+    }, [getStepLayout, userManager.userInfo]);
 
     const onChangeTab = (key: string) => {
         setStepIndex(parseInt(key));
     };
-
-    const renderBody = useMemo(() => {
-        switch (stepIndex) {
-            case 1:
-                return <Intro />;
-            case 2:
-                return <InvestTab />;
-            case 3:
-                return <Manage />;
-            case 4:
-                return <News />;
-            default:
-                return <Profile />;
-        }
-    }, [stepIndex]);
 
     const onShowMenu = useCallback(() => {
         refDrawer.current?.show();
@@ -204,7 +205,7 @@ const Home = observer(() => {
                         <img src={IcLogo} className={cx('icon-tienngay')} />
                         <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
                     </div>
-                    {renderBody}
+                    {getStepLayout(stepIndex)}
                     <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={dataMenu} />
                 </div>
                 : <Tabs

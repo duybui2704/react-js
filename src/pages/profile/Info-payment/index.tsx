@@ -40,8 +40,6 @@ function InfoPayment() {
         );
     }, []);
 
-
-
     const renderInput = useCallback((_ref: any, value: string, type: string, label?: string, maxLength?: number, disabled?: boolean, key?: string) => {
 
         const onChange = () => {
