@@ -19,12 +19,26 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
-import { columnNameHistory, columnNameInvest, dataColumnHistory, dataColumnInvest, dataColumnInvesting } from 'pages/__mocks__/invest';
+import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHistory, columnNameInvest, dataColumnHistory, dataColumnInvest, dataColumnInvesting } from 'pages/__mocks__/invest';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';
 
 const cx = classNames.bind(styles);
+
+const labelArr = {
+    receivedDate: Languages.invest.datePayment,
+    principalAmount: Languages.invest.principalAmount,
+    profitAmount: Languages.invest.interestAmount,
+    total: Languages.invest.totalAmount
+};
+
+const labelArrHistory = {
+    receivedDate: Languages.invest.datePayment,
+    principalAmount: Languages.invest.principalAmount,
+    profitAmount: Languages.invest.interestAmount,
+    total: Languages.invest.totalAmount
+};
 
 function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
@@ -43,9 +57,23 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
 
     useEffect(() => {
+        const _dataColumnInvest = dataColumnInvest;
+
+        // thêm trường stt vào từng item trong mảng
+        for (let i = 0; i < _dataColumnInvest?.length; i++) {
+            _dataColumnInvest[i].stt = (i + 1).toString();
+        }
+        const _dataColumnInvesting = dataColumnInvesting;
+        for (let i = 0; i < _dataColumnInvesting?.length; i++) {
+            _dataColumnInvesting[i].stt = (i + 1).toString();
+        }
+        const _dataColumnHistory = dataColumnHistory;
+        for (let i = 0; i < _dataColumnHistory?.length; i++) {
+            _dataColumnHistory[i].stt = (i + 1).toString();
+        }
         setDataPackage(investPackage);
-        setDataPeriodInvest(dataColumnInvest);
-        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? dataColumnInvesting : dataColumnHistory);
+        setDataPeriodInvest(_dataColumnInvest);
+        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? _dataColumnInvesting : _dataColumnHistory);
     }, [investPackage, tabDetailHistory]);
 
     const onBack = useCallback(() => {
@@ -139,8 +167,11 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
             <div className={cx(isMobile ? 'invest-note-container-mobile' :'invest-note-container')}>
                 <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
                 {isMobile ?
-                    <PeriodInvestMobile dataTableInvest={dataPeriodInvest} dataTableHistory={dataDetailHistory} isDetailHistory={isDetailHistory} /> :
-                    <TableInvest dataTableInvest={dataPeriodInvest} dataTableHistory={dataDetailHistory} isDetailHistory={isDetailHistory}
+                    <PeriodInvestMobile
+                        dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest}
+                        labelArr={isDetailHistory ? labelArrHistory : labelArr}
+                        arrKey={isDetailHistory ? arrKeyHistoryMobile : arrKeyMobile} /> :
+                    <TableInvest dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest} arrKey={isDetailHistory ? arrKeyHistory : arrKey}
                         columnName={isDetailHistory ? columnNameHistory : columnNameInvest}
                     />
                 }

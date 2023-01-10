@@ -513,3 +513,10 @@ export const BankTransferInfo: BankInformationModel = {
     id: '970415',
 }
 
+export const arrKey = ['stt', 'receivingPeriod', 'principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total', 'status', 'receivedDate'];
+
+export const arrKeyMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+
+

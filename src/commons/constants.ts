@@ -89,6 +89,11 @@ export enum TYPE_FILE {
     VIDEO = 'video',
 }
 
+export enum TYPE_STATUS_INVEST {
+    PAYED = '1',
+    UN_PAYED = '0',
+}
+
 export enum TYPE_TRANSFER_AMOUNT {
     NGAN_LUONG = 'nganluong',
     BANK = 'bank',
@@ -99,10 +104,7 @@ export enum TYPE_TAB_HISTORY {
     IS_INVESTING = 0,
     HISTORY = 1,
 }
-export enum TYPE_STATUS_DETAIL_HISTORY {
-    UN_PAYED = '0',
-    PAYED = '1',
-}
+
 export enum TYPE_SIZE {
     BYTES = 'Bytes',
     KB = 'KB',

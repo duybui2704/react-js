@@ -19,11 +19,13 @@ import formValidate from 'utils/form-validate';
 import styles from './login.module.scss';
 import { Paths } from 'routers/paths';
 
+import FacebookLogin from 'react-facebook-login';
+// import { loginGoogle } from 'utils/socia-auth';
+
 const cx = classNames.bind(styles);
 
 function Login({ onPress }) {
     const isMobile = useIsMobile();
-
     const navigate = useNavigate();
     const { apiServices, userManager } = useAppStore();
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -92,6 +94,18 @@ function Login({ onPress }) {
         onPress?.({ name: title });
     }, [onPress]);
 
+    const responseFacebook = (response) => {
+        console.log(response);
+    };
+
+    const onGoogleSign = useCallback(async () => {
+        try {
+            // await loginGoogle();
+        } catch (error) {
+            console.log('error ===', error);
+        }
+    }, []);
+
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
             <span className={cx('text-black medium h4')}>
@@ -156,19 +170,29 @@ function Login({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
-                <Button
+
+                <FacebookLogin
+                    appId="744279786599103"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    callback={responseFacebook}
+                    cssClass="my-facebook-button-class"
+                // icon={<IcFacebook />}
+                />
+                {/* <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
                     isLowerCase
                     containButtonStyles={'flex x10'}
                     rightIcon={IcFacebook}
-                />
+                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}
                     isLowerCase
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
+                    onPress={onGoogleSign}
                 />
             </div>
         </div>;

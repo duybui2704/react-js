@@ -112,6 +112,7 @@ export interface DataColumnInvestType {
     profitAmount: string;
     total: string;
     receivedDate: string;
+    stt?: string;
 }
 
 export interface DataColumnHistoryType {
@@ -121,6 +122,7 @@ export interface DataColumnHistoryType {
     total: string;
     status: string;
     receivedDate: string;
+    stt?: string;
 }
 
 export interface DataColumnCommissionType {
