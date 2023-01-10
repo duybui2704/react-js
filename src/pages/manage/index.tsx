@@ -2,6 +2,7 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { TabsItemManage } from 'components/tabs-history';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { observer } from 'mobx-react';
 import { PackageInvest } from 'models/invest';
 import InvestDetail from 'pages/investment/invest-detail';
 import Report from 'pages/manage/report';
@@ -12,11 +13,11 @@ import Transaction from './transaction';
 
 const cx = classNames.bind(styles);
 
-function Manage({ defaultTabs }:
+const Manage = observer(({ defaultTabs }:
     {
         defaultTabs?: number
     }
-) {
+) => {
     const [tabsName, setTabsName] = useState<number>(defaultTabs || 0);
     const isMobile = useIsMobile();
 
@@ -95,6 +96,6 @@ function Manage({ defaultTabs }:
     }, [goBack, investPackage, renderTabsView, tabNameBackHistory, tabNameHistory]);
 
     return <>{renderCustomTab}</>;
-}
+});
 
 export default Manage;
