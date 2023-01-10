@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import { DrawerBaseActions } from 'components/drawer-mobile-account';
 import { BUTTON_STYLES } from 'components/button/types';
+import sessionManager from 'managers/session-manager';
 
 type DrawerBaseProps = {
     onClose?: () => any;
@@ -37,15 +38,9 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
     ({ onChangeStep, onClose, onBackdropPress, data
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
-        const [info, setInfo] = useState<UserInfoModel>({});
         const navigate = useNavigate();
 
-
         const [tabs, setTabs] = useState<number>(1);
-
-        useEffect(() => {
-            setInfo(InfoUser);
-        }, []);
 
         const hide = useCallback(() => {
             setVisible(false);
@@ -65,10 +60,15 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             onBackdropPress?.();
         }, [onBackdropPress]);
 
+        const onLogout = useCallback(() => {
+            sessionManager.logout();
+            navigate(Paths.auth, { state: { name: Languages.auth.login } });
+        }, [navigate]);
+
         const renderTokenView = useMemo(() => {
             return (
                 <>
-                    {info.token
+                    {sessionManager.accessToken
                         ? <div className={cx('row')}>
                             <Button
                                 label={Languages.profile.logout}
@@ -76,6 +76,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                                 containButtonStyles={cx('button-gray', 'y20')}
                                 buttonStyle={BUTTON_STYLES.GRAY}
                                 isLowerCase
+                                onPress={onLogout}
                             />
                         </div>
                         : <div className={cx('column')}>
@@ -99,7 +100,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     }
                 </>
             );
-        }, [info.token, navigate]);
+        }, [navigate, onLogout]);
 
         const renderCustom = useCallback(() => {
             return (
@@ -113,7 +114,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         return (
                             <div key={item?.id}>
                                 {item.is_login
-                                    ? (info.token && <div className={tabs === item?.id ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
+                                    ? (sessionManager.accessToken && <div className={tabs === item?.id ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
                                         <div className={cx('button-item-container')}>
                                             <img src={item?.icon} className={cx('icon-close')} />
                                             <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
@@ -132,7 +133,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     {renderTokenView}
                 </div>
             );
-        }, [data, info.token, onChangeStep, renderTokenView, tabs]);
+        }, [data, onChangeStep, renderTokenView, tabs]);
 
         return (
             <Drawer
