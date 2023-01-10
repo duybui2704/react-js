@@ -1,5 +1,5 @@
 import { ItemProps } from './../../models/common.d';
-import { BankInformationModel, DataColumnHistoryType, DataColumnInvestType, PackageInvest } from "models/invest";
+import { BankInformationModel, DataColumnCommissionType, DataColumnHistoryType, DataColumnInvestType, DataTotalColumnCommissionType, PackageInvest } from "models/invest";
 
 export const investListData =
     [
@@ -447,11 +447,43 @@ export const dataColumnInvesting: DataColumnHistoryType[] = [
     }
 ];
 
+export const dataColumnCommission: DataColumnCommissionType[] = [
+    {
+        id: '1',
+        phoneNumber: '0123456789',
+        totalInvest: '1,000,000,000',
+        commissionAmount: '1,000,000',
+    },
+    {
+        id: '2',
+        phoneNumber: '0123456789',
+        totalInvest: '1,000,000,000',
+        commissionAmount: '1,000,000',
+    },
+    {
+        id: '3',
+        phoneNumber: '0123456789',
+        totalInvest: '1,000,000,000',
+        commissionAmount: '1,000,000',
+    }
+];
+
+const totalCommission: DataTotalColumnCommissionType= {
+    totalInvest: '3,000,000',
+    totalCommission: '2,000,000'
+}
+
+export const DataCommission = {
+body: dataColumnCommission,
+total:totalCommission
+}
+
 export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
 export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const InvestMethod = [
-    {
+    {   
         id: 1,
         text: 'Tài khoản Ngân lượng',
         value: 'nganluong'
