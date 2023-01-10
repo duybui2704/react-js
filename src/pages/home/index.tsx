@@ -82,7 +82,7 @@ const Home = observer(() => {
 
         const onLogout = () => {
             sessionManager.logout();
-        }; 
+        };         
 
         return {
             left: <div className={cx('header_left')}>

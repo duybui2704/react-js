@@ -124,3 +124,15 @@ export const DescribePhoto = {
     ]
 };
 
+export enum COLOR_TRANSACTION {
+    RED = 'red',
+    YELLOW = 'yellow',
+    GREEN = 'green',
+}
+
+export enum STATE_VERIFY_ACC {
+    VERIFIED = 'Đã xác nhận thông tin',
+    WAIT = 'Chờ TienNgay xác nhận thông tin',
+    NO_VERIFIED = 'Cần xác thực thông tin CMT/CCCD'
+}
+

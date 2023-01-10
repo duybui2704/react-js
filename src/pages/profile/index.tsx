@@ -1,6 +1,7 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import ImgPortrait from 'assets/image/img_portrait.jpg';
 import classNames from 'classnames/bind';
+import { COLOR_TRANSACTION } from 'commons/constants';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
@@ -85,6 +86,31 @@ function Profile() {
         );
     }, [onShowDrawer, renderViewRight, userManager.userInfo?.full_name]);
 
+    const renderStatusAcc = useMemo(() => {
+        switch (info?.tinh_trang?.color) {
+            case COLOR_TRANSACTION.RED:
+                return (
+                    <div className={cx('un-verify-container')}>
+                        <span className={cx('un-verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
+                    </div>
+                );
+            case COLOR_TRANSACTION.GREEN:
+                return (
+                    <div className={cx('verify-container')}>
+                        <span className={cx('verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
+                    </div>
+                );
+            case COLOR_TRANSACTION.YELLOW:
+                return (
+                    <div className={cx('wait-verify-container')}>
+                        <span className={cx('wait-verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
+                    </div>
+                );
+            default:
+                break;
+        }
+    }, [info?.tinh_trang?.color, info?.tinh_trang?.status, onOpenIdentity]);
+
     const renderViewWeb = useMemo(() => {
         return (
             <>
@@ -92,7 +118,8 @@ function Profile() {
                     <div className={cx('avatar')}>
                         <img src={info?.avatar_user || ImgPortrait} width={'40%'} />
                         <span className={cx('text-gray medium h5 y20')} >{info?.full_name}</span>
-                        <label className={cx('text-red medium h6')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</label>
+                        {renderStatusAcc}
+
                     </div>
                     {profile.map((item: ItemScreenModel, index: number) => {
                         const onChangeStep = () => {
