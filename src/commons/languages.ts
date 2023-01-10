@@ -279,6 +279,13 @@ const Languages = {
     },
     manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch'],
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
+    transaction: {
+        infoTransactions: 'Thông tin giao dịch',
+        money: 'Số tiền',
+        content: 'Nội dung',
+        contractId: 'Mã hợp đồng',
+        time: 'Thời gian'
+    },
     historyTabs: ['Đang đầu tư', 'Lịch sử'],
     history:{
         searchInvestPackage: 'Tìm kiếm gói đầu tư',

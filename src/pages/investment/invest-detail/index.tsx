@@ -131,10 +131,10 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage }: { onBackScr
                         <div className={cx('invest-note-container')}>
                             <span className={cx('invest-note-text')}>{Languages.invest.estimatedPaymentSchedule}</span>
                             {isMobile ?
-                                <PeriodInvestMobile dataTable={dataPeriodInvest} /> :
+                                <PeriodInvestMobile dataTable={dataPeriodInvest} columnName={columnName}/> :
                                 <TableInvest dataTable={dataPeriodInvest} columnName={columnName} />}
                         </div>
-                    </div>
+                    </div> 
                 </div>
             </div>
             {renderPopup(popupAuthRef, Languages.auth.login, Languages.auth.register, IcPopupAuth, Languages.invest.noteAuth, Languages.invest.describeAuth)}
