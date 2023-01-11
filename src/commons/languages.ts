@@ -127,7 +127,10 @@ const Languages = {
         confirm: 'Xác nhận',
         contentForgotPwd: 'Chúng tôi đã gửi cho bạn một mã xác nhận 6 số qua số điện thoại 096*****37. Hãy kiểm tra và nhập mã xác nhận để lấy lại mật khẩu.',
         codeConfirm: 'Mã xác nhận',
-        changePwd: 'Đổi mật khẩu'
+        changePwd: 'Đổi mật khẩu',
+        sendToAfterOTP: 'Gửi lại mã sau',
+        sendToOTP: 'Gửi lại mã',
+        minute: 'phút'
     },
     home: {
     },

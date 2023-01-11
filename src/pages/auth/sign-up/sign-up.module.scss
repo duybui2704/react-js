@@ -4,54 +4,19 @@
     height: 100%;
 }
 
-.wid-left {
-    width: 66%;
-    @include mobile {
-        width: 100%;
-    }
-}
-
-.left-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0px;
-    .img-logo {
-        width: auto;
-        height: 90px;
-    }
-    .img-store {
-        width: auto;
-        height: 50px;
-        @include mobile {
-            width: auto;
-            height: 35px;
-        }
-    }
-    .img-qr {
-        width: auto;
-        height: 140px;
-        @include mobile {
-            width: auto;
-            height: 100px;
-        }
-    }
-}
-
 .right-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 30%;
     padding: 4%;
+    height: 95vh;
+    margin-bottom: 30px;
 }
 
 .right-container-mobile {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex: 1;
     padding: 5%;
 }
 
@@ -64,7 +29,6 @@
 
 .scroll {
     overflow-y: auto;
-    padding-top: 20vh;
 }
 
 .jus-between {

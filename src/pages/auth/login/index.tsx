@@ -168,13 +168,13 @@ function Login({ onPress }) {
 
             <div className={cx('row-center y30')}>
 
-                <Button
+                {/* <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
                     isLowerCase
                     containButtonStyles={'flex x10'}
                     rightIcon={IcFacebook}
-                />
+                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}

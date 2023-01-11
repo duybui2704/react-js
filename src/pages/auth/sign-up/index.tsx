@@ -37,7 +37,6 @@ function SignUp({ onPress }) {
     const refPresenter = useRef<TextFieldActions>(null);
     const refChannel = useRef<PickerAction>(null);
 
-
     const refPwd = useRef<TextFieldActions>(null);
 
     const onChange = (e: CheckboxChangeEvent) => {
@@ -78,6 +77,16 @@ function SignUp({ onPress }) {
     const onSignUp = useCallback(async () => {
         if (onValidate()) {
             setLoading(true);
+
+            // const data = {
+            //     phone: refPhone.current?.getValue(),
+            //     name: refName.current?.getValue(),
+            //     pass: refPwd.current?.getValue(),
+            //     passConfirm: refPwdConfirm.current?.getValue(),
+            //     email: refEmail.current?.getValue(),
+            //     channel: refChannel.current?.getValue() || '',
+            //     presenter: refPresenter.current?.getValue()
+            // };
             const res = await apiServices.auth.registerAuth(
                 refPhone.current?.getValue(),
                 refName.current?.getValue(),
@@ -88,7 +97,7 @@ function SignUp({ onPress }) {
                 refPresenter.current?.getValue()) as any;
             setLoading(false);
             if (res.success) {
-                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.signUp });
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.signUp, onPressOTP: onSignUp() });
             }
         }
     }, [apiServices.auth, onPress, onValidate]);
@@ -200,7 +209,6 @@ function SignUp({ onPress }) {
                 </span>
             </div>
 
-
             <Button
                 label={Languages.auth.login}
                 buttonStyle={BUTTON_STYLES.GREEN}
@@ -219,13 +227,13 @@ function SignUp({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
-                <Button
+                {/* <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
                     isLowerCase
                     containButtonStyles={'flex x10'}
                     rightIcon={IcFacebook}
-                />
+                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}

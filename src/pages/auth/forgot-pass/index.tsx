@@ -45,7 +45,7 @@ function ForgotPass({ onPress }) {
             const response = await apiServices.auth.otpResetPwd(refPhone.current?.getValue()) as any;
             setLoading(false);
             if (response.success) {
-                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.changePwd });
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.changePwd, onPressOTP: onForgotPwd });
             }
         }
     }, [apiServices.auth, onPress, onValidate]);
