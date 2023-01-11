@@ -176,8 +176,8 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         return (
             <div className={cx('bottom-container')} >
-                {renderDivider(Languages.invest.superInvestPackage)}
-                {renderInvestList(superInvestList)}
+                {/* {renderDivider(Languages.invest.superInvestPackage)} */}
+                {/* {renderInvestList(superInvestList)} */}
 
                 {renderDivider(Languages.invest.investPackage, cx('super-invest-package-container'))}
                 {renderInvestList(_list)}
@@ -189,7 +189,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
                 <Footer />
             </div>
         );
-    }, [fetchDataMore, isMobile, renderDivider, renderInvestList, superInvestList]);
+    }, [fetchDataMore, isMobile, renderDivider, renderInvestList]);
 
     return (
         <div className={cx('page-container')}>
