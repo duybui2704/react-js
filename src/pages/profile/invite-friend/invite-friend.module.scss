@@ -1,28 +1,11 @@
-@import "assets/scss";
-.page {
-    display: flex;
-    flex-direction: row;
-    max-height: 100vh;
-    height: 85vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    width: 100%;
-}
-
-.padding {
-    padding: 2% 10%;
-    @include mobile() {
-        padding: 10px 5px;
-    }
-}
-
+@import 'assets/scss';
 .container-edit {
     display: flex;
     width: 100%;
     flex-direction: column;
     padding: 16px;
     border: 1px solid $color-gray5;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: $box-shadow;
     border-radius: 8px;
     @include mobile {
         background-color: $color-white;
@@ -78,34 +61,6 @@
     border-radius: 5px;
 }
 
-.download:after {
-    content: "";
-    display: block;
-    position: absolute;
-    border-radius: 5px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: all 0.5s;
-    box-shadow: 0 0 10px 40px $color-white;
-}
-
-.download:active:after {
-    box-shadow: 0 0 0 0 $color-white;
-    position: absolute;
-    border-radius: 4em;
-    left: 0;
-    top: 0;
-    opacity: 1;
-    transition: 0s;
-}
-
-.download:active {
-    top: 1px;
-}
-
 .flex-end {
     display: flex;
     flex-direction: row;
@@ -117,16 +72,15 @@
     border: 1px solid $color-green;
     width: 30px;
     height: 30px;
-    justify-content: center;
     align-items: center;
     display: flex;
-    position: relative;
     cursor: pointer;
     user-select: none;
     text-decoration: none;
-    cursor: pointer;
     transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
+    justify-content: center;
+    align-self: flex-end;
 }
 
 .icon-small {
@@ -137,10 +91,25 @@
 .qr-code {
     width: 80%;
     margin-bottom: 25px;
+    display: flex;
+    align-self: center;
+    height: auto;
+    width: 100%
 }
 
 .text-intro {
     font-size: $text-h7;
     font-family: $font-medium;
     color: $color-gray7;
+}
+
+.qr-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $color-gray5;
+    border-radius: 5px;
+    background-color: $color-white;
+    padding: 5px;
+    box-shadow: $box-shadow;
+    margin-top: 8px;
 }
