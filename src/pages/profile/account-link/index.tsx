@@ -21,19 +21,18 @@ function AccountLink() {
                     <img src={IcGoggle} className={cx('img')} />
                     <div className={cx('column')}>
                         <span className={cx('text-black medium h6')}>{Languages.profile.ggLink}</span>
-                        <span className={cx('medium h6 y10', userManager.userInfo?.id_google ? 'text-green' : 'text-red')}>
+                        <span className={cx('h6 y5', userManager.userInfo?.id_google ? 'text-green' : 'text-red')}>
                             {userManager.userInfo?.id_google ? Languages.profile.linked : Languages.profile.unlinked}</span>
                     </div>
                 </div>
                 <img src={IcChoose} className={cx('img-small')} />
-
             </div>
         );
     }, [userManager.userInfo?.id_google]);
 
     return (
         <div className={cx('page', 'padding', 'column')}>
-            <span className={cx('text-black bold h4')}>{Languages.profile.accountLink}</span>
+            <span className={cx('text-black medium h5')}>{Languages.profile.accountLink}</span>
             {renderContent}
         </div>
     );

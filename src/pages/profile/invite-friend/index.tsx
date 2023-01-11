@@ -29,11 +29,11 @@ function InviteFriend() {
     return (
         <div className={cx('page')}>
             <div className={cx('container-edit')}>
-                <span className={cx('text-black h5 bold')}>{Languages.profile.investmentIntroduction}</span>
+                <span className={cx('text-black h5 medium')}>{Languages.profile.investmentIntroduction}</span>
                 <Row gutter={[24, 16]} className={cx('row y20')}>
                     <Col xs={24} md={24} lg={12} xl={12}>
                         <div className={cx('view-body-right')}>
-                            <span className={cx('text-gray h7')}>{Languages.profile.codeIntroduction}</span>
+                            <span className={cx('text-intro')}>{Languages.profile.codeIntroduction}</span>
 
                             <div className={cx('row', 'button-style')}>
                                 <span className={cx('h7 text-black')} ref={myRef} >{value}</span>
@@ -48,7 +48,7 @@ function InviteFriend() {
                     </Col>
                     <Col xs={24} md={24} lg={12} xl={12}>
                         <div className={cx('view-body-right')}>
-                            <span className={cx('text-gray h7')}>{Languages.profile.qrApp}</span>
+                            <span className={cx('text-intro')}>{Languages.profile.qrApp}</span>
 
                             <div className={cx('column', 'qr-style')}>
                                 <div className={cx('flex-end')}>

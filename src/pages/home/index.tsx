@@ -2,6 +2,8 @@ import { Tabs } from 'antd';
 import IcLogo from 'assets/image/img_logo.jpeg';
 import IcMenu from 'assets/image/ic_menu.svg';
 import IcLogout from 'assets/image/ic_logout.svg';
+import IcTicked from 'assets/image/ic_green_round_ticked.svg';
+import IcNoVerify from 'assets/image/ic_red_round_close.svg';
 import IcNotification from 'assets/image/ic_notification.svg';
 import ImgNoAvatar from 'assets/image/img_no_avatar.jpg';
 
@@ -26,7 +28,7 @@ import MenuMobile from 'components/menu-mobile';
 import sessionManager from 'managers/session-manager';
 import { useAppStore } from 'hooks';
 import { EventEmitter } from 'utils/event-emitter';
-import { Events, TAB_INDEX } from 'commons/constants';
+import { COLOR_TRANSACTION, Events, TAB_INDEX } from 'commons/constants';
 import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
@@ -66,6 +68,19 @@ const Home = observer(() => {
         // setToggle(last => !last);
     }, []);
 
+    const renderIconVerify = useMemo(() => {
+        switch (userManager.userInfo?.tinh_trang?.color) {
+            case COLOR_TRANSACTION.RED:
+                return <img className={cx('ic_verify')} src={IcNoVerify} />;
+            case COLOR_TRANSACTION.YELLOW:
+                return <img className={cx('ic_verify')} src={IcNoVerify} />;
+            case COLOR_TRANSACTION.GREEN:
+                return <img className={cx('ic_verify')} src={IcTicked} />;
+            default:
+                return null;
+        }
+    }, []);
+
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
         const navigateToLogin = () => {
@@ -82,7 +97,7 @@ const Home = observer(() => {
 
         const onLogout = () => {
             sessionManager.logout();
-        };         
+        };
 
         return {
             left: <div className={cx('header_left')}>
@@ -90,26 +105,30 @@ const Home = observer(() => {
             </div>,
             right: <div className={cx('header_right')}>
                 {/* {!sessionManager.accessToken ? <> */}
-                {!sessionManager.accessToken ? <> {/*tắt đăng nhập cần pass*/}
-                    <Button
-                        label={Languages.auth.login}
-                        buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
-                        isLowerCase
-                        onPress={navigateToLogin}
-                        containButtonStyles={'x10'}
-                    />
-                    <Button
-                        label={Languages.auth.register}
-                        buttonStyle={BUTTON_STYLES.GREEN}
-                        isLowerCase
-                        onPress={navigateToRegister}
-                    />
-                </>
+                {!sessionManager.accessToken ? /*tắt đăng nhập cần pass*/
+                    <>
+                        <Button
+                            label={Languages.auth.login}
+                            buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
+                            isLowerCase
+                            onPress={navigateToLogin}
+                            containButtonStyles={'x10'}
+                        />
+                        <Button
+                            label={Languages.auth.register}
+                            buttonStyle={BUTTON_STYLES.GREEN}
+                            isLowerCase
+                            onPress={navigateToRegister}
+                        />
+                    </>
                     :
                     <>
                         <img src={IcNotification} className={cx('icon-menu')} />
                         <div className={cx('row p12 center')}>
-                            <img src={userManager.userInfo?.avatar || ImgNoAvatar} className={cx('img-avatar')} onClick={navigateToProfile} />
+                            <div className={cx('avatar-container')}>
+                                <img src={userManager.userInfo?.avatar_user || ImgNoAvatar} className={cx('img-avatar')} onClick={navigateToProfile} />
+                                {renderIconVerify}
+                            </div>
                             <span className={cx('text-black h6 medium x10')}>{userManager.userInfo?.full_name}</span>
                             <img src={IcLogout} className={cx('icon-small')} onClick={onLogout} />
                         </div>
@@ -117,7 +136,7 @@ const Home = observer(() => {
                 }
             </div>
         };
-    }, [navigate, userManager.userInfo?.avatar, userManager.userInfo?.full_name]);
+    }, [navigate, renderIconVerify, userManager.userInfo?.avatar_user, userManager.userInfo?.full_name]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;

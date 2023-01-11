@@ -34,6 +34,7 @@
 }
 
 .button-style {
+    margin-top: 8px;
     padding: 5px 5px 5px 16px;
     border-radius: 5px;
     width: 95%;
@@ -136,4 +137,10 @@
 .qr-code {
     width: 80%;
     margin-bottom: 25px;
+}
+
+.text-intro {
+    font-size: $text-h7;
+    font-family: $font-medium;
+    color: $color-gray7;
 }

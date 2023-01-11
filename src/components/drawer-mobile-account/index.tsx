@@ -1,7 +1,7 @@
 
 import { Drawer } from 'antd';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
-import ImgPortrait from 'assets/image/img_portrait.jpg';
+import ImgNoAvatar from 'assets/image/img_no_avatar.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 
@@ -76,7 +76,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         <img src={Ic_Close} onClick={hide} className={cx('close')} />
                     </div>
                     <div className={cx('avatar')}>
-                        <img src={info?.avatar_user || ImgPortrait} className={cx('avatar-img-container')} />
+                        <img src={info?.avatar_user || ImgNoAvatar} className={cx('avatar-img-container')} />
                         <span className={cx('user-name-text')}>{info?.full_name}</span>
                         <span className={cx('status-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
                     </div>
