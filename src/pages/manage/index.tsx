@@ -2,21 +2,22 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { TabsItemManage } from 'components/tabs-history';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { observer } from 'mobx-react';
 import { PackageInvest } from 'models/invest';
 import InvestDetail from 'pages/investment/invest-detail';
 import Report from 'pages/manage/report';
 import React, { useCallback, useMemo, useState } from 'react';
 import ChildTabsHistory from './child-tabs-history';
+import ChildTabsTransaction from './child-tabs-transaction';
 import styles from './manage.module.scss';
-import Transaction from './transaction';
 
 const cx = classNames.bind(styles);
 
-function Manage({ defaultTabs }:
+const Manage = observer(({ defaultTabs }:
     {
         defaultTabs?: number
     }
-) {
+) => {
     const [tabsName, setTabsName] = useState<number>(defaultTabs || 0);
     const isMobile = useIsMobile();
 
@@ -62,7 +63,7 @@ function Manage({ defaultTabs }:
             },
             {
                 id: '3',
-                renderComponent: <Transaction />,
+                renderComponent: <ChildTabsTransaction keyTabs={0}/>,
                 title: Languages.manageTabs?.[2]
             }
         ];
@@ -95,6 +96,6 @@ function Manage({ defaultTabs }:
     }, [goBack, investPackage, renderTabsView, tabNameBackHistory, tabNameHistory]);
 
     return <>{renderCustomTab}</>;
-}
+});
 
 export default Manage;

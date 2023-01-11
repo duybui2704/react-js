@@ -280,13 +280,14 @@ const Languages = {
     },
     report: {
         title: 'Báo cáo',
-        quarterlyOverview: 'Tổng quan quý ',
+        quarterlyOverview: 'Tổng quan ',
         financialChart: 'Biểu đồ chi phí đầu tư và thu về',
         month: 'Tháng',
         investment: 'Vốn đầu tư',
         overview: 'Tổng quan',
         overviewInvest: 'Tổng quan đầu tư',
         quarter: 'Quý',
+        quarterPost: 'Quý ',
         year: 'Năm',
         million: 'Triệu',
         monthOfQuarter: 'Chi tiết tháng trong quý',
@@ -297,7 +298,7 @@ const Languages = {
         originAmountCollected: 'Số tiền gốc thu về',
         interestAmount: 'Tiền lãi',
         detailMonth: 'Chi tiết tháng ',
-        reportQuarter: 'Báo cáo quý ',
+        reportQuarter: 'Báo cáo ',
         totalInterest: 'Tổng lãi',
         totalProfitReceived: 'Tổng lãi đã nhận',
         totalInvestment: 'Tổng vốn đầu tư',
@@ -307,6 +308,16 @@ const Languages = {
     },
     manageTabs: ['Lịch sử đầu tư', 'Báo cáo', 'Giao dịch'],
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
+    transaction: {
+        infoTransactions: 'Thông tin giao dịch',
+        table: {
+            stt: 'STT',
+            money: 'Tổng',
+            content: 'Nội dung',
+            contractId: 'Mã hợp đồng',
+            time: 'Thời gian'
+        }
+    },
     historyTabs: ['Đang đầu tư', 'Lịch sử'],
     history: {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',

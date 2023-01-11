@@ -23,7 +23,6 @@ const cx = classNames.bind(styles);
 
 function Login({ onPress }) {
     const isMobile = useIsMobile();
-
     const navigate = useNavigate();
     const { apiServices, userManager } = useAppStore();
     const [isLoading, setLoading] = useState<boolean>(false);
@@ -92,6 +91,18 @@ function Login({ onPress }) {
         onPress?.({ name: title });
     }, [onPress]);
 
+    const responseFacebook = (response) => {
+        console.log(response);
+    };
+
+    const onGoogleSign = useCallback(async () => {
+        try {
+            // await loginGoogle();
+        } catch (error) {
+            console.log('error ===', error);
+        }
+    }, []);
+
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
             <span className={cx('text-black medium h4')}>
@@ -156,6 +167,7 @@ function Login({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
+
                 <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
@@ -169,10 +181,11 @@ function Login({ onPress }) {
                     isLowerCase
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
+                    onPress={onGoogleSign}
                 />
             </div>
         </div>;
-    }, [isMobile, onLogin, onNavigate, phone]);
+    }, [isMobile, onGoogleSign, onLogin, onNavigate, phone]);
 
     const renderView = useMemo(() => {
         return <>

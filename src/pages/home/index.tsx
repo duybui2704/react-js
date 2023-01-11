@@ -1,7 +1,7 @@
 import { Tabs } from 'antd';
 import IcLogo from 'assets/image/img_logo.jpeg';
 import IcMenu from 'assets/image/ic_menu.svg';
-import IcDown from 'assets/image/ic_down.svg';
+import IcLogout from 'assets/image/ic_logout.svg';
 import IcNotification from 'assets/image/ic_notification.svg';
 import ImgNoAvatar from 'assets/image/img_no_avatar.jpg';
 
@@ -80,13 +80,17 @@ const Home = observer(() => {
             setStepIndex(TAB_INDEX.PROFILE);
         };
 
+        const onLogout = () => {
+            sessionManager.logout();
+        };         
+
         return {
             left: <div className={cx('header_left')}>
                 <img src={IcLogo} className={cx('icon-tienngay')} />
             </div>,
             right: <div className={cx('header_right')}>
                 {/* {!sessionManager.accessToken ? <> */}
-                {sessionManager.accessToken ? <> {/*tắt đăng nhập cần pass*/}
+                {!sessionManager.accessToken ? <> {/*tắt đăng nhập cần pass*/}
                     <Button
                         label={Languages.auth.login}
                         buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
@@ -104,10 +108,10 @@ const Home = observer(() => {
                     :
                     <>
                         <img src={IcNotification} className={cx('icon-menu')} />
-                        <div className={cx('row p12 center')} onClick={navigateToProfile}>
-                            <img src={userManager.userInfo?.avatar || ImgNoAvatar} className={cx('img-avatar')} />
+                        <div className={cx('row p12 center')}>
+                            <img src={userManager.userInfo?.avatar || ImgNoAvatar} className={cx('img-avatar')} onClick={navigateToProfile} />
                             <span className={cx('text-black h6 medium x10')}>{userManager.userInfo?.full_name}</span>
-                            <img src={IcDown} className={cx('icon-small')} />
+                            <img src={IcLogout} className={cx('icon-small')} onClick={onLogout} />
                         </div>
                     </>
                 }

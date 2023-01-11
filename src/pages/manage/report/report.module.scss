@@ -2,9 +2,12 @@
 .page-container {
     width: 100%;
     overflow: auto;
-    height: 89vh;
+    height: 87vh;
     &::-webkit-scrollbar {
         display: none;
+    }
+    @include tablet {
+        height: 89vh;
     }
 }
 

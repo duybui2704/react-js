@@ -21,3 +21,12 @@ export interface TransactionTypeModel {
     color: string;
     created_at: string;
 }
+
+export interface DataColumnTransactionType {
+    id: string;
+    money: string;
+    content: string;
+    ma_hop_dong: string;
+    time: string;
+    stt?: string;
+}

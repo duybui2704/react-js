@@ -137,7 +137,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
                 <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
                     {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
                 </Col>
-                <Col xs={12} sm={12} md={12} lg={12} xl={8} >
+                <Col xs={12} sm={12} md={12} lg={12} xl={8}>
                     <Row gutter={[16, 4]}>
                         <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
                             <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
@@ -217,7 +217,7 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
             <div className={cx('bottom-container')} >
                 <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
                     {renderInvestList(_list)}
-                    <Row gutter={[24, 0]}  onClick={fetchDataMore} className={cx('button-see-more')}>
+                    <Row gutter={[24, 0]} onClick={fetchDataMore} className={cx('button-see-more')}>
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
                         </Col>
@@ -231,8 +231,10 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
     }, [fetchDataMore, isMobile, renderInvestList]);
 
     const onChangeTab = useCallback((tabNumber: number) => {
-        setTabName(tabNumber);
-    }, []);
+        if (tabName !== tabNumber) {
+            setTabName(tabNumber);
+        }
+    }, [tabName]);
 
     return (
         <div className={cx('page-container')}>

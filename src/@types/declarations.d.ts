@@ -21,3 +21,6 @@ declare module '\*.json' {
 }
 
 declare module '*.module.css';
+
+declare module 'react-facebook-login';
+declare module 'firebase';

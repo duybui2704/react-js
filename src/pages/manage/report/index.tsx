@@ -9,12 +9,13 @@ import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
 import SearchBar from 'components/search-bar';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
-import { OverviewMonthOfQuarterModel, OverviewQuarterReportModel, OverviewReportModel } from 'models/report';
-import { QuarterListData, ReportOverviewData, ReportQuarterOverViewData, YearListData } from 'pages/__mocks__/report';
+import { DashBroadModel } from 'models/dash';
+import { OverviewMonthOfQuarterModel, OverviewQuarterReportModel } from 'models/report';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import dateUtils from 'utils/date-utils';
 import utils from 'utils/utils';
 import styles from './report.module.scss';
@@ -25,30 +26,81 @@ interface ReportFilter {
     yearSearch?: string;
 }
 
-function Report() {
-    const navigate = useNavigate();
+const Report = observer(() => {
     const isMobile = useIsMobile();
-    // const { apiServices } = useAppStore();
+    const { apiServices } = useAppStore();
 
     const [quarterList, setQuarterList] = useState<ItemProps[]>([]);
     const [yearList, setYearList] = useState<ItemProps[]>([]);
-    const [dataFilter, setDataFilter] = useState<ReportFilter>({ quarterSearch: `${dateUtils.getQuarter(new Date())}`, yearSearch: `${dateUtils.getYear(new Date())}` });
+    const [dataFilter, setDataFilter] = useState<ReportFilter>(
+        {
+            quarterSearch: `${Languages.report.quarterPost}${dateUtils.getQuarter(new Date())}`,
+            yearSearch: `${dateUtils.getYear(new Date())}`
+        });
 
-    const [reportQuarterList, setReportQuarterList] = useState<OverviewQuarterReportModel>(ReportQuarterOverViewData);
-    const [reportOverviewData, setReportOverviewData] = useState<OverviewReportModel>(ReportOverviewData);
+    const [reportQuarterList, setReportQuarterList] = useState<OverviewQuarterReportModel>();
+    const [reportOverviewData, setReportOverviewData] = useState<DashBroadModel>({
+        so_du: 0,
+        tong_goc_con_lai: 0,
+        tong_goc_da_tra: 0,
+        tong_lai_con_lai: 0,
+        tong_tien_dau_tu: 0,
+        tong_tien_lai: 0
+    });
+
+    const [dataChart, setDataChart] = useState<OverviewMonthOfQuarterModel[]>([]);
 
     const pickerQuarterRef = useRef<PickerAction>(null);
     const pickerYearRef = useRef<PickerAction>(null);
     const popupSearchRef = useRef<PopupBaseActions>(null);
 
     useEffect(() => {
-        fetchData();
+        fetchSearch();
+        fetchReportQuarter(`${dateUtils.getQuarter(new Date())}`, `${dateUtils.getYear(new Date())}`);
     }, []);
 
-    const fetchData = useCallback(() => {
-        setQuarterList(QuarterListData);
-        setYearList(YearListData);
-    }, []);
+    const fetchSearch = useCallback(async () => {
+        const resQuarters = await apiServices.report.getQuarters() as any;
+        const resYear = await apiServices.report.getYear() as any;
+        const resDashboard = await apiServices.common.getContractsDash() as any;
+
+        if (resDashboard.success) {
+            const dataDashboard = resDashboard?.data as DashBroadModel;
+            setReportOverviewData(dataDashboard);
+        }
+        if (resQuarters.success) {
+            const dataQuarter = utils.formatObjectToKeyLabel(resQuarters?.data as Object);
+            setQuarterList(dataQuarter);
+        }
+        if (resYear.success) {
+            const dataYear = utils.formatObjectToKeyLabel(resYear?.data as Object);
+            setYearList(dataYear);
+        }
+
+    }, [apiServices.common, apiServices.report]);
+
+    const fetchReportQuarter = useCallback(async (quarter: string, year: string) => {
+        const res = await apiServices.report.requestFinanceReport(
+            `${quarter}`.replace(Languages.report.quarterPost, ''),
+            year
+        ) as any;
+        if (res.success) {
+            const dataMonths = res?.data as OverviewMonthOfQuarterModel[];
+            setReportQuarterList(res);
+
+            const temp = dataMonths.map((item) => ({
+                month: `${`${item?.month}`.slice(6, 8).replace('/', '')}`,
+                year: item?.year,
+                so_hop_dong_dau_tu: item?.so_hop_dong_dau_tu,
+                tong_tien_dau_tu: item?.tong_tien_dau_tu,
+                tien_goc_thu_ve: item?.tien_goc_thu_ve,
+                tong_lai_phi: item?.tong_lai_phi,
+                tong_tien_thu_ve: item?.tong_tien_thu_ve
+            })) as OverviewMonthOfQuarterModel[];
+            setDataChart(temp);
+        }
+
+    }, [apiServices.report]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string, noBorder?: boolean) => {
         return (
@@ -60,16 +112,22 @@ function Report() {
     }, []);
 
     const renderPicker = useCallback((_ref: any, _title: string, _data: ItemProps[], _defaultValue?: string) => {
-        const onSelectItem = (item: any) => {
-            setDataFilter({
-                quarterSearch: _title === Languages.report.quarter ? item : dataFilter.quarterSearch,
-                yearSearch: _title === Languages.report.year ? item : dataFilter.yearSearch
-            });
+        const onSelectItem = (item: string) => {
+            if (item.length > 0) {
+                setDataFilter({
+                    quarterSearch: _title === Languages.report.quarter ? item : dataFilter.quarterSearch,
+                    yearSearch: _title === Languages.report.year ? item : dataFilter.yearSearch
+                });
+                fetchReportQuarter(
+                    _title === Languages.report.quarter ? item : `${dataFilter.quarterSearch}`,
+                    _title === Languages.report.year ? item : `${dataFilter.yearSearch}`
+                );
+            }
         };
         return (
             <PickerComponent ref={_ref} data={_data} onSelectItem={onSelectItem} defaultValue={_defaultValue} allowClear={true} />
         );
-    }, [dataFilter]);
+    }, [dataFilter.quarterSearch, dataFilter.yearSearch, fetchReportQuarter]);
 
     const renderSearchWeb = useMemo(() => {
         return (
@@ -97,13 +155,14 @@ function Report() {
 
     const renderSearchMobile = useMemo(() => {
         return (
-            <SearchBar title={`${Languages.report.reportQuarter}${dataFilter.quarterSearch}${' - '}${dataFilter.yearSearch}`} onSearch={handleFilter} onCancel={handleCancelFilter} />
+            <SearchBar title={`${Languages.report.reportQuarter}${dataFilter.quarterSearch}${' - '}${dataFilter.yearSearch}`}
+                onSearch={handleFilter} onCancel={handleCancelFilter} />
         );
     }, [dataFilter.quarterSearch, dataFilter.yearSearch, handleCancelFilter, handleFilter]);
 
     const onSuccessPopup = useCallback(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchSearch();
+    }, [fetchSearch]);
 
     const renderPopupContentFilter = useMemo(() => {
         return (
@@ -136,22 +195,22 @@ function Report() {
             <Col xs={24} sm={24} md={24} lg={24} xl={16}>
                 <div className={cx('chart-container')}>
                     <span className={cx('chart-title-text')}>{Languages.report.financialChart}</span>
-                    <ColumnChart dataChart={reportQuarterList.data} isMobile={isMobile} />
+                    <ColumnChart dataChart={dataChart} isMobile={isMobile} />
                 </div>
             </Col>
         );
-    }, [isMobile, reportQuarterList.data]);
+    }, [dataChart, isMobile]);
 
     const renderChartReport = useMemo(() => {
         return (
             <Row gutter={[24, 24]} >
                 <Col xs={24} sm={24} md={24} lg={24} xl={8}>
-                    <ItemReport dataQuarterReport={reportQuarterList.total} title={`${Languages.report.quarterlyOverview}${dataFilter.quarterSearch}`} isOverviewQuarter isMobile={isMobile} />
+                    <ItemReport dataQuarterReport={reportQuarterList?.total} title={`${Languages.report.quarterlyOverview}${dataFilter.quarterSearch}`} isOverviewQuarter isMobile={isMobile} />
                 </Col>
                 {renderChart}
             </Row>
         );
-    }, [dataFilter.quarterSearch, isMobile, renderChart, reportQuarterList.total]);
+    }, [dataFilter.quarterSearch, isMobile, renderChart, reportQuarterList?.total]);
 
     const renderViewDetailMonth = useCallback((_dataList?: any) => {
         return (
@@ -159,7 +218,7 @@ function Report() {
                 {_dataList?.map((_itemDetail: any, _index: number) => {
                     return (
                         <Col xs={24} sm={24} md={12} lg={12} xl={12} className={cx('col')} key={_index}>
-                            {renderItemMonthReport(_itemDetail)}
+                            {renderItemMonthReport(_itemDetail, `${Languages.report.detailMonth}${`${_itemDetail?.month}`.slice(6, 8).replace('/', '')}`)}
                         </Col>
                     );
                 })}
@@ -175,26 +234,26 @@ function Report() {
                         <span className={cx(isMobile ? 'overview-invest-text-mobile' : 'overview-invest-text')}>{Languages.report.overviewInvest}</span>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={12} xl={12} >
-                        {renderKeyValue(Languages.report.totalInvestment, utils.formatLoanMoney(`${reportOverviewData.tong_von_dau_tu}` || '0'))}
-                        {renderKeyValue(Languages.report.totalCapitalReceived, utils.formatLoanMoney(`${reportOverviewData.tong_von_da_nhan}` || '0'))}
-                        {renderKeyValue(Languages.report.totalRemainingCapital, utils.formatLoanMoney(`${reportOverviewData.tong_von_con_lai}` || '0'))}
+                        {renderKeyValue(Languages.report.totalInvestment, utils.formatLoanMoney(`${reportOverviewData?.tong_tien_dau_tu}`))}
+                        {renderKeyValue(Languages.report.totalCapitalReceived, utils.formatLoanMoney(`${reportOverviewData?.tong_goc_da_tra}`))}
+                        {renderKeyValue(Languages.report.totalRemainingCapital, utils.formatLoanMoney(`${reportOverviewData?.tong_goc_con_lai}`))}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={12} xl={12} >
-                        {renderKeyValue(Languages.report.totalInterest, utils.formatLoanMoney(`${reportOverviewData.tong_lai}` || '0'))}
-                        {renderKeyValue(Languages.report.totalProfitReceived, utils.formatLoanMoney(`${reportOverviewData.tong_lai_da_nhan}` || '0'))}
-                        {renderKeyValue(Languages.report.totalProfitRemaining, utils.formatLoanMoney(`${reportOverviewData.tong_lai_con_lai}` || '0'), isMobile)}
+                        {renderKeyValue(Languages.report.totalInterest, utils.formatLoanMoney(`${reportOverviewData?.tong_tien_lai}`))}
+                        {renderKeyValue(Languages.report.totalProfitReceived, utils.formatLoanMoney(`${reportOverviewData?.so_du}`))}
+                        {renderKeyValue(Languages.report.totalProfitRemaining, utils.formatLoanMoney(`${reportOverviewData?.tong_lai_con_lai}`), isMobile)}
                     </Col>
                 </Row>
                 {isMobile ? renderSearchMobile : renderSearchWeb}
                 <div className={cx(isMobile ? 'chart-content-mobile' : 'chart-content')}>
                     {renderChartReport}
-                    {renderViewDetailMonth(reportQuarterList.data)}
+                    {renderViewDetailMonth(reportQuarterList?.data)}
                 </div>
             </div>
             {renderPopupSearchPackage()}
             <Footer />
         </div>
     );
-}
+});
 
 export default Report;

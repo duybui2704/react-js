@@ -1,0 +1,54 @@
+@import "assets/scss";
+.page-container {
+    padding-bottom: 32px;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+.container {
+    color: $color-gray8
+}
+
+.top-intro {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.top-search-component {
+    display: flex;
+    flex: 1;
+    padding: 1% 2%;
+}
+
+.wid-50 {
+    min-width: 50%;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.title {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+}
+
+.content-item-picker-text {
+    display: flex;
+    width: 100%;
+    padding: 10px 16px 11px 16px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+.invest-note-container {
+    display: flex;
+    flex-direction: column;
+    // padding: 48px 0 100px 0;
+    width: 100%;
+}
