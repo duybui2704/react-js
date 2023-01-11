@@ -11,11 +11,13 @@ import React, {
     useCallback,
     useEffect,
     useImperativeHandle,
+    useMemo,
     useState
 } from 'react';
 import styles from './drawer-mobile-account.module.scss';
 import { ItemScreenModel } from 'models/profile';
 import { useAppStore } from 'hooks';
+import { COLOR_TRANSACTION } from 'commons/constants';
 
 type DrawerBaseProps = {
     onClose?: () => any;
@@ -67,6 +69,31 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             onBackdropPress?.();
         }, [onBackdropPress]);
 
+        const renderStatusAcc = useMemo(() => {
+            switch (info?.tinh_trang?.color) {
+                case COLOR_TRANSACTION.RED:
+                    return (
+                        <div className={cx('un-verify-container', 'hover-component')}>
+                            <span className={cx('un-verify-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        </div>
+                    );
+                case COLOR_TRANSACTION.GREEN:
+                    return (
+                        <div className={cx('verify-container', 'hover-component')}>
+                            <span className={cx('verify-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        </div>
+                    );
+                case COLOR_TRANSACTION.YELLOW:
+                    return (
+                        <div className={cx('wait-verify-container', 'hover-component')}>
+                            <span className={cx('wait-verify-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        </div>
+                    );
+                default:
+                    break;
+            }
+        }, [info?.tinh_trang?.color, info?.tinh_trang?.status, handlePressStatus]);
+
         const renderCustomView = useCallback(() => {
 
             return (
@@ -78,7 +105,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     <div className={cx('avatar')}>
                         <img src={info?.avatar_user || ImgNoAvatar} className={cx('avatar-img-container')} />
                         <span className={cx('user-name-text')}>{info?.full_name}</span>
-                        <span className={cx('status-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        { renderStatusAcc}
                     </div>
 
                     {data?.map((item: ItemScreenModel) => {
@@ -100,11 +127,11 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     })}
                 </div>
             );
-        }, [data, handlePressStatus, hide, info?.avatar_user, info?.full_name, info?.tinh_trang?.status, onChangeStep, tabs]);
+        }, [data, hide, info?.avatar_user, info?.full_name, onChangeStep, renderStatusAcc, tabs]);
 
         return (
             <Drawer
-                placement='left'
+                placement={'left'}
                 closable={false}
                 onClose={onBackDrop}
                 open={visible}

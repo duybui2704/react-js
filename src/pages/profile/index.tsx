@@ -74,17 +74,11 @@ function Profile() {
 
     const renderViewMobile = useMemo(() => {
         return (
-            <div className={cx('column', 'wid-100')}>
-                <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.full_name}</span>
-                    <img src={IcTwoPeople} onClick={onShowDrawer} />
-                </div>
-                <div className={cx('information', 'padding')}>
-                    {renderViewRight}
-                </div>
+            <div className={cx('mobile-view-container')}>
+                {renderViewRight}
             </div>
         );
-    }, [onShowDrawer, renderViewRight, userManager.userInfo?.full_name]);
+    }, [renderViewRight]);
 
     const renderStatusAcc = useMemo(() => {
         switch (info?.tinh_trang?.color) {
@@ -113,7 +107,7 @@ function Profile() {
 
     const renderViewWeb = useMemo(() => {
         return (
-            <>
+            <div className={cx('web-view-container')}>
                 <div className={cx('profile')}>
                     <div className={cx('avatar')}>
                         <img src={info?.avatar_user || ImgNoAvatar} className={cx('image-avatar-user')} />
@@ -139,18 +133,23 @@ function Profile() {
                 <div className={cx('information', 'wid-70')}>
                     {renderViewRight}
                 </div>
-            </>
+            </div>
         );
     }, [info?.avatar_user, info?.full_name, renderStatusAcc, renderViewRight, step]);
 
     return (
-        <div className={cx('column', 'container')}>
-            <div className={isMobile ? cx('row') : cx('row', 'padding')}>
+        <>
+            {isMobile && <div className={cx('row space-between y20', 'top')}>
+                <span className={cx('text-black medium h7')}>{userManager.userInfo?.full_name}</span>
+                <img src={IcTwoPeople} onClick={onShowDrawer} />
+            </div>}
+            <div className={cx(isMobile ? 'page-container-mobile' : 'page-container')}>
                 {isMobile ? renderViewMobile : renderViewWeb}
                 <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} data={profile} onPressStatus={onOpenIdentity} />
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        </>
+
 
     );
 }
