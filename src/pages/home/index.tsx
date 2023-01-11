@@ -80,10 +80,6 @@ const Home = observer(() => {
             setStepIndex(TAB_INDEX.PROFILE);
         };
 
-        const onLogout = () => {
-            sessionManager.logout();
-        };         
-
         return {
             left: <div className={cx('header_left')}>
                 <img src={IcLogo} className={cx('icon-tienngay')} />
@@ -111,7 +107,7 @@ const Home = observer(() => {
                         <div className={cx('row p12 center')}>
                             <img src={userManager.userInfo?.avatar || ImgNoAvatar} className={cx('img-avatar')} onClick={navigateToProfile} />
                             <span className={cx('text-black h6 medium x10')}>{userManager.userInfo?.full_name}</span>
-                            <img src={IcLogout} className={cx('icon-small')} onClick={onLogout} />
+                            <img src={IcLogout} className={cx('icon-small')} onClick={onLogOut} />
                         </div>
                     </>
                 }

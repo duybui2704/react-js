@@ -112,9 +112,9 @@ function Login({ onPress }) {
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.notAccountYet}
                 </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
+                <a className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
                     {Languages.auth.registerNow}
-                </span>
+                </a>
             </div>
             <MyTextInput
                 ref={refPhone}

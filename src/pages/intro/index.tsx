@@ -412,7 +412,7 @@ function Intro() {
                     <span className={cx('text-black h6')}>{Languages.intro.stepContent}</span>
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
-                <div style={renderLeftBackground}>
+                {/* <div style={renderLeftBackground}>
                     <div id={cx('inner-center')}>
                         <div id={cx('text-content')}>
                             {infoInvest.map((item, index) => {
@@ -424,10 +424,10 @@ function Intro() {
                             })}
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         );
-    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb, renderLeftBackground, run]);
+    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb]);
 
     const renderViewNearBelow = useMemo(() => {
 
