@@ -70,7 +70,7 @@ function InfoChangePwd() {
 
             <div className={cx('column', 'flex')}>
                 <div className={cx('container-edit', 'shadow')}>
-                    <span className={cx('text-black h5 bold')}>{Languages.profile.editAccount}</span>
+                    <span className={cx('text-black h5 medium')}>{Languages.profile.editAccount}</span>
                     {renderInput(refPassCurrent, Languages.profile.passCurrent, 50, false)}
                     {renderInput(refPassNew, Languages.profile.passNew, 50, false)}
                     {renderInput(refPassNewConfirm, Languages.profile.passConfirmNew, 50, false)}
@@ -85,7 +85,7 @@ function InfoChangePwd() {
                         />
                         <Button
                             label={Languages.common.cancel}
-                            labelStyles={cx('text-red h7 bold')}
+                            labelStyles={cx('text-red h7 medium')}
                             rightIcon={IcCancel}
                             containButtonStyles={cx('btn-cancel', 'padding')}
                             isLowerCase
