@@ -156,11 +156,10 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             setErrorState?.(text);
         }, []);
 
-        const handleSelectItem = useCallback((item: string) => {
+        const handleSelectItem = useCallback((item: any) => {
             hide?.();
             setTextfieldVal?.(item);
-            onSelectItem?.(item);
-        }, [hide, onSelectItem]);
+        }, [hide]);
 
         useImperativeHandle(ref, () => ({
             show,
@@ -240,9 +239,9 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                 >
                     {data.map((item: ItemPropsModel) => (
                         <Option key={item?.id} value={item?.value} label={item?.text}>
-                            <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : onSelectItem}>
+                            <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : () => onSelectItem?.(item.id)}>
                                 {icLeft && <img src={icLeft} />}
-                                <span className={cx('value-text')} >{item?.text}</span>
+                                <span className={cx('value-text')} >{item?.value}</span>
                                 {icRight && <img src={icRight} />}
                             </div>
                         </Option>

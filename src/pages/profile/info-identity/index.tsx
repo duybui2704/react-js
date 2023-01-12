@@ -83,37 +83,13 @@ const InfoIdentity = observer(() => {
         );
     }, [postData]);
 
-    const renderPhoto = useCallback((_title: string, icon: any, imgCache: string) => {
+    const renderPhoto = useCallback((_title: string, icon: any, imgCache: string, positionAlbums: number, _ref: any) => {
         const openDialogFiles = () => {
-            switch (_title) {
-                case Languages.identity.frontKyc:
-                    refFrontCard.current?.show?.();
-                    break;
-                case Languages.identity.behindKyc:
-                    refBehindCard.current?.show?.();
-                    break;
-                case Languages.identity.portrait:
-                    refPortrait.current?.show?.();
-                    break;
-                default:
-                    break;
-            }
+            _ref?.current?.show?.();
         };
         const openPreview = () => {
             setVisible(true);
-            switch (_title) {
-                case Languages.identity.frontKyc:
-                    setPositionImage(0);
-                    break;
-                case Languages.identity.behindKyc:
-                    setPositionImage(1);
-                    break;
-                case Languages.identity.portrait:
-                    setPositionImage(2);
-                    break;
-                default:
-                    break;
-            }
+            setPositionImage(positionAlbums);
         };
 
         return (
@@ -169,19 +145,7 @@ const InfoIdentity = observer(() => {
 
     const renderSelectPhoto = useCallback((_ref: any) => {
         const onChange = (e: any) => {
-            switch (_ref) {
-                case refFrontCard:
-                    getPath(e.target.files[0], _ref);
-                    break;
-                case refBehindCard:
-                    getPath(e.target.files[0], _ref);
-                    break;
-                case refPortrait:
-                    getPath(e.target.files[0], _ref);
-                    break;
-                default:
-                    break;
-            }
+            getPath(e.target.files[0], _ref);
         };
         return (
             <SelectPhoto ref={_ref} onChangeText={onChange} />
@@ -253,13 +217,13 @@ const InfoIdentity = observer(() => {
                 <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                     {renderDescribePhoto(Languages.identity.photoKyc, DescribePhoto.noteKYC)}
                     <div className={cx('kyc-container')}>
-                        {renderPhoto(Languages.identity.frontKyc, IcFront, userManager.userInfo?.front_facing_card || postData.frontCard)}
-                        {renderPhoto(Languages.identity.behindKyc, IcBehind, userManager.userInfo?.card_back || postData.behindCard)}
+                        {renderPhoto(Languages.identity.frontKyc, IcFront, userManager.userInfo?.front_facing_card || postData.frontCard, 0, refFrontCard)}
+                        {renderPhoto(Languages.identity.behindKyc, IcBehind, userManager.userInfo?.card_back || postData.behindCard, 1, refBehindCard)}
                     </div>
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                     {renderDescribePhoto(Languages.identity.photoPortrait, DescribePhoto.notePortrait)}
-                    {renderPhoto(Languages.identity.portrait, IcPortrait, userManager.userInfo?.avatar || postData.portrait)}
+                    {renderPhoto(Languages.identity.portrait, IcPortrait, userManager.userInfo?.avatar || postData.portrait, 2, refPortrait)}
                 </Col>
             </Row>
             {userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.RED &&
