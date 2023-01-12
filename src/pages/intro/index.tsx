@@ -14,6 +14,7 @@ import ImgQRCode from 'assets/image/img_qr_code.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
+import { BUTTON_STYLES } from 'components/button/types';
 import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
 import { Loading } from 'components/loading';
@@ -25,6 +26,7 @@ import { ItemProps } from 'models/common';
 import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
 import { InvestFilter, PackageInvest } from 'models/invest';
+import { ItemPropsModel } from 'models/item-props-model';
 import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
 import { amountListData, dateListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -41,8 +43,10 @@ function Intro() {
     const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
     const [numberPage, setNumberPage] = useState<number>(1);
+    const [dataMoney, setDataMoney] = useState<ItemProps[]>([]);
+    const [dataTime, setDataTime] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [dataArr, setDataArr] = useState<PackageInvest[]>();
+    const [dataArr, setDataArr] = useState<PackageInvest[]>([]);
     const [dataDash, setDataDash] = useState<DashBroadModel>();
 
     const PAGE_SIZE = 9;
@@ -64,6 +68,8 @@ function Intro() {
         setTopIntroHeight(elementRef?.current?.clientHeight);
         fetchDataInvest();
         fetchContractsDash();
+        fetchDataMoney();
+        fetchDataTimeInvestment();
     }, []);
 
     useEffect(() => {
@@ -80,6 +86,32 @@ function Intro() {
         };
     }, []);
 
+
+    const fetchDataMoney = useCallback(async () => {
+        const res = await apiServices.invest.getListMoneyInvestment() as any;
+        if (res.success) {
+            const data = res.data as [];
+            const temp = Object.entries(data);
+            setDataMoney(temp.map((item) => ({
+                id: item[0],
+                value: item[1]
+            })));
+        }
+    }, [apiServices.invest]);
+
+    const fetchDataTimeInvestment = useCallback(async () => {
+        const res = await apiServices.invest.getListTimeInvestment() as any;
+        if (res.success) {
+            const data = res.data as [];
+            const temp = Object.entries(data);
+            setDataTime(temp.map((item) => ({
+                id: item[0],
+                value: item[1]
+
+            })));
+        }
+    }, [apiServices.invest]);
+
     const fetchContractsDash = useCallback(async () => {
         setIsLoading(true);
         const resContractsDash = await apiServices.common.getContractsDash() as any;
@@ -90,26 +122,30 @@ function Intro() {
         }
     }, [apiServices.common]);
 
-    const fetchDataInvest = useCallback(async (number_page?: number) => {
-
+    const fetchDataInvest = useCallback(async () => {
         setIsLoading(true);
-        const resInvest = await apiServices.common.getListInvest(
-            PAGE_SIZE,
-            condition.current.offset * (number_page || 0),
-            condition.current.timeInvestment,
-            condition.current.moneyInvest,
-        ) as any;
-        setIsLoading(false);
-        if (resInvest.success) {
-            const data = resInvest?.data as PackageInvest[];
-            const dataSize = data.length;
-            if (dataSize > 0) {
-                setDataArr(data);
+        if (condition.current.isLoading) {
+            const resInvest = await apiServices.common.getListInvest(
+                PAGE_SIZE,
+                condition.current.offset,
+                condition.current.timeInvestment,
+                condition.current.moneyInvest,
+            ) as any;
+            setIsLoading(false);
+            if (resInvest.success) {
+                const data = resInvest?.data as PackageInvest[];
+                const dataSize = data.length;
+                if (dataSize > 0) {
+                    if (condition.current.offset === 0) {
+                        setDataArr(data);
+                    } else {
+                        setDataArr((list) => [...list || [], ...data]);
+                    }
+                }
             }
         }
         condition.current.isLoading = false;
         setIsLoading(false);
-
     }, [apiServices.common]);
 
     const renderViewTop = useMemo(() => {
@@ -151,20 +187,23 @@ function Intro() {
         );
     }, []);
 
-    const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
-        const onSelectItem = (item: any) => {
-            // setDataFilter({
-            //     dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-            //     amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-            // });
-            condition.current.timeInvestment = item.id;
-            if (_title === Languages.invest.dateInvest) {
-                condition.current.timeInvestment = item.id;
-            } else {
-                condition.current.moneyInvest = item.id;
-            }
-            fetchDataInvest(numberPage);
-        };
+    const onSelectItemTime = useCallback((item: any) => {
+        condition.current.timeInvestment = item;
+        condition.current.isLoading = true;
+        condition.current.offset = 0;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
+
+    const onSelectItemMoney = useCallback((item: any) => {
+        condition.current.moneyInvest = item;
+        condition.current.isLoading = true;
+        condition.current.offset = 0;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
+    const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[], onSelectItem: any) => {
+
         return (
             <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={8} >
                 <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
@@ -182,13 +221,19 @@ function Intro() {
         );
     }, []);
 
+    const onLoadMore = useCallback(() => {
+        condition.current.offset += PAGE_SIZE;
+        condition.current.isLoading = true;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
     const renderViewInvest = useMemo(() => {
         return (
             <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
                 <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountListData)}
-                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateListData)}
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dataMoney, onSelectItemMoney)}
+                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dataTime, onSelectItemTime)}
                 </Row>
 
                 <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
@@ -196,9 +241,19 @@ function Intro() {
                         return renderItemInvest(index, itemInvest);
                     })}
                 </Row>
+                <div className={cx('center')}>
+                    <Button
+                        label={Languages.invest.moreInvest}
+                        buttonStyle={BUTTON_STYLES.GREEN}
+                        isLowerCase
+                        containButtonStyles={'y30'}
+                        onPress={onLoadMore}
+                        customStyles={{ paddingRight: 25, paddingLeft: 25, marginTop: 50 }}
+                    />
+                </div>
             </div>
         );
-    }, [dataArr, isMobile, renderItemInvest, renderPicker]);
+    }, [dataArr, dataMoney, dataTime, isMobile, onLoadMore, onSelectItemMoney, onSelectItemTime, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 
