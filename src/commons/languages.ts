@@ -231,7 +231,7 @@ const Languages = {
         contentProfit3: 'Lãi luôn về đúng hạn',
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
-        appMobile: '- App Mobile'
+        appMobile: ['Tải ứng dụng',' Đầu tư Tiện Ngay ','miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!']
     },
 
     profile: {

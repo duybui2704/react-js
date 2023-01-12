@@ -1,16 +1,16 @@
 import { Col, Row } from 'antd';
 import BannerInvest from 'assets/image/bg_banner_invest.jpeg';
-import ImgAppStore from 'assets/image/img_app_store.jpg';
+import ImgAppStore from 'assets/image/img_app_store.svg';
 import ImgCircle from 'assets/image/img_circle.jpeg';
-import ImgGGPLay from 'assets/image/img_gg_chplay.jpg';
-import ImgHalf from 'assets/image/img_half_phone.jpeg';
+import ImgGGPLay from 'assets/image/img_gg_chplay.svg';
+import ImgHalf from 'assets/image/img_half_phone.jpg';
 import ImgHeader from 'assets/image/img_home_header.jpg';
 import ImgPerson from 'assets/image/img_person.jpeg';
 import ImgPhone from 'assets/image/img_phone1.jpeg';
 import ImgPhone1 from 'assets/image/img_phone2.jpeg';
 import ImgPhone2 from 'assets/image/img_phone3.jpeg';
 import ImgPosterVideo from 'assets/image/img_poster.jpeg';
-import ImgQRCode from 'assets/image/img_qr_code.jpg';
+import ImgQRCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -20,16 +20,14 @@ import { Loading } from 'components/loading';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { useWindowSize } from 'hooks/use-window-size';
 import { ItemProps } from 'models/common';
 import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
-import { InvestFilter, PackageInvest } from 'models/invest';
-import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
+import { PackageInvest } from 'models/invest';
+import { serviceList, videoIntro } from 'pages/__mocks__/intro';
 import { amountListData, dateListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import Count from './count';
 import styles from './intro.module.scss';
 
 const cx = classNames.bind(styles);
@@ -57,8 +55,6 @@ function Intro() {
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
     const elementRef = useRef<any>(null);
-
-    const screenSize = useWindowSize();
 
     useEffect(() => {
         setTopIntroHeight(elementRef?.current?.clientHeight);
@@ -396,7 +392,8 @@ function Intro() {
                     <span className={cx('text-black h6')}>{Languages.intro.stepContent}</span>
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
-                <div style={renderLeftBackground}>
+                {/* not support */}
+                {/* <div style={renderLeftBackground}>
                     <div id={cx('inner-center')}>
                         <div id={cx('text-content')}>
                             {infoInvest.map((item, index) => {
@@ -408,10 +405,10 @@ function Intro() {
                             })}
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
         );
-    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb, renderLeftBackground, run]);
+    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb]);
 
     const renderViewNearBelow = useMemo(() => {
 
@@ -469,7 +466,7 @@ function Intro() {
                 <span className={cx('text-green medium h3')}>{Languages.intro.serviceHot}</span>
 
                 <div className={cx('row y20', 'service')}>
-                    <Marquee pauseOnHover gradient={false}>
+                    <Marquee pauseOnHover gradient={false} speed={40}>
                         {serviceList.map((item: ServiceModel, index: number) => {
                             return (
                                 <a key={index} className={cx('item-service', 'row center', 'padding-item')} href={item.link}>
@@ -489,19 +486,23 @@ function Intro() {
 
     const renderBottom = useMemo(() => {
         return (
-            <div className={cx('column', 'padding-bottom', 'container')}>
-                <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
+            <div className={cx('column', 'padding-bottom')}>
                 <Row gutter={[24, 16]} className={cx('container')}>
                     <Col xs={24} md={24} lg={12} xl={12}>
+                        <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
                         <div className={cx('column')}>
-                            <span className={cx('text-red medium h3 y10')}>{Languages.intro.appMobile}</span>
-                            <span className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</span>
+                            <span className={cx('text-black h5 y10')}>
+                                {Languages.intro.appMobile[0]}
+                                <span className={cx('text-green')}>{Languages.intro.appMobile[1]}</span>
+                                {Languages.intro.appMobile[2]}
+                            </span>
+
                             <div className={cx('row y40')}>
                                 <div className={cx('column x50 space-between center pt5 pb5')}>
                                     <img src={ImgAppStore} width={'100%'} />
                                     <img src={ImgGGPLay} width={'100%'} />
                                 </div>
-                                <img src={ImgQRCode} />
+                                <img src={ImgQRCode} width={'30%'} />
                             </div>
                         </div>
                     </Col>

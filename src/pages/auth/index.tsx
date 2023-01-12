@@ -1,14 +1,14 @@
 import { Col, Row, Steps } from 'antd';
 import BgAuth from 'assets/image/bg_auth.jpg';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
-import ImgAppStore from 'assets/image/img_app_store.png';
+import ImgAppStore from 'assets/image/img_app_store.svg';
 import ImgChange from 'assets/image/img_change_pass.jpeg';
 import ImgForgot from 'assets/image/img_forgot.jpeg';
-import ImgGooglePlay from 'assets/image/img_google_play.png';
+import ImgGooglePlay from 'assets/image/img_gg_chplay.svg';
 import ImgLogin from 'assets/image/img_login.jpeg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgOtp from 'assets/image/img_otp.jpeg';
-import ImgQrCode from 'assets/image/img_qr_download.png';
+import ImgQrCode from 'assets/image/img_qr.jpg';
 import ImgSignUp from 'assets/image/img_sign_up.jpeg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
