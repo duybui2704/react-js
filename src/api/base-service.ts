@@ -170,8 +170,7 @@ export class BaseService {
                 }
             });
         }
-
-        formData.forEach(entries => console.log(entries));
+        console.log('formData === ', data);
         return formData;
     };
 

@@ -1,7 +1,33 @@
 @import "assets/scss";
+.page-container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    height: 94vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    @include tablet {
+        height: 95vh;
+    }
+}
+
+.page-container-mobile {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    height: 84vh;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
 .container {
     display: flex;
     flex-wrap: nowrap;
+    flex-direction: column;
     height: 93vh;
     overflow-y: auto;
     &::-webkit-scrollbar {
@@ -9,22 +35,27 @@
     }
 }
 
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
 .padding {
-    padding: 2% 6%;
-    @include mobile {
-        padding: 2%;
-    }
+    width: 100%;
+    padding: 40px 0;
 }
 
 .profile {
     width: 30%;
-    gap: 32px;
-    margin-right: 2%;
+    margin-right: 24px;
     background: $color-white;
     border: 1px solid $color-gray5;
-    box-shadow: 0px 4px 15px $color-t-gray;
+    box-shadow: $box-shadow;
     border-radius: 8px;
     height: fit-content;
+    @include tablet {
+        margin-right: 16px;
+    }
 }
 
 .avatar {
@@ -81,19 +112,22 @@
 .un-verify-text {
     font-size: $text-h6;
     font-family: $font-medium;
-    color: $color-red
+    color: $color-red;
+    text-align: center;
 }
 
 .verify-text {
     font-size: $text-h6;
     font-family: $font-medium;
-    color: $color-green-header
+    color: $color-green-header;
+    text-align: center;
 }
 
 .wait-verify-text {
     font-size: $text-h6;
     font-family: $font-medium;
-    color: $color-yellow
+    color: $color-yellow-d9;
+    text-align: center;
 }
 
 .un-verify-container {
@@ -130,4 +164,94 @@
     border-radius: 8px;
     margin-top: 8px;
     width: calc(100% - 32px);
+}
+
+.item-navigate {
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid $color-gray5;
+    display: flex;
+    flex-direction: row;
+    padding: 12px 16px;
+    &:hover {
+        background-color: $color-green-input;
+        opacity: 0.8;
+    }
+    &:active {
+        background-color: $color-green-input;
+        opacity: 0.7;
+    }
+}
+
+.item-last-navigate {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    padding: 12px 16px;
+    &:hover {
+        background-color: $color-green-input;
+        opacity: 0.8;
+    }
+    &:active {
+        background-color: $color-green-input;
+        opacity: 0.7;
+    }
+}
+
+.item-focus-navigate {
+    background-color: $color-green-input;
+    border-bottom: 1px solid $color-gray5;
+    cursor: default;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    padding: 12px 16px;
+}
+
+.item-focus-last-navigate {
+    background-color: $color-green-input;
+    cursor: default;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    padding: 12px 16px;
+}
+
+.image-avatar-user {
+    width: 40%;
+}
+
+.hover-component:hover {
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.8;
+}
+
+.hover-component:active {
+    cursor: pointer;
+    user-select: none;
+    opacity: 0.6;
+}
+
+.web-view-container {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    width: 85%;
+    padding: 40px 0;
+    @include mobile {
+        width: calc(100% - 32px);
+    }
+    @include tablet {
+        width: calc(100% - 32px);
+    }
+}
+
+.mobile-view-container {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    width: calc(100% - 32px);
+    padding: 24px 0 40px 0;
 }

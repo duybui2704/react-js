@@ -1,21 +1,27 @@
+import { Col, Row, Steps } from 'antd';
 import BgAuth from 'assets/image/bg_auth.jpg';
-import ImgAppStore from 'assets/image/img_app_store.png';
-import ImgGooglePlay from 'assets/image/img_google_play.png';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
+import ImgAppStore from 'assets/image/img_app_store.png';
+import ImgChange from 'assets/image/img_change_pass.jpeg';
+import ImgForgot from 'assets/image/img_forgot.jpeg';
+import ImgGooglePlay from 'assets/image/img_google_play.png';
+import ImgLogin from 'assets/image/img_login.jpeg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
+import ImgOtp from 'assets/image/img_otp.jpeg';
 import ImgQrCode from 'assets/image/img_qr_download.png';
+import ImgSignUp from 'assets/image/img_sign_up.jpeg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Login from './login';
-import styles from './auth.module.scss';
-import SignUp from './sign-up';
-import ForgotPass from './forgot-pass';
-import OTPAuth from './otp-auth';
-import ChangePwd from './change-pwd';
 import { Paths } from 'routers/paths';
+import styles from './auth.module.scss';
+import ChangePwd from './change-pwd';
+import ForgotPass from './forgot-pass';
+import Login from './login';
+import OTPAuth from './otp-auth';
+import SignUp from './sign-up';
 
 const cx = classNames.bind(styles);
 
@@ -29,22 +35,41 @@ function Auth() {
     // const { apiServices } = useAppStore();
 
 
-    useEffect(() => {
-        const _location = location.state;
-        setSteps(_location || { name: Languages.auth.login });
-    }, [location.state]);
+    // useEffect(() => {
+    //     const _location = location.state;
+    //     setSteps(_location || { name: Languages.auth.enterAuthCode });
+    // }, [location.state]);
+
+    const backgroundImage = useMemo(() => {
+        if (steps) {
+            switch (steps?.name) {
+                case Languages.auth.login:
+                    return ImgLogin;
+                case Languages.auth.signUp:
+                    return ImgSignUp;
+                case Languages.auth.changePwd:
+                    return ImgChange;
+                case Languages.auth.forgotPwd:
+                    return ImgForgot;
+                case Languages.auth.enterAuthCode:
+                    return ImgOtp;
+                default:
+                    return BgAuth;
+            }
+        }
+    }, [steps]);
 
     const renderLeftBackground = useMemo(() => {
         return {
-            backgroundImage: `url(${BgAuth})`,
+            backgroundImage: `url(${backgroundImage})`,
             backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
         };
-    }, []);
+    }, [backgroundImage]);
 
     const renderLeftContent = useMemo(() => {
-        return <div className={cx('left-container', 'wid-left')}
+        return <div className={cx('left-container')}
             style={renderLeftBackground}>
             <div className={cx('style-close')}>
                 <img src={Ic_Close} className={cx('img-close')} onClick={() => navigate(Paths.home)} />
@@ -79,6 +104,7 @@ function Auth() {
     }, []);
 
     const renderSteps = useMemo(() => {
+
         switch (steps?.name) {
             case Languages.auth.login:
                 return <Login onPress={onChangeSteps} />;
@@ -97,8 +123,14 @@ function Auth() {
 
     const renderView = useMemo(() => {
         return <div className={isMobile ? cx('column', 'root-container', 'scroll') : cx('row', 'root-container')}>
-            {renderLeftContent}
-            {renderSteps}
+            <Row gutter={[24, 16]} className={cx('container')}>
+                <Col xs={24} md={24} lg={12} xl={16} className={cx('container')}>
+                    {renderLeftContent}
+                </Col>
+                <Col xs={24} md={24} lg={12} xl={8} className={cx('right')}>
+                    {renderSteps}
+                </Col>
+            </Row>
         </div>;
     }, [isMobile, renderLeftContent, renderSteps]);
 

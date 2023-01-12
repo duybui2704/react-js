@@ -72,6 +72,10 @@ function formatObjectToKeyLabel(data: any) {
     return [];
 }
 
+function convertSecondToMinutes(value: number) {
+    return `${Math.floor(value / 60)}:${value % 60 ? value % 60 : '00'}`;
+}
+
 export default {
     formatLoanMoney,
     formatMoney,
@@ -80,5 +84,6 @@ export default {
     formatForEachWordCase,
     formatUpperCaseCharacter,
     formatRoundNumberToDecimalMillion,
-    formatObjectToKeyLabel
+    formatObjectToKeyLabel,
+    convertSecondToMinutes
 };

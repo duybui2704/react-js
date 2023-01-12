@@ -1,5 +1,5 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
-import ImgPortrait from 'assets/image/img_portrait.jpg';
+import ImgNoAvatar from 'assets/image/img_no_avatar.jpg';
 import classNames from 'classnames/bind';
 import { COLOR_TRANSACTION } from 'commons/constants';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
@@ -8,7 +8,7 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { ItemScreenModel } from 'models/profile';
 import { UserInfoModel } from 'models/user-model';
-import { InfoUser, profile } from 'pages/__mocks__/profile';
+import { profile } from 'pages/__mocks__/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventEmitter } from 'utils/event-emitter';
@@ -74,35 +74,29 @@ function Profile() {
 
     const renderViewMobile = useMemo(() => {
         return (
-            <div className={cx('column', 'wid-100')}>
-                <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.full_name}</span>
-                    <img src={IcTwoPeople} onClick={onShowDrawer} />
-                </div>
-                <div className={cx('information', 'padding')}>
-                    {renderViewRight}
-                </div>
+            <div className={cx('mobile-view-container')}>
+                {renderViewRight}
             </div>
         );
-    }, [onShowDrawer, renderViewRight, userManager.userInfo?.full_name]);
+    }, [renderViewRight]);
 
     const renderStatusAcc = useMemo(() => {
         switch (info?.tinh_trang?.color) {
             case COLOR_TRANSACTION.RED:
                 return (
-                    <div className={cx('un-verify-container')}>
+                    <div className={cx('un-verify-container', 'hover-component')}>
                         <span className={cx('un-verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
                     </div>
                 );
             case COLOR_TRANSACTION.GREEN:
                 return (
-                    <div className={cx('verify-container')}>
+                    <div className={cx('verify-container', 'hover-component')}>
                         <span className={cx('verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
                     </div>
                 );
             case COLOR_TRANSACTION.YELLOW:
                 return (
-                    <div className={cx('wait-verify-container')}>
+                    <div className={cx('wait-verify-container', 'hover-component')}>
                         <span className={cx('wait-verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
                     </div>
                 );
@@ -113,25 +107,25 @@ function Profile() {
 
     const renderViewWeb = useMemo(() => {
         return (
-            <>
+            <div className={cx('web-view-container')}>
                 <div className={cx('profile')}>
                     <div className={cx('avatar')}>
-                        <img src={info?.avatar_user || ImgPortrait} width={'40%'} />
-                        <span className={cx('text-gray medium h5 y20')} >{info?.full_name}</span>
+                        <img src={info?.avatar_user || ImgNoAvatar} className={cx('image-avatar-user')} />
+                        <span className={cx('text-gray medium h5 y20')}>{info?.full_name}</span>
                         {renderStatusAcc}
-
                     </div>
                     {profile.map((item: ItemScreenModel, index: number) => {
                         const onChangeStep = () => {
-                            setStep(item.id);
+                            setStep(item?.id);
                         };
                         return (
-                            <div className={item?.id === step ? cx('focus', 'column', 'hover') : cx('column', 'hover')} key={index} onClick={onChangeStep}>
-                                <div className={cx('row p12', 'item')}>
-                                    <img src={item.icon} />
-                                    <span className={cx('xl10 h7 text-gray regular b5')}>{item.title}</span>
-                                </div>
-                                <div className={cx('line')} />
+                            <div key={index} onClick={onChangeStep}
+                                className={item?.id === step
+                                    ? cx(index + 1 === profile.length ? 'item-focus-last-navigate' : 'item-focus-navigate')
+                                    : cx(index + 1 === profile.length ? 'item-last-navigate' : 'item-navigate')}
+                            >
+                                <img src={item?.icon} />
+                                <span className={cx('xl10 h7 text-gray')}>{item?.title}</span>
                             </div>
                         );
                     })}
@@ -139,18 +133,23 @@ function Profile() {
                 <div className={cx('information', 'wid-70')}>
                     {renderViewRight}
                 </div>
-            </>
+            </div>
         );
-    }, [info?.avatar_user, info?.full_name, info?.tinh_trang?.status, onOpenIdentity, renderViewRight, step]);
+    }, [info?.avatar_user, info?.full_name, renderStatusAcc, renderViewRight, step]);
 
     return (
-        <div className={cx('column', 'container')}>
-            <div className={isMobile ? cx('row') : cx('row', 'padding')}>
+        <>
+            {isMobile && <div className={cx('row space-between y20', 'top')}>
+                <span className={cx('text-black medium h7')}>{userManager.userInfo?.full_name}</span>
+                <img src={IcTwoPeople} onClick={onShowDrawer} />
+            </div>}
+            <div className={cx(isMobile ? 'page-container-mobile' : 'page-container')}>
                 {isMobile ? renderViewMobile : renderViewWeb}
                 <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} data={profile} onPressStatus={onOpenIdentity} />
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        </>
+
 
     );
 }

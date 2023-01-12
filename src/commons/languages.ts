@@ -127,7 +127,13 @@ const Languages = {
         confirm: 'Xác nhận',
         contentForgotPwd: 'Chúng tôi đã gửi cho bạn một mã xác nhận 6 số qua số điện thoại 096*****37. Hãy kiểm tra và nhập mã xác nhận để lấy lại mật khẩu.',
         codeConfirm: 'Mã xác nhận',
-        changePwd: 'Đổi mật khẩu'
+        changePwd: 'Đổi mật khẩu',
+        sendToAfterOTP: 'Gửi lại mã sau',
+        sendToOTP: 'Gửi lại mã',
+        minute: 'phút',
+        loginAccountNow: 'Đăng nhập vào tài khoản bạn ngay?',
+        registerAccountNow: 'Tạo tài khoản ngay bây giờ?',
+        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. '
     },
     home: {
     },
@@ -237,7 +243,9 @@ const Languages = {
         phone: 'Số điện thoại',
         email: 'Email',
         address: 'Địa chỉ',
-        unconfirmed: 'Thông tin cá nhân của bạn chưa được xác thực, vui lòng xác thực tài khoản trước khi tiến hành đầu tư.',
+        unConfirmed: 'Thông tin cá nhân của bạn chưa được xác thực, vui lòng xác thực tài khoản trước khi tiến hành đầu tư.',
+        waitConfirmed: 'Thông tin cá nhân của bạn đang chờ xác thực, vui lòng chờ xác thực tài khoản trước khi tiến hành đầu tư.',
+        confirmed: 'Thông tin cá nhân của bạn đã được xác thực, tài khoản của bạn đã có thể tiến hành đầu tư.',
         editAccount: 'Chỉnh sửa thông tin cá nhân',
         infoPayment: 'Thông tin thanh toán',
         accountNumber: 'Số tài khoản',

@@ -40,6 +40,7 @@ const labelArrHistory = {
     total: Languages.invest.totalAmount
 };
 
+
 function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
         onBackScreen: () => void, onNextScreen?: () => void,

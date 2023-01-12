@@ -108,14 +108,11 @@ function Login({ onPress }) {
             <span className={cx('text-black medium h4')}>
                 {Languages.auth.login}
             </span>
-            <div className={cx('row y10')}>
-                <span className={cx('text-gray h6 x5')}>
-                    {Languages.auth.notAccountYet}
-                </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
-                    {Languages.auth.registerNow}
-                </span>
-            </div>
+
+            <span className={cx('text-gray h7 y10')}>
+                {Languages.auth.loginAccountNow}
+            </span>
+
             <MyTextInput
                 ref={refPhone}
                 type={'phone'}
@@ -168,13 +165,13 @@ function Login({ onPress }) {
 
             <div className={cx('row-center y30')}>
 
-                <Button
+                {/* <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
                     isLowerCase
                     containButtonStyles={'flex x10'}
                     rightIcon={IcFacebook}
-                />
+                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}
@@ -183,6 +180,15 @@ function Login({ onPress }) {
                     rightIcon={IcGoogle}
                     onPress={onGoogleSign}
                 />
+            </div>
+
+            <div className={cx('row y10')}>
+                <span className={cx('text-gray h6 x5')}>
+                    {Languages.auth.notAccountYet}
+                </span>
+                <a className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
+                    {Languages.auth.registerNow}
+                </a>
             </div>
         </div>;
     }, [isMobile, onGoogleSign, onLogin, onNavigate, phone]);
