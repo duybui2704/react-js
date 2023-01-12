@@ -78,15 +78,6 @@ function SignUp({ onPress }) {
         if (onValidate()) {
             setLoading(true);
 
-            // const data = {
-            //     phone: refPhone.current?.getValue(),
-            //     name: refName.current?.getValue(),
-            //     pass: refPwd.current?.getValue(),
-            //     passConfirm: refPwdConfirm.current?.getValue(),
-            //     email: refEmail.current?.getValue(),
-            //     channel: refChannel.current?.getValue() || '',
-            //     presenter: refPresenter.current?.getValue()
-            // };
             const res = await apiServices.auth.registerAuth(
                 refPhone.current?.getValue(),
                 refName.current?.getValue(),
@@ -97,7 +88,7 @@ function SignUp({ onPress }) {
                 refPresenter.current?.getValue()) as any;
             setLoading(false);
             if (res.success) {
-                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.signUp, onPressOTP: onSignUp() });
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.signUp });
             }
         }
     }, [apiServices.auth, onPress, onValidate]);
@@ -111,14 +102,10 @@ function SignUp({ onPress }) {
             <span className={cx('text-black medium h4 y20')}>
                 {Languages.auth.signUp}
             </span>
-            <div className={cx('row y10')}>
-                <span className={cx('text-gray h6 x5')}>
-                    {Languages.auth.accountYet}
-                </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.login)}>
-                    {Languages.auth.loginNow}
-                </span>
-            </div>
+
+            <span className={cx('text-gray h7 y10')}>
+                {Languages.auth.registerAccountNow}
+            </span>
 
             <MyTextInput
                 ref={refName}
@@ -241,6 +228,15 @@ function SignUp({ onPress }) {
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
                 />
+            </div>
+
+            <div className={cx('row y10')}>
+                <span className={cx('text-gray h6 x5')}>
+                    {Languages.auth.accountYet}
+                </span>
+                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.login)}>
+                    {Languages.auth.loginNow}
+                </span>
             </div>
         </div>;
     }, [isMobile, onSignUp, onNavigate]);

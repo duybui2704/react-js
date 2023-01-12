@@ -101,18 +101,7 @@ function Auth() {
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
         setSteps(transmissionName);
-        transmissionName.onPressOTP();
     }, []);
-
-    const resendOTP = useCallback(async () => {
-        console.log('steps === ', steps);
-        await steps.onPressOTP?.();
-    }, [steps]);
-
-    useEffect(() => {
-        console.log('uupdated');
-
-    }, [steps]);
 
     const renderSteps = useMemo(() => {
 
@@ -124,13 +113,13 @@ function Auth() {
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
-                return <OTPAuth onPress={onChangeSteps} resend={resendOTP} phoneNumber={steps?.phone} title={steps?.title} />;
+                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} title={steps?.title} />;
             case Languages.auth.changePwd:
                 return <ChangePwd onPress={onChangeSteps} />;
             default:
                 return null;
         }
-    }, [onChangeSteps, resendOTP, steps]);
+    }, [onChangeSteps, steps]);
 
     const renderView = useMemo(() => {
         return <div className={isMobile ? cx('column', 'root-container', 'scroll') : cx('row', 'root-container')}>
@@ -138,7 +127,7 @@ function Auth() {
                 <Col xs={24} md={24} lg={12} xl={16} className={cx('container')}>
                     {renderLeftContent}
                 </Col>
-                <Col xs={24} md={24} lg={12} xl={8} >
+                <Col xs={24} md={24} lg={12} xl={8} className={cx('right')}>
                     {renderSteps}
                 </Col>
             </Row>

@@ -17,20 +17,20 @@ import styles from './otp-auth.module.scss';
 
 const cx = classNames.bind(styles);
 
-function OTPAuth({ onPress, resend, phoneNumber, title }: { onPress: any, resend: any, phoneNumber: string, title: string }) {
+function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: string, title: string }) {
     let timer = 0;
     const isMobile = useIsMobile();
     const [check, setCheck] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { apiServices, userManager } = useAppStore();
-    const [timerCount, setTimerCount] = useState(9);
+    const [timerCount, setTimerCount] = useState(180);
     const navigator = useNavigate();
     const [value, setValue] = useState<string>('');
     const [errMsg, setErrMsg] = useState<string>('');
 
     useEffect(() => {
         setCheck(true);
-        timer = getTime() + 9;
+        timer = getTime() + 180;
         refreshCountdown();
     }, []);
 
@@ -103,20 +103,27 @@ function OTPAuth({ onPress, resend, phoneNumber, title }: { onPress: any, resend
         setValue(otp);
     }, []);
 
-    const sendToOTP = useCallback(() => {
-        // if (title === Languages.auth.changePwd) {
-        //     setIsLoading(true);
-        //     const response = await apiServices.auth.otpResetPwd(phoneNumber) as any;
-        //     if (response.success) {
-        //         setTimerCount(9);
-        //     }
-        //     setIsLoading(false);
-        // } else if (title === Languages.auth.signUp) {
-        // }
-        // setTimerCount(9);
-        // setCheck(true);
-        resend?.();
-    }, [resend]);
+    const sendToOTP = useCallback(async () => {
+        if (title === Languages.auth.changePwd) {
+            setIsLoading(true);
+            const resSendOTP = await apiServices.auth.otpResetPwd(phoneNumber) as any;
+            if (resSendOTP.success) {
+                setCheck(true);
+                timer = getTime() + 180;
+                refreshCountdown();
+            }
+            setIsLoading(false);
+        } else if (title === Languages.auth.signUp) {
+            setIsLoading(true);
+            const response = await apiServices.auth.otpResendToken(phoneNumber) as any;
+            setIsLoading(false);
+            if (response.success) {
+                setCheck(true);
+                timer = getTime() + 180;
+                refreshCountdown();
+            }
+        }
+    }, []);
 
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>

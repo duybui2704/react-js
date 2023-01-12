@@ -1,5 +1,3 @@
-import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import IcPhone from 'assets/icon/ic_phone.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -86,8 +84,17 @@ function ChangePwd({ onPress }) {
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
             />
+
+            <div className={cx('row y10')}>
+                <span className={cx('text-gray h6 x5')}>
+                    {Languages.auth.accountYet}
+                </span>
+                <a className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
+                    {Languages.auth.loginNow}
+                </a>
+            </div>
         </div>;
-    }, [isMobile, onChangePass]);
+    }, [isMobile, onChangePass, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>

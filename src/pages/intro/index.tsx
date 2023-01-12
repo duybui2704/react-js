@@ -1,4 +1,4 @@
-import { Col, Row, Pagination } from 'antd';
+import { Col, Row } from 'antd';
 import BannerInvest from 'assets/image/bg_banner_invest.jpeg';
 import ImgAppStore from 'assets/image/img_app_store.jpg';
 import ImgCircle from 'assets/image/img_circle.jpeg';
@@ -16,22 +16,21 @@ import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
+import { Loading } from 'components/loading';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowSize } from 'hooks/use-window-size';
 import { ItemProps } from 'models/common';
+import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
 import { InvestFilter, PackageInvest } from 'models/invest';
 import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
-import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
+import { amountListData, dateListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import type { PaginationProps } from 'antd';
 import Count from './count';
 import styles from './intro.module.scss';
-import { useAppStore } from 'hooks';
-import { Loading } from 'components/loading';
-import { DashBroadModel } from 'models/dash';
 
 const cx = classNames.bind(styles);
 
@@ -39,7 +38,6 @@ function Intro() {
     const [step, setStep] = useState<number>(1);
     const { apiServices } = useAppStore();
     const isMobile = useIsMobile();
-    const [dataFilter, setDataFilter] = useState<InvestFilter>({});
     const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
     const [numberPage, setNumberPage] = useState<number>(1);
@@ -66,7 +64,7 @@ function Intro() {
         setTopIntroHeight(elementRef?.current?.clientHeight);
         fetchDataInvest();
         fetchContractsDash();
-    }, [screenSize]);
+    }, []);
 
     useEffect(() => {
         const scrollHandler = () => {
@@ -185,13 +183,6 @@ function Intro() {
     }, []);
 
     const renderViewInvest = useMemo(() => {
-
-        const onchange: PaginationProps['onChange'] = (page) => {
-            console.log(page);
-            setNumberPage(page);
-            fetchDataInvest(page);
-        };
-
         return (
             <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
@@ -205,16 +196,9 @@ function Intro() {
                         return renderItemInvest(index, itemInvest);
                     })}
                 </Row>
-                <Pagination
-                    current={numberPage}
-                    total={30}
-                    className={cx('pagination')}
-                    onChange={onchange}
-                    pageSize={9}
-                />
             </div>
         );
-    }, [dataArr, isMobile, numberPage, renderItemInvest, renderPicker]);
+    }, [dataArr, isMobile, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 
@@ -412,7 +396,7 @@ function Intro() {
                     <span className={cx('text-black h6')}>{Languages.intro.stepContent}</span>
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
-                {/* <div style={renderLeftBackground}>
+                <div style={renderLeftBackground}>
                     <div id={cx('inner-center')}>
                         <div id={cx('text-content')}>
                             {infoInvest.map((item, index) => {
@@ -424,10 +408,10 @@ function Intro() {
                             })}
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
         );
-    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb]);
+    }, [isMobile, renderGroupStepMobile, renderGroupStepWeb, renderLeftBackground, run]);
 
     const renderViewNearBelow = useMemo(() => {
 

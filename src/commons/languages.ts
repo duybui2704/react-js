@@ -130,7 +130,10 @@ const Languages = {
         changePwd: 'Đổi mật khẩu',
         sendToAfterOTP: 'Gửi lại mã sau',
         sendToOTP: 'Gửi lại mã',
-        minute: 'phút'
+        minute: 'phút',
+        loginAccountNow: 'Đăng nhập vào tài khoản bạn ngay?',
+        registerAccountNow: 'Tạo tài khoản ngay bây giờ?',
+        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. '
     },
     home: {
     },

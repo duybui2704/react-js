@@ -1,7 +1,7 @@
 @import "assets/scss";
 .root-container {
     display: flex;
-    height: 100%;
+    flex: 1;
 }
 
 .left-container {
@@ -37,7 +37,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 4%;
-    height: 100%;
+    flex: 1;
 }
 
 .right-container-mobile {
@@ -45,7 +45,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 5%;
-    height: 100%;
+    flex: 1;
 }
 
 .line {
