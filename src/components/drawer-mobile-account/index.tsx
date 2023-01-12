@@ -73,20 +73,20 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             switch (info?.tinh_trang?.color) {
                 case COLOR_TRANSACTION.RED:
                     return (
-                        <div className={cx('un-verify-container', 'hover-component')}>
-                            <span className={cx('un-verify-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        <div className={cx('un-verify-container', 'hover-component')} onClick={handlePressStatus}>
+                            <span className={cx('un-verify-text')} >{info?.tinh_trang?.status}</span>
                         </div>
                     );
                 case COLOR_TRANSACTION.GREEN:
                     return (
-                        <div className={cx('verify-container', 'hover-component')}>
-                            <span className={cx('verify-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        <div className={cx('verify-container', 'hover-component')} onClick={handlePressStatus}>
+                            <span className={cx('verify-text')} >{info?.tinh_trang?.status}</span>
                         </div>
                     );
                 case COLOR_TRANSACTION.YELLOW:
                     return (
-                        <div className={cx('wait-verify-container', 'hover-component')}>
-                            <span className={cx('wait-verify-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        <div className={cx('wait-verify-container', 'hover-component')} onClick={handlePressStatus}>
+                            <span className={cx('wait-verify-text')} >{info?.tinh_trang?.status}</span>
                         </div>
                     );
                 default:
@@ -105,7 +105,7 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     <div className={cx('avatar')}>
                         <img src={info?.avatar_user || ImgNoAvatar} className={cx('avatar-img-container')} />
                         <span className={cx('user-name-text')}>{info?.full_name}</span>
-                        { renderStatusAcc}
+                        {renderStatusAcc}
                     </div>
 
                     {data?.map((item: ItemScreenModel) => {
