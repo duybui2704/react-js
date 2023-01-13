@@ -66,19 +66,19 @@ function Intro() {
         fetchDataTimeInvestment();
     }, []);
 
-    useEffect(() => {
-        const scrollHandler = () => {
-            const count = document.getElementById(cx('inner-center')) as HTMLElement;
-            const end = count?.getBoundingClientRect();
-            if (end.bottom < window.innerHeight && end.bottom > 0) {
-                setRun(true);
-            }
-        };
-        window.addEventListener('scroll', scrollHandler, true);
-        return () => {
-            window.removeEventListener('scroll', scrollHandler, true);
-        };
-    }, []);
+    // useEffect(() => {
+    //     const scrollHandler = () => {
+    //         const count = document.getElementById(cx('inner-center')) as HTMLElement;
+    //         const end = count?.getBoundingClientRect();
+    //         if (end.bottom < window.innerHeight && end.bottom > 0) {
+    //             setRun(true);
+    //         }
+    //     };
+    //     window.addEventListener('scroll', scrollHandler, true);
+    //     return () => {
+    //         window.removeEventListener('scroll', scrollHandler, true);
+    //     };
+    // }, []);
 
     const fetchDataMoney = useCallback(async () => {
         const res = await apiServices.invest.getListMoneyInvestment() as any;
