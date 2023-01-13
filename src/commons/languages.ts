@@ -272,7 +272,10 @@ const Languages = {
         linked: 'Đã liên kết',
         unlinked: 'Chưa liên kết',
         logout: 'Đăng xuất',
-        empty: 'Trống'
+        empty: 'Trống',
+        successEditAvatar: 'Cập nhật ảnh đại diện thành công!',
+        changePass: 'Đổi mật khẩu',
+        successChangePassNotify: 'Xác nhận đổi mật khẩu thành công!'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',
