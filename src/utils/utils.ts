@@ -76,6 +76,21 @@ function convertSecondToMinutes(value: number) {
     return `${Math.floor(value / 60)}:${value % 60 ? value % 60 : '00'}`;
 }
 
+function formatObjectFilterInvest(data: any) {
+    const lengthArray = new Array(Object.keys(data).length);
+    if (lengthArray.length > 0) {
+        for (let i = 0; i < lengthArray.length; i++) {
+            lengthArray[i] = {
+                id: i,
+                text: Object.values(data)[i],
+                value: Object.keys(data)[i]
+            };
+        }
+        return lengthArray;
+    }
+    return [];
+}
+ 
 export default {
     formatLoanMoney,
     formatMoney,
@@ -85,5 +100,6 @@ export default {
     formatUpperCaseCharacter,
     formatRoundNumberToDecimalMillion,
     formatObjectToKeyLabel,
-    convertSecondToMinutes
+    convertSecondToMinutes,
+    formatObjectFilterInvest
 };
