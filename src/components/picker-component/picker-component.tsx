@@ -239,9 +239,9 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                 >
                     {data.map((item: ItemPropsModel) => (
                         <Option key={item?.id} value={item?.value} label={item?.text}>
-                            <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : () => onSelectItem?.(item.id)}>
+                            <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : () => onSelectItem?.(item.value)}>
                                 {icLeft && <img src={icLeft} />}
-                                <span className={cx('value-text')} >{item?.value}</span>
+                                <span className={cx('value-text')} >{item?.text}</span>
                                 {icRight && <img src={icRight} />}
                             </div>
                         </Option>
