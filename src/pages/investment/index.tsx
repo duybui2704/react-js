@@ -13,9 +13,9 @@ import PopupBaseMobile from 'components/popup-base-mobile';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
+import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { InvestFilter, PackageInvest } from 'models/invest';
-import { amountListData, dateListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
@@ -23,11 +23,10 @@ import styles from './investment.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => void }) {
-
+const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInvest) => void }) => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
-    const { apiServices } = useAppStore();
+    const { apiServices, userManager } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
     const [investList, setInvestList] = useState<PackageInvest[]>([]);
@@ -50,7 +49,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
         if (!isMobile) {
             popupSearchRef.current?.hideModal();
         }
-    }, [isMobile]);
+    }, [isMobile, userManager.userInfo]);
 
     useEffect(() => {
         fetchInvestList();
@@ -237,6 +236,6 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
             {renderPopupSearchPackage()}
         </div>
     );
-}
+});
 
 export default Investment;
