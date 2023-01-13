@@ -72,7 +72,11 @@ const Languages = {
         errMsgOTP: 'Mã OTP không hợp lệ',
         uploadingError: 'Tải ảnh thất bại!',
         errEmptyIdentity: 'Bạn cần điền đầy đủ thông tin trước khi xác thực!',
-        errEmptyPhoto: 'Bạn cần tải lên đầy đủ ảnh mặt trước, mặt sau CMT/CCCD và ảnh chân dung trước khi xác thực!'
+        errEmptyPhoto: 'Bạn cần tải lên đầy đủ ảnh mặt trước, mặt sau CMT/CCCD và ảnh chân dung trước khi xác thực!',
+        errStkEmpty: 'Số tài khoản hoặc số thẻ trống',
+        errNameEmpty: 'Tên chủ tài khoản ngân hàng trống',
+        errBankEmpty: 'Ngân hàng chưa được chọn',
+        errStk: 'Số tài khoản hoặc số thẻ ít hơn giới hạn cho phép'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {
@@ -267,7 +271,8 @@ const Languages = {
         ggLink: 'Liên kết Goggle',
         linked: 'Đã liên kết',
         unlinked: 'Chưa liên kết',
-        logout: 'Đăng xuất'
+        logout: 'Đăng xuất',
+        empty: 'Trống'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',
@@ -372,6 +377,9 @@ const Languages = {
     },
     tableCommission: {
         sum: 'Tổng'
+    },
+    msgNotify: {
+        successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'
     }
 };
 

@@ -237,11 +237,15 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                     placement={'bottomLeft'}
                     getPopupContainer={trigger => trigger.parentNode}
                 >
-                    {data.map((item: ItemPropsModel) => (
+                    {data.map((item: any) => (
                         <Option key={item?.id} value={item?.value} label={item?.text}>
                             <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : () => onSelectItem?.(item.value)}>
                                 {icLeft && <img src={icLeft} />}
                                 <span className={cx('value-text')} >{item?.text}</span>
+                                <div className={cx('row center')}>
+                                    {item?.icon && <img src={item?.icon} className={cx('left-icon')} />}
+                                    <span className={cx('value-text')} >{item?.value}</span>
+                                </div>
                                 {icRight && <img src={icRight} />}
                             </div>
                         </Option>

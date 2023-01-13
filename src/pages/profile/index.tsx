@@ -6,12 +6,12 @@ import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { toJS } from 'mobx';
 import { ItemScreenModel } from 'models/profile';
 import { UserInfoModel } from 'models/user-model';
 import { profile } from 'pages/__mocks__/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EventEmitter } from 'utils/event-emitter';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Commission from './commission';
@@ -35,6 +35,7 @@ function Profile() {
 
     useEffect(() => {
         setInfo(userManager.userInfo);
+        console.log('info ===', toJS(userManager.userInfo));
     }, [userManager.userInfo]);
 
     const onOpenIdentity = useCallback(() => {
@@ -103,7 +104,7 @@ function Profile() {
             default:
                 break;
         }
-    }, [info?.tinh_trang?.color, info?.tinh_trang?.status, onOpenIdentity]);
+    }, [info, onOpenIdentity]);
 
     const renderViewWeb = useMemo(() => {
         return (

@@ -132,7 +132,7 @@ const Home = observer(() => {
                 }
             </div>
         };
-    }, [navigate, renderIconVerify, userManager.userInfo?.avatar_user, userManager.userInfo?.full_name]);
+    }, [navigate, onLogOut, renderIconVerify, userManager]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;
