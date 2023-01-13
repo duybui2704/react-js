@@ -84,20 +84,20 @@ function Profile() {
         switch (info?.tinh_trang?.color) {
             case COLOR_TRANSACTION.RED:
                 return (
-                    <div className={cx('un-verify-container', 'hover-component')}>
-                        <span className={cx('un-verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
+                    <div className={cx('un-verify-container', 'hover-component')} onClick={onOpenIdentity}>
+                        <span className={cx('un-verify-text')} >{info?.tinh_trang?.status}</span>
                     </div>
                 );
             case COLOR_TRANSACTION.GREEN:
                 return (
-                    <div className={cx('verify-container', 'hover-component')}>
-                        <span className={cx('verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
+                    <div className={cx('verify-container', 'hover-component')} onClick={onOpenIdentity}>
+                        <span className={cx('verify-text')} >{info?.tinh_trang?.status}</span>
                     </div>
                 );
             case COLOR_TRANSACTION.YELLOW:
                 return (
-                    <div className={cx('wait-verify-container', 'hover-component')}>
-                        <span className={cx('wait-verify-text')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</span>
+                    <div className={cx('wait-verify-container', 'hover-component')} onClick={onOpenIdentity}>
+                        <span className={cx('wait-verify-text')}>{info?.tinh_trang?.status}</span>
                     </div>
                 );
             default:

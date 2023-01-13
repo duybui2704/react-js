@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import formValidate from 'utils/form-validate';
 import styles from './login.module.scss';
 import { Paths } from 'routers/paths';
+import { toJS } from 'mobx';
 
 const cx = classNames.bind(styles);
 
@@ -57,8 +58,6 @@ function Login({ onPress }) {
         if (onValidate()) {
             setLoading(true);
             const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue()) as any;
-            console.log('login ===', res);
-
             setLoading(false);
 
             if (res?.success) {
@@ -74,11 +73,14 @@ function Login({ onPress }) {
                     //     sessionManager.setSavePassLogin();
                     // }
                     const data = resInfoAcc?.data as UserInfoModel;
+                    data.token = resData?.token;
                     setUserData(data);
                     userManager.updateUserInfo({
                         ...data
                     });
                 }
+                console.log('resInfoAcc ===', toJS(userManager.userInfo));
+
                 setTimeout(() => {
                     navigate(Paths.home);
                 }, 200);

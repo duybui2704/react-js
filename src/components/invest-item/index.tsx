@@ -22,8 +22,10 @@ function InvestItem({ dataInvest, onPressInvest }:
     const renderKeyValue = useCallback((_label: string, _value?: string) => {
         return (
             <div className={cx('invest-key-value-container')}>
-                <img src={IcChecked} />
-                <span className={cx('label-item')}>{_label}</span>
+                <div className={cx('label-container')}>
+                    <img src={IcChecked} />
+                    <span className={cx('label-item')}>{_label}</span>
+                </div>
                 <span className={cx('value-item')}>{_value}</span>
             </div>
         );
@@ -34,7 +36,7 @@ function InvestItem({ dataInvest, onPressInvest }:
             <span className={cx('invest-amount-text')}>{utils.formatLoanMoney(dataInvest?.so_tien_dau_tu || '0')}</span>
             <div className={cx('invest-pay-form-container')}>
                 <span className={cx('invest-pay-form-text')}>{`${Languages.invest.interestPayForm}${dataInvest?.hinh_thuc_tra_lai}`}</span>
-                <img src={IcWarning} />
+                {/* <img src={IcWarning} /> */}
             </div>
             {renderKeyValue(Languages.invest.interestYear, dataInvest?.ti_le_lai_suat_hang_nam)}
             {renderKeyValue(Languages.invest.dateInvest, dataInvest?.thoi_gian_dau_tu)}

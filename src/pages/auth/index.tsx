@@ -1,15 +1,12 @@
 import { Col, Row, Steps } from 'antd';
 import BgAuth from 'assets/image/bg_auth.jpg';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
-import ImgAppStore from 'assets/image/img_app_store.png';
-import ImgChange from 'assets/image/img_change_pass.jpeg';
-import ImgForgot from 'assets/image/img_forgot.jpeg';
-import ImgGooglePlay from 'assets/image/img_google_play.png';
-import ImgLogin from 'assets/image/img_login.jpeg';
+import ImgAppStore from 'assets/image/img_app_store.svg';
+import BgPwd from 'assets/image/bg_pwd.svg';
+import ImgGooglePlay from 'assets/image/img_gg_chplay.svg';
+import ImgLogin from 'assets/image/bg_login.svg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
-import ImgOtp from 'assets/image/img_otp.jpeg';
-import ImgQrCode from 'assets/image/img_qr_download.png';
-import ImgSignUp from 'assets/image/img_sign_up.jpeg';
+import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import useIsMobile from 'hooks/use-is-mobile.hook';
@@ -45,14 +42,11 @@ function Auth() {
             switch (steps?.name) {
                 case Languages.auth.login:
                     return ImgLogin;
-                case Languages.auth.signUp:
-                    return ImgSignUp;
                 case Languages.auth.changePwd:
-                    return ImgChange;
                 case Languages.auth.forgotPwd:
-                    return ImgForgot;
                 case Languages.auth.enterAuthCode:
-                    return ImgOtp;
+                    return BgPwd;
+                case Languages.auth.signUp:
                 default:
                     return BgAuth;
             }

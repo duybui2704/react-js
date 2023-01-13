@@ -69,7 +69,10 @@ const Languages = {
         emptyList: 'Không có dữ liệu',
         emptyOTP: 'Mã OTP không được để trống',
         userOTPLength: 'Mã OTP không đủ 6 kí tự',
-        errMsgOTP: 'Mã OTP không hợp lệ'
+        errMsgOTP: 'Mã OTP không hợp lệ',
+        uploadingError: 'Tải ảnh thất bại!',
+        errEmptyIdentity: 'Bạn cần điền đầy đủ thông tin trước khi xác thực!',
+        errEmptyPhoto: 'Bạn cần tải lên đầy đủ ảnh mặt trước, mặt sau CMT/CCCD và ảnh chân dung trước khi xác thực!'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {
@@ -86,18 +89,18 @@ const Languages = {
         copyRight: '© 2022 - Bản quyền thuộc Công ty Cổ phần Tài chính Việt',
         contactAccessIfErr: 'Hotline: ',
         sdtIfErrAccess: '1900 xxxx',
-        companyName:' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
+        companyName: ' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
         companyAddress: ' Tầng 15, Khối B, Tòa nhà Sông Đà, Phạm Hùng, Mỹ Đình 1, Nam Từ Liêm, Hà Nội',
-        email:'Email: contact@tienngay.vn',
-        phone:'Phone: contact@tienngay.vn',
-        information:'Thông tin',
-        informationChild:['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
-        customerSupport:'Hỗ trợ khách hàng',
-        customerChild:['Sản phẩm','Điểm giao dịch'],
-        customerFeedback : 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
-        yourComments : 'Góp ý của bạn',
-        sendFeedback : 'Gửi phản hồi',
-        yourName : 'Tên của bạn',
+        email: 'Email: contact@tienngay.vn',
+        phone: 'Phone: contact@tienngay.vn',
+        information: 'Thông tin',
+        informationChild: ['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
+        customerSupport: 'Hỗ trợ khách hàng',
+        customerChild: ['Sản phẩm', 'Điểm giao dịch'],
+        customerFeedback: 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
+        yourComments: 'Góp ý của bạn',
+        sendFeedback: 'Gửi phản hồi',
+        yourName: 'Tên của bạn',
         phoneNumber: 'Số điện thoại'
     },
     auth: {
@@ -183,7 +186,8 @@ const Languages = {
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
         agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
         policy: 'Điều khoản sử dụng và chính sách',
-        discoveryNow: 'Khám phá ngay'
+        discoveryNow: 'Khám phá ngay',
+        moreInvest: 'Xem thêm các gói đầu tư khác'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
@@ -228,7 +232,7 @@ const Languages = {
         contentProfit3: 'Lãi luôn về đúng hạn',
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
-        appMobile: '- App Mobile'
+        appMobile: ['Tải ứng dụng',' Đầu tư Tiện Ngay ','miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!']
     },
 
     profile: {
@@ -236,7 +240,7 @@ const Languages = {
         edit: 'Chỉnh sửa',
         infoAccount: 'Thông tin cá nhân',
         titleDrawerAccount: 'Tài khoản cá nhân',
-        infoIdentity:'Xác thực tài khoản',
+        infoIdentity: 'Xác thực tài khoản',
         userName: 'Họ và tên',
         birthday: 'Ngày sinh',
         gender: 'Giới tính',
@@ -347,7 +351,7 @@ const Languages = {
         payed: 'Đã thanh toán',
         unPayed: 'Chưa tới hạn'
     },
-    identity:{
+    identity: {
         title: 'Xác thực tài khoản',
         describeIdentity: 'Cập nhập thông tin chứng từ để xác thực tài khoản',
         identity: 'Số CMND/CCCD',
@@ -360,14 +364,14 @@ const Languages = {
         reChoose: 'Chọn lại',
         verify: 'Xác nhận chứng từ'
     },
-    commission:{
-        investmentCommission : 'Hoa hoa hồng nhà đầu tư',
+    commission: {
+        investmentCommission: 'Hoa hoa hồng nhà đầu tư',
         itemOne: ' Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
         itemTwo: ' Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày 01/09/2022',
         star: '*'
     },
-    tableCommission : {
-        sum : 'Tổng'
+    tableCommission: {
+        sum: 'Tổng'
     }
 };
 
