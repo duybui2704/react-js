@@ -1,4 +1,4 @@
-import { Col, message, Row } from 'antd';
+import { Col, Row } from 'antd';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { useAppStore } from 'hooks';
@@ -14,8 +14,8 @@ import { BankTransferInfo } from 'pages/__mocks__/invest';
 import IcLeftArrow from 'assets/image/ic_gray_small_arrow_left.svg';
 
 import utils from 'utils/utils';
-import { TYPE_TOAST } from 'commons/constants';
 import Footer from 'components/footer';
+import toasty from 'utils/toasty';
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +28,6 @@ const TransferBank = observer(({ goBack, onNextScreen, investPackage }: { goBack
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
-    const [messageApi, contextHolder] = message.useMessage();
 
     const [qrUrl, setQrUrl] = useState<string>('');
     const [transferField, setTransferField] = useState<string>('');
@@ -56,11 +55,7 @@ const TransferBank = observer(({ goBack, onNextScreen, investPackage }: { goBack
     const renderBankInfoCell = useCallback((_value: string, haveCopy?: boolean) => {
         const onCopy = () => {
             navigator.clipboard.writeText(_value);
-            messageApi.open({
-                type: TYPE_TOAST.SUCCESS,
-                content: Languages.transferBank.copySuccess,
-                duration: 0.8
-            });
+            toasty.success(Languages.transferBank.copySuccess);
         };
         return (
             <div className={cx('bank-info-cell')}>
@@ -68,7 +63,7 @@ const TransferBank = observer(({ goBack, onNextScreen, investPackage }: { goBack
                 {!haveCopy && <div className={cx('copy-text')} onClick={onCopy}>{Languages.transferBank.copy}</div>}
             </div>
         );
-    }, [messageApi]);
+    }, []);
 
     const renderLeftView = useMemo(() => {
         return (
@@ -123,7 +118,6 @@ const TransferBank = observer(({ goBack, onNextScreen, investPackage }: { goBack
 
     return (
         <div className={cx('page-container')}>
-            {contextHolder}
             <div className={cx('all-content')}>
                 <Row gutter={[24, 24]} className={cx(isMobile ? 'row-content-mobile' : 'row-content')}>
                     {renderLeftView}

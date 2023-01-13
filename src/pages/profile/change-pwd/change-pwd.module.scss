@@ -1,9 +1,4 @@
 @import "assets/scss";
-.flex {
-    display: flex;
-    flex: 1;
-}
-
 .container {
     display: flex;
     flex-direction: column;
@@ -14,7 +9,10 @@
     }
 }
 
-.shadow {
+.container-edit {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
     border: 1px solid $color-gray5;
     box-shadow: $box-shadow;
     border-radius: 8px;
@@ -23,22 +21,7 @@
         border: none;
         box-shadow: none;
         border-radius: none;
-    }
-}
-
-.container-edit {
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    border: 1px solid $color-gray5;
-    box-shadow: 0px 4px 15px $box-shadow;
-    border-radius: 8px;
-    @include mobile {
-        background-color: $color-white;
-        border: none;
-        box-shadow: none;
-        border-radius: none;
-        padding: 16px 0px;
+        padding: 16px 2px;
     }
 }
 
@@ -54,15 +37,20 @@
 
 .btn-container {
     background-color: $color-green;
-    padding: 10px 20px;
+    padding: 12px 60px;
+    width: 25%;
     @include mobile {
-        padding: 5px 10px;
+        width: calc(50% - 8px);
     }
 }
 
 .btn-cancel {
     background-color: $color-red-r1;
-    padding: 10px 20px;
+    padding: 12px 60px;
+    width: 25%;
+    @include mobile {
+        width: calc(50% - 8px);
+    }
 }
 
 .border-red {
@@ -72,13 +60,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.padding {
-    padding: 1% 8%;
-    @include mobile {
-        padding: 2% 15%;
-    }
 }
 
 .top {

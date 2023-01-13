@@ -226,7 +226,7 @@ function inputValidate (
     value: any,
     errEmpty: string,
     errSyntax?: any,
-    numOperator?: number
+    numOperator?: number,
 ) {
     let errMsg = '';
     const number = numOperator || 16;
@@ -312,6 +312,14 @@ function isValidAll(errorMsg: string[]){
     return !!errorMsg.find(item => item.length > 0);
 }
 
+function inputEmpty(value: any, errEmpty: string) {
+    let errMsg = '';
+    if (Validate.isStringEmpty(value)) {
+        errMsg = errEmpty;
+    }
+    return errMsg;
+}
+
 export default {
     userNameValidate,
     emailValidate,
@@ -338,5 +346,6 @@ export default {
     emptyValidate,
     inputNoSpecialCharacters,
     accountHolderValidate,
-    isValidAll
+    isValidAll,
+    inputEmpty
 };

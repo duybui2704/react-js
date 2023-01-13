@@ -1,17 +1,16 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
-import ImgNoAvatar from 'assets/image/img_no_avatar.jpg';
 import classNames from 'classnames/bind';
 import { COLOR_TRANSACTION } from 'commons/constants';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { toJS } from 'mobx';
 import { ItemScreenModel } from 'models/profile';
-import { UserInfoModel } from 'models/user-model';
+import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
 import { profile } from 'pages/__mocks__/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EventEmitter } from 'utils/event-emitter';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Commission from './commission';
@@ -21,20 +20,26 @@ import InfoIdentity from './info-identity';
 import InfoPayment from './Info-payment';
 import InviteFriend from './invite-friend';
 import styles from './profile.module.scss';
+import AvatarHoverImage from 'components/avatar-hover-image';
+import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
+import toasty from 'utils/toasty';
+import Languages from 'commons/languages';
 
 const cx = classNames.bind(styles);
 
 function Profile() {
     const navigate = useNavigate();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
     const [info, setInfo] = useState<UserInfoModel>();
     const [step, setStep] = useState<number>(profile[0].id);
 
     const refDrawer = useRef<DrawerBaseActions>(null);
+    const refAvatarPhoto = useRef<SelectPhotoAction>(null);
 
     useEffect(() => {
         setInfo(userManager.userInfo);
+        console.log('info ===', toJS(userManager.userInfo));
     }, [userManager.userInfo]);
 
     const onOpenIdentity = useCallback(() => {
@@ -103,14 +108,44 @@ function Profile() {
             default:
                 break;
         }
-    }, [info?.tinh_trang?.color, info?.tinh_trang?.status, onOpenIdentity]);
+    }, [info, onOpenIdentity]);
+
+    const handleAvatar = useCallback(() => {
+        refAvatarPhoto.current?.show?.();
+    }, []);
+
+    const handleChangeAvatarImage = useCallback(async (event: any) => {
+        const getAvatarPath = await apiServices?.common.uploadImage(event.target.files[0]);
+        if (getAvatarPath.success) {
+            const data = getAvatarPath?.data as string;
+            const resUpdateAvatar = await apiServices.auth.updateUserInf(
+                data,
+                userManager.userInfo?.full_name,
+                userManager.userInfo?.gender,
+                userManager.userInfo?.address
+            ) as any;
+
+            if (resUpdateAvatar.success) {
+                const resData = resUpdateAvatar.data as UpdateInfoModal;
+                toasty.success(Languages.profile.successEditAvatar);
+                userManager.updateUserInfo({
+                    ...userManager.userInfo,
+                    avatar_user: data
+                });
+                refDrawer.current?.hide?.();
+            }
+        } else {
+            toasty.error(Languages.errorMsg.uploadingError);
+        }
+
+    }, [apiServices.auth, apiServices?.common, userManager]);
 
     const renderViewWeb = useMemo(() => {
         return (
             <div className={cx('web-view-container')}>
                 <div className={cx('profile')}>
                     <div className={cx('avatar')}>
-                        <img src={info?.avatar_user || ImgNoAvatar} className={cx('image-avatar-user')} />
+                        <AvatarHoverImage image={info?.avatar_user} onPress={handleAvatar} />
                         <span className={cx('text-gray medium h5 y20')}>{info?.full_name}</span>
                         {renderStatusAcc}
                     </div>
@@ -135,7 +170,7 @@ function Profile() {
                 </div>
             </div>
         );
-    }, [info?.avatar_user, info?.full_name, renderStatusAcc, renderViewRight, step]);
+    }, [handleAvatar, info?.avatar_user, info?.full_name, renderStatusAcc, renderViewRight, step]);
 
     return (
         <>
@@ -145,8 +180,13 @@ function Profile() {
             </div>}
             <div className={cx(isMobile ? 'page-container-mobile' : 'page-container')}>
                 {isMobile ? renderViewMobile : renderViewWeb}
-                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} data={profile} onPressStatus={onOpenIdentity} />
+                <DrawerMobileAccount ref={refDrawer}
+                    onChangeStep={onTabs}
+                    data={profile}
+                    onPressStatus={onOpenIdentity}
+                    onPressAvatar={handleAvatar} />
                 <Footer />
+                <SelectPhoto ref={refAvatarPhoto} onChangeText={handleChangeAvatarImage} />
             </div>
         </>
 

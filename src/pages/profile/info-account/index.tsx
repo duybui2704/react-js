@@ -14,25 +14,43 @@ import styles from './info-account.module.scss';
 import { Button } from 'components/button';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
-import useIsMobile from 'hooks/use-is-mobile.hook';
-import { UserInfoModel } from 'models/user-model';
+import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
 import { useAppStore } from 'hooks';
 import { COLOR_TRANSACTION } from 'commons/constants';
 import { BUTTON_STYLES } from 'components/button/types';
 
 const cx = classNames.bind(styles);
 
+type ItemRadioModel = {
+    id: string;
+    label: string;
+    value: string;
+}
+
+const dataGender = [
+    {
+        id: '1',
+        label: 'Nam',
+        value: 'male'
+    },
+    {
+        id: '2',
+        label: 'Nữ',
+        value: 'female'
+    }
+];
+
 function InfoAccount() {
     const navigate = useNavigate();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices } = useAppStore();
     const [info, setInfo] = useState<UserInfoModel>({});
     const [isEdit, setIsEdit] = useState<boolean>(false);
+    const [gender, setGender] = useState<string>('male');
     const refName = useRef<TextFieldActions>(null);
     const refEmail = useRef<TextFieldActions>(null);
     const refBirth = useRef<TextFieldActions>(null);
     const refAddress = useRef<TextFieldActions>(null);
     const refPhone = useRef<TextFieldActions>(null);
-    const isMobile = useIsMobile();
 
     useEffect(() => {
         setInfo(userManager.userInfo || {});
@@ -42,7 +60,8 @@ function InfoAccount() {
         return (
             <div className={cx(isLast ? 'item-last-container' : 'item-container')}>
                 <span className={cx('h6 text-gray medium')}>{title}</span>
-                <span className={cx('h6 text-gray')}>{value}</span>
+                <span className={cx('h6', value === '' || !value ? 'text-gray opacity-05' : 'text-gray')}>
+                    {value === '' || !value ? Languages.profile.empty : value}</span>
             </div>
         );
     }, []);
@@ -76,9 +95,48 @@ function InfoAccount() {
         );
     }, []);
 
-    const onSave = useCallback(() => {
-        console.log('info ===', info);
-    }, [info]);
+    const renderRadioGroup = useCallback((data: ItemRadioModel[]) => {
+        return (
+            <div className={cx('column')}>
+                <span className={cx('h7 text-gray y10')}>{Languages.profile.gender}</span>
+                <div className={'row'}>
+                    {data.map((item: ItemRadioModel, index: number) => {
+
+                        const onChooseGender = () => {
+                            setGender(item.value);
+                        };
+
+                        return (
+                            <div key={index} className={'row center x15'} onClick={onChooseGender}>
+                                <div className={cx('radio', 'x5 y10')} >
+                                    <div className={cx(item.value === gender ? 'radio-active' : 'radio-no-active')} />
+                                </div>
+                                <span className={cx('text-gray h7 y10')}>{item.label}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }, [gender]);
+
+    const onSave = useCallback(async () => {
+        const res = await apiServices.auth.updateUserInf(
+            undefined,
+            refName.current?.getValue(),
+            gender,
+            refAddress.current?.getValue()
+        ) as any;
+        if (res.success) {
+            const resData = res.data as UpdateInfoModal;
+            userManager.updateUserInfo({
+                ...userManager.userInfo,
+                full_name: name,
+                gender: refName.current?.getValue(),
+                address: refAddress.current?.getValue()
+            });
+        }
+    }, [apiServices.auth, gender, userManager]);
 
     const oncancel = useCallback(() => {
         setIsEdit(last => !last);
@@ -94,6 +152,7 @@ function InfoAccount() {
                 <span className={cx('text-black h5 medium')}>{Languages.profile.editAccount}</span>
                 {renderInput(refName, info?.full_name || '', 'text', Languages.profile.userName, 50, false, 'username')}
                 {renderInput(refBirth, info?.birth_date || '', 'date', Languages.profile.birthday, 50, false, 'birth_date')}
+                {renderRadioGroup(dataGender)}
                 {renderInput(refEmail, info?.email || '', 'email', Languages.profile.email, 50, false, 'email')}
                 {renderInput(refAddress, info?.address || '', 'text', Languages.profile.address, 50, false, 'address')}
                 {renderInput(refPhone, info?.phone_number || '', 'text', Languages.profile.phone, 10, true, 'phone_number')}
@@ -118,7 +177,7 @@ function InfoAccount() {
                 </div>
             </div>
         );
-    }, [info?.address, info?.birth_date, info?.email, info?.full_name, info?.phone_number, onSave, oncancel, renderInput]);
+    }, [info, onSave, oncancel, renderInput, renderRadioGroup]);
 
     const renderStatusAcc = useMemo(() => {
         switch (info?.tinh_trang?.color) {
