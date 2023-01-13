@@ -108,19 +108,19 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
         return (
             <div className={cx(isMobile ? 'content-invest-container-mobile' : 'content-invest-container')}>
                 <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
+                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{dataPackage?.so_tien_dau_tu.replace(' VND', '')}</span>
                 <div className={cx('invest-wrap')}>
                     <Row gutter={[24, 0]} >
                         <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                             {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
-                            {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
+                            {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.thoi_gian_dau_tu)}
                             {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
-                            {renderKeyValue(Languages.invest.amountDemandedForInvestment, utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0'), true)}
+                            {renderKeyValue(Languages.invest.amountDemandedForInvestment, utils.formatLoanMoney(dataPackage?.so_tien_dau_tu), true)}
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-                            {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
+                            {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc))}
                             {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                            {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
+                            {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang))}
                             {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai, false, isMobile ? true : false)}
                         </Col>
                     </Row>
@@ -129,7 +129,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                 {!isMobile && renderButtonInvestNow}
             </div>
         );
-    }, [dataPackage?.hinh_thuc_tra_lai, dataPackage?.ki_han_dau_tu, dataPackage?.lai_hang_thang, dataPackage?.ma_hop_dong, dataPackage?.ngay_dao_han_du_kien, dataPackage?.so_tien_dau_tu, dataPackage?.ti_le_lai_suat_hang_thang, dataPackage?.tong_lai_nhan_duoc, isMobile, renderButtonInvestNow, renderInvestMethod, renderKeyValue]);
+    }, [dataPackage?.hinh_thuc_tra_lai, dataPackage?.lai_hang_thang, dataPackage?.ma_hop_dong, dataPackage?.ngay_dao_han_du_kien, dataPackage?.so_tien_dau_tu, dataPackage?.thoi_gian_dau_tu, dataPackage?.ti_le_lai_suat_hang_thang, dataPackage?.tong_lai_nhan_duoc, isMobile, renderButtonInvestNow, renderInvestMethod, renderKeyValue]);
 
     return (
         <div className={cx('page')}>

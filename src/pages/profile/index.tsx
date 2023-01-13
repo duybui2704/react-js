@@ -24,10 +24,11 @@ import AvatarHoverImage from 'components/avatar-hover-image';
 import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
 import toasty from 'utils/toasty';
 import Languages from 'commons/languages';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 
-function Profile() {
+const Profile = observer(() => {
     const navigate = useNavigate();
     const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
@@ -192,6 +193,6 @@ function Profile() {
 
 
     );
-}
+});
 
 export default Profile;

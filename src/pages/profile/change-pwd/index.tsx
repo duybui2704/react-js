@@ -15,10 +15,11 @@ import formValidate from 'utils/form-validate';
 import { useAppStore } from 'hooks';
 import { TYPE_INPUT } from 'commons/constants';
 import toasty from 'utils/toasty';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 
-function InfoChangePwd() {
+const InfoChangePwd = observer(() => {
     const navigate = useNavigate();
     const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
@@ -108,6 +109,6 @@ function InfoChangePwd() {
         </div>
 
     );
-}
+});
 
 export default InfoChangePwd;

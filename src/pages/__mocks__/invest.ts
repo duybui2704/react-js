@@ -468,14 +468,14 @@ export const dataColumnCommission: DataColumnCommissionType[] = [
     }
 ];
 
-const totalCommission: DataTotalColumnCommissionType= {
+const totalCommission: DataTotalColumnCommissionType = {
     totalInvest: '3,000,000',
     totalCommission: '2,000,000'
 }
 
 export const DataCommission = {
-body: dataColumnCommission,
-total:totalCommission
+    body: dataColumnCommission,
+    total: totalCommission
 }
 
 export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
@@ -483,7 +483,7 @@ export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'S�
 export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const InvestMethod = [
-    {   
+    {
         id: 1,
         text: 'Tài khoản Ngân lượng',
         value: 'nganluong'
@@ -492,12 +492,7 @@ export const InvestMethod = [
         id: 2,
         text: 'Tài khoản ngân hàng',
         value: 'bank'
-    },
-    {
-        id: 3,
-        text: 'Tài khoản Vimo',
-        value: 'vimo'
-    },
+    }
 ]
 
 export const BankTransferInfo: BankInformationModel = {
