@@ -35,6 +35,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [countInvest, setCountInvest] = useState<number>(0);
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
+    const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
 
     const [offset, setOffset] = useState<number>(0);
 
@@ -45,11 +46,15 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
 
     useEffect(() => {
         fetchSearch();
-        fetchInvestList('', '', '');
+        fetchInvestList();
         if (!isMobile) {
             popupSearchRef.current?.hideModal();
         }
     }, [isMobile]);
+
+    useEffect(() => {
+        fetchInvestList();
+    }, [dataFilter]);
 
     const fetchSearch = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
@@ -70,23 +75,23 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
         document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
-    const fetchInvestList = useCallback(async (textSearch: string, timeInvestment: string, moneyInvestment: string, loadMore?: boolean) => {
+    const fetchInvestList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getAllContractInvest(
-            textSearch,
-            timeInvestment,
-            moneyInvestment,
+            dataFilter.dateInvest || '',
+            dataFilter.amountInvest || '',
             loadMore ? offset : 0,
             PAGE_SIZE_INVEST) as any;
         if (investmentList.success) {
-            setCountInvest(5); 
+            setCountInvest(5);
             setOffset(last => last + PAGE_SIZE_INVEST);
+            setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
             if (loadMore) {
                 setInvestList(last => [...last, ...investmentList.data]);
             } else {
                 setInvestList(investmentList?.data);
             }
         }
-    }, [offset, apiServices.invest]);
+    }, [apiServices.invest, dataFilter.dateInvest, dataFilter.amountInvest, offset]);
 
     const renderDivider = useCallback((_label: string, styleContainer?: string) => {
         return (
@@ -103,14 +108,19 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
                 dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
                 amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
             });
-            fetchInvestList('',
-                _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-                _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-            );
+        };
+        const handleDataFilter = () => {
+            setDataFilter({
+                dateInvest: _title === Languages.invest.dateInvest ? '' : dataFilter.dateInvest,
+                amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest
+            });
+            fetchInvestList();
         };
         return (
             <Col className={cx('picker-container')} xs={isMobile ? 24 : 12} sm={12} md={12} lg={12} xl={8} >
-                <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
+                <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder}
+                    onSelectItem={onSelectItem}
+                    onClear={handleDataFilter} />
             </Col>
         );
     }, [dataFilter.amountInvest, dataFilter.dateInvest, fetchInvestList, isMobile]);
@@ -195,7 +205,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
 
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         const loadMore = () => {
-            fetchInvestList('', '', '', true);
+            fetchInvestList(true);
         };
         return (
             <div className={cx('bottom-container')} >
@@ -203,7 +213,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
                 {renderInvestList(_list)}
 
                 <Row gutter={[24, 44]} className={cx(isMobile ? 'button-see-more-mobile' : 'button-see-more')} >
-                    {
+                    {canLoadMore &&
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase onPress={loadMore} />
                         </Col>
@@ -212,7 +222,7 @@ function Investment({ onNextScreen }: { onNextScreen: (data: PackageInvest) => v
                 <Footer />
             </div>
         );
-    }, [isMobile, renderDivider, renderInvestList, fetchInvestList]);
+    }, [renderDivider, renderInvestList, isMobile, canLoadMore, fetchInvestList]);
 
     return (
         <div className={cx('page-container')}>

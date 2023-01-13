@@ -36,6 +36,7 @@ type PickerProps = {
     dropdownRender?: (menu?: any) => any,
     onClose?: () => void,
     onOpen?: () => void,
+    onClear?: () => void,
     onSelectItem?: (content: any) => void,
     onCheckbox?: () => any
 };
@@ -61,6 +62,7 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             onOpen,
             defaultValue,
             onSelectItem,
+            onClear,
             value,
             clearImage,
             disable,
@@ -127,9 +129,10 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             pickerRef.current?.focus();
         }, [onOpen]);
 
-        const onClear = useCallback(() => {
+        const handleClear = useCallback(() => {
+            onClear?.();
             setTextfieldVal?.(undefined);
-        }, []);
+        }, [onClear]);
 
         const getValue = useCallback(() => {
             return textfieldVal?.trim() || undefined;
@@ -231,7 +234,7 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                     dropdownRender={dropdownRender}
                     clearIcon={clearImg}
                     showArrow={!showArrow}
-                    onClear={onClear}
+                    onClear={handleClear}
                     virtual={false}
                     dropdownMatchSelectWidth={false}
                     placement={'bottomLeft'}
