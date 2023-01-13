@@ -27,6 +27,7 @@ import { PackageInvest } from 'models/invest';
 import { serviceList, videoIntro } from 'pages/__mocks__/intro';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
+import utils from 'utils/utils';
 import styles from './intro.module.scss';
 
 const cx = classNames.bind(styles);
@@ -79,29 +80,19 @@ function Intro() {
         };
     }, []);
 
-
     const fetchDataMoney = useCallback(async () => {
         const res = await apiServices.invest.getListMoneyInvestment() as any;
         if (res.success) {
-            const data = res.data as [];
-            const temp = Object.entries(data);
-            setDataMoney(temp.map((item) => ({
-                id: item[0],
-                value: item[1]
-            })));
+            const data = utils.formatObjectFilterInvest(res.data as ItemProps[]);
+            setDataMoney(data);
         }
     }, [apiServices.invest]);
 
     const fetchDataTimeInvestment = useCallback(async () => {
         const res = await apiServices.invest.getListTimeInvestment() as any;
         if (res.success) {
-            const data = res.data as [];
-            const temp = Object.entries(data);
-            setDataTime(temp.map((item) => ({
-                id: item[0],
-                value: item[1]
-
-            })));
+            const data = utils.formatObjectFilterInvest(res.data as ItemProps[]);
+            setDataTime(data);
         }
     }, [apiServices.invest]);
 
