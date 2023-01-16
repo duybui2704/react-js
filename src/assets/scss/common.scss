@@ -430,6 +430,13 @@ $desktop-width: 1024px;
     }
 }
 
+.g-10{
+    gap: 10px;
+    @include mobile {
+        gap: 16px;
+    }
+}
+
 .g-16 {
     gap: 16px;
 }
