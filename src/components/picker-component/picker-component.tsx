@@ -36,6 +36,7 @@ type PickerProps = {
     dropdownRender?: (menu?: any) => any,
     onClose?: () => void,
     onOpen?: () => void,
+    onClear?: () => void,
     onSelectItem?: (content: any) => void,
     onCheckbox?: () => any
 };
@@ -61,6 +62,7 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             onOpen,
             defaultValue,
             onSelectItem,
+            onClear,
             value,
             clearImage,
             disable,
@@ -127,9 +129,10 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             pickerRef.current?.focus();
         }, [onOpen]);
 
-        const onClear = useCallback(() => {
+        const handleClear = useCallback(() => {
+            onClear?.();
             setTextfieldVal?.(undefined);
-        }, []);
+        }, [onClear]);
 
         const getValue = useCallback(() => {
             return textfieldVal?.trim() || undefined;
@@ -156,11 +159,10 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             setErrorState?.(text);
         }, []);
 
-        const handleSelectItem = useCallback((item: string) => {
+        const handleSelectItem = useCallback((item: any) => {
             hide?.();
             setTextfieldVal?.(item);
-            onSelectItem?.(item);
-        }, [hide, onSelectItem]);
+        }, [hide]);
 
         useImperativeHandle(ref, () => ({
             show,
@@ -232,17 +234,20 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                     dropdownRender={dropdownRender}
                     clearIcon={clearImg}
                     showArrow={!showArrow}
-                    onClear={onClear}
+                    onClear={handleClear}
                     virtual={false}
                     dropdownMatchSelectWidth={false}
                     placement={'bottomLeft'}
                     getPopupContainer={trigger => trigger.parentNode}
                 >
-                    {data.map((item: ItemPropsModel) => (
+                    {data.map((item: any) => (
                         <Option key={item?.id} value={item?.value} label={item?.text}>
-                            <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : onSelectItem}>
+                            <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : () => onSelectItem?.(item.value)}>
                                 {icLeft && <img src={icLeft} />}
-                                <span className={cx('value-text')} >{item?.text}</span>
+                                <div className={cx('row center')}>
+                                    {item?.icon && <img src={item?.icon} className={cx('left-icon')} />}
+                                    <span className={cx('value-text')} >{item?.text}</span>
+                                </div>
                                 {icRight && <img src={icRight} />}
                             </div>
                         </Option>

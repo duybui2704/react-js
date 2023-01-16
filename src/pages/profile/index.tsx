@@ -1,16 +1,16 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
-import ImgPortrait from 'assets/image/img_portrait.jpg';
 import classNames from 'classnames/bind';
+import { COLOR_TRANSACTION } from 'commons/constants';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { toJS } from 'mobx';
 import { ItemScreenModel } from 'models/profile';
-import { UserInfoModel } from 'models/user-model';
-import { InfoUser, profile } from 'pages/__mocks__/profile';
+import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
+import { profile } from 'pages/__mocks__/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EventEmitter } from 'utils/event-emitter';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Commission from './commission';
@@ -20,20 +20,27 @@ import InfoIdentity from './info-identity';
 import InfoPayment from './Info-payment';
 import InviteFriend from './invite-friend';
 import styles from './profile.module.scss';
+import AvatarHoverImage from 'components/avatar-hover-image';
+import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
+import toasty from 'utils/toasty';
+import Languages from 'commons/languages';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 
-function Profile() {
+const Profile = observer(() => {
     const navigate = useNavigate();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
     const [info, setInfo] = useState<UserInfoModel>();
     const [step, setStep] = useState<number>(profile[0].id);
 
     const refDrawer = useRef<DrawerBaseActions>(null);
+    const refAvatarPhoto = useRef<SelectPhotoAction>(null);
 
     useEffect(() => {
         setInfo(userManager.userInfo);
+        console.log('info ===', toJS(userManager.userInfo));
     }, [userManager.userInfo]);
 
     const onOpenIdentity = useCallback(() => {
@@ -73,38 +80,88 @@ function Profile() {
 
     const renderViewMobile = useMemo(() => {
         return (
-            <div className={cx('column', 'wid-100')}>
-                <div className={cx('row space-between y20', 'top')}>
-                    <span className={cx('text-black bold h4')}>{userManager.userInfo?.full_name}</span>
-                    <img src={IcTwoPeople} onClick={onShowDrawer} />
-                </div>
-                <div className={cx('information', 'padding')}>
-                    {renderViewRight}
-                </div>
+            <div className={cx('mobile-view-container')}>
+                {renderViewRight}
             </div>
         );
-    }, [onShowDrawer, renderViewRight, userManager.userInfo?.full_name]);
+    }, [renderViewRight]);
+
+    const renderStatusAcc = useMemo(() => {
+        switch (info?.tinh_trang?.color) {
+            case COLOR_TRANSACTION.RED:
+                return (
+                    <div className={cx('un-verify-container', 'hover-component')} onClick={onOpenIdentity}>
+                        <span className={cx('un-verify-text')} >{info?.tinh_trang?.status}</span>
+                    </div>
+                );
+            case COLOR_TRANSACTION.GREEN:
+                return (
+                    <div className={cx('verify-container', 'hover-component')} onClick={onOpenIdentity}>
+                        <span className={cx('verify-text')} >{info?.tinh_trang?.status}</span>
+                    </div>
+                );
+            case COLOR_TRANSACTION.YELLOW:
+                return (
+                    <div className={cx('wait-verify-container', 'hover-component')} onClick={onOpenIdentity}>
+                        <span className={cx('wait-verify-text')}>{info?.tinh_trang?.status}</span>
+                    </div>
+                );
+            default:
+                break;
+        }
+    }, [info, onOpenIdentity]);
+
+    const handleAvatar = useCallback(() => {
+        refAvatarPhoto.current?.show?.();
+    }, []);
+
+    const handleChangeAvatarImage = useCallback(async (event: any) => {
+        const getAvatarPath = await apiServices?.common.uploadImage(event.target.files[0]);
+        if (getAvatarPath.success) {
+            const data = getAvatarPath?.data as string;
+            const resUpdateAvatar = await apiServices.auth.updateUserInf(
+                data,
+                userManager.userInfo?.full_name,
+                userManager.userInfo?.gender,
+                userManager.userInfo?.address
+            ) as any;
+
+            if (resUpdateAvatar.success) {
+                const resData = resUpdateAvatar.data as UpdateInfoModal;
+                toasty.success(Languages.profile.successEditAvatar);
+                userManager.updateUserInfo({
+                    ...userManager.userInfo,
+                    avatar_user: data
+                });
+                refDrawer.current?.hide?.();
+            }
+        } else {
+            toasty.error(Languages.errorMsg.uploadingError);
+        }
+
+    }, [apiServices.auth, apiServices?.common, userManager]);
 
     const renderViewWeb = useMemo(() => {
         return (
-            <>
+            <div className={cx('web-view-container')}>
                 <div className={cx('profile')}>
                     <div className={cx('avatar')}>
-                        <img src={info?.avatar_user || ImgPortrait} width={'40%'} />
-                        <span className={cx('text-gray medium h5 y20')} >{info?.full_name}</span>
-                        <label className={cx('text-red medium h6')} onClick={onOpenIdentity}>{info?.tinh_trang?.status}</label>
+                        <AvatarHoverImage image={info?.avatar_user} onPress={handleAvatar} />
+                        <span className={cx('text-gray medium h5 y20')}>{info?.full_name}</span>
+                        {renderStatusAcc}
                     </div>
                     {profile.map((item: ItemScreenModel, index: number) => {
                         const onChangeStep = () => {
-                            setStep(item.id);
+                            setStep(item?.id);
                         };
                         return (
-                            <div className={item?.id === step ? cx('focus', 'column', 'hover') : cx('column', 'hover')} key={index} onClick={onChangeStep}>
-                                <div className={cx('row p12', 'item')}>
-                                    <img src={item.icon} />
-                                    <span className={cx('xl10 h7 text-gray regular b5')}>{item.title}</span>
-                                </div>
-                                <div className={cx('line')} />
+                            <div key={index} onClick={onChangeStep}
+                                className={item?.id === step
+                                    ? cx(index + 1 === profile.length ? 'item-focus-last-navigate' : 'item-focus-navigate')
+                                    : cx(index + 1 === profile.length ? 'item-last-navigate' : 'item-navigate')}
+                            >
+                                <img src={item?.icon} />
+                                <span className={cx('xl10 h7 text-gray')}>{item?.title}</span>
                             </div>
                         );
                     })}
@@ -112,20 +169,30 @@ function Profile() {
                 <div className={cx('information', 'wid-70')}>
                     {renderViewRight}
                 </div>
-            </>
+            </div>
         );
-    }, [info?.avatar_user, info?.full_name, info?.tinh_trang?.status, onOpenIdentity, renderViewRight, step]);
+    }, [handleAvatar, info?.avatar_user, info?.full_name, renderStatusAcc, renderViewRight, step]);
 
     return (
-        <div className={cx('column', 'container')}>
-            <div className={isMobile ? cx('row') : cx('row', 'padding')}>
+        <>
+            {isMobile && <div className={cx('row space-between y20', 'top')}>
+                <span className={cx('text-black medium h7')}>{userManager.userInfo?.full_name}</span>
+                <img src={IcTwoPeople} onClick={onShowDrawer} />
+            </div>}
+            <div className={cx(isMobile ? 'page-container-mobile' : 'page-container')}>
                 {isMobile ? renderViewMobile : renderViewWeb}
-                <DrawerMobileAccount ref={refDrawer} onChangeStep={onTabs} data={profile} onPressStatus={onOpenIdentity} />
+                <DrawerMobileAccount ref={refDrawer}
+                    onChangeStep={onTabs}
+                    data={profile}
+                    onPressStatus={onOpenIdentity}
+                    onPressAvatar={handleAvatar} />
+                <Footer />
+                <SelectPhoto ref={refAvatarPhoto} onChangeText={handleChangeAvatarImage} />
             </div>
-            <Footer />
-        </div>
+        </>
+
 
     );
-}
+});
 
 export default Profile;

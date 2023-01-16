@@ -40,10 +40,14 @@ const labelArrHistory = {
     total: Languages.invest.totalAmount
 };
 
+
 function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
-        onBackScreen: () => void, onNextScreen?: () => void,
-        investPackage?: PackageInvest, isDetailHistory?: boolean, tabDetailHistory?: number
+        onBackScreen: () => void,
+        onNextScreen?: () => void,
+        investPackage?: PackageInvest,
+        isDetailHistory?: boolean,
+        tabDetailHistory?: number
     }) {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
@@ -126,22 +130,22 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         return (
             <div className={cx(isMobile ? 'content-invest-container-mobile' : 'content-invest-container')}>
                 <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
+                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{dataPackage?.so_tien_dau_tu.replace(' VND', '')}</span>
                 <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                         {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_con_lai || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_da_tra || '0'))}
-                        {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_con_lai))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_da_tra))}
+                        {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.thoi_gian_dau_tu)}
                         {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, dataPackage?.ngay_dau_tu)}
                         {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                        {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
+                        {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc))}
                         {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
                         {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_nhan || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_tra || '0'))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_nhan))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_tra))}
                         {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
                     </Col>
                 </Row>
@@ -157,7 +161,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
 
     const renderDetailPayment = useMemo(() => {
         return (
-            <div className={cx(isMobile ? 'invest-note-container-mobile' :'invest-note-container')}>
+            <div className={cx(isMobile ? 'invest-note-container-mobile' : 'invest-note-container')}>
                 <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
                 {isMobile ?
                     <PeriodInvestMobile
@@ -189,7 +193,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                         <div className={cx('footer')}>
                             <Footer />
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
             {renderPopup(popupAuthRef, Languages.auth.login, Languages.auth.register, IcPopupAuth, Languages.invest.noteAuth, Languages.invest.describeAuth)}

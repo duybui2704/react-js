@@ -8,20 +8,21 @@ import { Image, Col, Row } from 'antd';
 import IcWarning from 'assets/image/ic_yellow_warning.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { InfoUser } from 'pages/__mocks__/profile';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useRef, useState } from 'react';
 import styles from './info-identity.module.scss';
 
 import { UserInfoModel } from 'models/user-model';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { MyTextInput } from 'components/input';
-import { DescribePhoto } from 'commons/constants';
+import { COLOR_TRANSACTION, DescribePhoto } from 'commons/constants';
 import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { observer } from 'mobx-react';
+import { useAppStore } from 'hooks';
+import toasty from 'utils/toasty';
+import formValidate from 'utils/form-validate';
 
 const cx = classNames.bind(styles);
 
@@ -33,12 +34,11 @@ type PostData = {
 }
 
 const InfoIdentity = observer(() => {
-    const navigate = useNavigate();
     const isMobile = useIsMobile();
+    const { userManager, apiServices } = useAppStore();
     const [visible, setVisible] = useState<boolean>(false);
     const [positionImage, setPositionImage] = useState<number>(0);
 
-    const [info, setInfo] = useState<UserInfoModel>({});
     const [postData, setPostData] = useState<PostData>({
         identity: '',
         frontCard: '',
@@ -50,10 +50,6 @@ const InfoIdentity = observer(() => {
     const refFrontCard = useRef<SelectPhotoAction>(null);
     const refBehindCard = useRef<SelectPhotoAction>(null);
     const refPortrait = useRef<SelectPhotoAction>(null);
-
-    useEffect(() => {
-        setInfo(InfoUser);
-    }, []);
 
     const renderDescribePhoto = useCallback((title: string, describeArray?: string[]) => {
         return (
@@ -68,7 +64,7 @@ const InfoIdentity = observer(() => {
         );
     }, []);
 
-    const renderInput = useCallback((_ref: any, value: string) => {
+    const renderInput = useCallback((_ref: any, value: string, disabled: boolean) => {
         const onChange = (text: string) => {
             setPostData({ ...postData, identity: text });
         };
@@ -82,41 +78,18 @@ const InfoIdentity = observer(() => {
                 onChangeText={onChange}
                 maxLength={12}
                 placeHolder={Languages.identity.inputIdentity}
+                disabled={disabled}
             />
         );
     }, [postData]);
 
-    const renderPhoto = useCallback((_title: string, icon: any, imgCache: string) => {
+    const renderPhoto = useCallback((_title: string, icon: any, imgCache: string, positionAlbums: number, _ref: any) => {
         const openDialogFiles = () => {
-            switch (_title) {
-                case Languages.identity.frontKyc:
-                    refFrontCard.current?.show?.();
-                    break;
-                case Languages.identity.behindKyc:
-                    refBehindCard.current?.show?.();
-                    break;
-                case Languages.identity.portrait:
-                    refPortrait.current?.show?.();
-                    break;
-                default:
-                    break;
-            }
+            _ref?.current?.show?.();
         };
         const openPreview = () => {
             setVisible(true);
-            switch (_title) {
-                case Languages.identity.frontKyc:
-                    setPositionImage(0);
-                    break;
-                case Languages.identity.behindKyc:
-                    setPositionImage(1);
-                    break;
-                case Languages.identity.portrait:
-                    setPositionImage(2);
-                    break;
-                default:
-                    break;
-            }
+            setPositionImage(positionAlbums);
         };
 
         return (
@@ -142,46 +115,88 @@ const InfoIdentity = observer(() => {
         return (
             <div className={cx('image-group')}>
                 <Image.PreviewGroup preview={{ visible, onVisibleChange: onChangePreview, current: positionImage }}>
-                    <Image src={postData?.frontCard} />
-                    <Image src={postData?.behindCard} />
-                    <Image src={postData?.portrait} />
+                    <Image src={userManager.userInfo?.front_facing_card || postData?.frontCard} />
+                    <Image src={userManager.userInfo?.card_back || postData?.behindCard} />
+                    <Image src={userManager.userInfo?.avatar || postData?.portrait} />
                 </Image.PreviewGroup>
             </div>
         );
-    }, [positionImage, postData?.behindCard, postData?.frontCard, postData?.portrait, visible]);
+    }, [positionImage, postData?.behindCard, postData?.frontCard, postData?.portrait, userManager.userInfo?.avatar, userManager.userInfo?.card_back, userManager.userInfo?.front_facing_card, visible]);
+
+    const getPath = useCallback(async (file: any, refPhoto: any) => {
+        const res = await apiServices?.common.uploadImage(file);
+        if (res.success) {
+            const data = res?.data;
+            console.log('data = ', data);
+            switch (refPhoto) {
+                case refFrontCard:
+                    return setPostData?.({ ...postData, frontCard: `${data}` });
+                case refBehindCard:
+                    return setPostData?.({ ...postData, behindCard: `${data}` });
+                case refPortrait:
+                    return setPostData?.({ ...postData, portrait: `${data}` });
+                default:
+                    return;
+            }
+        } else {
+            toasty.error(Languages.errorMsg.uploadingError);
+        }
+    }, [apiServices?.common, postData]);
 
     const renderSelectPhoto = useCallback((_ref: any) => {
         const onChange = (e: any) => {
-            let image = '';
-            if (e.target.files.length !== 0) {
-                image = URL.createObjectURL(e.target.files[0]);
-            }
-            switch (_ref) {
-                case refFrontCard:
-                    setPostData?.({ ...postData, frontCard: image });
-                    break;
-                case refBehindCard:
-                    setPostData?.({ ...postData, behindCard: image });
-                    break;
-                case refPortrait:
-                    setPostData?.({ ...postData, portrait: image });
-                    break;
-                default:
-                    break;
-            }
+            getPath(e.target.files[0], _ref);
         };
         return (
             <SelectPhoto ref={_ref} onChangeText={onChange} />
         );
-    }, [postData]);
+    }, [getPath]);
 
     const onReChoose = useCallback(() => {
         setPostData({ ...postData, frontCard: '', behindCard: '', portrait: '' });
     }, [postData]);
 
-    const onEKyc = useCallback(() => {
-        // post data in postData
-    }, []);
+    const onValidate = useCallback(() => {
+        const errMsgIdentify = formValidate.cardValidate(postData.identity);
+        refIdentity.current?.setErrorMsg(errMsgIdentify);
+
+        if (`${errMsgIdentify}`.length === 0) {
+            return true;
+        } return false;
+    }, [postData.identity]);
+
+    const onEKyc = useCallback(async () => {
+        if (onValidate()) {
+            if (postData.frontCard && postData.behindCard && postData.portrait) {
+                const res = await apiServices?.auth?.identityVerify(
+                    postData.identity,
+                    postData.frontCard,
+                    postData.behindCard,
+                    postData.portrait
+                ) as any;
+                if (res.success) {
+                    toasty.success(res.message);
+                    const resUser = await apiServices.auth.getUserInfo() as any;
+                    if (resUser.success) {
+                        const data = resUser.data as UserInfoModel;
+                        userManager.updateUserInfo({
+                            ...userManager.userInfo,
+                            ...data,
+                            identity: postData.identity,
+                            avatar: postData.frontCard,
+                            front_facing_card: postData.behindCard,
+                            card_back: postData.portrait
+                        });
+                    }
+                }
+            }
+            else {
+                toasty.error(Languages.errorMsg.errEmptyPhoto);
+            }
+        } else {
+            toasty.error(Languages.errorMsg.errEmptyIdentity);
+        }
+    }, [apiServices.auth, onValidate, postData.behindCard, postData.frontCard, postData.identity, postData.portrait, userManager]);
 
     const renderButton = useCallback((_title: string, _buttonStyle: any, _rightIcon: any, _onPress: () => void) => {
         return (
@@ -192,26 +207,30 @@ const InfoIdentity = observer(() => {
     return (
         <div className={cx('all-container')}>
             <span className={cx('title-page')}>{Languages.identity.title}</span>
-            <img src={IcWarning} className={cx('warning')} />
-            <span className={cx('describe-identity-text')}>{Languages.identity.describeIdentity}</span>
-            {renderInput(refIdentity, info?.identity || postData?.identity)}
+            {userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.RED && <>
+                <img src={IcWarning} className={cx('warning')} />
+                <span className={cx('describe-identity-text')}>{Languages.identity.describeIdentity}</span>
+            </>}
+
+            {renderInput(refIdentity, userManager.userInfo?.identity || postData?.identity, !!userManager.userInfo?.identity)}
             <Row gutter={[24, 16]}>
                 <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                     {renderDescribePhoto(Languages.identity.photoKyc, DescribePhoto.noteKYC)}
                     <div className={cx('kyc-container')}>
-                        {renderPhoto(Languages.identity.frontKyc, IcFront, postData.frontCard)}
-                        {renderPhoto(Languages.identity.behindKyc, IcBehind, postData.behindCard)}
+                        {renderPhoto(Languages.identity.frontKyc, IcFront, userManager.userInfo?.front_facing_card || postData.frontCard, 0, refFrontCard)}
+                        {renderPhoto(Languages.identity.behindKyc, IcBehind, userManager.userInfo?.card_back || postData.behindCard, 1, refBehindCard)}
                     </div>
                 </Col>
                 <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                     {renderDescribePhoto(Languages.identity.photoPortrait, DescribePhoto.notePortrait)}
-                    {renderPhoto(Languages.identity.portrait, IcPortrait, postData.portrait)}
+                    {renderPhoto(Languages.identity.portrait, IcPortrait, userManager.userInfo?.avatar || postData.portrait, 2, refPortrait)}
                 </Col>
             </Row>
-            <div className={cx('button-container')}>
-                {renderButton(Languages.identity.reChoose, BUTTON_STYLES.GRAY, IcRefresh, onReChoose)}
-                {renderButton(Languages.identity.verify, BUTTON_STYLES.GREEN, IcTicked, onEKyc)}
-            </div>
+            {userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.RED &&
+                <div className={cx('button-container')}>
+                    {renderButton(Languages.identity.reChoose, BUTTON_STYLES.GRAY, IcRefresh, onReChoose)}
+                    {renderButton(Languages.identity.verify, BUTTON_STYLES.GREEN, IcTicked, onEKyc)}
+                </div>}
             {renderSelectPhoto(refFrontCard)}
             {renderSelectPhoto(refBehindCard)}
             {renderSelectPhoto(refPortrait)}

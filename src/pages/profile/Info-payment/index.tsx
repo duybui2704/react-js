@@ -5,37 +5,54 @@ import IcSave from 'assets/image/ic_save.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { InfoBank } from 'pages/__mocks__/profile';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './info-payment.module.scss';
 
 import { Button } from 'components/button';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
-import useIsMobile from 'hooks/use-is-mobile.hook';
-import { BankModel } from 'models/user-model';
+import { useAppStore } from 'hooks';
+import { ItemProps } from 'models/common';
+import { DataBanksModel } from 'models/payment-link-models';
+import { BankModel, UserInfoModel } from 'models/user-model';
+import formValidate from 'utils/form-validate';
+import utils from 'utils/utils';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(styles);
 
 function InfoPayment() {
-    const navigate = useNavigate();
+    const { apiServices } = useAppStore();
     const [info, setInfo] = useState<BankModel>({});
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const refName = useRef<TextFieldActions>(null);
     const refNumber = useRef<TextFieldActions>(null);
     const refBank = useRef<PickerAction>(null);
-    const isMobile = useIsMobile();
+    const { userManager } = useAppStore();
+    const [dataBanks, setDataBanks] = useState<ItemProps[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         setInfo(InfoBank);
+        fetchBankList();
     }, []);
 
-    const renderItem = useCallback((title: string, value?: string) => {
+    const fetchBankList = useCallback(async () => {
+        const res = await apiServices.paymentMethod.getBank() as any;
+        if (res.success) {
+            const data = res.data as DataBanksModel[];
+            const temp = data?.map((item) => ({ id: item?.bank_code, value: item?.name, text: item?.short_name, icon: item?.icon })) as ItemProps[];
+            setDataBanks(temp);
+        }
+    }, [apiServices.paymentMethod]);
+
+    const renderItem = useCallback((title: string, value?: string, last?: boolean) => {
         return (
-            <div className={cx('row space-between')}>
-                <span className={cx('h6 text-gray bold')}>{title}</span>
-                <span className={cx('h6 text-gray regular')}>{value}</span>
+            <div className={cx(last ? 'item-last-container' : 'item-container')}>
+                <span className={cx('h6 text-gray medium')}>{title}</span>
+                <span className={cx('h6', value === '' || !value ? 'text-gray opacity-05' : 'text-gray')}>
+                    {value === '' || !value ? Languages.profile.empty : value}</span>
             </div>
         );
     }, []);
@@ -69,9 +86,46 @@ function InfoPayment() {
         );
     }, []);
 
-    const onSave = useCallback(() => {
-        console.log('info ===', info);
+    const onValidate = useCallback(() => {
+        const errMsgBank = formValidate.inputEmpty(info.name_bank, Languages.errorMsg.errBankEmpty);
+        const errMsgAccNumber = formValidate.inputValidate(info.account_number, Languages.errorMsg.errStkEmpty, Languages.errorMsg.errStk, 16);
+        const errMsgName = formValidate.inputNameEmpty(utils.formatForEachWordCase(info.name_bank || ''), Languages.errorMsg.errNameEmpty, Languages.errorMsg.userNameRegex);
+
+        refNumber.current?.setErrorMsg(errMsgAccNumber);
+        refName.current?.setErrorMsg(errMsgName);
+        refBank.current?.setError(errMsgBank);
+        if (`${errMsgName}${errMsgBank}${errMsgAccNumber}`.length === 0) {
+            return true;
+        }
+        return false;
     }, [info]);
+
+    const onSave = useCallback(async () => {
+        console.log('info ==', info);
+        setIsLoading(true);
+        if (onValidate()) {
+            const res = await apiServices.paymentMethod.requestChoosePaymentReceiveInterest(
+                'bank',
+                info.name_bank,
+                info.account_number,
+                info.account_name,
+                1
+            ) as any;
+            if (res.success) {
+                toast.success(Languages.msgNotify.successAccountLinkBank);
+                setIsLoading(false);
+                const resUser = await apiServices.auth.getUserInfo() as any;
+                if (resUser.success) {
+                    const user = resUser.data as UserInfoModel;
+                    userManager.updateUserInfo({
+                        ...userManager.userInfo,
+                        ...user
+                    });
+                }
+            }
+        }
+        setIsLoading(false);
+    }, [apiServices.auth, apiServices.paymentMethod, info, onValidate, userManager]);
 
     const oncancel = useCallback(() => {
         setIsEdit(last => !last);
@@ -81,67 +135,78 @@ function InfoPayment() {
         setIsEdit(last => !last);
     }, []);
 
+    const renderPayment = useMemo(() => {
+        return (
+            <div className={cx('container', 'shadow')}>
+                <div className={cx('row space-between b15')}>
+                    <span className={cx('text-black h5 medium')}>{Languages.profile.infoPayment}</span>
+                    <Button
+                        label={Languages.profile.edit}
+                        labelStyles={cx('text-white h7 regular')}
+                        rightIcon={ImgEdit}
+                        containButtonStyles={cx('btn-container')}
+                        onPress={onEdit}
+                        isLowerCase
+                    />
+                </div>
+                {renderItem(Languages.profile.accountName, userManager.userInfo?.tra_lai?.name_bank_account)}
+                {renderItem(Languages.profile.accountNumber, userManager.userInfo?.tra_lai?.interest_receiving_account)}
+                {renderItem(Languages.profile.bank, userManager.userInfo?.tra_lai?.bank_name, true)}
+            </div>
+        );
+    }, [onEdit, renderItem, userManager.userInfo?.tra_lai?.bank_name, userManager.userInfo?.tra_lai?.interest_receiving_account, userManager.userInfo?.tra_lai?.name_bank_account]);
+
+    const onChooseBank = useCallback((name: string) => {
+        setInfo(last => {
+            last.name_bank = name;
+            return last;
+        });
+    }, []);
+
+    const renderEdit = useMemo(() => {
+        return (
+            <div className={cx('container-edit', 'shadow')}>
+                <span className={cx('text-black h4 medium')}>{Languages.profile.infoPayment}</span>
+                <PickerComponent
+                    ref={refBank}
+                    data={dataBanks}
+                    title={Languages.profile.bank}
+                    defaultValue={userManager.userInfo?.tra_lai?.bank_name}
+                    placeholder={Languages.profile.bank}
+                    mainContainer={cx('y15', 'picker-container')}
+                    titleItemPickerText={'text-gray h7 regular b5'}
+                    onSelectItem={onChooseBank}
+                    isImportant
+                />
+                {renderInput(refName,  userManager.userInfo?.tra_lai?.name_bank_account || '', 'text', Languages.profile.accountName, 50, false, 'account_name')}
+                {renderInput(refNumber, userManager.userInfo?.tra_lai?.interest_receiving_account || '', 'tel', Languages.profile.accountNumber, 16, false, 'account_number')}
+                <span className={cx('h7 regular text-gray y10')}>{Languages.profile.nodeBank}</span>
+                <div className={cx('wid-100', 'row y20')}>
+                    <Button
+                        label={Languages.common.save}
+                        labelStyles={cx('text-white h7 regular')}
+                        rightIcon={IcSave}
+                        containButtonStyles={cx('btn-container', 'padding')}
+                        isLowerCase
+                        onPress={onSave}
+                    />
+                    <Button
+                        label={Languages.common.cancel}
+                        labelStyles={cx('text-red h7 medium')}
+                        rightIcon={IcCancel}
+                        containButtonStyles={cx('btn-cancel', 'padding')}
+                        isLowerCase
+                        onPress={oncancel}
+                    />
+                </div>
+            </div>
+        );
+    }, [dataBanks, onChooseBank, onSave, oncancel, renderInput, userManager]);
+
     return (
         <div className={cx('colum content')}>
             <div className={cx('column', 'flex')}>
-                {!isEdit ? <>
-                    <div className={cx('container', 'shadow')}>
-                        <div className={cx('row space-between')}>
-                            <span className={cx('text-black h5 bold')}>{Languages.profile.infoPayment}</span>
-                            <Button
-                                label={Languages.profile.edit}
-                                labelStyles={cx('text-white h7 regular')}
-                                rightIcon={ImgEdit}
-                                containButtonStyles={cx('btn-container')}
-                                onPress={onEdit}
-                                isLowerCase
-                            />
-                        </div>
-                        {renderItem(Languages.profile.accountName, info?.account_name)}
-                        <div className={cx('line', 'y15')}></div>
-                        {renderItem(Languages.profile.accountNumber, info?.account_number)}
-                        <div className={cx('line', 'y15')}></div>
-                        {renderItem(Languages.profile.bank, info?.name_bank)}
-                    </div>
-                </>
-                    :
-                    <>
-                        <div className={cx('container-edit', 'shadow')}>
-                            <span className={cx('text-black h4 bold')}>{Languages.profile.editAccount}</span>
-                            <PickerComponent
-                                ref={refBank}
-                                data={[]}
-                                title={Languages.profile.bank}
-                                defaultValue={info.name_bank}
-                                placeholder={Languages.profile.bank}
-                                mainContainer={cx('y15', 'picker-container')}
-                                titleItemPickerText={'text-gray h7 regular b5'}
-                                isImportant
-                            />
-                            {renderInput(refName, info?.account_name || '', 'text', Languages.profile.accountName, 50, false, 'account_name')}
-                            {renderInput(refNumber, info?.account_number || '', 'phone', Languages.profile.accountName, 50, false, 'account_number')}
-                            <span className={cx('h7 regular text-gray y10')}>{Languages.profile.nodeBank}</span>
-                            <div className={cx('wid-100', 'row y20')}>
-                                <Button
-                                    label={Languages.common.save}
-                                    labelStyles={cx('text-white h7 regular')}
-                                    rightIcon={IcSave}
-                                    containButtonStyles={cx('btn-container', 'padding')}
-                                    isLowerCase
-                                    onPress={onSave}
-                                />
-                                <Button
-                                    label={Languages.common.cancel}
-                                    labelStyles={cx('text-red h7 bold')}
-                                    rightIcon={IcCancel}
-                                    containButtonStyles={cx('btn-cancel', 'padding')}
-                                    isLowerCase
-                                    onPress={oncancel}
-                                />
-                            </div>
-                        </div>
-                    </>
-                }
+                {!isEdit ? renderPayment : renderEdit}
             </div>
         </div>
 

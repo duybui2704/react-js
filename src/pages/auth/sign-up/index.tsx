@@ -37,7 +37,6 @@ function SignUp({ onPress }) {
     const refPresenter = useRef<TextFieldActions>(null);
     const refChannel = useRef<PickerAction>(null);
 
-
     const refPwd = useRef<TextFieldActions>(null);
 
     const onChange = (e: CheckboxChangeEvent) => {
@@ -78,6 +77,7 @@ function SignUp({ onPress }) {
     const onSignUp = useCallback(async () => {
         if (onValidate()) {
             setLoading(true);
+
             const res = await apiServices.auth.registerAuth(
                 refPhone.current?.getValue(),
                 refName.current?.getValue(),
@@ -102,14 +102,10 @@ function SignUp({ onPress }) {
             <span className={cx('text-black medium h4 y20')}>
                 {Languages.auth.signUp}
             </span>
-            <div className={cx('row y10')}>
-                <span className={cx('text-gray h6 x5')}>
-                    {Languages.auth.accountYet}
-                </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.login)}>
-                    {Languages.auth.loginNow}
-                </span>
-            </div>
+
+            <span className={cx('text-gray h7 y10')}>
+                {Languages.auth.registerAccountNow}
+            </span>
 
             <MyTextInput
                 ref={refName}
@@ -200,7 +196,6 @@ function SignUp({ onPress }) {
                 </span>
             </div>
 
-
             <Button
                 label={Languages.auth.login}
                 buttonStyle={BUTTON_STYLES.GREEN}
@@ -219,13 +214,13 @@ function SignUp({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
-                <Button
+                {/* <Button
                     label={Languages.auth.facebook}
                     buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
                     isLowerCase
                     containButtonStyles={'flex x10'}
                     rightIcon={IcFacebook}
-                />
+                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}
@@ -233,6 +228,15 @@ function SignUp({ onPress }) {
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
                 />
+            </div>
+
+            <div className={cx('row y10')}>
+                <span className={cx('text-gray h6 x5')}>
+                    {Languages.auth.accountYet}
+                </span>
+                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.login)}>
+                    {Languages.auth.loginNow}
+                </span>
             </div>
         </div>;
     }, [isMobile, onSignUp, onNavigate]);

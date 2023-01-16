@@ -4,12 +4,10 @@
     height: 100%;
 }
 
-.wid-left {
-    width: 66%;
-    position: relative;
-    @include mobile {
-        width: 100%;
-    }
+.container {
+    justify-content: center;
+    flex: 1;
+    display: flex;
 }
 
 .left-container {
@@ -17,6 +15,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1;
     padding: 20px 0px;
     .img-logo {
         width: auto;
@@ -82,19 +81,29 @@
 }
 
 .style-close {
-    width: 100%;
-    left: 20px;
+    left: 100px;
     position: absolute;
-    top: 20px;
+    top: 100px;
+    @include mobile {
+        left: 20px;
+        top: 20px;
+    }
 }
 
 .img-close {
     width: 30px;
     border-radius: 5px;
     border: 1px solid $color-gray-d8;
-    // background-color: $color-gray-d8;
+    background-color: $color-gray-d8;
 }
 
 .img-close:hover {
     background-color: $color-gray-e8;
+}
+
+.right {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: center;
 }

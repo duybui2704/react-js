@@ -30,7 +30,10 @@ interface HistoryFilter {
     toDate?: string;
 }
 
-function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: PackageInvest, tabs: number) => void, tabsNumber: number }) {
+const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
+    onNextScreen: (data: PackageInvest, tabs: number) => void,
+    tabsNumber: number
+}) => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
@@ -250,6 +253,6 @@ function ChildTabsHistory({ onNextScreen, tabsNumber }: { onNextScreen: (data: P
             {renderPopupSearchPackage()}
         </div>
     );
-}
+};
 
 export default ChildTabsHistory;

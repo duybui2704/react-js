@@ -2,14 +2,12 @@
 .flex {
     display: flex;
     flex: 1;
-    padding: 0px 20px;
 }
 
 .container {
     display: flex;
     flex-direction: column;
     padding: 16px;
-    gap: 32px;
     @include mobile {
         padding: 10px 0px;
         gap: 16px;
@@ -18,7 +16,7 @@
 
 .shadow {
     border: 1px solid $color-gray5;
-    box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: $box-shadow;
     border-radius: 8px;
     @include mobile {
         background-color: $color-white;
@@ -33,7 +31,7 @@
     flex-direction: column;
     padding: 16px;
     border: 1px solid $color-gray5;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: $box-shadow;
     border-radius: 8px;
     @include mobile {
         background-color: $color-white;
@@ -56,7 +54,7 @@
 
 .btn-container {
     background-color: $color-green;
-    padding: 10px 20px;
+    padding: 12px 20px;
     @include mobile {
         padding: 5px 10px;
     }
@@ -64,7 +62,10 @@
 
 .btn-cancel {
     background-color: $color-red-r1;
-    padding: 10px 20px;
+    padding: 12px 20px;
+    @include mobile {
+        padding: 5px 10px;
+    }
 }
 
 .border-red {
@@ -103,4 +104,19 @@
 .line {
     border-bottom: 1px solid $color-gray5;
     width: 100%;
+}
+
+.item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid $color-gray5;
+    padding: 16px 0 8px 0;
+}
+
+.item-last-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-top: 16px;
 }

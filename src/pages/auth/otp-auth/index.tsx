@@ -7,22 +7,46 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import sessionManager from 'managers/session-manager';
 import { UserInfoModel } from 'models/user-model';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import formValidate from 'utils/form-validate';
+import utils from 'utils/utils';
 import styles from './otp-auth.module.scss';
 
 const cx = classNames.bind(styles);
 
 function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: string, title: string }) {
+    let timer = 0;
     const isMobile = useIsMobile();
+    const [check, setCheck] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { apiServices, userManager } = useAppStore();
+    const [timerCount, setTimerCount] = useState(180);
     const navigator = useNavigate();
     const [value, setValue] = useState<string>('');
     const [errMsg, setErrMsg] = useState<string>('');
+
+    useEffect(() => {
+        setCheck(true);
+        timer = getTime() + 180;
+        refreshCountdown();
+    }, []);
+
+    const refreshCountdown = () => {
+        setTimeout(() => {
+            if (timer - getTime() <= 0) {
+                setTimerCount(0);
+                setCheck(false);
+            } else {
+                setTimerCount(timer - getTime());
+                refreshCountdown();
+            }
+        }, 1000);
+    };
+
+    const getTime = () => Math.floor(Date.now() / 1000);
 
     const onValidate = useCallback(() => { 
         if (value.length === 0) {
@@ -79,6 +103,28 @@ function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: s
         setValue(otp);
     }, []);
 
+    const sendToOTP = useCallback(async () => {
+        if (title === Languages.auth.changePwd) {
+            setIsLoading(true);
+            const resSendOTP = await apiServices.auth.otpResetPwd(phoneNumber) as any;
+            if (resSendOTP.success) {
+                setCheck(true);
+                timer = getTime() + 180;
+                refreshCountdown();
+            }
+            setIsLoading(false);
+        } else if (title === Languages.auth.signUp) {
+            setIsLoading(true);
+            const response = await apiServices.auth.otpResendToken(phoneNumber) as any;
+            setIsLoading(false);
+            if (response.success) {
+                setCheck(true);
+                timer = getTime() + 180;
+                refreshCountdown();
+            }
+        }
+    }, []);
+
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
             <span className={cx('text-black medium h4')}>
@@ -105,7 +151,14 @@ function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: s
                 />
             </div>
             <div className={cx('message-error')}>
-                <span className={cx('text-red h7 regular')}>{errMsg}</span>
+                <span className={cx('text-red h7')}>{errMsg}</span>
+            </div>
+            <div className={cx('row')}>
+                <span className={cx('h6 text-gray y10')} onClick={timerCount === 0 ? sendToOTP : () => console.log('')}>
+                    {timerCount > 0 ? Languages.auth.sendToAfterOTP : Languages.auth.sendToOTP}
+                </span>
+                {timerCount > 0 && <span className={cx('h6 text-red y10 p5')}>
+                    {`${utils.convertSecondToMinutes(timerCount)}`}{' '}{Languages.auth.minute}</span>}
             </div>
             <Button
                 label={Languages.auth.confirm}
@@ -117,7 +170,7 @@ function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: s
             />
             {isLoading && <Loading />}
         </div>;
-    }, [errMsg, isLoading, isMobile, onChangeOTP, onConfirm, value]);
+    }, [errMsg, isLoading, isMobile, onChangeOTP, onConfirm, sendToOTP, timerCount, value]);
 
     const renderView = useMemo(() => {
         return <>

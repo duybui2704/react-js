@@ -1,5 +1,5 @@
 import 'assets/scss/index.scss';
-import 'assets/scss/global.css';
+import 'assets/scss/global.scss';
 import 'react-toastify/dist/ReactToastify.css';
 import sessionManager from 'managers/session-manager';
 import React, { useEffect } from 'react';

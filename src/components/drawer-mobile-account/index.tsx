@@ -1,7 +1,6 @@
 
 import { Drawer } from 'antd';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
-import ImgPortrait from 'assets/image/img_portrait.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 
@@ -11,14 +10,17 @@ import React, {
     useCallback,
     useEffect,
     useImperativeHandle,
+    useMemo,
     useState
 } from 'react';
 import styles from './drawer-mobile-account.module.scss';
 import { ItemScreenModel } from 'models/profile';
 import { useAppStore } from 'hooks';
+import { COLOR_TRANSACTION } from 'commons/constants';
+import AvatarHoverImage from 'components/avatar-hover-image';
 
 type DrawerBaseProps = {
-    onClose?: () => any;
+    onPressAvatar?: () => any;
     onChangeStep?: (tabs: number) => void;
     onBackdropPress?: () => void;
     onPressStatus?: () => void;
@@ -33,7 +35,7 @@ export type DrawerBaseActions = {
 const cx = classNames.bind(styles);
 
 const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
-    ({ onChangeStep, onClose, onBackdropPress, onPressStatus, data
+    ({ onChangeStep, onPressAvatar, onBackdropPress, onPressStatus, data
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const [info, setInfo] = useState<UserInfoModel>();
@@ -67,6 +69,35 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             onBackdropPress?.();
         }, [onBackdropPress]);
 
+        const handleAvatar = useCallback(() => {
+            onPressAvatar?.();
+        }, [onPressAvatar]);
+
+        const renderStatusAcc = useMemo(() => {
+            switch (info?.tinh_trang?.color) {
+                case COLOR_TRANSACTION.RED:
+                    return (
+                        <div className={cx('un-verify-container', 'hover-component')} onClick={handlePressStatus}>
+                            <span className={cx('un-verify-text')} >{info?.tinh_trang?.status}</span>
+                        </div>
+                    );
+                case COLOR_TRANSACTION.GREEN:
+                    return (
+                        <div className={cx('verify-container', 'hover-component')} onClick={handlePressStatus}>
+                            <span className={cx('verify-text')} >{info?.tinh_trang?.status}</span>
+                        </div>
+                    );
+                case COLOR_TRANSACTION.YELLOW:
+                    return (
+                        <div className={cx('wait-verify-container', 'hover-component')} onClick={handlePressStatus}>
+                            <span className={cx('wait-verify-text')} >{info?.tinh_trang?.status}</span>
+                        </div>
+                    );
+                default:
+                    break;
+            }
+        }, [info?.tinh_trang?.color, info?.tinh_trang?.status, handlePressStatus]);
+
         const renderCustomView = useCallback(() => {
 
             return (
@@ -76,9 +107,9 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         <img src={Ic_Close} onClick={hide} className={cx('close')} />
                     </div>
                     <div className={cx('avatar')}>
-                        <img src={info?.avatar_user || ImgPortrait} className={cx('avatar-img-container')} />
+                        <AvatarHoverImage image={info?.avatar_user} onPress={handleAvatar} />
                         <span className={cx('user-name-text')}>{info?.full_name}</span>
-                        <span className={cx('status-text')} onClick={handlePressStatus}>{info?.tinh_trang?.status}</span>
+                        {renderStatusAcc}
                     </div>
 
                     {data?.map((item: ItemScreenModel) => {
@@ -100,11 +131,11 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     })}
                 </div>
             );
-        }, [data, handlePressStatus, hide, info?.avatar_user, info?.full_name, info?.tinh_trang?.status, onChangeStep, tabs]);
+        }, [data, handleAvatar, hide, info?.avatar_user, info?.full_name, onChangeStep, renderStatusAcc, tabs]);
 
         return (
             <Drawer
-                placement='left'
+                placement={'left'}
                 closable={false}
                 onClose={onBackDrop}
                 open={visible}
