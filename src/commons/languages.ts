@@ -165,7 +165,7 @@ const Languages = {
         expectedDueDate: 'Ngày đáo hạn dự kiến',
         totalProfitReceived: 'Tổng lãi nhận được',
         monthlyInterestRate: 'Lãi suất hàng tháng',
-        monthlyInterest: 'Lãi hàng tháng',
+        monthlyInterest: 'Lãi trung bình hàng tháng',
         formInterest: 'Hình thức trả lãi',
         investNote: 'Lưu ý khi đầu tư',
         infoContract: 'Thông tin hợp đồng',

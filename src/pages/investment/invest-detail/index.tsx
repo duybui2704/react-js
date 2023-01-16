@@ -151,7 +151,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                         {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(investPackage?.tong_lai_nhan_duoc))}
-                        {renderKeyValue(Languages.invest.monthlyInterestRate, investPackage?.ti_le_lai_suat_hang_thang)}
+                        {renderKeyValue(Languages.invest.interestYear, investPackage?.ti_le_lai_suat_hang_nam)}
                         {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(investPackage?.lai_hang_thang || '0'))}
                         {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(investPackage?.tong_lai_da_nhan))}
                         {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(investPackage?.tong_lai_da_tra))}
