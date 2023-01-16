@@ -6,7 +6,7 @@ import IcLeftArrow from 'assets/image/ic_gray_small_arrow_left.svg';
 import IcWhiteLeftArrow from 'assets/image/ic_white_left_arrow.svg';
 import Languages from 'commons/languages';
 import { Col, Row } from 'antd';
-import { DataColumnHistoryType, DataColumnInvestType, DataColumnPaymentType, PackageInvest } from 'models/invest';
+import { DataColumnHistoryType, DataColumnPaymentType, PackageInvest } from 'models/invest';
 import IcRightArrow from 'assets/image/ic_white_small_right_arrow.svg';
 import IcPopupAuth from 'assets/image/ic_popup_auth.svg';
 import IcPopupVerify from 'assets/image/ic_popup_verify.svg';
@@ -19,37 +19,21 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
-import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHistory, columnNameInvest, dataColumnHistory, dataColumnInvest, dataColumnInvesting } from 'pages/__mocks__/invest';
+import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHistory, columnNameInvest, dataColumnHistory, labelArrHistory, labelInvestArr } from 'pages/__mocks__/invest';
 import PeriodInvestMobile from 'components/period-invest-mobile';
-import { TYPE_TAB_HISTORY } from 'commons/constants';
+import { COLOR_TRANSACTION, TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';
-import { ApiServices } from 'api';
 
 const cx = classNames.bind(styles);
 
-const labelArr = {
-    ngay_nhan: Languages.invest.datePayment,
-    tien_goc_tra: Languages.invest.principalAmount,
-    tien_lai_tra: Languages.invest.interestAmount,
-    tong_goc_lai: Languages.invest.totalAmount
-};
-
-const labelArrHistory = {
-    receivedDate: Languages.invest.datePayment,
-    principalAmount: Languages.invest.principalAmount,
-    profitAmount: Languages.invest.interestAmount,
-    total: Languages.invest.totalAmount
-};
-
-
-function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
+const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
         onBackScreen: () => void,
         onNextScreen?: () => void,
         investPackage?: PackageInvest,
         isDetailHistory?: boolean,
         tabDetailHistory?: number
-    }) {
+    }) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
 
@@ -100,9 +84,9 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, [isMobile]);
 
     const handleInvestNow = useCallback(() => {
-        if (userManager?.userInfo) {
+        if (userManager?.userInfo?.tinh_trang?.color !== COLOR_TRANSACTION.GREEN) {
             popupAccVerifyRef.current?.showModal();
-        } else if (!userManager.userInfo?.tinh_trang) {
+        } else if (!userManager.userInfo) {
             popupAuthRef.current?.showModal();
         } else {
             onNextPage();
@@ -110,28 +94,40 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, [onNextPage, userManager.userInfo]);
 
     const renderPopup = useCallback((
-        _ref: any, _labelLeft?: string, _labelRight?: string,
-        _icon?: any, _title?: string, _describe?: string
+        _ref: any,
+        _labelLeft?: string,
+        _labelRight?: string,
+        _icon?: any,
+        _title?: string,
+        _describe?: string
     ) => {
         const handleLeftButton = () => {
             if (_title === Languages.invest.noteAuth) {
                 navigate(Paths.auth);
             } else {
-                // navigate(Paths.register);
+                // 
             }
         };
 
         const handleRightButton = () => {
             if (_title === Languages.invest.noteAuth) {
-                // 
+                // navigate(Paths.register);
             } else {
                 // 
             }
         };
         return (
-            <PopupBaseCenterScreen ref={_ref} labelSuccess={_labelRight} labelCancel={_labelLeft}
-                hasTwoButton onClose={handleLeftButton} onSuccessPress={handleRightButton}
-                icon={_icon} hasCloseIc title={_title} description={_describe} />
+            <PopupBaseCenterScreen
+                ref={_ref}
+                labelSuccess={_labelRight}
+                labelCancel={_labelLeft}
+                hasTwoButton
+                onClose={handleLeftButton}
+                onSuccessPress={handleRightButton}
+                icon={_icon}
+                hasCloseIc
+                title={_title}
+                description={_describe} />
         );
     }, [navigate]);
 
@@ -172,12 +168,15 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         return (
             <div className={cx(isMobile ? 'invest-note-container-mobile' : 'invest-note-container')}>
                 <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
-                {isMobile ?
-                    <PeriodInvestMobile
+                {isMobile
+                    ? <PeriodInvestMobile
                         dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest}
-                        labelArr={isDetailHistory ? labelArrHistory : labelArr}
-                        arrKey={isDetailHistory ? arrKeyHistoryMobile : arrKeyMobile} /> :
-                    <TableInvest dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest} arrKey={isDetailHistory ? arrKeyHistory : arrKey}
+                        labelArr={isDetailHistory ? labelArrHistory : labelInvestArr}
+                        arrKey={isDetailHistory ? arrKeyHistoryMobile : arrKeyMobile}
+                    />
+                    : <TableInvest
+                        dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest}
+                        arrKey={isDetailHistory ? arrKeyHistory : arrKey}
                         columnName={isDetailHistory ? columnNameHistory : columnNameInvest}
                     />
                 }
@@ -209,6 +208,6 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
             {renderPopup(popupAccVerifyRef, Languages.invest.next, Languages.invest.verifyNow, IcPopupVerify, Languages.invest.noteVerify, Languages.invest.describeVerify)}
         </div>
     );
-}
+};
 
 export default InvestDetail;
