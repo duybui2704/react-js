@@ -1,5 +1,5 @@
 
-import { PackageInvest } from 'models/invest';
+import { BankInformationModel, PackageInvest } from 'models/invest';
 import React, {
     forwardRef,
     useCallback,
@@ -60,7 +60,7 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
                 case '3':
                     return <InvestPackageVerify onBackDetail={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
                 case '4':
-                    return <TransferBank goBack={goBack} onNextScreen={onNextPage}  investPackage={investPackage}/>;
+                    return <TransferBank goBack={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
                 default:
                     break;
             }

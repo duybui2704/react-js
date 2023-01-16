@@ -90,7 +90,16 @@ function formatObjectFilterInvest(data: any) {
     }
     return [];
 }
- 
+function formatTextToNumber(textNumber: string | undefined) {
+    if (!textNumber) {
+        return 0;
+    }
+    else {
+        const num = (`${textNumber}`).replace(/[^0-9]/g, '');
+        return num;
+    }
+}
+
 export default {
     formatLoanMoney,
     formatMoney,
@@ -101,5 +110,6 @@ export default {
     formatRoundNumberToDecimalMillion,
     formatObjectToKeyLabel,
     convertSecondToMinutes,
-    formatObjectFilterInvest
+    formatObjectFilterInvest,
+    formatTextToNumber
 };

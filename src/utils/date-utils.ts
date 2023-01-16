@@ -5,8 +5,11 @@ function getQuarter(date = new Date()) {
 function getYear(date = new Date()) {
     return date.getFullYear();
 }
-
+function getCurrentTime(date = new Date()) {
+    return date.getTime();
+}
 export default {
     getQuarter,
-    getYear
+    getYear,
+    getCurrentTime
 };
