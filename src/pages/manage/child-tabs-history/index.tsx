@@ -57,7 +57,7 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
 
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
-    console.log(tabName);
+    
     useEffect(() => {
         fetchSearch();
         fetchInvestList();
@@ -272,8 +272,9 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const onChangeTab = useCallback((tabNumber: number) => {
         if (tabName !== tabNumber) {
             setTabName(tabNumber);
+            fetchInvestList();
         }
-    }, [tabName]);
+    }, [fetchInvestList, tabName]);
 
     return (
         <div className={cx('page-container')}>
