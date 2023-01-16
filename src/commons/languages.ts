@@ -191,7 +191,17 @@ const Languages = {
         agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
         policy: 'Điều khoản sử dụng và chính sách',
         discoveryNow: 'Khám phá ngay',
-        moreInvest: 'Xem thêm các gói đầu tư khác'
+        moreInvest: 'Xem thêm các gói đầu tư khác',
+        topUpSuccess: 'TienNgay đã nhận được khoản tiền của bạn.',
+        unconfirmed: 'Bạn chưa xác thực tài khoản!',
+        contentUnconfirmed: 'Xác thực tài khoản để tăng độ an toàn khi đầu tư và sử dụng ứng dụng',
+        noAccount: 'Bạn chưa có tài khoản nhận lãi!',
+        contentNoAccount: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư. Cập nhật và trải nghiệm đầu tư ngay',
+        contentWaitingConfirm: 'Chứng từ của bạn đang được xác minh, bạn có thể tiến hành đầu tư sau khi chứng từ đã được xác thực',
+        waitingConfirm: 'Chờ xác minh chứng từ !',
+        agreePolicyToInvest: 'Bạn cần phải tích ô đồng ý với điều khoản sử dụng và chính sách của TienNgay để tiến hành đàu tư!',
+        choosePaymentMethod: 'Bạn chưa chọn hình thức nhận tiền lãi đầu tư. Cập nhật và trải nghiệm đầu tư ngay!',
+        bankAccountEmpty: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư bằng tài khoản ngân hàng. Cập nhật và trải nghiệm đầu tư ngay!'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
@@ -236,7 +246,7 @@ const Languages = {
         contentProfit3: 'Lãi luôn về đúng hạn',
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
-        appMobile: ['Tải ứng dụng',' Đầu tư Tiện Ngay ','miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!']
+        appMobile: ['Tải ứng dụng', ' Đầu tư Tiện Ngay ', 'miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!']
     },
 
     profile: {
@@ -330,6 +340,7 @@ const Languages = {
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
     transaction: {
         infoTransactions: 'Thông tin giao dịch',
+        search: 'Tìm kiếm',
         table: {
             stt: 'STT',
             money: 'Tổng',

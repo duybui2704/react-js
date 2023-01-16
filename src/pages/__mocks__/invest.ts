@@ -1,4 +1,3 @@
-import { ItemProps } from './../../models/common.d';
 import { BankInformationModel, DataColumnCommissionType, DataColumnHistoryType, DataColumnInvestType, DataTotalColumnCommissionType, PackageInvest } from "models/invest";
 
 export const investListData =

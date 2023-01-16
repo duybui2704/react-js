@@ -16,17 +16,22 @@ import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
 import RadioInvestMethod from 'components/radio-invest-method';
 import { InvestMethod } from 'pages/__mocks__/invest';
-import { TYPE_TRANSFER_AMOUNT } from 'commons/constants';
+import { COLOR_TRANSACTION, TYPE_TRANSFER_AMOUNT } from 'commons/constants';
 import Footer from 'components/footer';
+import toasty from 'utils/toasty';
 
 const cx = classNames.bind(styles);
 
-function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { onBackDetail: () => void, onNextScreen: () => void, investPackage?: PackageInvest }) {
+const InvestPackageVerify = ({ onBackDetail, onNextScreen, investPackage }: {
+    onBackDetail: () => void,
+    onNextScreen: () => void,
+    investPackage?: PackageInvest
+}) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
 
     const [dataPackage, setDataPackage] = useState<PackageInvest>();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices } = useAppStore();
 
     const [isCheckbox, setCheckbox] = useState<boolean>(false);
     const [investMethod, setInvestMethod] = useState<string>('');
@@ -39,9 +44,17 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
         onBackDetail();
     }, [onBackDetail]);
 
-    const onNavigateTransferBank = useCallback(() => {
+    const onNavigateTransferBank = useCallback(async () => {
         onNextScreen();
     }, [onNextScreen]);
+
+    const onNavigateTransferNganLuong = useCallback(async () => {
+        const resPaymentNganLuong = await apiServices.invest.requestNganLuong(`${investPackage?.id}`, 'web') as any;
+        if (resPaymentNganLuong.success && resPaymentNganLuong.data) {
+            // create 1 tabs view to show Ngan Luong, then instead of behind code line.
+            window.open(resPaymentNganLuong?.data as string);
+        }
+    }, [apiServices.invest, investPackage?.id]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string, _redValue?: boolean, noBorder?: boolean) => {
         return (
@@ -58,9 +71,28 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
 
     const handleInvestNow = useCallback(() => {
         if (isCheckbox) {
-            console.log('action invest');
+            if (userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.RED) {
+                toasty.warn(Languages.invest.unconfirmed);
+            } else if (userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.YELLOW) {
+                toasty.warn(Languages.invest.waitingConfirm);
+            }
+            else if (!userManager.userInfo?.tra_lai?.type_interest_receiving_account) {
+                toasty.warn(Languages.invest.noAccount);
+            } else if (investMethod === TYPE_TRANSFER_AMOUNT.BANK) {
+                if (userManager.userInfo?.tra_lai?.name_bank_account) {
+                    onNavigateTransferBank();
+                } else {
+                    toasty.warn(Languages.invest.bankAccountEmpty);
+                }
+            } else if (investMethod === TYPE_TRANSFER_AMOUNT.NGAN_LUONG) {
+                onNavigateTransferNganLuong();
+            } else if (!investMethod) {
+                toasty.warn(Languages.invest.choosePaymentMethod);
+            }
+        } else {
+            toasty.warn(Languages.invest.agreePolicyToInvest);
         }
-    }, [isCheckbox]);
+    }, [investMethod, isCheckbox, onNavigateTransferBank, onNavigateTransferNganLuong, userManager.userInfo?.tinh_trang?.color, userManager.userInfo?.tra_lai]);
 
     const handlePopupPolicy = useCallback(() => {
         window.open(LINKS.POLICY_INVESTOR);
@@ -77,9 +109,6 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
     const renderInvestMethod = useCallback(() => {
         const onChooseMethod = (event: any) => {
             setInvestMethod(event.target?.value);
-            if (event.target.value === TYPE_TRANSFER_AMOUNT.BANK) {
-                onNavigateTransferBank();
-            }
         };
         const changeCheckboxStatus = (event: any) => {
             setCheckbox(event.target.checked);
@@ -91,7 +120,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                 <CheckBox title={renderLabelCheckbox} onChangeText={changeCheckboxStatus} groupCheckBoxContainer={cx(isMobile ? 'group-check-box-container-mobile' : 'group-check-box-container')} />
             </div>
         );
-    }, [investMethod, isMobile, onNavigateTransferBank, renderLabelCheckbox]);
+    }, [investMethod, isMobile, renderLabelCheckbox]);
 
     const renderButtonInvestNow = useMemo(() => {
         return (
@@ -149,7 +178,6 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                         {renderInvestMethod()}
                         {renderButtonInvestNow}
                     </div>}
-
                     <div className={cx('footer')}>
                         <Footer />
                     </div>
@@ -157,7 +185,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
             </div>
         </div>
     );
-}
+};
 
 export default InvestPackageVerify;
 

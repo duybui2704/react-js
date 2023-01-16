@@ -140,6 +140,11 @@ $desktop-width: 1024px;
     color: $color-gray8;
 }
 
+.text-gray3 {
+    font-family: $font-medium;
+    color: $color-gray3;
+}
+
 .text-red {
     font-family: $font-regular;
     color: $color-red;
@@ -254,6 +259,10 @@ $desktop-width: 1024px;
 //----------------PADDING-MARGIN----------------
 .p12 {
     padding: 12px;
+}
+
+.p16 {
+    padding: 26px 16px;
 }
 
 .p24 {
