@@ -310,6 +310,7 @@ const Languages = {
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
     transaction: {
         infoTransactions: 'Thông tin giao dịch',
+        search: 'Tìm kiếm',
         table: {
             stt: 'STT',
             money: 'Tổng',
