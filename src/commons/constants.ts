@@ -136,3 +136,8 @@ export enum STATE_VERIFY_ACC {
     NO_VERIFIED = 'Cần xác thực thông tin CMT/CCCD'
 }
 
+export enum STATUS_CONTRACT {
+    EFFECT = '1',
+    EXPIRE = '2'
+}
+
