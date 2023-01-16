@@ -59,7 +59,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
 
     const popupAuthRef = useRef<PopupBaseActions>(null);
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
-   
+
     useEffect(() => {
         fetchDataPeriodInvest();
         setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? dataPeriodInvest : convertData(dataColumnHistory));
@@ -81,7 +81,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, [onNextScreen]);
 
     const fetchDataPeriodInvest = useCallback(async () => {
-        if(investPackage){
+        if (investPackage) {
             const resultPeriodInvest = await apiServices.invest.getInvestDetail(investPackage.id) as any;
             if (resultPeriodInvest.success) {
                 const dataResultPeriodInvest = (resultPeriodInvest?.payment);
@@ -100,14 +100,14 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, [isMobile]);
 
     const handleInvestNow = useCallback(() => {
-        // if (userManager?.userInfo) {
-        //     popupAccVerifyRef.current?.showModal();
-        // } else if (!userManager.userInfo?.tinh_trang) {
-        //     popupAuthRef.current?.showModal();
-        // } else {
-        onNextPage();
-        // }
-    }, [onNextPage]);
+        if (userManager?.userInfo) {
+            popupAccVerifyRef.current?.showModal();
+        } else if (!userManager.userInfo?.tinh_trang) {
+            popupAuthRef.current?.showModal();
+        } else {
+            onNextPage();
+        }
+    }, [onNextPage, userManager.userInfo]);
 
     const renderPopup = useCallback((
         _ref: any, _labelLeft?: string, _labelRight?: string,
