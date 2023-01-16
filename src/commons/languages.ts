@@ -170,7 +170,7 @@ const Languages = {
         investNote: 'Lưu ý khi đầu tư',
         infoContract: 'Thông tin hợp đồng',
         noteAuth: 'Đăng nhập hoặc đăng ký ngay',
-        noteVerify: 'Bạn chưa đăng nhập tài khoản',
+        noteVerify: 'Bạn chưa xác thực tài khoản',
         describeAuth: 'Đăng nhập hoặc đăng ký để tiến hành đầu tư ngay hôm nay ',
         describeVerify: 'Xác thực tài khoản để tăng độ an toàn khi đầu tư và sử dụng ứng dụng',
         datePayment: 'Ngày thanh toán',

@@ -1,3 +1,4 @@
+import Languages from "commons/languages";
 import { BankInformationModel, DataColumnCommissionType, DataColumnHistoryType, DataColumnInvestType, DataTotalColumnCommissionType, PackageInvest } from "models/invest";
 
 export const investListData =
@@ -512,5 +513,19 @@ export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total',
 
 export const arrKeyMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+
+export const labelInvestArr = {
+    ngay_nhan: Languages.invest.datePayment,
+    tien_goc_tra: Languages.invest.principalAmount,
+    tien_lai_tra: Languages.invest.interestAmount,
+    tong_goc_lai: Languages.invest.totalAmount
+};
+
+export const labelArrHistory = {
+    receivedDate: Languages.invest.datePayment,
+    principalAmount: Languages.invest.principalAmount,
+    profitAmount: Languages.invest.interestAmount,
+    total: Languages.invest.totalAmount
+};
 
 

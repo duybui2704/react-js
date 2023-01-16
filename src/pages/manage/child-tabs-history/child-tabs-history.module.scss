@@ -22,8 +22,11 @@
     .content-web-container {
         display: flex;
         flex-direction: column;
-        height: 66vh;
+        height: 65vh;
         position: relative;
+        @include tablet {
+            height: 67vh;
+        }
     }
     .content-mobile-container {
         display: flex;
@@ -66,7 +69,6 @@
             opacity: 0.6;
         }
     }
-
     .top-intro {
         display: flex;
         flex-direction: column;

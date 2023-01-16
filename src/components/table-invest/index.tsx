@@ -19,24 +19,20 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName }: { dataTableInvest:
                 <tbody>
                     {_arrayRow?.map?.((item: DataColumnInvestType, index: number) => {
 
-                        const renderItem = (key: string) => {
+                        const renderItem = (key: string, _indexItem: number) => {
                             if (key === 'status') {
-                                return <td className={cx('h7', item[key] === TYPE_STATUS_INVEST.PAYED ? 'text-green' : 'text-gray')}>
+                                return <td className={cx('h7', item[key] === TYPE_STATUS_INVEST.PAYED ? 'text-green' : 'text-gray')} key={_indexItem}>
                                     {item[key] === TYPE_STATUS_INVEST.PAYED ? Languages.historyDetail.payed : Languages.historyDetail.unPayed}</td>;
                             } else {
-                                return <td className={cx('text-gray h7')}>{item[key]}</td>;
+                                return <td className={cx('text-gray h7')} key={_indexItem}>{item[key]}</td>;
                             }
                         };
 
                         return (
                             <tr key={index} className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}>
-                                {_arrKey?.map((keyItem: string) => {
+                                {_arrKey?.map((keyItem: string, _index: number) => {
                                     if (Object.keys(item).some((key => key === keyItem))) {
-                                        return (
-                                            <>
-                                                {renderItem(keyItem)}
-                                            </>
-                                        );
+                                        return renderItem(keyItem, _index);
                                     }
                                 })}
                             </tr>

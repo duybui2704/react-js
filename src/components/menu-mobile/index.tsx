@@ -101,22 +101,22 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
         const renderCustom = useCallback(() => {
             return (
                 <div className={cx('container', 'y20')}>
-                    {data?.map((item: ItemScreenModel) => {
+                    {data?.map((item: ItemScreenModel, index: number) => {
                         const handleChangeStep = () => {
-                            onChangeStep?.(item?.id || 1);
-                            setTabs(item?.id);
+                            onChangeStep?.(index || 0);
+                            setTabs(index);
                             setVisible(false);
                         };
                         return (
                             <div key={item?.id}>
                                 {item.is_login
-                                    ? (sessionManager.accessToken && <div className={tabs === item?.id ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
+                                    ? (sessionManager.accessToken && <div className={tabs === index ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
                                         <div className={cx('button-item-container')}>
                                             <img src={item?.icon} className={cx('icon-close')} />
                                             <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
                                         </div>
                                     </div>)
-                                    : <div className={tabs === item?.id ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
+                                    : <div className={tabs === index ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
                                         <div className={cx('button-item-container')}>
                                             <img src={item?.icon} />
                                             <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
