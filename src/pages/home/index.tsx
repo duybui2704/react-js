@@ -79,7 +79,7 @@ const Home = observer(() => {
             default:
                 return null;
         }
-    }, []);
+    }, [userManager.userInfo?.tinh_trang?.color]);
 
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
@@ -120,19 +120,19 @@ const Home = observer(() => {
                     :
                     <>
                         <img src={IcNotification} className={cx('icon-menu')} />
-                        <div className={cx('row p12 center')}>
+                        <div className={cx('row center')}>
                             <div className={cx('avatar-container')}>
                                 <img src={userManager.userInfo?.avatar_user || ImgNoAvatar} className={cx('img-avatar')} onClick={navigateToProfile} />
                                 {renderIconVerify}
                             </div>
-                            <span className={cx('text-black h6 medium x10')}>{userManager.userInfo?.full_name}</span>
+                            <span className={cx('text-full-name')}>{userManager.userInfo?.full_name}</span>
                             <img src={IcLogout} className={cx('icon-small')} onClick={onLogOut} />
                         </div>
                     </>
                 }
             </div>
         };
-    }, [navigate, renderIconVerify, userManager.userInfo?.avatar_user, userManager.userInfo?.full_name]);
+    }, [navigate, onLogOut, renderIconVerify, userManager.userInfo?.avatar_user, userManager.userInfo?.full_name]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;

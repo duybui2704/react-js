@@ -45,7 +45,7 @@ function ForgotPass({ onPress }) {
             const response = await apiServices.auth.otpResetPwd(refPhone.current?.getValue()) as any;
             setLoading(false);
             if (response.success) {
-                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.changePwd, onPressOTP: onForgotPwd });
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.changePwd });
             }
         }
     }, [apiServices.auth, onPress, onValidate]);
@@ -59,14 +59,12 @@ function ForgotPass({ onPress }) {
             <span className={cx('text-black medium h4')}>
                 {Languages.auth.getBackPass}
             </span>
-            <div className={cx('row y10')}>
-                <span className={cx('text-gray h6 x5')}>
-                    {Languages.auth.notAccountYet}
-                </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
-                    {Languages.auth.registerNow}
-                </span>
-            </div>
+
+
+            <span className={cx('text-gray h7 y10')}>
+                {Languages.auth.forgotNow}
+            </span>
+
             <MyTextInput
                 ref={refPhone}
                 type={'phone'}
@@ -87,6 +85,15 @@ function ForgotPass({ onPress }) {
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
             />
+
+            <div className={cx('row y10')}>
+                <span className={cx('text-gray h6 x5')}>
+                    {Languages.auth.accountYet}
+                </span>
+                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
+                    {Languages.auth.registerNow}
+                </span>
+            </div>
         </div>;
     }, [isMobile, onForgotPwd, onNavigate]);
 

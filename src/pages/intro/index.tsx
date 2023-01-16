@@ -1,37 +1,34 @@
-import { Col, Row, Pagination } from 'antd';
-import BannerInvest from 'assets/image/bg_banner_invest.jpeg';
-import ImgAppStore from 'assets/image/img_app_store.jpg';
+import { Col, Row } from 'antd';
+import ImgAppStore from 'assets/image/img_app_store.svg';
 import ImgCircle from 'assets/image/img_circle.jpeg';
-import ImgGGPLay from 'assets/image/img_gg_chplay.jpg';
-import ImgHalf from 'assets/image/img_half_phone.jpeg';
+import ImgGGPLay from 'assets/image/img_gg_chplay.svg';
+import ImgHalf from 'assets/image/img_half_phone.jpg';
 import ImgHeader from 'assets/image/img_home_header.jpg';
 import ImgPerson from 'assets/image/img_person.jpeg';
 import ImgPhone from 'assets/image/img_phone1.jpeg';
 import ImgPhone1 from 'assets/image/img_phone2.jpeg';
 import ImgPhone2 from 'assets/image/img_phone3.jpeg';
 import ImgPosterVideo from 'assets/image/img_poster.jpeg';
-import ImgQRCode from 'assets/image/img_qr_code.jpg';
+import ImgQRCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
+import { BUTTON_STYLES } from 'components/button/types';
 import Footer from 'components/footer';
 import InvestItem from 'components/invest-item';
+import { Loading } from 'components/loading';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { useWindowSize } from 'hooks/use-window-size';
 import { ItemProps } from 'models/common';
+import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
-import { InvestFilter, PackageInvest } from 'models/invest';
-import { infoInvest, serviceList, videoIntro } from 'pages/__mocks__/intro';
-import { amountListData, dateListData, investListData } from 'pages/__mocks__/invest';
+import { PackageInvest } from 'models/invest';
+import { serviceList, videoIntro } from 'pages/__mocks__/intro';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
-import type { PaginationProps } from 'antd';
-import Count from './count';
+import utils from 'utils/utils';
 import styles from './intro.module.scss';
-import { useAppStore } from 'hooks';
-import { Loading } from 'components/loading';
-import { DashBroadModel } from 'models/dash';
 
 const cx = classNames.bind(styles);
 
@@ -39,12 +36,13 @@ function Intro() {
     const [step, setStep] = useState<number>(1);
     const { apiServices } = useAppStore();
     const isMobile = useIsMobile();
-    const [dataFilter, setDataFilter] = useState<InvestFilter>({});
     const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
     const [numberPage, setNumberPage] = useState<number>(1);
+    const [dataMoney, setDataMoney] = useState<ItemProps[]>([]);
+    const [dataTime, setDataTime] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [dataArr, setDataArr] = useState<PackageInvest[]>();
+    const [dataArr, setDataArr] = useState<PackageInvest[]>([]);
     const [dataDash, setDataDash] = useState<DashBroadModel>();
 
     const PAGE_SIZE = 9;
@@ -60,27 +58,43 @@ function Intro() {
     const pickerDateRef = useRef<PickerAction>(null);
     const elementRef = useRef<any>(null);
 
-    const screenSize = useWindowSize();
-
     useEffect(() => {
         setTopIntroHeight(elementRef?.current?.clientHeight);
         fetchDataInvest();
         fetchContractsDash();
-    }, [screenSize]);
-
-    useEffect(() => {
-        const scrollHandler = () => {
-            const count = document.getElementById(cx('inner-center')) as HTMLElement;
-            const end = count?.getBoundingClientRect();
-            if (end.bottom < window.innerHeight && end.bottom > 0) {
-                setRun(true);
-            }
-        };
-        window.addEventListener('scroll', scrollHandler, true);
-        return () => {
-            window.removeEventListener('scroll', scrollHandler, true);
-        };
+        fetchDataMoney();
+        fetchDataTimeInvestment();
     }, []);
+
+    // useEffect(() => {
+    //     const scrollHandler = () => {
+    //         const count = document.getElementById(cx('inner-center')) as HTMLElement;
+    //         const end = count?.getBoundingClientRect();
+    //         if (end.bottom < window.innerHeight && end.bottom > 0) {
+    //             setRun(true);
+    //         }
+    //     };
+    //     window.addEventListener('scroll', scrollHandler, true);
+    //     return () => {
+    //         window.removeEventListener('scroll', scrollHandler, true);
+    //     };
+    // }, []);
+
+    const fetchDataMoney = useCallback(async () => {
+        const res = await apiServices.invest.getListMoneyInvestment() as any;
+        if (res.success) {
+            const data = utils.formatObjectFilterInvest(res.data as ItemProps[]);
+            setDataMoney(data);
+        }
+    }, [apiServices.invest]);
+
+    const fetchDataTimeInvestment = useCallback(async () => {
+        const res = await apiServices.invest.getListTimeInvestment() as any;
+        if (res.success) {
+            const data = utils.formatObjectFilterInvest(res.data as ItemProps[]);
+            setDataTime(data);
+        }
+    }, [apiServices.invest]);
 
     const fetchContractsDash = useCallback(async () => {
         setIsLoading(true);
@@ -92,26 +106,30 @@ function Intro() {
         }
     }, [apiServices.common]);
 
-    const fetchDataInvest = useCallback(async (number_page?: number) => {
-
+    const fetchDataInvest = useCallback(async () => {
         setIsLoading(true);
-        const resInvest = await apiServices.common.getListInvest(
-            PAGE_SIZE,
-            condition.current.offset * (number_page || 0),
-            condition.current.timeInvestment,
-            condition.current.moneyInvest,
-        ) as any;
-        setIsLoading(false);
-        if (resInvest.success) {
-            const data = resInvest?.data as PackageInvest[];
-            const dataSize = data.length;
-            if (dataSize > 0) {
-                setDataArr(data);
+        if (condition.current.isLoading) {
+            const resInvest = await apiServices.common.getListInvest(
+                PAGE_SIZE,
+                condition.current.offset,
+                condition.current.timeInvestment,
+                condition.current.moneyInvest,
+            ) as any;
+            setIsLoading(false);
+            if (resInvest.success) {
+                const data = resInvest?.data as PackageInvest[];
+                const dataSize = data.length;
+                if (dataSize > 0) {
+                    if (condition.current.offset === 0) {
+                        setDataArr(data);
+                    } else {
+                        setDataArr((list) => [...list || [], ...data]);
+                    }
+                }
             }
         }
         condition.current.isLoading = false;
         setIsLoading(false);
-
     }, [apiServices.common]);
 
     const renderViewTop = useMemo(() => {
@@ -153,20 +171,23 @@ function Intro() {
         );
     }, []);
 
-    const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
-        const onSelectItem = (item: any) => {
-            // setDataFilter({
-            //     dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-            //     amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-            // });
-            condition.current.timeInvestment = item.id;
-            if (_title === Languages.invest.dateInvest) {
-                condition.current.timeInvestment = item.id;
-            } else {
-                condition.current.moneyInvest = item.id;
-            }
-            fetchDataInvest(numberPage);
-        };
+    const onSelectItemTime = useCallback((item: any) => {
+        condition.current.timeInvestment = item;
+        condition.current.isLoading = true;
+        condition.current.offset = 0;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
+
+    const onSelectItemMoney = useCallback((item: any) => {
+        condition.current.moneyInvest = item;
+        condition.current.isLoading = true;
+        condition.current.offset = 0;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
+    const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[], onSelectItem: any) => {
+
         return (
             <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={8} >
                 <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
@@ -184,20 +205,19 @@ function Intro() {
         );
     }, []);
 
+    const onLoadMore = useCallback(() => {
+        condition.current.offset += PAGE_SIZE;
+        condition.current.isLoading = true;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
     const renderViewInvest = useMemo(() => {
-
-        const onchange: PaginationProps['onChange'] = (page) => {
-            console.log(page);
-            setNumberPage(page);
-            fetchDataInvest(page);
-        };
-
         return (
             <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
                 <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountListData)}
-                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateListData)}
+                    {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dataMoney, onSelectItemMoney)}
+                    {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dataTime, onSelectItemTime)}
                 </Row>
 
                 <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
@@ -205,16 +225,19 @@ function Intro() {
                         return renderItemInvest(index, itemInvest);
                     })}
                 </Row>
-                <Pagination
-                    current={numberPage}
-                    total={30}
-                    className={cx('pagination')}
-                    onChange={onchange}
-                    pageSize={9}
-                />
+                <div className={cx('center')}>
+                    <Button
+                        label={Languages.invest.moreInvest}
+                        buttonStyle={BUTTON_STYLES.GREEN}
+                        isLowerCase
+                        containButtonStyles={'y30'}
+                        onPress={onLoadMore}
+                        customStyles={{ paddingRight: 25, paddingLeft: 25, marginTop: 50 }}
+                    />
+                </div>
             </div>
         );
-    }, [dataArr, isMobile, numberPage, renderItemInvest, renderPicker]);
+    }, [dataArr, dataMoney, dataTime, isMobile, onLoadMore, onSelectItemMoney, onSelectItemTime, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 
@@ -254,20 +277,6 @@ function Intro() {
     const getTopHeight = useCallback(() => {
         const screenHeight = window.innerHeight;
         return isMobile ? 0.45 * screenHeight : 0.45 * screenHeight;
-    }, [isMobile]);
-
-    const renderLeftBackground = useMemo(() => {
-        return {
-            backgroundImage: `url(${BannerInvest})`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            width: '100%',
-            height: isMobile ? '45vh' : '25vh',
-            justifyContent: 'center',
-            alignItems: 'center',
-            display: 'flex'
-        };
     }, [isMobile]);
 
     const renderTopBackground = useMemo(() => {
@@ -412,6 +421,7 @@ function Intro() {
                     <span className={cx('text-black h6')}>{Languages.intro.stepContent}</span>
                     {isMobile ? renderGroupStepMobile : renderGroupStepWeb}
                 </div>
+                {/* not support */}
                 {/* <div style={renderLeftBackground}>
                     <div id={cx('inner-center')}>
                         <div id={cx('text-content')}>
@@ -485,7 +495,7 @@ function Intro() {
                 <span className={cx('text-green medium h3')}>{Languages.intro.serviceHot}</span>
 
                 <div className={cx('row y20', 'service')}>
-                    <Marquee pauseOnHover gradient={false}>
+                    <Marquee pauseOnHover gradient={false} speed={40}>
                         {serviceList.map((item: ServiceModel, index: number) => {
                             return (
                                 <a key={index} className={cx('item-service', 'row center', 'padding-item')} href={item.link}>
@@ -505,19 +515,23 @@ function Intro() {
 
     const renderBottom = useMemo(() => {
         return (
-            <div className={cx('column', 'padding-bottom', 'container')}>
-                <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
+            <div className={cx('column', 'padding-bottom')}>
                 <Row gutter={[24, 16]} className={cx('container')}>
                     <Col xs={24} md={24} lg={12} xl={12}>
+                        <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
                         <div className={cx('column')}>
-                            <span className={cx('text-red medium h3 y10')}>{Languages.intro.appMobile}</span>
-                            <span className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</span>
+                            <span className={cx('text-black h5 y10')}>
+                                {Languages.intro.appMobile[0]}
+                                <span className={cx('text-green')}>{Languages.intro.appMobile[1]}</span>
+                                {Languages.intro.appMobile[2]}
+                            </span>
+
                             <div className={cx('row y40')}>
                                 <div className={cx('column x50 space-between center pt5 pb5')}>
                                     <img src={ImgAppStore} width={'100%'} />
                                     <img src={ImgGGPLay} width={'100%'} />
                                 </div>
-                                <img src={ImgQRCode} />
+                                <img src={ImgQRCode} width={'30%'} />
                             </div>
                         </div>
                     </Col>

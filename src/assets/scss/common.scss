@@ -140,6 +140,11 @@ $desktop-width: 1024px;
     color: $color-gray8;
 }
 
+.text-gray3 {
+    font-family: $font-medium;
+    color: $color-gray3;
+}
+
 .text-red {
     font-family: $font-regular;
     color: $color-red;
@@ -256,6 +261,10 @@ $desktop-width: 1024px;
     padding: 12px;
 }
 
+.p16 {
+    padding: 26px 16px;
+}
+
 .p24 {
     padding: 24px;
 }
@@ -266,6 +275,10 @@ $desktop-width: 1024px;
 
 .x10 {
     margin-right: 10px;
+}
+
+.x15 {
+    margin-right: 15px;
 }
 
 .xl5 {
@@ -450,4 +463,8 @@ $desktop-width: 1024px;
     @include mobile {
         gap: 16px;
     }
+}
+
+.opacity-05 {
+    opacity: 0.5;
 }

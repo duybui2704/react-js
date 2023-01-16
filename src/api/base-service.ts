@@ -48,7 +48,7 @@ export class BaseService {
 
         _api.interceptors.response.use(async (response: any) => {
             if (response && response.data) {
-                const { data, message, code, success, history, total, endPoint } = await this.checkResponseAPI(response, isDontShowToast);
+                const { data, message, code, success, history, total, endPoint, payment } = await this.checkResponseAPI(response, isDontShowToast);
 
                 if (typeof data !== 'undefined') {
                     try {
@@ -64,6 +64,7 @@ export class BaseService {
                 response.code = code;
                 response.history = history;
                 response.total = total;
+                response.payment = payment;
 
                 // send error notify when encounter 5xx code
                 if (code > 500 && code < 600) {
@@ -170,8 +171,7 @@ export class BaseService {
                 }
             });
         }
-
-        formData.forEach(entries => console.log(entries));
+        console.log('formData === ', data);
         return formData;
     };
 

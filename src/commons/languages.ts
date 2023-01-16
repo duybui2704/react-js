@@ -69,7 +69,14 @@ const Languages = {
         emptyList: 'Không có dữ liệu',
         emptyOTP: 'Mã OTP không được để trống',
         userOTPLength: 'Mã OTP không đủ 6 kí tự',
-        errMsgOTP: 'Mã OTP không hợp lệ'
+        errMsgOTP: 'Mã OTP không hợp lệ',
+        uploadingError: 'Tải ảnh thất bại!',
+        errEmptyIdentity: 'Bạn cần điền đầy đủ thông tin trước khi xác thực!',
+        errEmptyPhoto: 'Bạn cần tải lên đầy đủ ảnh mặt trước, mặt sau CMT/CCCD và ảnh chân dung trước khi xác thực!',
+        errStkEmpty: 'Số tài khoản hoặc số thẻ trống',
+        errNameEmpty: 'Tên chủ tài khoản ngân hàng trống',
+        errBankEmpty: 'Ngân hàng chưa được chọn',
+        errStk: 'Số tài khoản hoặc số thẻ ít hơn giới hạn cho phép'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {
@@ -86,18 +93,18 @@ const Languages = {
         copyRight: '© 2022 - Bản quyền thuộc Công ty Cổ phần Tài chính Việt',
         contactAccessIfErr: 'Hotline: ',
         sdtIfErrAccess: '1900 xxxx',
-        companyName:' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
+        companyName: ' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
         companyAddress: ' Tầng 15, Khối B, Tòa nhà Sông Đà, Phạm Hùng, Mỹ Đình 1, Nam Từ Liêm, Hà Nội',
-        email:'Email: contact@tienngay.vn',
-        phone:'Phone: contact@tienngay.vn',
-        information:'Thông tin',
-        informationChild:['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
-        customerSupport:'Hỗ trợ khách hàng',
-        customerChild:['Sản phẩm','Điểm giao dịch'],
-        customerFeedback : 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
-        yourComments : 'Góp ý của bạn',
-        sendFeedback : 'Gửi phản hồi',
-        yourName : 'Tên của bạn',
+        email: 'Email: contact@tienngay.vn',
+        phone: 'Phone: contact@tienngay.vn',
+        information: 'Thông tin',
+        informationChild: ['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
+        customerSupport: 'Hỗ trợ khách hàng',
+        customerChild: ['Sản phẩm', 'Điểm giao dịch'],
+        customerFeedback: 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
+        yourComments: 'Góp ý của bạn',
+        sendFeedback: 'Gửi phản hồi',
+        yourName: 'Tên của bạn',
         phoneNumber: 'Số điện thoại'
     },
     auth: {
@@ -130,7 +137,10 @@ const Languages = {
         changePwd: 'Đổi mật khẩu',
         sendToAfterOTP: 'Gửi lại mã sau',
         sendToOTP: 'Gửi lại mã',
-        minute: 'phút'
+        minute: 'phút',
+        loginAccountNow: 'Đăng nhập vào tài khoản bạn ngay?',
+        registerAccountNow: 'Tạo tài khoản ngay bây giờ?',
+        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. '
     },
     home: {
     },
@@ -155,7 +165,7 @@ const Languages = {
         expectedDueDate: 'Ngày đáo hạn dự kiến',
         totalProfitReceived: 'Tổng lãi nhận được',
         monthlyInterestRate: 'Lãi suất hàng tháng',
-        monthlyInterest: 'Lãi hàng tháng',
+        monthlyInterest: 'Lãi trung bình hàng tháng',
         formInterest: 'Hình thức trả lãi',
         investNote: 'Lưu ý khi đầu tư',
         infoContract: 'Thông tin hợp đồng',
@@ -180,7 +190,18 @@ const Languages = {
         estimatedPaymentSchedule: 'Lịch thanh toán dự kiến',
         agreePolicy: 'Tôi đã đọc và đồng ý với $ của TienNgay.vn',
         policy: 'Điều khoản sử dụng và chính sách',
-        discoveryNow: 'Khám phá ngay'
+        discoveryNow: 'Khám phá ngay',
+        moreInvest: 'Xem thêm các gói đầu tư khác',
+        topUpSuccess: 'TienNgay đã nhận được khoản tiền của bạn.',
+        unconfirmed: 'Bạn chưa xác thực tài khoản!',
+        contentUnconfirmed: 'Xác thực tài khoản để tăng độ an toàn khi đầu tư và sử dụng ứng dụng',
+        noAccount: 'Bạn chưa có tài khoản nhận lãi!',
+        contentNoAccount: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư. Cập nhật và trải nghiệm đầu tư ngay',
+        contentWaitingConfirm: 'Chứng từ của bạn đang được xác minh, bạn có thể tiến hành đầu tư sau khi chứng từ đã được xác thực',
+        waitingConfirm: 'Chờ xác minh chứng từ !',
+        agreePolicyToInvest: 'Bạn cần phải tích ô đồng ý với điều khoản sử dụng và chính sách của TienNgay để tiến hành đàu tư!',
+        choosePaymentMethod: 'Bạn chưa chọn hình thức nhận tiền lãi đầu tư. Cập nhật và trải nghiệm đầu tư ngay!',
+        bankAccountEmpty: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư bằng tài khoản ngân hàng. Cập nhật và trải nghiệm đầu tư ngay!'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',
@@ -225,7 +246,7 @@ const Languages = {
         contentProfit3: 'Lãi luôn về đúng hạn',
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
-        appMobile: '- App Mobile'
+        appMobile: ['Tải ứng dụng', ' Đầu tư Tiện Ngay ', 'miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!']
     },
 
     profile: {
@@ -233,7 +254,7 @@ const Languages = {
         edit: 'Chỉnh sửa',
         infoAccount: 'Thông tin cá nhân',
         titleDrawerAccount: 'Tài khoản cá nhân',
-        infoIdentity:'Xác thực tài khoản',
+        infoIdentity: 'Xác thực tài khoản',
         userName: 'Họ và tên',
         birthday: 'Ngày sinh',
         gender: 'Giới tính',
@@ -260,7 +281,11 @@ const Languages = {
         ggLink: 'Liên kết Goggle',
         linked: 'Đã liên kết',
         unlinked: 'Chưa liên kết',
-        logout: 'Đăng xuất'
+        logout: 'Đăng xuất',
+        empty: 'Trống',
+        successEditAvatar: 'Cập nhật ảnh đại diện thành công!',
+        changePass: 'Đổi mật khẩu',
+        successChangePassNotify: 'Xác nhận đổi mật khẩu thành công!'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',
@@ -315,6 +340,7 @@ const Languages = {
     transactionTabs: ['Tất cả', 'Tiền ra', 'Tiền vào'],
     transaction: {
         infoTransactions: 'Thông tin giao dịch',
+        search: 'Tìm kiếm',
         table: {
             stt: 'STT',
             money: 'Tổng',
@@ -344,7 +370,7 @@ const Languages = {
         payed: 'Đã thanh toán',
         unPayed: 'Chưa tới hạn'
     },
-    identity:{
+    identity: {
         title: 'Xác thực tài khoản',
         describeIdentity: 'Cập nhập thông tin chứng từ để xác thực tài khoản',
         identity: 'Số CMND/CCCD',
@@ -357,14 +383,17 @@ const Languages = {
         reChoose: 'Chọn lại',
         verify: 'Xác nhận chứng từ'
     },
-    commission:{
-        investmentCommission : 'Hoa hoa hồng nhà đầu tư',
+    commission: {
+        investmentCommission: 'Hoa hoa hồng nhà đầu tư',
         itemOne: ' Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
         itemTwo: ' Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày 01/09/2022',
         star: '*'
     },
-    tableCommission : {
-        sum : 'Tổng'
+    tableCommission: {
+        sum: 'Tổng'
+    },
+    msgNotify: {
+        successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'
     }
 };
 

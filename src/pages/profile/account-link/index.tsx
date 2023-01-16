@@ -7,11 +7,12 @@ import IcChoose from 'assets/image/ic_choose.svg';
 import IcNoVerify from 'assets/image/ic_red_round_close.svg';
 
 import { useAppStore } from 'hooks';
+import { observer } from 'mobx-react';
 
 
 const cx = classNames.bind(styles);
 
-function AccountLink() {
+const AccountLink = observer(() => {
 
     const { userManager } = useAppStore();
 
@@ -38,6 +39,6 @@ function AccountLink() {
             {renderContent}
         </div>
     );
-}
+});
 
 export default AccountLink;

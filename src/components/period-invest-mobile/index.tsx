@@ -8,10 +8,10 @@ const cx = classNames.bind(style);
 
 const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey} : { dataTableInvest: any, labelArr: Object, arrKey: Array<string> }) => {
 
-    const renderLabel = useCallback((item: Object) => {
+    const renderLabel = useCallback((item?: Object) => {
         for (const key in item) {
-            if (key === 'receivingPeriod') {
-                return <span className={cx('text-green medium h7 text-center')}>{item['receivingPeriod']}</span>;
+            if (key === 'ky_tra') {
+                return <span className={cx('text-green medium h7 text-center')}>{item['ky_tra']}</span>;
             }
             if (key === 'status') {
                 return <span className={cx('h7 center', item[key] === TYPE_STATUS_INVEST.PAYED ? 'text-green' : 'text-gray')}>

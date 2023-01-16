@@ -1,4 +1,3 @@
-import { ItemProps } from './../../models/common.d';
 import { BankInformationModel, DataColumnCommissionType, DataColumnHistoryType, DataColumnInvestType, DataTotalColumnCommissionType, PackageInvest } from "models/invest";
 
 export const investListData =
@@ -468,14 +467,14 @@ export const dataColumnCommission: DataColumnCommissionType[] = [
     }
 ];
 
-const totalCommission: DataTotalColumnCommissionType= {
+const totalCommission: DataTotalColumnCommissionType = {
     totalInvest: '3,000,000',
     totalCommission: '2,000,000'
 }
 
 export const DataCommission = {
-body: dataColumnCommission,
-total:totalCommission
+    body: dataColumnCommission,
+    total: totalCommission
 }
 
 export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
@@ -483,7 +482,7 @@ export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'S�
 export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const InvestMethod = [
-    {   
+    {
         id: 1,
         text: 'Tài khoản Ngân lượng',
         value: 'nganluong'
@@ -492,12 +491,7 @@ export const InvestMethod = [
         id: 2,
         text: 'Tài khoản ngân hàng',
         value: 'bank'
-    },
-    {
-        id: 3,
-        text: 'Tài khoản Vimo',
-        value: 'vimo'
-    },
+    }
 ]
 
 export const BankTransferInfo: BankInformationModel = {
@@ -513,10 +507,10 @@ export const BankTransferInfo: BankInformationModel = {
     id: '970415',
 }
 
-export const arrKey = ['stt', 'receivingPeriod', 'principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKey = ['stt', 'ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total', 'status', 'receivedDate'];
 
-export const arrKeyMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
 
 

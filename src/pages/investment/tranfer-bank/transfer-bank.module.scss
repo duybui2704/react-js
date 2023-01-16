@@ -80,7 +80,7 @@
     color: $color-gray8;
     font-size: $text-h6;
     font-family: $font-regular;
-    padding: 16px 0 4px 0;
+    padding-top: 16px;
 }
 
 .receiver-transfer-amount-text-value {
@@ -152,12 +152,26 @@
     color: $color-gray6;
     font-size: $text-h6;
     font-family: $font-medium;
+    display: flex;
+    flex: 0.2;
 }
 
 .bank-field-value {
     color: $color-gray11;
     font-size: $text-h5;
     font-family: $font-medium;
+    display: flex;
+    flex: 0.7;
+    justify-content: flex-end;
+}
+
+.bank-field-value-no-value {
+    color: $color-gray;
+    font-size: $text-h5;
+    font-family: $font-medium;
+    display: flex;
+    flex: 0.7;
+    justify-content: flex-end;
 }
 
 .bank-owner {
@@ -172,6 +186,7 @@
     border-bottom: 1px solid $color-gray5;
     padding-bottom: 12px;
     max-width: 400px;
+    align-self: center;
 }
 
 .bank-info-cell {
@@ -187,6 +202,12 @@
 
 .bank-info-cell-text {
     color: $color-gray8;
+    font-size: $text-h5;
+    font-family: $font-medium;
+}
+
+.bank-info-cell-text-no-value {
+    color: $color-gray;
     font-size: $text-h5;
     font-family: $font-medium;
 }

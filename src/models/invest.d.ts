@@ -136,3 +136,12 @@ export interface DataTotalColumnCommissionType {
     totalInvest: string;
     totalCommission: string;
 }
+
+export interface DataColumnPaymentType {
+    stt: number;
+    ky_tra: string;
+    tien_goc_tra: string;
+    tien_lai_tra: string;
+    tong_goc_lai: string;
+    ngay_nhan: string;
+}

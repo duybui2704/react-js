@@ -6,7 +6,7 @@ import IcLeftArrow from 'assets/image/ic_gray_small_arrow_left.svg';
 import IcWhiteLeftArrow from 'assets/image/ic_white_left_arrow.svg';
 import Languages from 'commons/languages';
 import { Col, Row } from 'antd';
-import { DataColumnHistoryType, DataColumnInvestType, PackageInvest } from 'models/invest';
+import { DataColumnHistoryType, DataColumnInvestType, DataColumnPaymentType, PackageInvest } from 'models/invest';
 import IcRightArrow from 'assets/image/ic_white_small_right_arrow.svg';
 import IcPopupAuth from 'assets/image/ic_popup_auth.svg';
 import IcPopupVerify from 'assets/image/ic_popup_verify.svg';
@@ -23,14 +23,15 @@ import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHis
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';
+import { ApiServices } from 'api';
 
 const cx = classNames.bind(styles);
 
 const labelArr = {
-    receivedDate: Languages.invest.datePayment,
-    principalAmount: Languages.invest.principalAmount,
-    profitAmount: Languages.invest.interestAmount,
-    total: Languages.invest.totalAmount
+    ngay_nhan: Languages.invest.datePayment,
+    tien_goc_tra: Languages.invest.principalAmount,
+    tien_lai_tra: Languages.invest.interestAmount,
+    tong_goc_lai: Languages.invest.totalAmount
 };
 
 const labelArrHistory = {
@@ -40,27 +41,29 @@ const labelArrHistory = {
     total: Languages.invest.totalAmount
 };
 
+
 function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
-        onBackScreen: () => void, onNextScreen?: () => void,
-        investPackage?: PackageInvest, isDetailHistory?: boolean, tabDetailHistory?: number
+        onBackScreen: () => void,
+        onNextScreen?: () => void,
+        investPackage?: PackageInvest,
+        isDetailHistory?: boolean,
+        tabDetailHistory?: number
     }) {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
 
-    const [dataPackage, setDataPackage] = useState<PackageInvest>();
-    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnInvestType[]>([]);
+    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnPaymentType[]>([]);
     const [dataDetailHistory, setDataDetailHistory] = useState<DataColumnHistoryType[]>([]);
-    const { userManager } = useAppStore();
+    const { userManager, apiServices } = useAppStore();
 
     const popupAuthRef = useRef<PopupBaseActions>(null);
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
 
     useEffect(() => {
-        setDataPackage(investPackage);
-        setDataPeriodInvest(convertData(dataColumnInvest));
-        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? convertData(dataColumnInvesting) : convertData(dataColumnHistory));
-    }, [investPackage, tabDetailHistory]);
+        fetchDataPeriodInvest();
+        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? dataPeriodInvest : convertData(dataColumnHistory));
+    }, []);
 
     const convertData = useCallback((data: any) => {
         for (let i = 0; i < data?.length; i++) {
@@ -77,6 +80,16 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         onNextScreen?.();
     }, [onNextScreen]);
 
+    const fetchDataPeriodInvest = useCallback(async () => {
+        if (investPackage) {
+            const resultPeriodInvest = await apiServices.invest.getInvestDetail(investPackage.id) as any;
+            if (resultPeriodInvest.success) {
+                const dataResultPeriodInvest = (resultPeriodInvest?.payment);
+                setDataPeriodInvest(dataResultPeriodInvest);
+            }
+        }
+    }, [apiServices.invest, investPackage]);
+
     const renderKeyValue = useCallback((_key?: string, _value?: string) => {
         return (
             <div className={cx('key-value-container')}>
@@ -87,14 +100,14 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, [isMobile]);
 
     const handleInvestNow = useCallback(() => {
-        // if (userManager?.userInfo) {
-        //     popupAccVerifyRef.current?.showModal();
-        // } else if (!userManager.userInfo?.tinh_trang) {
-        //     popupAuthRef.current?.showModal();
-        // } else {
-        onNextPage();
-        // }
-    }, [onNextPage]);
+        if (userManager?.userInfo) {
+            popupAccVerifyRef.current?.showModal();
+        } else if (!userManager.userInfo?.tinh_trang) {
+            popupAuthRef.current?.showModal();
+        } else {
+            onNextPage();
+        }
+    }, [onNextPage, userManager.userInfo]);
 
     const renderPopup = useCallback((
         _ref: any, _labelLeft?: string, _labelRight?: string,
@@ -126,23 +139,23 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         return (
             <div className={cx(isMobile ? 'content-invest-container-mobile' : 'content-invest-container')}>
                 <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
+                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{investPackage?.so_tien_dau_tu.replace(' VND', '')}</span>
                 <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                        {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_con_lai || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(dataPackage?.tong_goc_da_tra || '0'))}
-                        {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, dataPackage?.ngay_dau_tu)}
-                        {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
+                        {renderKeyValue(Languages.invest.contractId, investPackage?.ma_hop_dong)}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(investPackage?.tong_goc_con_lai))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(investPackage?.tong_goc_da_tra))}
+                        {renderKeyValue(Languages.invest.investmentTerm, investPackage?.thoi_gian_dau_tu)}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, investPackage?.ngay_dau_tu)}
+                        {renderKeyValue(Languages.invest.expectedDueDate, investPackage?.ngay_dao_han_du_kien)}
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
-                        {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
-                        {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                        {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_nhan || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(dataPackage?.tong_lai_da_tra || '0'))}
-                        {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai)}
+                        {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(investPackage?.tong_lai_nhan_duoc))}
+                        {renderKeyValue(Languages.invest.interestYear, investPackage?.ti_le_lai_suat_hang_nam)}
+                        {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(investPackage?.lai_hang_thang || '0'))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(investPackage?.tong_lai_da_nhan))}
+                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(investPackage?.tong_lai_da_tra))}
+                        {renderKeyValue(Languages.invest.formInterest, investPackage?.hinh_thuc_tra_lai)}
                     </Col>
                 </Row>
                 {!isDetailHistory && <div className={cx('invest-now-wrap')}>
@@ -153,11 +166,11 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                 </div>}
             </div>
         );
-    }, [dataPackage, handleInvestNow, isDetailHistory, isMobile, renderKeyValue]);
+    }, [investPackage, handleInvestNow, isDetailHistory, isMobile, renderKeyValue]);
 
     const renderDetailPayment = useMemo(() => {
         return (
-            <div className={cx(isMobile ? 'invest-note-container-mobile' :'invest-note-container')}>
+            <div className={cx(isMobile ? 'invest-note-container-mobile' : 'invest-note-container')}>
                 <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
                 {isMobile ?
                     <PeriodInvestMobile
@@ -189,7 +202,7 @@ function InvestDetail({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                         <div className={cx('footer')}>
                             <Footer />
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
             {renderPopup(popupAuthRef, Languages.auth.login, Languages.auth.register, IcPopupAuth, Languages.invest.noteAuth, Languages.invest.describeAuth)}

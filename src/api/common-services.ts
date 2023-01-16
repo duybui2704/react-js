@@ -32,5 +32,22 @@ export class CommonServices extends BaseService {
                 note
             })
         );
+
+    uploadImage = async (file: any) => {
+        const form = new FormData();
+        form.append('file', file);
+
+        const resUpload: any = await this.api().post(API_CONFIG.UPLOAD_MEDIA, form);
+        if (resUpload?.success) {
+            const dataUpload = resUpload?.data;
+            if (dataUpload) {
+                return { success: true, data: dataUpload };
+            }
+            return { success: false, data: null };
+        }
+
+        return { success: false, data: null };
+
+    };
 }
 

@@ -1,15 +1,12 @@
 import { Col, Row, Steps } from 'antd';
 import BgAuth from 'assets/image/bg_auth.jpg';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
-import ImgAppStore from 'assets/image/img_app_store.png';
-import ImgChange from 'assets/image/img_change_pass.jpeg';
-import ImgForgot from 'assets/image/img_forgot.jpeg';
-import ImgGooglePlay from 'assets/image/img_google_play.png';
-import ImgLogin from 'assets/image/img_login.jpeg';
+import ImgAppStore from 'assets/image/img_app_store.svg';
+import BgPwd from 'assets/image/bg_pwd.svg';
+import ImgGooglePlay from 'assets/image/img_gg_chplay.svg';
+import ImgLogin from 'assets/image/bg_login.svg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
-import ImgOtp from 'assets/image/img_otp.jpeg';
-import ImgQrCode from 'assets/image/img_qr_download.png';
-import ImgSignUp from 'assets/image/img_sign_up.jpeg';
+import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import useIsMobile from 'hooks/use-is-mobile.hook';
@@ -45,14 +42,11 @@ function Auth() {
             switch (steps?.name) {
                 case Languages.auth.login:
                     return ImgLogin;
-                case Languages.auth.signUp:
-                    return ImgSignUp;
                 case Languages.auth.changePwd:
-                    return ImgChange;
                 case Languages.auth.forgotPwd:
-                    return ImgForgot;
                 case Languages.auth.enterAuthCode:
-                    return ImgOtp;
+                    return BgPwd;
+                case Languages.auth.signUp:
                 default:
                     return BgAuth;
             }
@@ -101,18 +95,7 @@ function Auth() {
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
         setSteps(transmissionName);
-        transmissionName.onPressOTP();
     }, []);
-
-    const resendOTP = useCallback(async () => {
-        console.log('steps === ', steps);
-        await steps.onPressOTP?.();
-    }, [steps]);
-
-    useEffect(() => {
-        console.log('uupdated');
-
-    }, [steps]);
 
     const renderSteps = useMemo(() => {
 
@@ -124,13 +107,13 @@ function Auth() {
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
-                return <OTPAuth onPress={onChangeSteps} resend={resendOTP} phoneNumber={steps?.phone} title={steps?.title} />;
+                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} title={steps?.title} />;
             case Languages.auth.changePwd:
                 return <ChangePwd onPress={onChangeSteps} />;
             default:
                 return null;
         }
-    }, [onChangeSteps, resendOTP, steps]);
+    }, [onChangeSteps, steps]);
 
     const renderView = useMemo(() => {
         return <div className={isMobile ? cx('column', 'root-container', 'scroll') : cx('row', 'root-container')}>
@@ -138,7 +121,7 @@ function Auth() {
                 <Col xs={24} md={24} lg={12} xl={16} className={cx('container')}>
                     {renderLeftContent}
                 </Col>
-                <Col xs={24} md={24} lg={12} xl={8} >
+                <Col xs={24} md={24} lg={12} xl={8} className={cx('right')}>
                     {renderSteps}
                 </Col>
             </Row>

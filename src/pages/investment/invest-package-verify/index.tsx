@@ -16,17 +16,22 @@ import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
 import RadioInvestMethod from 'components/radio-invest-method';
 import { InvestMethod } from 'pages/__mocks__/invest';
-import { TYPE_TRANSFER_AMOUNT } from 'commons/constants';
+import { COLOR_TRANSACTION, TYPE_TRANSFER_AMOUNT } from 'commons/constants';
 import Footer from 'components/footer';
+import toasty from 'utils/toasty';
 
 const cx = classNames.bind(styles);
 
-function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { onBackDetail: () => void, onNextScreen: () => void, investPackage?: PackageInvest }) {
+const InvestPackageVerify = ({ onBackDetail, onNextScreen, investPackage }: {
+    onBackDetail: () => void,
+    onNextScreen: () => void,
+    investPackage?: PackageInvest
+}) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
 
     const [dataPackage, setDataPackage] = useState<PackageInvest>();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices } = useAppStore();
 
     const [isCheckbox, setCheckbox] = useState<boolean>(false);
     const [investMethod, setInvestMethod] = useState<string>('');
@@ -39,9 +44,17 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
         onBackDetail();
     }, [onBackDetail]);
 
-    const onNavigateTransferBank = useCallback(() => {
+    const onNavigateTransferBank = useCallback(async () => {
         onNextScreen();
     }, [onNextScreen]);
+
+    const onNavigateTransferNganLuong = useCallback(async () => {
+        const resPaymentNganLuong = await apiServices.invest.requestNganLuong(`${investPackage?.id}`, 'web') as any;
+        if (resPaymentNganLuong.success && resPaymentNganLuong.data) {
+            // create 1 tabs view to show Ngan Luong, then instead of behind code line.
+            window.open(resPaymentNganLuong?.data as string);
+        }
+    }, [apiServices.invest, investPackage?.id]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string, _redValue?: boolean, noBorder?: boolean) => {
         return (
@@ -58,9 +71,28 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
 
     const handleInvestNow = useCallback(() => {
         if (isCheckbox) {
-            console.log('action invest');
+            if (userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.RED) {
+                toasty.warn(Languages.invest.unconfirmed);
+            } else if (userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.YELLOW) {
+                toasty.warn(Languages.invest.waitingConfirm);
+            }
+            else if (!userManager.userInfo?.tra_lai?.type_interest_receiving_account) {
+                toasty.warn(Languages.invest.noAccount);
+            } else if (investMethod === TYPE_TRANSFER_AMOUNT.BANK) {
+                if (userManager.userInfo?.tra_lai?.name_bank_account) {
+                    onNavigateTransferBank();
+                } else {
+                    toasty.warn(Languages.invest.bankAccountEmpty);
+                }
+            } else if (investMethod === TYPE_TRANSFER_AMOUNT.NGAN_LUONG) {
+                onNavigateTransferNganLuong();
+            } else if (!investMethod) {
+                toasty.warn(Languages.invest.choosePaymentMethod);
+            }
+        } else {
+            toasty.warn(Languages.invest.agreePolicyToInvest);
         }
-    }, [isCheckbox]);
+    }, [investMethod, isCheckbox, onNavigateTransferBank, onNavigateTransferNganLuong, userManager.userInfo?.tinh_trang?.color, userManager.userInfo?.tra_lai]);
 
     const handlePopupPolicy = useCallback(() => {
         window.open(LINKS.POLICY_INVESTOR);
@@ -77,9 +109,6 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
     const renderInvestMethod = useCallback(() => {
         const onChooseMethod = (event: any) => {
             setInvestMethod(event.target?.value);
-            if (event.target.value === TYPE_TRANSFER_AMOUNT.BANK) {
-                onNavigateTransferBank();
-            }
         };
         const changeCheckboxStatus = (event: any) => {
             setCheckbox(event.target.checked);
@@ -91,7 +120,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                 <CheckBox title={renderLabelCheckbox} onChangeText={changeCheckboxStatus} groupCheckBoxContainer={cx(isMobile ? 'group-check-box-container-mobile' : 'group-check-box-container')} />
             </div>
         );
-    }, [investMethod, isMobile, onNavigateTransferBank, renderLabelCheckbox]);
+    }, [investMethod, isMobile, renderLabelCheckbox]);
 
     const renderButtonInvestNow = useMemo(() => {
         return (
@@ -108,19 +137,19 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
         return (
             <div className={cx(isMobile ? 'content-invest-container-mobile' : 'content-invest-container')}>
                 <span className={cx('info-contract-text')}>{Languages.invest.infoContract}</span>
-                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{utils.formatMoneyNotSuffixes(dataPackage?.so_tien_dau_tu || '0')}</span>
+                <span className={cx(isMobile ? 'amount-invest-mobile-text' : 'amount-invest-text')}>{dataPackage?.so_tien_dau_tu.replace(' VND', '')}</span>
                 <div className={cx('invest-wrap')}>
                     <Row gutter={[24, 0]} >
                         <Col xs={24} sm={24} md={24} lg={24} xl={12}>
                             {renderKeyValue(Languages.invest.contractId, dataPackage?.ma_hop_dong)}
-                            {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.ki_han_dau_tu)}
+                            {renderKeyValue(Languages.invest.investmentTerm, dataPackage?.thoi_gian_dau_tu)}
                             {renderKeyValue(Languages.invest.expectedDueDate, dataPackage?.ngay_dao_han_du_kien)}
-                            {renderKeyValue(Languages.invest.amountDemandedForInvestment, utils.formatLoanMoney(dataPackage?.so_tien_dau_tu || '0'), true)}
+                            {renderKeyValue(Languages.invest.amountDemandedForInvestment, utils.formatLoanMoney(dataPackage?.so_tien_dau_tu), true)}
                         </Col>
                         <Col xs={24} sm={24} md={24} lg={24} xl={12}>
-                            {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc || '0'))}
+                            {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(dataPackage?.tong_lai_nhan_duoc))}
                             {renderKeyValue(Languages.invest.monthlyInterestRate, dataPackage?.ti_le_lai_suat_hang_thang)}
-                            {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang || '0'))}
+                            {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(dataPackage?.lai_hang_thang))}
                             {renderKeyValue(Languages.invest.formInterest, dataPackage?.hinh_thuc_tra_lai, false, isMobile ? true : false)}
                         </Col>
                     </Row>
@@ -129,7 +158,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                 {!isMobile && renderButtonInvestNow}
             </div>
         );
-    }, [dataPackage?.hinh_thuc_tra_lai, dataPackage?.ki_han_dau_tu, dataPackage?.lai_hang_thang, dataPackage?.ma_hop_dong, dataPackage?.ngay_dao_han_du_kien, dataPackage?.so_tien_dau_tu, dataPackage?.ti_le_lai_suat_hang_thang, dataPackage?.tong_lai_nhan_duoc, isMobile, renderButtonInvestNow, renderInvestMethod, renderKeyValue]);
+    }, [dataPackage?.hinh_thuc_tra_lai, dataPackage?.lai_hang_thang, dataPackage?.ma_hop_dong, dataPackage?.ngay_dao_han_du_kien, dataPackage?.so_tien_dau_tu, dataPackage?.thoi_gian_dau_tu, dataPackage?.ti_le_lai_suat_hang_thang, dataPackage?.tong_lai_nhan_duoc, isMobile, renderButtonInvestNow, renderInvestMethod, renderKeyValue]);
 
     return (
         <div className={cx('page')}>
@@ -149,7 +178,6 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
                         {renderInvestMethod()}
                         {renderButtonInvestNow}
                     </div>}
-
                     <div className={cx('footer')}>
                         <Footer />
                     </div>
@@ -157,7 +185,7 @@ function InvestPackageVerify({ onBackDetail, onNextScreen, investPackage }: { on
             </div>
         </div>
     );
-}
+};
 
 export default InvestPackageVerify;
 
