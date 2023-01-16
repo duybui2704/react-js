@@ -34,7 +34,7 @@ function InfoPayment() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        setInfo(InfoBank);
+        // setInfo(InfoBank);
         fetchBankList();
     }, []);
 
@@ -89,12 +89,11 @@ function InfoPayment() {
     const onValidate = useCallback(() => {
         const errMsgBank = formValidate.inputEmpty(info.name_bank, Languages.errorMsg.errBankEmpty);
         const errMsgAccNumber = formValidate.inputValidate(info.account_number, Languages.errorMsg.errStkEmpty, Languages.errorMsg.errStk, 16);
-        const errMsgName = formValidate.inputNameEmpty(utils.formatForEachWordCase(info.name_bank || ''), Languages.errorMsg.errNameEmpty, Languages.errorMsg.userNameRegex);
-
+        const errMsgName = formValidate.inputNameEmpty(utils.formatForEachWordCase(info.account_name || ''), Languages.errorMsg.errNameEmpty, Languages.errorMsg.userNameRegex);
         refNumber.current?.setErrorMsg(errMsgAccNumber);
         refName.current?.setErrorMsg(errMsgName);
         refBank.current?.setError(errMsgBank);
-        if (`${errMsgName}${errMsgBank}${errMsgAccNumber}`.length === 0) {
+        if (`${errMsgName}${errMsgAccNumber}${errMsgBank}`.length === 0) {
             return true;
         }
         return false;
@@ -135,26 +134,35 @@ function InfoPayment() {
         setIsEdit(last => !last);
     }, []);
 
+    const checkButtonEdit = useMemo(() => {
+        if (userManager.userInfo?.tra_lai?.name_bank_account === '') return false;
+        if (userManager.userInfo?.tra_lai?.interest_receiving_account === '') return false;
+        if (userManager.userInfo?.tra_lai?.bank_name === '') return false;
+        return userManager.userInfo?.tra_lai?.name_bank_account && userManager.userInfo?.tra_lai?.interest_receiving_account && userManager.userInfo?.tra_lai?.bank_name;
+    }, [userManager.userInfo]);
+
     const renderPayment = useMemo(() => {
         return (
             <div className={cx('container', 'shadow')}>
                 <div className={cx('row space-between b15')}>
                     <span className={cx('text-black h5 medium')}>{Languages.profile.infoPayment}</span>
-                    <Button
-                        label={Languages.profile.edit}
-                        labelStyles={cx('text-white h7 regular')}
-                        rightIcon={ImgEdit}
-                        containButtonStyles={cx('btn-container')}
-                        onPress={onEdit}
-                        isLowerCase
-                    />
+                    {!checkButtonEdit &&
+                        <Button
+                            label={Languages.profile.edit}
+                            labelStyles={cx('text-white h7 regular')}
+                            rightIcon={ImgEdit}
+                            containButtonStyles={cx('btn-container')}
+                            onPress={onEdit}
+                            isLowerCase
+                        />
+                    }
                 </div>
                 {renderItem(Languages.profile.accountName, userManager.userInfo?.tra_lai?.name_bank_account)}
                 {renderItem(Languages.profile.accountNumber, userManager.userInfo?.tra_lai?.interest_receiving_account)}
                 {renderItem(Languages.profile.bank, userManager.userInfo?.tra_lai?.bank_name, true)}
             </div>
         );
-    }, [onEdit, renderItem, userManager.userInfo?.tra_lai?.bank_name, userManager.userInfo?.tra_lai?.interest_receiving_account, userManager.userInfo?.tra_lai?.name_bank_account]);
+    }, [checkButtonEdit, onEdit, renderItem, userManager.userInfo]);
 
     const onChooseBank = useCallback((name: string) => {
         setInfo(last => {
