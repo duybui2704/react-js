@@ -508,10 +508,10 @@ export const BankTransferInfo: BankInformationModel = {
     id: '970415',
 }
 
-export const arrKey = ['stt', 'receivingPeriod', 'principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKey = ['stt', 'ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total', 'status', 'receivedDate'];
 
-export const arrKeyMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
 
 
