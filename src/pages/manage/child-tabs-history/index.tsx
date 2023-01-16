@@ -1,7 +1,8 @@
 import { Col, Row } from 'antd';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import classNames from 'classnames/bind';
-import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
+import { PAGE_SIZE_INVEST } from 'commons/configs';
+import { STATUS_CONTRACT, TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
@@ -21,6 +22,7 @@ import { PackageInvest } from 'models/invest';
 import { amountListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import utils from 'utils/utils';
 import styles from './child-tabs-history.module.scss';
 
 const cx = classNames.bind(styles);
@@ -34,6 +36,7 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     onNextScreen: (data: PackageInvest, tabs: number) => void,
     tabsNumber: number
 }) => {
+
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
@@ -41,44 +44,74 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
 
     const [tabName, setTabName] = useState<number>(tabsNumber);
 
-    const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
+    const [investList, setInvestList] = useState<PackageInvest[]>([]);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [countInvest, setCountInvest] = useState<number>(0);
     const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
 
-    const [loadMore, setLoadMore] = useState<boolean>(true);
+    const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
+    const [offset, setOffset] = useState<number>(0);
 
     const popupSearchRef = useRef<PopupBaseActions>(null);
     const pickerAmountRef = useRef<PickerAction>(null);
 
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
-
+    console.log(tabName);
     useEffect(() => {
-        fetchData();
+        fetchSearch();
+        fetchInvestList();
     }, []);
+
+    const fetchSearch = useCallback(async () => {
+        const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
+        if (amountFilter.success) {
+            const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
+            setAmountList(dataAmountFilter);
+        }
+    }, [apiServices.invest]);
 
     const handleScrollToTop = () => {
         document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
-    const fetchData = useCallback(() => {
-        setAmountList(amountListData);
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
-    }, [tabName]);
-
-    const fetchDataMore = useCallback(() => {
-        setAmountList(amountListData);
-
-        setTimeout(() => {
-            if (investList.length > 10) {
-                setLoadMore(false);
+    const fetchInvestList = useCallback(async (loadMore?: boolean) => {
+        const investmentList = await apiServices.invest.getListContractInvesting(
+            tabName === TYPE_TAB_HISTORY.IS_INVESTING ? STATUS_CONTRACT.EFFECT : STATUS_CONTRACT.EXPIRE,
+            '',
+            '',
+            '',
+            '',
+            loadMore ? offset : 0,
+            PAGE_SIZE_INVEST) as any;
+        if (investmentList.success) {
+            setCountInvest(5);
+            setOffset(last => last + PAGE_SIZE_INVEST);
+            setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
+            if (loadMore) {
+                setInvestList(last => [...last, ...investmentList.data]);
             } else {
-                setInvestList(last => [...last, ...investListMoreData]);
-                console.log('fetch more');
+                setInvestList(investmentList?.data);
             }
-        }, 1500);
-    }, [investList.length]);
+        }
+    }, [apiServices.invest, offset, tabName]);
+
+    // const fetchData = useCallback(() => {
+    //     setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
+    // }, [tabName]);
+
+    // const fetchDataMore = useCallback(() => {
+    //     setAmountList(amountListData);
+
+    //     setTimeout(() => {
+    //         if (investList.length > 10) {
+    //             setLoadMore(false);
+    //         } else {
+    //             setInvestList(last => [...last, ...investListMoreData]);
+    //             console.log('fetch more');
+    //         }
+    //     }, 1500);
+    // }, [investList.length]);
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
         const onSelectItem = (item: any) => {
@@ -201,8 +234,8 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     }, []);
 
     const onSuccessPopup = useCallback(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchInvestList();
+    }, [fetchInvestList]);
 
     const renderPopupSearchPackage = useCallback(() => {
         return (
@@ -216,11 +249,14 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     }, [onClosePopup, onSuccessPopup, renderContentPopup]);
 
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
+        const loadMore = () => {
+            fetchInvestList(true);
+        };
         return (
             <div className={cx('bottom-container')} >
                 <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
                     {renderInvestList(_list)}
-                    <Row gutter={[24, 0]} onClick={fetchDataMore} className={cx('button-see-more')}>
+                    <Row gutter={[24, 0]} onClick={loadMore} className={cx('button-see-more')}>
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
                         </Col>
@@ -231,7 +267,7 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                 </div>
             </div>
         );
-    }, [fetchDataMore, isMobile, renderInvestList]);
+    }, [fetchInvestList, isMobile, renderInvestList]);
 
     const onChangeTab = useCallback((tabNumber: number) => {
         if (tabName !== tabNumber) {
