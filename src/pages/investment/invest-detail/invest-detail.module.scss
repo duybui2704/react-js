@@ -2,7 +2,7 @@
 .page {
     width: 100%;
     overflow: auto;
-    height: 95vh;
+    height: calc(var(--vh, 1vh) * 100 - $header-height);
     -ms-overflow-style: none;
     scrollbar-width: none;
     &::-webkit-scrollbar {

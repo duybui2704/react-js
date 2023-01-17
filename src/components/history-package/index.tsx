@@ -30,16 +30,16 @@ function HistoryPackage({ dataInvest, onPressPackage, isInvesting }:
 
     return (
         <div className={cx('all-container')} onClick={handlePressPackage}>
-            <span className={cx('invest-amount-text')}>{utils.formatLoanMoney(dataInvest?.so_tien_dau_tu || '0')}</span>
+            <span className={cx('invest-amount-text')}>{utils.formatLoanMoney(dataInvest?.so_tien_dau_tu)}</span>
             <div className={cx('invest-pay-form-container')}>
                 <span className={cx('invest-pay-form-text')}>{`${Languages.invest.interestPayForm}${dataInvest?.hinh_thuc_tra_lai}`}</span>
                 <img src={IcWarning} />
             </div>
             {renderKeyValue(Languages.invest.interestYear, dataInvest?.ti_le_lai_suat_hang_nam)}
             {renderKeyValue(Languages.invest.dateInvest, dataInvest?.thoi_gian_dau_tu)}
-            {isInvesting && renderKeyValue(Languages.invest.expectedProfit, utils.formatLoanMoney(dataInvest?.tong_lai_du_kien || '0'))}
-            {renderKeyValue(Languages.history.interestReceived, utils.formatLoanMoney(dataInvest?.tong_lai_da_nhan || '0'))}
-            {isInvesting && renderKeyValue(Languages.history.remainingOriginal, utils.formatLoanMoney(dataInvest?.tong_goc_con_lai || '0'))}
+            {isInvesting && renderKeyValue(Languages.invest.expectedProfit, utils.formatLoanMoney(dataInvest?.tong_lai_du_kien))}
+            {renderKeyValue(Languages.history.interestReceived, utils.formatLoanMoney(dataInvest?.tong_lai_da_tra))}
+            {isInvesting && renderKeyValue(Languages.history.remainingOriginal, utils.formatLoanMoney(dataInvest?.tong_goc_con_lai))}
         </div>
     );
 }

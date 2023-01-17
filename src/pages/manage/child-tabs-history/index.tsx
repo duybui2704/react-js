@@ -1,6 +1,7 @@
 import { Col, Row } from 'antd';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import classNames from 'classnames/bind';
+import { PAGE_SIZE_INVEST } from 'commons/configs';
 import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -17,14 +18,16 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { ItemProps } from 'models/common';
-import { PackageInvest } from 'models/invest';
-import { amountListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
+import { HistoryModel, PackageInvest } from 'models/invest';
+import { amountListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import utils from 'utils/utils';
 import styles from './child-tabs-history.module.scss';
 
 const cx = classNames.bind(styles);
 interface HistoryFilter {
+    optionInvest?: string;
     amountInvest?: string;
     fromDate?: string;
     toDate?: string;
@@ -41,12 +44,14 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
 
     const [tabName, setTabName] = useState<number>(tabsNumber);
 
-    const [investList, setInvestList] = useState<PackageInvest[]>(investListData);
-    const [amountList, setAmountList] = useState<ItemProps[]>([]);
-    const [countInvest, setCountInvest] = useState<number>(0);
-    const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
+    const [investList, setInvestList] = useState<PackageInvest[]>([]);
+    const [countInvest, setCountInvest] = useState<number>(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
 
-    const [loadMore, setLoadMore] = useState<boolean>(true);
+    const [amountList, setAmountList] = useState<ItemProps[]>([]);
+    const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
+    const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
+
+    const [offset, setOffset] = useState<number>(0);
 
     const popupSearchRef = useRef<PopupBaseActions>(null);
     const pickerAmountRef = useRef<PickerAction>(null);
@@ -55,49 +60,98 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const toDateRef = useRef<TextFieldActions>(null);
 
     useEffect(() => {
-        fetchData();
+        fetchDataSearch();
     }, []);
+
+    useEffect(() => {
+        fetchHistoryList();
+    }, [dataFilter]);
+
+    // const fetchDetailHistory = useCallback(async () => {
+    //     const resInvestHistory = await apiServices.invest.getInvestHaveContract(id) as any;
+    //     if (resInvestHistory.success) {
+    //         const res = resInvestHistory.data as PackageInvest;
+    //         const history = resInvestHistory.history as HistoryModel[];
+    //     }
+    // }, [apiServices.invest]);
+
+    const fetchHistoryList = useCallback(async (loadMore?: boolean) => {
+        const investmentList = await apiServices.invest.getListContractInvesting(
+            dataFilter.optionInvest || '1',
+            '',
+            dataFilter.amountInvest || '',
+            dataFilter.fromDate || '',
+            dataFilter.toDate || '',
+            loadMore ? offset : 0,
+            PAGE_SIZE_INVEST) as any;
+
+        if (investmentList.success) {
+            setCountInvest(5);
+            setOffset(last => last + PAGE_SIZE_INVEST);
+            setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
+            if (loadMore) {
+                setInvestList(last => [...last, ...investmentList.data]);
+            } else {
+                setInvestList(investmentList?.data);
+            }
+        }
+    }, [apiServices.invest, dataFilter.amountInvest, dataFilter.fromDate, dataFilter.optionInvest, dataFilter.toDate, offset]);
 
     const handleScrollToTop = () => {
         document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
-    const fetchData = useCallback(() => {
-        setAmountList(amountListData);
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
-    }, [tabName]);
-
-    const fetchDataMore = useCallback(() => {
+    const fetchDataSearch = useCallback(async () => {
         setAmountList(amountListData);
 
-        setTimeout(() => {
-            if (investList.length > 10) {
-                setLoadMore(false);
-            } else {
-                setInvestList(last => [...last, ...investListMoreData]);
-                console.log('fetch more');
-            }
-        }, 1500);
-    }, [investList.length]);
+        const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
+
+        if (amountFilter.success) {
+            const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
+            setAmountList(dataAmountFilter);
+
+        }
+
+    }, [apiServices.invest]);
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
         const onSelectItem = (item: any) => {
+            if (item) {
+                setOffset(0);
+                setDataFilter({
+                    ...dataFilter,
+                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+                });
+            }
+        };
+        const handleClearDataFilter = () => {
+            setOffset(0);
             setDataFilter({
                 ...dataFilter,
-                amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+                amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest
             });
         };
         return (
-            <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder} onSelectItem={onSelectItem} />
+            <PickerComponent ref={_ref}
+                data={_data}
+                title={_title}
+                placeholder={_placeholder}
+                onSelectItem={onSelectItem}
+                onClear={handleClearDataFilter} />
         );
     }, [dataFilter]);
 
     const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
-        const onChangeInput = (event: any) => { // format date: 2022-12-14
-            // const [year, month, day] = _refInput.current?.getValue?.()?.trim().split('-') || '';
-            // const value = `${day}/${month}/${year}` || '';
-            console.log('event==', _refInput.current?.getValue?.());
-
+        const onChangeInput = (event: string) => {
+            if (event) {
+                const isFromDate = _placeHolder === Languages.history.fromDate;
+                setOffset(0);
+                if (event !== dataFilter.fromDate && isFromDate) {
+                    setDataFilter({ ...dataFilter, fromDate: _refInput.current?.getValue?.() });
+                } else if (event !== dataFilter.toDate && !isFromDate) {
+                    setDataFilter({ ...dataFilter, toDate: _refInput.current?.getValue?.() });
+                }
+            }
         };
         return (
             <Col xs={12} sm={12} md={12} lg={12} xl={12} >
@@ -109,10 +163,11 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                     value={_value}
                     maxLength={8}
                     onChangeText={onChangeInput}
+                    max={new Date().toISOString().split('T')[0]}
                 />
             </Col>
         );
-    }, []);
+    }, [dataFilter]);
 
     const handleOpenPopupSearch = useCallback(() => {
         popupSearchRef.current?.showModal();
@@ -121,7 +176,12 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const renderFilterMobile = useMemo(() => {
         return (
             <div className={cx('top-search-mobile-component')}>
-                <span className={cx('text-your-mobile-chance')}>{(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
+                <span className={cx('text-your-mobile-chance')}>
+                    {(tabName === TYPE_TAB_HISTORY.IS_INVESTING
+                        ? Languages.history.havePackage
+                        : Languages.history.haveInvested)
+                        .replace('$count', `${countInvest}`)}
+                </span>
                 <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
                     <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
                     <img src={IcFilter} />
@@ -134,7 +194,12 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
                 {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
-                    <span className={cx('text-your-chance')}>{(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? Languages.history.havePackage : Languages.history.haveInvested).replace('$count', `${countInvest}`)}</span>
+                    <span className={cx('text-your-chance')}>
+                        {(tabName === TYPE_TAB_HISTORY.IS_INVESTING
+                            ? Languages.history.havePackage
+                            : Languages.history.haveInvested)
+                            .replace('$count', `${countInvest}`)}
+                    </span>
                     <span className={cx('text-your-chance-search')}>{Languages.history.searchInvestPackage}</span>
                 </Col>}
                 <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
@@ -176,7 +241,6 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
         const onNavigateInvestDetail = () => {
             onNextScreen(dataInvest, tabName);
             console.log('tabName==', tabName);
-
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
@@ -201,8 +265,8 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     }, []);
 
     const onSuccessPopup = useCallback(() => {
-        fetchData();
-    }, [fetchData]);
+        fetchDataSearch();
+    }, [fetchDataSearch]);
 
     const renderPopupSearchPackage = useCallback(() => {
         return (
@@ -216,14 +280,17 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     }, [onClosePopup, onSuccessPopup, renderContentPopup]);
 
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
+        const loadMore = () => {
+            fetchHistoryList(true);
+        };
         return (
             <div className={cx('bottom-container')} >
                 <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
                     {renderInvestList(_list)}
-                    <Row gutter={[24, 0]} onClick={fetchDataMore} className={cx('button-see-more')}>
-                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                    <Row gutter={[24, 0]} onClick={loadMore} className={cx('button-see-more')}>
+                        {canLoadMore && <Col xs={24} sm={24} md={12} lg={12} xl={8}>
                             <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
-                        </Col>
+                        </Col>}
                     </Row>
                 </div>
                 <div className={cx('footer')}>
@@ -231,11 +298,15 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                 </div>
             </div>
         );
-    }, [fetchDataMore, isMobile, renderInvestList]);
+    }, [canLoadMore, fetchHistoryList, isMobile, renderInvestList]);
 
     const onChangeTab = useCallback((tabNumber: number) => {
         if (tabName !== tabNumber) {
             setTabName(tabNumber);
+            pickerAmountRef.current?.clearValue?.();
+            fromDateRef.current?.setValue?.('');
+            toDateRef.current?.setValue?.('');
+            setDataFilter({ optionInvest: `${tabNumber + 1}` }); // investing: '1', history: '2'
         }
     }, [tabName]);
 
