@@ -37,7 +37,7 @@ const InvestPackageVerify = ({ onBackDetail, onNextScreen, investPackage }: {
     const [investMethod, setInvestMethod] = useState<string>('');
 
     useEffect(() => {
-        setDataPackage(investPackage);
+        setDataPackage(investPackage);        
     }, [investPackage]);
 
     const onBack = useCallback(() => {

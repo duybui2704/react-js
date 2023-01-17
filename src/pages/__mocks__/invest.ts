@@ -393,60 +393,6 @@ export const dataColumnInvest: DataColumnInvestType[] = [
     }
 ];
 
-export const dataColumnHistory: DataColumnHistoryType[] = [
-    {
-        id: '1',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/05/2023'
-    },
-    {
-        id: '2',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/06/2023'
-    },
-    {
-        id: '3',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/07/2023'
-    }
-];
-
-export const dataColumnInvesting: DataColumnHistoryType[] = [
-    {
-        id: '1',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/05/2023'
-    },
-    {
-        id: '2',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/06/2023'
-    },
-    {
-        id: '3',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '0',
-        receivedDate: '12/07/2023'
-    }
-];
-
 export const dataColumnCommission: DataColumnCommissionType[] = [
     {
         id: '1',
@@ -509,10 +455,10 @@ export const BankTransferInfo: BankInformationModel = {
 }
 
 export const arrKey = ['stt', 'ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total', 'status', 'receivedDate'];
+export const arrKeyHistory = ['stt', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'status', 'ngay_nhan'];
 
 export const arrKeyMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyHistoryMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 
 export const labelInvestArr = {
     ngay_nhan: Languages.invest.datePayment,

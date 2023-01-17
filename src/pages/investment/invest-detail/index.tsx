@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
-import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHistory, columnNameInvest, dataColumnHistory, labelArrHistory, labelInvestArr } from 'pages/__mocks__/invest';
+import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHistory, columnNameInvest, labelArrHistory, labelInvestArr } from 'pages/__mocks__/invest';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { COLOR_TRANSACTION, TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';
@@ -28,26 +28,31 @@ const cx = classNames.bind(styles);
 
 const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
-        onBackScreen: () => void,
+        onBackScreen?: () => void,
         onNextScreen?: () => void,
         investPackage?: PackageInvest,
         isDetailHistory?: boolean,
-        tabDetailHistory?: number
+        tabDetailHistory?: number // 0: investing, 1: đã đáo hạn
     }) => {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
+    const { userManager, apiServices } = useAppStore();
 
     const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnPaymentType[]>([]);
     const [dataDetailHistory, setDataDetailHistory] = useState<DataColumnHistoryType[]>([]);
-    const { userManager, apiServices } = useAppStore();
+
+    const [tabDetailHistoryNumber] = useState<number>(tabDetailHistory || 0);
 
     const popupAuthRef = useRef<PopupBaseActions>(null);
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
 
-    useEffect(() => {
-        fetchDataPeriodInvest();
-        setDataDetailHistory(tabDetailHistory === TYPE_TAB_HISTORY.IS_INVESTING ? dataPeriodInvest : convertData(dataColumnHistory));
-    }, []);
+    useEffect(() => {  
+        if (isDetailHistory) {
+            fetchDetailHistoryInvest();
+        } else {
+            fetchDataPeriodInvest();
+        }
+    }, [isDetailHistory]);
 
     const convertData = useCallback((data: any) => {
         for (let i = 0; i < data?.length; i++) {
@@ -57,7 +62,7 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, []);
 
     const onBack = useCallback(() => {
-        onBackScreen();
+        onBackScreen?.();
     }, [onBackScreen]);
 
     const onNextPage = useCallback(() => {
@@ -68,8 +73,18 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         if (investPackage) {
             const resultPeriodInvest = await apiServices.invest.getInvestDetail(investPackage.id) as any;
             if (resultPeriodInvest.success) {
-                const dataResultPeriodInvest = (resultPeriodInvest?.payment);
+                const dataResultPeriodInvest = resultPeriodInvest?.payment as DataColumnPaymentType[];
                 setDataPeriodInvest(dataResultPeriodInvest);
+            }
+        }
+    }, [apiServices.invest, investPackage]);
+
+    const fetchDetailHistoryInvest = useCallback(async () => {
+        if (investPackage) {
+            const resInvestHistory = await apiServices.invest.getInvestHaveContract(`${investPackage?.id}`) as any;
+            if (resInvestHistory.success) {
+                const history = resInvestHistory.history as DataColumnHistoryType[];
+                setDataDetailHistory(history);
             }
         }
     }, [apiServices.invest, investPackage]);
@@ -84,10 +99,10 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     }, [isMobile]);
 
     const handleInvestNow = useCallback(() => {
-        if (userManager?.userInfo?.tinh_trang?.color !== COLOR_TRANSACTION.GREEN) {
-            popupAccVerifyRef.current?.showModal();
-        } else if (!userManager.userInfo) {
+        if (!userManager.userInfo) {
             popupAuthRef.current?.showModal();
+        } else if (userManager?.userInfo?.tinh_trang?.color !== COLOR_TRANSACTION.GREEN) {
+            popupAccVerifyRef.current?.showModal();
         } else {
             onNextPage();
         }
@@ -139,18 +154,37 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                 <Row gutter={[24, 0]} className={cx('invest-wrap')}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                         {renderKeyValue(Languages.invest.contractId, investPackage?.ma_hop_dong)}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingOriginalAmount, utils.formatLoanMoney(investPackage?.tong_goc_con_lai))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedOriginalAmount, utils.formatLoanMoney(investPackage?.tong_goc_da_tra))}
+                        {isDetailHistory &&
+                            renderKeyValue(
+                                Languages.historyDetail.remainingOriginalAmount,
+                                utils.formatLoanMoney(investPackage?.tong_goc_con_lai))
+                        }
+                        {isDetailHistory &&
+                            renderKeyValue(
+                                Languages.historyDetail.receivedOriginalAmount,
+                                utils.formatLoanMoney(investPackage?.tong_goc_da_tra))
+                        }
                         {renderKeyValue(Languages.invest.investmentTerm, investPackage?.thoi_gian_dau_tu)}
                         {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, investPackage?.ngay_dau_tu)}
-                        {renderKeyValue(Languages.invest.expectedDueDate, investPackage?.ngay_dao_han_du_kien)}
+                        {renderKeyValue(
+                            tabDetailHistoryNumber !== TYPE_TAB_HISTORY.EXPIRED ? Languages.invest.expectedDueDate : Languages.invest.expectedDate,
+                            tabDetailHistoryNumber !== TYPE_TAB_HISTORY.IS_INVESTING ? investPackage?.ngay_dao_han_du_kien : investPackage?.ngay_dao_han)
+                        }
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>
                         {renderKeyValue(Languages.invest.totalProfitReceived, utils.formatLoanMoney(investPackage?.tong_lai_nhan_duoc))}
                         {renderKeyValue(Languages.invest.interestYear, investPackage?.ti_le_lai_suat_hang_nam)}
-                        {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(investPackage?.lai_hang_thang || '0'))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.receivedInterest, utils.formatLoanMoney(investPackage?.tong_lai_da_nhan))}
-                        {isDetailHistory && renderKeyValue(Languages.historyDetail.remainingInterest, utils.formatLoanMoney(investPackage?.tong_lai_da_tra))}
+                        {renderKeyValue(Languages.invest.monthlyInterest, utils.formatLoanMoney(investPackage?.lai_hang_thang))}
+                        {isDetailHistory &&
+                            renderKeyValue(
+                                Languages.historyDetail.receivedInterest,
+                                utils.formatLoanMoney(investPackage?.tong_lai_da_tra))
+                        }
+                        {isDetailHistory &&
+                            renderKeyValue(
+                                Languages.historyDetail.remainingInterest,
+                                utils.formatLoanMoney(investPackage?.tong_lai_con_lai))
+                        }
                         {renderKeyValue(Languages.invest.formInterest, investPackage?.hinh_thuc_tra_lai)}
                     </Col>
                 </Row>
@@ -162,12 +196,16 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
                 </div>}
             </div>
         );
-    }, [investPackage, handleInvestNow, isDetailHistory, isMobile, renderKeyValue]);
+    }, [isMobile, investPackage, renderKeyValue, isDetailHistory, tabDetailHistoryNumber, handleInvestNow]);
 
     const renderDetailPayment = useMemo(() => {
         return (
             <div className={cx(isMobile ? 'invest-note-container-mobile' : 'invest-note-container')}>
-                <span className={cx('invest-note-text')}>{isDetailHistory ? Languages.historyDetail.payInterestInfo : Languages.invest.estimatedPaymentSchedule}</span>
+                <span className={cx('invest-note-text')}>
+                    {isDetailHistory
+                        ? Languages.historyDetail.payInterestInfo
+                        : Languages.invest.estimatedPaymentSchedule}
+                </span>
                 {isMobile
                     ? <PeriodInvestMobile
                         dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest}
@@ -188,7 +226,10 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
         <div className={cx('page')}>
             <div className={cx('banner-container')}>
                 <img src={ImgHeader} className={cx('banner')} />
-                <div onClick={onBack} className={cx(isMobile ? (isDetailHistory ? 'back-mobile-history' : 'back-mobile') : (isDetailHistory ? 'back-history' : 'back'))}>
+                <div onClick={onBack}
+                    className={cx(isMobile
+                        ? (isDetailHistory ? 'back-mobile-history' : 'back-mobile')
+                        : (isDetailHistory ? 'back-history' : 'back'))}>
                     <img src={isDetailHistory ? IcWhiteLeftArrow : IcLeftArrow} className={cx('ic-back')} />
                 </div>
                 <div className={cx('content-container')}>

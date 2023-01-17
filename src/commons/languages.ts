@@ -163,6 +163,7 @@ const Languages = {
         contractId: 'Mã số hợp đồng',
         investmentTerm: 'Kỳ hạn đầu tư',
         expectedDueDate: 'Ngày đáo hạn dự kiến',
+        expectedDate: 'Ngày đáo hạn',
         totalProfitReceived: 'Tổng lãi nhận được',
         monthlyInterestRate: 'Lãi suất hàng tháng',
         monthlyInterest: 'Lãi trung bình hàng tháng',
@@ -349,7 +350,7 @@ const Languages = {
             time: 'Thời gian'
         }
     },
-    historyTabs: ['Đang đầu tư', 'Lịch sử'],
+    historyTabs: ['Đang đầu tư', 'Đã đáo hạn'],
     history: {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         interestReceived: 'Lãi đã nhận',
