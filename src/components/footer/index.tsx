@@ -166,7 +166,7 @@ function Footer() {
                             <div
                                 className={cx(
                                     'box-information',
-                                    'column g-24 center-flex-left pb16'
+                                    'g-24 center-flex-left pb16 row-mobile'
                                 )}
                             >
                                 <div
@@ -184,7 +184,7 @@ function Footer() {
                                 <div
                                     className={cx('information', 'column g-8 text-white-style')}
                                 >
-                                    <div className={cx('h5 medium text-white-style')}>
+                                    <div className={cx('h5 medium text-white-style')}>      
                                         {Languages.footer.customerSupport}
                                     </div>
                                     {Languages.footer.customerChild.map((item) => (
