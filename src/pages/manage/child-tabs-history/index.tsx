@@ -241,7 +241,6 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
         const onNavigateInvestDetail = () => {
             onNextScreen(dataInvest, tabName);
             console.log('tabName==', tabName);
-
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
