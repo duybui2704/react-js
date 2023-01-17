@@ -19,6 +19,7 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { ItemProps } from 'models/common';
 import { PackageInvest } from 'models/invest';
+import { observer } from 'mobx-react';
 import { amountListData, investListData, investListMoreData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -32,14 +33,13 @@ interface HistoryFilter {
     toDate?: string;
 }
 
-const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
-    onNextScreen: (data: PackageInvest, tabs: number) => void,
-    tabsNumber: number
-}) => {
+const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }:
+    { onNextScreen: (data: PackageInvest, tabs: number) => void, tabsNumber: number }
+) => {
 
     const navigate = useNavigate();
     const isMobile = useIsMobile();
-    const { apiServices } = useAppStore();
+    const { apiServices, userManager } = useAppStore();
     const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
     const [tabName, setTabName] = useState<number>(tabsNumber);
@@ -58,10 +58,16 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
     
+    
     useEffect(() => {
         fetchSearch();
-        fetchInvestList();
     }, []);
+
+
+    useEffect(() => {
+        fetchInvestList();
+    }, [isMobile, userManager.userInfo, tabName]);
+
 
     const fetchSearch = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
@@ -95,23 +101,6 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
             }
         }
     }, [apiServices.invest, offset, tabName]);
-
-    // const fetchData = useCallback(() => {
-    //     setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
-    // }, [tabName]);
-
-    // const fetchDataMore = useCallback(() => {
-    //     setAmountList(amountListData);
-
-    //     setTimeout(() => {
-    //         if (investList.length > 10) {
-    //             setLoadMore(false);
-    //         } else {
-    //             setInvestList(last => [...last, ...investListMoreData]);
-    //             console.log('fetch more');
-    //         }
-    //     }, 1500);
-    // }, [investList.length]);
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
         const onSelectItem = (item: any) => {
@@ -272,9 +261,8 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const onChangeTab = useCallback((tabNumber: number) => {
         if (tabName !== tabNumber) {
             setTabName(tabNumber);
-            fetchInvestList();
         }
-    }, [fetchInvestList, tabName]);
+    }, [tabName]);
 
     return (
         <div className={cx('page-container')}>
@@ -290,6 +278,6 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
             {renderPopupSearchPackage()}
         </div>
     );
-};
+});
 
 export default ChildTabsHistory;
