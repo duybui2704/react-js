@@ -397,14 +397,8 @@ const totalCommission: DataTotalColumnCommissionType = {
     totalCommission: '2,000,000'
 }
 
-export const DataCommission = {
-    body: dataColumnCommission,
-    total: totalCommission
-}
-
 export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
 export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
-export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const InvestMethod = [
     {

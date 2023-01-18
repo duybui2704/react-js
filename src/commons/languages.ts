@@ -386,13 +386,17 @@ const Languages = {
         behindKyc: 'Mặt sau chứng từ',
         portrait: 'Chân dung khuôn mặt',
         reChoose: 'Chọn lại',
-        verify: 'Xác nhận chứng từ'
+        verify: 'Xác nhận chứng từ',
+        showFull: 'Xem đầy đủ'
     },
     commission: {
         investmentCommission: 'Hoa hoa hồng nhà đầu tư',
-        itemOne: ' Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
-        itemTwo: ' Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày 01/09/2022',
-        star: '*'
+        star: '* ',
+        columnNameCommission: ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'],
+        describe: [
+            'Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
+            'Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày %str'
+        ]
     },
     tableCommission: {
         sum: 'Tổng'

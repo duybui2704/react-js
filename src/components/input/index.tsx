@@ -39,7 +39,8 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
             min,
             labelRight,
             capitalize,
-            spellCheck
+            spellCheck,
+            pattern
         }: TextFieldProps,
         ref?: any
     ) => {
@@ -199,7 +200,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                 <div className={cx(`${containerInput}`, isFocus ? 'focus-input-container' : (errMsg ? 'error-input-container' : 'select-container'))}>
                     <input
                         ref={orgTextInput}
-                        type={showPwd ? 'text' : type }
+                        type={showPwd ? 'text' : type}
                         onChange={_onChangeText}
                         placeholder={placeHolder}
                         value={textfieldVal}
@@ -214,7 +215,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                         max={max}
                         min={min}
                         onInput={handleOnInput}
-                        pattern={isNumberInput ? '[0-9]*' : '*'}
+                        pattern={pattern || isNumberInput ? '[0-9]*' : '*'}
                         onKeyDown={isNumberInput ? filterNumber : undefined}
                         className={cx(
                             `${inputStyle ? inputStyle : 'input-style'}`, `${!disabled ? '' : 'disable-input-container'}`

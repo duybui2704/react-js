@@ -97,7 +97,7 @@ const InfoIdentity = observer(() => {
                 <span className={cx('photo-title')}>{_title}</span>
                 {imgCache
                     ? <Image
-                        preview={{ visible: false }}
+                        preview={{ visible: false, mask: <>{Languages.identity.showFull}</> }}
                         height={_title === Languages.identity.portrait ? 480 : 215}
                         src={imgCache}
                         onClick={openPreview}

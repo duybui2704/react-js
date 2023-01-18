@@ -157,7 +157,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     value={_value}
                     maxLength={8}
                     onChangeText={onChangeInput}
-                    max={new Date().toISOString().split('T')[0]}
+                    max={dataFilter.toDate || new Date().toISOString().split('T')[0]}
                     min={minDate}
                 />
             </Col>

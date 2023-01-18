@@ -1,7 +1,7 @@
 @import "assets/scss";
 .shadow {
     border: 1px solid $color-gray5;
-    box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: $box-shadow;
     border-radius: 8px;
     @include mobile {
         background-color: $color-white;
@@ -11,6 +11,25 @@
     }
 }
 
-.star{
+.star {
     color: $color-red-star;
+}
+
+.date-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-container {
+    margin-right: 16px;
+}
+
+.describe-container {
+    margin-bottom: 4px;
+}
+
+.describe-container-mobile {
+    margin-bottom: 32px;
 }

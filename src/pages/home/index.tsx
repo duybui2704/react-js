@@ -42,7 +42,7 @@ interface TabsModel {
 
 const Home = observer(() => {
     const navigate = useNavigate();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices, common } = useAppStore();
     const isMobile = useIsMobile();
     const [stepIndex, setStepIndex] = useState<number>(0);
     // const [toggle, setToggle] = useState<boolean>(false);
@@ -68,6 +68,15 @@ const Home = observer(() => {
             EventEmitter.remove();
         };
     }, [onHandleChangeTab, onLogOut]);
+
+    useEffect(() => {
+        fetchAppConfig();
+    }, []);
+
+    const fetchAppConfig = useCallback(async () => {
+        const config = await apiServices.common.getAppConfig();
+        common.setAppConfig(config.data);
+    }, [apiServices.common, common]);
 
     const onChangeMenu = useCallback((index: number) => {
         setStepIndex(index);
