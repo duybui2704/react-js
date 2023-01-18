@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 import { PackageInvest } from 'models/invest';
 import InvestDetail from 'pages/investment/invest-detail';
 import Report from 'pages/manage/report';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import ChildTabsHistory from './child-tabs-history';
 import ChildTabsTransaction from './child-tabs-transaction';
 import styles from './manage.module.scss';

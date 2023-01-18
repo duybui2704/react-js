@@ -18,7 +18,6 @@ import { PopupBaseActions } from 'components/modal/modal';
 import PopupBaseMobile from 'components/popup-base-mobile';
 import { ItemProps } from 'models/common';
 import { PickerAction } from 'components/picker-component/picker-component';
-import { amountListData } from 'pages/__mocks__/invest';
 import Footer from 'components/footer';
 
 
@@ -56,7 +55,6 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
     }, []);
 
     const fetchData = useCallback(() => {
-        setAmountList(amountListData);
         setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
     }, [tabName]);
     

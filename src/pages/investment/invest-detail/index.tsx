@@ -23,10 +23,11 @@ import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHis
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { COLOR_TRANSACTION, TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 
-const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
+const InvestDetail = observer(({ onBackScreen, onNextScreen, investPackage, isDetailHistory, tabDetailHistory }:
     {
         onBackScreen?: () => void,
         onNextScreen?: () => void,
@@ -46,7 +47,7 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
     const popupAuthRef = useRef<PopupBaseActions>(null);
     const popupAccVerifyRef = useRef<PopupBaseActions>(null);
 
-    useEffect(() => {  
+    useEffect(() => {
         if (isDetailHistory) {
             fetchDetailHistoryInvest();
         } else {
@@ -249,6 +250,6 @@ const InvestDetail = ({ onBackScreen, onNextScreen, investPackage, isDetailHisto
             {renderPopup(popupAccVerifyRef, Languages.invest.next, Languages.invest.verifyNow, IcPopupVerify, Languages.invest.noteVerify, Languages.invest.describeVerify)}
         </div>
     );
-};
+});
 
 export default InvestDetail;

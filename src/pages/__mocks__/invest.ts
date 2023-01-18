@@ -303,28 +303,6 @@ export const investListMoreData =
         }
     ] as PackageInvest[];
 
-export const amountListData = [
-    {
-        id: '1',
-        text: 'Dưới 10,000,000 VNĐ',
-        value: 'Dưới 10,000,000 VNĐ',
-    },
-    {
-        id: '2',
-        text: '10,000,000 VNĐ - dưới 50,000,000 VNĐ',
-        value: '10,000,000 VNĐ - dưới 50,000,000 VNĐ',
-    },
-    {
-        id: '3',
-        text: '50,000,000 VNĐ - dưới 100,000,000 VNĐ',
-        value: '50,000,000 VNĐ - dưới 100,000,000 VNĐ',
-    },
-    {
-        id: '4',
-        text: 'Trên 100,000,000 VNĐ',
-        value: 'Trên 100,000,000 VNĐ',
-    }
-]
 export const dateListData = [
     {
         id: '1',

@@ -36,7 +36,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
         const [visible, setVisible] = useState(false);
         const navigate = useNavigate();
 
-        const [tabs, setTabs] = useState<number>(1);
+        const [tabs, setTabs] = useState<number>(0);
 
         const hide = useCallback(() => {
             setVisible(false);
@@ -110,13 +110,17 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                         return (
                             <div key={item?.id}>
                                 {item.is_login
-                                    ? (sessionManager.accessToken && <div className={tabs === index ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
-                                        <div className={cx('button-item-container')}>
-                                            <img src={item?.icon} className={cx('icon-close')} />
-                                            <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
+                                    ? (sessionManager.accessToken &&
+                                        <div className={tabs === index ? cx('column-active') : cx('column')}
+                                            onClick={tabs !== index ? handleChangeStep : undefined}>
+                                            <div className={cx('button-item-container')}>
+                                                <img src={item?.icon} className={cx('icon-close')} />
+                                                <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>
+                                            </div>
                                         </div>
-                                    </div>)
-                                    : <div className={tabs === index ? cx('column-active') : cx('column')} onClick={handleChangeStep}>
+                                    )
+                                    : <div className={tabs === index ? cx('column-active') : cx('column')}
+                                        onClick={tabs !== index ? handleChangeStep : undefined}>
                                         <div className={cx('button-item-container')}>
                                             <img src={item?.icon} />
                                             <span className={cx('title-item-text', 'text-black h5')}>{item?.title}</span>

@@ -13,6 +13,7 @@ import { TextFieldActions } from 'components/input/types';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
+import ScrollTopComponent from 'components/scroll-top';
 import TabsButtonBar from 'components/tabs-button-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
@@ -20,7 +21,6 @@ import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { PackageInvest } from 'models/invest';
-import { amountListData } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
@@ -56,7 +56,6 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         toDate: ''
     });
     const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
-
     const [offset, setOffset] = useState<number>(0);
 
     const popupSearchRef = useRef<PopupBaseActions>(null);
@@ -86,8 +85,8 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
         if (investmentList.success) {
             // setCountInvest(5);
-            setOffset(last => last + PAGE_SIZE_INVEST);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
+            setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {
                 setInvestList(last => [...last, ...investmentList.data]);
             } else {
@@ -101,7 +100,6 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     };
 
     const fetchDataSearch = useCallback(async () => {
-        setAmountList(amountListData);
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
         if (amountFilter.success) {
             const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
@@ -110,15 +108,13 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     }, [apiServices.invest]);
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
-        const onSelectItem = (item: any) => {
-            if (item) {
-                if (!isMobile) {
-                    setOffset(0);
-                    setDataFilter({
-                        ...dataFilter,
-                        amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-                    });
-                }
+        const onSelectItem = (item: string) => {
+            if (item && !isMobile) {
+                setOffset(0);
+                setDataFilter({
+                    ...dataFilter,
+                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+                });
             }
         };
         const handleClearDataFilter = () => {
@@ -325,7 +321,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                 {!isMobile && renderFilterWeb}
                 <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
                     {renderFlatList(investList)}
-                    <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
+                    <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
                 </div>
             </div>
             {renderPopupSearchPackage()}

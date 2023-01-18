@@ -10,6 +10,7 @@ import InvestItem from 'components/invest-item';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
+import ScrollTopComponent from 'components/scroll-top';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
@@ -44,18 +45,18 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const pickerDateRef = useRef<PickerAction>(null);
 
     useEffect(() => {
-        fetchSearch();
-        fetchInvestList();
-        if (!isMobile) {
-            popupSearchRef.current?.hideModal();
-        }
-    }, [isMobile, userManager.userInfo]);
+        fetchFilterDataList();
+    }, []);
 
     useEffect(() => {
-        fetchInvestList();
+        fetchPackageInvestList();
     }, [dataFilter]);
 
-    const fetchSearch = useCallback(async () => {
+    const handleScrollToTop = useCallback(() => {
+        document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
+    }, []);
+
+    const fetchFilterDataList = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
         const periodFilter = await apiServices.invest.getListTimeInvestment() as any;
 
@@ -63,34 +64,30 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
             setAmountList(dataAmountFilter);
         }
-
         if (periodFilter.success) {
             const dataPeriodFilter = utils.formatObjectFilterInvest(periodFilter?.data as Object);
             setDateList(dataPeriodFilter);
         }
     }, [apiServices.invest]);
 
-    const handleScrollToTop = () => {
-        document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
-    };
-
-    const fetchInvestList = useCallback(async (loadMore?: boolean) => {
+    const fetchPackageInvestList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getAllContractInvest(
             dataFilter.dateInvest || '',
             dataFilter.amountInvest || '',
-            loadMore ? offset : 0,
-            PAGE_SIZE_INVEST) as any;
+            offset,
+            PAGE_SIZE_INVEST
+        ) as any;
         if (investmentList.success) {
             setCountInvest(5);
-            setOffset(last => last + PAGE_SIZE_INVEST);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
+            setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {
                 setInvestList(last => [...last, ...investmentList.data]);
             } else {
                 setInvestList(investmentList?.data);
             }
         }
-    }, [apiServices.invest, dataFilter.dateInvest, dataFilter.amountInvest, offset]);
+    }, [apiServices.invest, dataFilter, offset]);
 
     const renderDivider = useCallback((_label: string, styleContainer?: string) => {
         return (
@@ -102,47 +99,35 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     }, [isMobile]);
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
-        const onSelectItem = (item: any) => {
-            setDataFilter({
-                dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-                amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
-            });
+        const onSelectItem = (item: string) => {
+            if (item && !isMobile) {
+                setOffset(0);
+                setDataFilter({
+                    dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
+                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+                });
+            }
         };
         const handleDataFilter = () => {
+            setOffset(0);
             setDataFilter({
                 dateInvest: _title === Languages.invest.dateInvest ? '' : dataFilter.dateInvest,
                 amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest
             });
-            fetchInvestList();
         };
         return (
             <Col className={cx('picker-container')} xs={isMobile ? 24 : 12} sm={12} md={12} lg={12} xl={8} >
-                <PickerComponent ref={_ref} data={_data} title={_title} placeholder={_placeholder}
+                <PickerComponent ref={_ref}
+                    data={_data}
+                    title={_title}
+                    placeholder={_placeholder}
                     onSelectItem={onSelectItem}
-                    onClear={handleDataFilter} />
+                    onClear={handleDataFilter}
+                    allowClear={isMobile ? true : false}
+                />
             </Col>
         );
-    }, [dataFilter.amountInvest, dataFilter.dateInvest, fetchInvestList, isMobile]);
-
-    const handleOpenPopupSearch = useCallback(() => {
-        popupSearchRef.current?.showModal();
-    }, []);
-
-    const handleCancelFilter = useCallback(() => {
-    }, []);
-
-    const renderTopMobile = useMemo(() => {
-        return (
-            <div className={cx('top-search-mobile-component')}>
-                <span className={cx('text-your-mobile-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span>
-                <div className={cx('right-top-search-component')} >
-                    <span onClick={handleOpenPopupSearch} className={cx('text-green h7 x10')}>{Languages.common.search}</span>
-                    <img src={IcFilter} />
-                    <span className={cx('text-red h7 xl10')}>{Languages.common.filter}</span>
-                </div>
-            </div>
-        );
-    }, [countInvest, handleOpenPopupSearch]);
+    }, [dataFilter.amountInvest, dataFilter.dateInvest, isMobile]);
 
     const renderTopWeb = useMemo(() => {
         return (
@@ -156,6 +141,52 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             </Row>
         );
     }, [amountList, countInvest, dateList, isMobile, renderPicker]);
+
+    const handleOpenPopupSearch = useCallback(() => {
+        popupSearchRef.current?.showModal();
+    }, []);
+
+    const onClosePopup = useCallback(() => {
+        pickerAmountRef.current?.clearValue?.();
+        pickerDateRef.current?.clearValue?.();
+        setDataFilter({});
+        setOffset(0);
+    }, []);
+
+    const onSuccessPopup = useCallback(() => {
+        setOffset(0);
+        setDataFilter({
+            ...dataFilter,
+            amountInvest: pickerAmountRef.current?.getValue() || '',
+            dateInvest: pickerDateRef.current?.getValue() || ''
+        });
+    }, [dataFilter]);
+
+    const renderPopupSearchPackage = useCallback(() => {
+        return (
+            <PopupBaseMobile ref={popupSearchRef} hasCloseIc
+                customerContent={renderTopWeb} hasTwoButton
+                labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
+                titleHeader={Languages.invest.searchInvestPackage} buttonLeftStyle={BUTTON_STYLES.GRAY}
+                onClose={onClosePopup} onSuccessPress={onSuccessPopup}
+            />
+        );
+    }, [onClosePopup, onSuccessPopup, renderTopWeb]);
+
+    const renderTopMobile = useMemo(() => {
+        return (
+            <div className={cx('top-search-mobile-component')}>
+                <span className={cx('text-your-mobile-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span>
+                <div className={cx('right-top-search-component')} >
+                    <div className={cx('filter-mobile-container')} onClick={handleOpenPopupSearch} >
+                        <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
+                        <img src={IcFilter} />
+                    </div>
+                    <span className={cx('text-red h7 xl10')} onClick={onClosePopup}>{Languages.common.filterCancel}</span>
+                </div>
+            </div>
+        );
+    }, [countInvest, handleOpenPopupSearch, onClosePopup]);
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
@@ -181,47 +212,28 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
         );
     }, [isMobile, renderItemInvest]);
 
-    const onClosePopup = useCallback(() => {
-        pickerAmountRef.current?.clearValue?.();
-        pickerDateRef.current?.clearValue?.();
-        setDataFilter({});
-    }, []);
-
-    const onSuccessPopup = useCallback(() => {
-        // fetchInvestList;
-    }, []);
-
-    const renderPopupSearchPackage = useCallback(() => {
-        return (
-            <PopupBaseMobile ref={popupSearchRef} hasCloseIc
-                customerContent={renderTopWeb} hasTwoButton
-                labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
-                titleHeader={Languages.invest.searchInvestPackage} buttonLeftStyle={BUTTON_STYLES.GRAY}
-                onClose={onClosePopup} onSuccessPress={onSuccessPopup}
-            />
-        );
-    }, [onClosePopup, onSuccessPopup, renderTopWeb]);
-
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         const loadMore = () => {
-            fetchInvestList(true);
+            fetchPackageInvestList(true);
         };
         return (
             <div className={cx('bottom-container')} >
-                {renderDivider(Languages.invest.investPackage, cx('super-invest-package-container'))}
+                {renderDivider(Languages.invest.investPackage)}
                 {renderInvestList(_list)}
-
                 <Row gutter={[24, 44]} className={cx(isMobile ? 'button-see-more-mobile' : 'button-see-more')} >
                     {canLoadMore &&
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                            <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase onPress={loadMore} />
+                            <Button fontSize={20} width={100}
+                                buttonStyle={BUTTON_STYLES.GREEN}
+                                label={Languages.invest.seeMore}
+                                isLowerCase onPress={loadMore} />
                         </Col>
                     }
                 </Row>
                 <Footer />
             </div>
         );
-    }, [renderDivider, renderInvestList, isMobile, canLoadMore, fetchInvestList]);
+    }, [renderDivider, renderInvestList, isMobile, canLoadMore, fetchPackageInvestList]);
 
     return (
         <div className={cx('page-container')}>
@@ -230,7 +242,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 {!isMobile && renderTopWeb}
                 <div className={cx('page-content')} >
                     {renderFlatList(investList)}
-                    <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
+                    <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
                 </div>
             </div>
             {renderPopupSearchPackage()}
