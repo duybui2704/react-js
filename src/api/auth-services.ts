@@ -92,8 +92,8 @@ export class AuthServices extends BaseService {
             })
         );
 
-    getChanelSource = async () =>
-        this.api().post(API_CONFIG.CHANEL, this.buildFormData({}));
+    getChanelSource = async (type: number) =>
+        this.api().post(API_CONFIG.CHANEL, this.buildFormData({ type }));
 
     otpResetPwd = async (phone_number: string) =>
         this.api().post(

@@ -140,7 +140,11 @@ const Languages = {
         minute: 'phút',
         loginAccountNow: 'Đăng nhập vào tài khoản bạn ngay?',
         registerAccountNow: 'Tạo tài khoản ngay bây giờ?',
-        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. '
+        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. ',
+        contentLinkSocial: 'Xin vui lòng nhập các thông tin dưới đây để hoàn thành việc đăng ký tài khoản.',
+        socialGoogle: 'Đăng ký liên kết tài khoản với Google',
+        sendOTP: 'Gửi mã',
+        txtRefCode: 'Mã giới thiệu'
     },
     home: {
     },

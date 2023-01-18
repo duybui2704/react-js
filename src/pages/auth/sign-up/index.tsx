@@ -1,35 +1,30 @@
 import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import IcFacebook from 'assets/icon/ic_facebook.svg';
 import IcGoogle from 'assets/icon/ic_google.svg';
 import IcPhone from 'assets/icon/ic_phone.svg';
-import IcProfile from 'assets/image/ic_profile.svg';
 import IcEmail from 'assets/image/ic_email.svg';
+import IcProfile from 'assets/image/ic_profile.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
-import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
-import { useNavigate } from 'react-router-dom';
+import { useAppStore } from 'hooks';
+import useIsMobile from 'hooks/use-is-mobile.hook';
+import { ItemProps } from 'models/common';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import formValidate from 'utils/form-validate';
 import styles from './sign-up.module.scss';
-import { dataChannel } from 'pages/__mocks__/auth';
-import toasty from 'utils/toasty';
-import { useAppStore } from 'hooks';
 
 const cx = classNames.bind(styles);
 
-function SignUp({ onPress }) {
+function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps[] }) {
     const isMobile = useIsMobile();
     const [isLoading, setLoading] = useState<boolean>(false);
     const { apiServices } = useAppStore();
 
-    const navigate = useNavigate();
-    // const { apiServices } = useAppStore();
     const refPhone = useRef<TextFieldActions>(null);
     const refName = useRef<TextFieldActions>(null);
     const refEmail = useRef<TextFieldActions>(null);
@@ -157,7 +152,7 @@ function SignUp({ onPress }) {
             <MyTextInput
                 ref={refPwdConfirm}
                 type={'password'}
-                label={Languages.auth.pwd}
+                label={Languages.auth.pwdConfirm}
                 placeHolder={Languages.auth.pwdConfirm}
                 important
                 containerStyle={cx('y15')}
@@ -191,7 +186,7 @@ function SignUp({ onPress }) {
                 <Checkbox className={cx('text-gray h7')}
                     onChange={onChange}>
                     {Languages.auth.savePwd}</Checkbox>
-                <span className={cx('text-red h7')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
+                <span className={cx('text-red h7', 'hover-text')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
                     {Languages.auth.forgotPwd}
                 </span>
             </div>
@@ -214,13 +209,6 @@ function SignUp({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
-                {/* <Button
-                    label={Languages.auth.facebook}
-                    buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
-                    isLowerCase
-                    containButtonStyles={'flex x10'}
-                    rightIcon={IcFacebook}
-                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}
@@ -234,12 +222,12 @@ function SignUp({ onPress }) {
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.login)}>
+                <span className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.login)}>
                     {Languages.auth.loginNow}
                 </span>
             </div>
         </div>;
-    }, [isMobile, onSignUp, onNavigate]);
+    }, [isMobile, dataChannel, onSignUp, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>

@@ -38,9 +38,11 @@
     width: 100%;
     border: 1px solid $color-gray-d8;
     border-radius: 5px;
-    color: $color-gray2;
-    font-size: $text-h7;
-    font-family: $font-regular;
+    span {
+        color: $color-gray2;
+        font-size: $text-h7;
+        font-family: $font-regular;
+    }
     background-color: $color-white;
 }
 
@@ -50,9 +52,11 @@
     border: 1px solid $color-gray-d8;
     border-radius: 5px;
     // padding: 3px 16px 3px 8px;
-    color: $color-gray2;
-    font-size: $text-h7;
-    font-family: $font-regular;
+    span {
+        color: $color-gray2;
+        font-size: $text-h7;
+        font-family: $font-regular;
+    }
     background-color: $color-gray-e6;
 }
 
@@ -62,9 +66,11 @@
     border: 1px solid $color-green-header;
     border-radius: 5px;
     // padding: 3px 16px 3px 8px;
-    color: $color-gray2;
-    font-size: $text-h7;
-    font-family: $font-regular;
+    span {
+        color: $color-gray2;
+        font-size: $text-h7;
+        font-family: $font-regular;
+    }
 }
 
 .error-select-container {
@@ -73,16 +79,18 @@
     border: 1px solid $color-red;
     border-radius: 5px;
     // padding: 3px 16px 3px 8px;
-    color: $color-gray2;
-    font-size: $text-h7;
-    font-family: $font-regular;
+    span {
+        color: $color-gray2;
+        font-size: $text-h7;
+        font-family: $font-regular;
+    }
     animation: shake 0.9s ease 1;
 }
 
 .text-error-picker {
     display: flex;
     width: 100%;
-    color: $color-red;
+    color: $color-red1;
     font-size: $text-h7;
     font-family: $font-regular;
     padding: 5px 0 0 0px;
@@ -90,9 +98,11 @@
 
 .item-container {
     display: flex;
-    color: $color-gray2;
-    font-size: $text-h7;
-    font-family: $font-regular;
+    span {
+        color: $color-gray2;
+        font-size: $text-h7;
+        font-family: $font-regular;
+    }
     padding: 2px 18px;
     align-items: center;
     justify-content: space-between;

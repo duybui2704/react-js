@@ -1,18 +1,25 @@
-import { Col, Row, Steps } from 'antd';
+import { Col, Row } from 'antd';
 import BgAuth from 'assets/image/bg_auth.jpg';
+import ImgLogin from 'assets/image/bg_login.svg';
+import BgPwd from 'assets/image/bg_pwd.svg';
 import Ic_Close from 'assets/image/ic_black_close_popup.svg';
 import ImgAppStore from 'assets/image/img_app_store.svg';
-import BgPwd from 'assets/image/bg_pwd.svg';
 import ImgGooglePlay from 'assets/image/img_gg_chplay.svg';
-import ImgLogin from 'assets/image/bg_login.svg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
+import PopupOTP from 'components/modal-otp';
+import { PopupBaseActions } from 'components/modal-otp/modal';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { LoginWithThirdPartyModel } from 'models/auth';
+import { ChannelModel } from 'models/channel';
+import { ItemProps } from 'models/common';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
+import utils from 'utils/utils';
 import styles from './auth.module.scss';
 import ChangePwd from './change-pwd';
 import ForgotPass from './forgot-pass';
@@ -26,16 +33,37 @@ function Auth() {
     const isMobile = useIsMobile();
 
     const navigate = useNavigate();
-    const location = useLocation();
     const [steps, setSteps] = useState<any>({ name: Languages.auth.login });
-
-    // const { apiServices } = useAppStore();
+    const [dataGoogle, setDataGoogle] = useState<LoginWithThirdPartyModel>();
+    const popupOTP = useRef<PopupBaseActions>(null);
+    const { apiServices, userManager } = useAppStore();
+    const [dataChannel, setDataChannel] = useState<ItemProps[]>([]);
 
 
     // useEffect(() => {
     //     const _location = location.state;
     //     setSteps(_location || { name: Languages.auth.enterAuthCode });
     // }, [location.state]);
+    const fetchData = useCallback(async () => {
+        const res = await apiServices.auth.getChanelSource(3) as any;
+        if (res.success) {
+            const _dataChanel = utils.formatObjectFilterInvest(res.data as ChannelModel[]);
+            console.log(_dataChanel);
+            const temp = [] as ItemProps[];
+            _dataChanel?.forEach((item: any) => {
+                temp.push({
+                    value: item?.value,
+                    id: item.text.type,
+                    text: item?.text?.name
+                });
+            });
+            setDataChannel(temp);
+        }
+    }, [apiServices.auth]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     const backgroundImage = useMemo(() => {
         if (steps) {
@@ -97,13 +125,18 @@ function Auth() {
         setSteps(transmissionName);
     }, []);
 
+    const openPopup = useCallback((data: LoginWithThirdPartyModel) => {
+        popupOTP.current?.showModal();
+        setDataGoogle(data);
+    }, []);
+
     const renderSteps = useMemo(() => {
 
         switch (steps?.name) {
             case Languages.auth.login:
-                return <Login onPress={onChangeSteps} />;
+                return <Login onPress={onChangeSteps} openPopup={openPopup} />;
             case Languages.auth.register:
-                return <SignUp onPress={onChangeSteps} />;
+                return <SignUp onPress={onChangeSteps} dataChannel={dataChannel} />;
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
@@ -113,7 +146,7 @@ function Auth() {
             default:
                 return null;
         }
-    }, [onChangeSteps, steps]);
+    }, [dataChannel, onChangeSteps, openPopup, steps]);
 
     const renderView = useMemo(() => {
         return <div className={isMobile ? cx('column', 'root-container', 'scroll') : cx('row', 'root-container')}>
@@ -125,8 +158,13 @@ function Auth() {
                     {renderSteps}
                 </Col>
             </Row>
+            <PopupOTP
+                ref={popupOTP}
+                data={dataGoogle}
+                dataChannel={dataChannel}
+            />
         </div>;
-    }, [isMobile, renderLeftContent, renderSteps]);
+    }, [dataChannel, dataGoogle, isMobile, renderLeftContent, renderSteps]);
 
     return renderView;
 }
