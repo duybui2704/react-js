@@ -1,6 +1,6 @@
 import axios from 'axios';
 // import { HeaderType } from './types';
-// import { browserName, fullBrowserVersion, osName, osVersion } from 'react-device-detect';
+import { browserName, fullBrowserVersion, osName, osVersion } from 'react-device-detect';
 import { TIMEOUT_API } from 'commons/configs';
 import { Events } from 'commons/constants';
 import Languages from 'commons/languages';
@@ -28,11 +28,13 @@ const HEADER = {
 
 const getHeader = () => {
     const myHeader: any = {
-        ...HEADER
-        // 'DeviceName': `${osName}-${osVersion} : ${browserName}-${fullBrowserVersion}`
+        ...HEADER,
+        'Platform': 'web',
+        'Device': `${osName}-${osVersion} : ${browserName}-${fullBrowserVersion}`
     };
+    
     if (SessionManager.accessToken) {
-        myHeader.Authorization = SessionManager.accessToken;
+        myHeader.Authorization = SessionManager.accessToken.split('"').join('');
     }
     return myHeader;
 };
