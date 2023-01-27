@@ -1,160 +1,150 @@
 @import "assets/scss";
 .page-container {
-  padding-bottom: 32px;
-  justify-content: center;
-  flex-direction: column;
-  display: flex;
-
-  .container {
-    color: $color-gray8;
-  }
-
-  .page-wrap {
+    padding-bottom: 32px;
     justify-content: center;
-    display: flex;
     flex-direction: column;
-    width: 100%;
-    align-self: center;
-    // border: 1px solid $color-gray5;
-    // box-shadow: $box-shadow;
-    // border-radius: 8px;
-    margin-top: 8px;
-  }
-  .page-wrap-mobile {
-    justify-content: center;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .content-web-container {
-    display: flex;
-    flex-direction: column;
-    height: 66vh;
-    position: relative;
-  }
-  .content-mobile-container {
-    display: flex;
-    flex-direction: column;
-    height: 72vh;
-    position: relative;
-  }
-  .page-wrap {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .top-search-component {
-    display: flex;
-    align-self: center;
-    width: 100%;
-    padding: 0 0 16px 0;
-    @include mobile {
-      width: 100%;
-      padding: 0px;
+    .container {
+        color: $color-gray8;
     }
-  }
-
-  .top-search-mobile-component {
-    display: flex;
-    align-items: center;
-    padding-right: 16px;
-    white-space: nowrap;
-  }
-  .top-search-mobile-component::-webkit-scrollbar {
-    display: none;
-  }
-  .right-top-search-component {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-    &:hover {
-      opacity: 0.8;
+    .page-wrap {
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-self: center;
+        // border: 1px solid $color-gray5;
+        // box-shadow: $box-shadow;
+        // border-radius: 8px;
+        margin-top: 8px;
     }
-    &:active {
-      opacity: 0.6;
+    .page-wrap-mobile {
+        justify-content: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
     }
-  }
-
-  .wid-50 {
-    min-width: 50%;
-  }
-
-  .flex-end {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .title {
-    justify-content: flex-start;
-    display: flex;
-    align-items: center;
-  }
-
-  .title-mobile {
-    margin: 24px 0px;
-  }
-
-  .picker-container {
-    display: flex;
-    text-align: left;
-  }
-
-  .scroll-mobile-container {
-    display: flex;
-    flex-direction: column;
-    // padding: 48px 0 100px 0;
-    width: 100%;
-    height: 80vh;
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
+    .content-web-container {
+        display: flex;
+        flex-direction: column;
+        height: 66vh;
+        position: relative;
     }
-  }
-
-  .container {
-    display: flex;
-    justify-content: center;
-  }
-  .scroll-web-container {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    height: 80vh;
-    overflow: auto;
-    ::-webkit-scrollbar {
-      display: none;
+    .content-mobile-container {
+        display: flex;
+        flex-direction: column;
+        height: 72vh;
+        position: relative;
     }
-    .table-web-container {
-      width: 80%;
-      display: flex;
-      align-self: center;
-      flex-direction: column;
-      padding: 16px 0 0 0;
-      border: 1px solid $color-gray5;
-      box-shadow: $box-shadow;
-      border-radius: 8px;
-      margin: 24px 0;
+    .page-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
-  }
+    .top-search-component {
+        display: flex;
+        align-self: center;
+        width: 100%;
+        padding: 0 0 16px 0;
+        @include mobile {
+            width: 100%;
+            padding: 0px;
+        }
+    }
+    .top-search-mobile-component {
+        display: flex;
+        align-items: center;
+        padding-right: 16px;
+        white-space: nowrap;
+    }
+    .top-search-mobile-component::-webkit-scrollbar {
+        display: none;
+    }
+    .right-top-search-component {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        user-select: none;
+        &:hover {
+            opacity: 0.8;
+        }
+        &:active {
+            opacity: 0.6;
+        }
+    }
+    .wid-50 {
+        min-width: 50%;
+    }
+    .flex-end {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .title {
+        justify-content: flex-start;
+        display: flex;
+        align-items: center;
+    }
+    .title-mobile {
+        margin: 24px 0px;
+    }
+    .picker-container {
+        display: flex;
+        text-align: left;
+    }
+    .scroll-mobile-container {
+        display: flex;
+        flex-direction: column;
+        // padding: 48px 0 100px 0;
+        width: 100%;
+        height: 80vh;
+        overflow: auto;
+         ::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+    .scroll-web-container {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        height: 80vh;
+        overflow: auto;
+         ::-webkit-scrollbar {
+            display: none;
+        }
+        .table-web-container {
+            width: 80%;
+            display: flex;
+            align-self: center;
+            flex-direction: column;
+            padding: 16px 0 0 0;
+            border: 1px solid $color-gray5;
+            box-shadow: $box-shadow;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+    }
 }
 
 .table-mobile-container {
     padding: 0px 16px 32px;
 }
+
 .content-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-self: center;
-  width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: center;
+    width: 100%;
 }
+
 .tabs-container {
-  display: flex;
-  width: 100%;
-  justify-content: center;
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }

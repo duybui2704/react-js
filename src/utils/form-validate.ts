@@ -233,7 +233,7 @@ function inputValidate (
 
     if (Validate.isStringEmpty(value)) {
         errMsg = errEmpty;
-    } else if (value.length > number) {
+    } else if (value.length < number) {
         errMsg = errSyntax;
     }
     return errMsg;
@@ -314,7 +314,7 @@ function isValidAll(errorMsg: string[]){
 
 function inputEmpty(value: any, errEmpty: string) {
     let errMsg = '';
-    if (Validate.isStringEmpty(value)) {
+    if (Validate.isStringEmpty(value) || value === '') {
         errMsg = errEmpty;
     }
     return errMsg;

@@ -8,6 +8,7 @@ export interface PackageInvest {
     tong_lai_du_kien: string;
     tong_lai_da_nhan: string;
     tong_lai_da_tra: string;
+    tong_lai_con_lai: string;
     ngay_dao_han: string;
     hinh_thuc_tra_lai: string;
     ti_le_lai_suat_hang_thang: string;
@@ -115,16 +116,6 @@ export interface DataColumnInvestType {
     stt?: string;
 }
 
-export interface DataColumnHistoryType {
-    id: string;
-    principalAmount: string;
-    profitAmount: string;
-    total: string;
-    status: string;
-    receivedDate: string;
-    stt?: string;
-}
-
 export interface DataColumnCommissionType {
     id: string;
     phoneNumber: string;
@@ -143,5 +134,16 @@ export interface DataColumnPaymentType {
     tien_goc_tra: string;
     tien_lai_tra: string;
     tong_goc_lai: string;
+    ngay_nhan: string;
+}
+
+export interface DataColumnHistoryType {
+    id: string;
+    stt: number;
+    ky_tra: string;
+    tien_goc_tra: string;
+    tien_lai_tra: string;
+    tong_goc_lai: string;
+    status: string;
     ngay_nhan: string;
 }

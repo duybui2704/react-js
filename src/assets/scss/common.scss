@@ -53,6 +53,16 @@ $desktop-width: 1024px;
     flex-direction: row;
 }
 
+.row-mobile{
+    display: flex;
+    flex-direction: column;
+    @include mobile {
+        display: flex !important;
+        justify-content: unset !important;
+        flex-direction: row
+    }
+}
+
 .row-center {
     @extend .row;
     justify-content: space-between;

@@ -140,7 +140,11 @@ const Languages = {
         minute: 'phút',
         loginAccountNow: 'Đăng nhập vào tài khoản bạn ngay?',
         registerAccountNow: 'Tạo tài khoản ngay bây giờ?',
-        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. '
+        forgotNow: 'Điền số điện thoại của bạn và chúng tôi sẽ giúp bạn lấy lại tài khoản của bạn. ',
+        contentLinkSocial: 'Xin vui lòng nhập các thông tin dưới đây để hoàn thành việc đăng ký tài khoản.',
+        socialGoogle: 'Đăng ký liên kết tài khoản với Google',
+        sendOTP: 'Gửi mã',
+        txtRefCode: 'Mã giới thiệu'
     },
     home: {
     },
@@ -163,6 +167,7 @@ const Languages = {
         contractId: 'Mã số hợp đồng',
         investmentTerm: 'Kỳ hạn đầu tư',
         expectedDueDate: 'Ngày đáo hạn dự kiến',
+        expectedDate: 'Ngày đáo hạn',
         totalProfitReceived: 'Tổng lãi nhận được',
         monthlyInterestRate: 'Lãi suất hàng tháng',
         monthlyInterest: 'Lãi trung bình hàng tháng',
@@ -349,7 +354,7 @@ const Languages = {
             time: 'Thời gian'
         }
     },
-    historyTabs: ['Đang đầu tư', 'Lịch sử'],
+    historyTabs: ['Đang đầu tư', 'Đã đáo hạn'],
     history: {
         searchInvestPackage: 'Tìm kiếm gói đầu tư',
         interestReceived: 'Lãi đã nhận',
@@ -381,13 +386,17 @@ const Languages = {
         behindKyc: 'Mặt sau chứng từ',
         portrait: 'Chân dung khuôn mặt',
         reChoose: 'Chọn lại',
-        verify: 'Xác nhận chứng từ'
+        verify: 'Xác nhận chứng từ',
+        showFull: 'Xem đầy đủ'
     },
     commission: {
         investmentCommission: 'Hoa hoa hồng nhà đầu tư',
-        itemOne: ' Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
-        itemTwo: ' Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày 01/09/2022',
-        star: '*'
+        star: '* ',
+        columnNameCommission: ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'],
+        describe: [
+            'Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
+            'Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày %str'
+        ]
     },
     tableCommission: {
         sum: 'Tổng'

@@ -93,86 +93,10 @@
         font-size: $text-h6;
         color: $color-green-header;
     }
-    .top-button {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        box-shadow: $box-shadow;
-        width: 60px;
-        height: 60px;
-        text-align: center;
-        border: 1px solid $color-gray5;
-        background-color: $color-white;
-        border-radius: 60px;
-        justify-content: center;
-        align-items: center;
-        margin: 0 30px 50px 0;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        &:hover {
-            opacity: 0.9;
-            animation: shake 0.9s ease 1;
-        }
-        &:active {
-            opacity: 0.7;
-        }
-    }
     .col-history {
         display: flex;
         flex-direction: column;
         text-align: left;
-    }
-    .top-button-mobile {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        box-shadow: $box-shadow;
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        border: 1px solid $color-gray5;
-        background-color: $color-white;
-        border-radius: 60px;
-        justify-content: center;
-        align-items: center;
-        margin: 0 18px 80px 0;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        &:hover {
-            opacity: 0.9;
-            animation: shake 0.9s ease 1;
-        }
-        &:active {
-            opacity: 0.7;
-        }
-    }
-    .top-button-hide {
-        display: none;
-    }
-    @keyframes shake {
-        0%,
-        100% {
-            transform: rotate(5deg);
-        }
-        10%,
-        30%,
-        50%,
-        70%,
-        90% {
-            transform: rotate(2deg);
-        }
-        20%,
-        40%,
-        60%,
-        80% {
-            transform: rotate(-5deg);
-        }
     }
 }
 
@@ -196,6 +120,7 @@
     display: flex;
     align-self: center;
     flex-direction: column;
+    margin-bottom: 40px;
     &::-webkit-scrollbar {
         display: none;
     }
@@ -209,6 +134,7 @@
     align-self: center;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 40px;
     &::-webkit-scrollbar {
         display: none;
     }
@@ -234,5 +160,9 @@
 }
 
 .footer {
-    margin: 40px 0 0 0;
+    width: 100vw;
+}
+
+.min-height-list {
+    min-height: 20vh;
 }

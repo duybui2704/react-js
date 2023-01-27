@@ -13,13 +13,14 @@ import { TextFieldActions } from 'components/input/types';
 import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
+import ScrollTopComponent from 'components/scroll-top';
 import TabsButtonBar from 'components/tabs-button-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
+import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
-import { HistoryModel, PackageInvest } from 'models/invest';
-import { amountListData } from 'pages/__mocks__/invest';
+import { PackageInvest } from 'models/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
@@ -33,7 +34,7 @@ interface HistoryFilter {
     toDate?: string;
 }
 
-const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
+const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     onNextScreen: (data: PackageInvest, tabs: number) => void,
     tabsNumber: number
 }) => {
@@ -45,12 +46,16 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const [tabName, setTabName] = useState<number>(tabsNumber);
 
     const [investList, setInvestList] = useState<PackageInvest[]>([]);
-    const [countInvest, setCountInvest] = useState<number>(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
+    const [countInvest, setCountInvest] = useState<number>(0);
 
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
-    const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
+    const [dataFilter, setDataFilter] = useState<HistoryFilter>({
+        optionInvest: '1',
+        amountInvest: '',
+        fromDate: '',
+        toDate: ''
+    });
     const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
-
     const [offset, setOffset] = useState<number>(0);
 
     const popupSearchRef = useRef<PopupBaseActions>(null);
@@ -65,15 +70,8 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
 
     useEffect(() => {
         fetchHistoryList();
-    }, [dataFilter]);
-
-    // const fetchDetailHistory = useCallback(async () => {
-    //     const resInvestHistory = await apiServices.invest.getInvestHaveContract(id) as any;
-    //     if (resInvestHistory.success) {
-    //         const res = resInvestHistory.data as PackageInvest;
-    //         const history = resInvestHistory.history as HistoryModel[];
-    //     }
-    // }, [apiServices.invest]);
+        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
+    }, [dataFilter, tabName]);
 
     const fetchHistoryList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getListContractInvesting(
@@ -86,37 +84,32 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
             PAGE_SIZE_INVEST) as any;
 
         if (investmentList.success) {
-            setCountInvest(5);
-            setOffset(last => last + PAGE_SIZE_INVEST);
+            // setCountInvest(5);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
+            setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {
                 setInvestList(last => [...last, ...investmentList.data]);
             } else {
                 setInvestList(investmentList?.data);
             }
         }
-    }, [apiServices.invest, dataFilter.amountInvest, dataFilter.fromDate, dataFilter.optionInvest, dataFilter.toDate, offset]);
+    }, [apiServices.invest, dataFilter, offset]);
 
     const handleScrollToTop = () => {
         document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
     const fetchDataSearch = useCallback(async () => {
-        setAmountList(amountListData);
-
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
-
         if (amountFilter.success) {
             const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
             setAmountList(dataAmountFilter);
-
         }
-
     }, [apiServices.invest]);
 
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[]) => {
-        const onSelectItem = (item: any) => {
-            if (item) {
+        const onSelectItem = (item: string) => {
+            if (item && !isMobile) {
                 setOffset(0);
                 setDataFilter({
                     ...dataFilter,
@@ -137,19 +130,20 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                 title={_title}
                 placeholder={_placeholder}
                 onSelectItem={onSelectItem}
+                allowClear={isMobile ? true : false}
                 onClear={handleClearDataFilter} />
         );
-    }, [dataFilter]);
+    }, [dataFilter, isMobile]);
 
-    const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
+    const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string, minDate?: string) => {
         const onChangeInput = (event: string) => {
-            if (event) {
+            if (!isMobile) {
                 const isFromDate = _placeHolder === Languages.history.fromDate;
                 setOffset(0);
                 if (event !== dataFilter.fromDate && isFromDate) {
-                    setDataFilter({ ...dataFilter, fromDate: _refInput.current?.getValue?.() });
+                    setDataFilter({ ...dataFilter, fromDate: event ? _refInput.current?.getValue?.() : '' });
                 } else if (event !== dataFilter.toDate && !isFromDate) {
-                    setDataFilter({ ...dataFilter, toDate: _refInput.current?.getValue?.() });
+                    setDataFilter({ ...dataFilter, toDate: event ? _refInput.current?.getValue?.() : '' });
                 }
             }
         };
@@ -163,11 +157,12 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                     value={_value}
                     maxLength={8}
                     onChangeText={onChangeInput}
-                    max={new Date().toISOString().split('T')[0]}
+                    max={dataFilter.toDate || new Date().toISOString().split('T')[0]}
+                    min={minDate}
                 />
             </Col>
         );
-    }, [dataFilter]);
+    }, [dataFilter, isMobile]);
 
     const handleOpenPopupSearch = useCallback(() => {
         popupSearchRef.current?.showModal();
@@ -211,7 +206,7 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                             <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                         </Col>
                         {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
-                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
+                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '', dataFilter.fromDate)}
                     </Row>
                 </Col>
             </Row>
@@ -230,7 +225,7 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                             <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                         </Col>
                         {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
-                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
+                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '', dataFilter.fromDate)}
                     </Row>
                 </Col>
             </Row>
@@ -240,7 +235,6 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
             onNextScreen(dataInvest, tabName);
-            console.log('tabName==', tabName);
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
@@ -251,7 +245,7 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
 
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
-            <Row gutter={isMobile ? [24, 16] : [24, 24]}>
+            <Row gutter={isMobile ? [24, 16] : [24, 24]} className={cx('min-height-list')}>
                 {_dataList?.map((itemInvest: PackageInvest, index: number) => {
                     return renderItemInvest(index, itemInvest);
                 })}
@@ -261,12 +255,21 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
 
     const onClosePopup = useCallback(() => {
         pickerAmountRef.current?.clearValue?.();
+        fromDateRef.current?.setValue?.('');
+        toDateRef.current?.setValue?.('');
         setDataFilter({});
+        setOffset(0);
     }, []);
 
     const onSuccessPopup = useCallback(() => {
-        fetchDataSearch();
-    }, [fetchDataSearch]);
+        setOffset(0);
+        setDataFilter({
+            ...dataFilter,
+            amountInvest: `${pickerAmountRef.current?.getValue()}`,
+            fromDate: fromDateRef.current?.getValue(),
+            toDate: toDateRef.current?.getValue()
+        });
+    }, [dataFilter]);
 
     const renderPopupSearchPackage = useCallback(() => {
         return (
@@ -318,12 +321,12 @@ const ChildTabsHistory = ({ onNextScreen, tabsNumber }: {
                 {!isMobile && renderFilterWeb}
                 <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
                     {renderFlatList(investList)}
-                    <div className={cx(scrollTop < 250 ? 'top-button-hide' : isMobile ? 'top-button-mobile' : 'top-button')} onClick={handleScrollToTop}>Top</div>
+                    <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
                 </div>
             </div>
             {renderPopupSearchPackage()}
         </div>
     );
-};
+});
 
 export default ChildTabsHistory;

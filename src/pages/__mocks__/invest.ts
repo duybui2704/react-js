@@ -303,28 +303,6 @@ export const investListMoreData =
         }
     ] as PackageInvest[];
 
-export const amountListData = [
-    {
-        id: '1',
-        text: 'Dưới 10,000,000 VNĐ',
-        value: 'Dưới 10,000,000 VNĐ',
-    },
-    {
-        id: '2',
-        text: '10,000,000 VNĐ - dưới 50,000,000 VNĐ',
-        value: '10,000,000 VNĐ - dưới 50,000,000 VNĐ',
-    },
-    {
-        id: '3',
-        text: '50,000,000 VNĐ - dưới 100,000,000 VNĐ',
-        value: '50,000,000 VNĐ - dưới 100,000,000 VNĐ',
-    },
-    {
-        id: '4',
-        text: 'Trên 100,000,000 VNĐ',
-        value: 'Trên 100,000,000 VNĐ',
-    }
-]
 export const dateListData = [
     {
         id: '1',
@@ -393,60 +371,6 @@ export const dataColumnInvest: DataColumnInvestType[] = [
     }
 ];
 
-export const dataColumnHistory: DataColumnHistoryType[] = [
-    {
-        id: '1',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/05/2023'
-    },
-    {
-        id: '2',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/06/2023'
-    },
-    {
-        id: '3',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/07/2023'
-    }
-];
-
-export const dataColumnInvesting: DataColumnHistoryType[] = [
-    {
-        id: '1',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/05/2023'
-    },
-    {
-        id: '2',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '1',
-        receivedDate: '12/06/2023'
-    },
-    {
-        id: '3',
-        principalAmount: '1,000,000,000',
-        profitAmount: '1,000,000',
-        total: '1,000,000',
-        status: '0',
-        receivedDate: '12/07/2023'
-    }
-];
-
 export const dataColumnCommission: DataColumnCommissionType[] = [
     {
         id: '1',
@@ -473,14 +397,8 @@ const totalCommission: DataTotalColumnCommissionType = {
     totalCommission: '2,000,000'
 }
 
-export const DataCommission = {
-    body: dataColumnCommission,
-    total: totalCommission
-}
-
 export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
 export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
-export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const InvestMethod = [
     {
@@ -509,10 +427,10 @@ export const BankTransferInfo: BankInformationModel = {
 }
 
 export const arrKey = ['stt', 'ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistory = ['stt', 'principalAmount', 'profitAmount', 'total', 'status', 'receivedDate'];
+export const arrKeyHistory = ['stt', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'status', 'ngay_nhan'];
 
 export const arrKeyMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistoryMobile = ['principalAmount', 'profitAmount', 'total', 'receivedDate'];
+export const arrKeyHistoryMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 
 export const labelInvestArr = {
     ngay_nhan: Languages.invest.datePayment,

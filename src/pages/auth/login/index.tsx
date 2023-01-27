@@ -1,6 +1,5 @@
 import { Checkbox } from 'antd';
 import type { CheckboxChangeEvent } from 'antd/es/checkbox';
-import IcFacebook from 'assets/icon/ic_facebook.svg';
 import IcGoogle from 'assets/icon/ic_google.svg';
 import IcPhone from 'assets/icon/ic_phone.svg';
 import classNames from 'classnames/bind';
@@ -13,16 +12,19 @@ import { useAppStore } from 'hooks';
 import { UserInfoModel } from 'models/user-model';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import sessionManager from 'managers/session-manager';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formValidate from 'utils/form-validate';
 import styles from './login.module.scss';
 import { Paths } from 'routers/paths';
+import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { toJS } from 'mobx';
-
+import { authGoogle } from 'firebase-config';
+import { LoginWithThirdPartyModel } from 'models/auth';
+import { PopupBaseActions } from 'components/modal-otp/modal';
 const cx = classNames.bind(styles);
 
-function Login({ onPress }) {
+function Login({ onPress, openPopup }) {
     const isMobile = useIsMobile();
     const navigate = useNavigate();
     const { apiServices, userManager } = useAppStore();
@@ -93,17 +95,38 @@ function Login({ onPress }) {
         onPress?.({ name: title });
     }, [onPress]);
 
-    const responseFacebook = (response) => {
-        console.log(response);
-    };
-
-    const onGoogleSign = useCallback(async () => {
-        try {
-            // await loginGoogle();
-        } catch (error) {
+    const onLoginGoogle = useCallback(() => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(authGoogle, provider).then(async (result) => {
+            console.log('result ===', result);
+            setLoading(true);
+            const res = await apiServices?.auth?.loginWithThirdParty(
+                'google',
+                result?.user.providerData[0].uid,
+                result.user.email || '',
+                result.user.displayName || ''
+            ) as any;
+            setLoading(false);
+            if (res.success) {
+                const dataLogin = res.data as LoginWithThirdPartyModel;
+                if (dataLogin?.token) {
+                    sessionManager.setAccessToken(dataLogin?.token);
+                    userManager.updateUserInfo({ ...dataLogin });
+                    if (sessionManager.accessToken) {
+                        if (sessionManager.accessToken) {
+                            setTimeout(() => {
+                                navigate(Paths.home);
+                            }, 200);
+                        }
+                    }
+                } else {
+                    openPopup?.(dataLogin);
+                }
+            }
+        }).catch((error) => {
             console.log('error ===', error);
-        }
-    }, []);
+        });
+    }, [apiServices?.auth, navigate, openPopup, userManager]);
 
     const renderRightContent = useMemo(() => {
         return <div className={cx(isMobile ? 'right-container-mobile' : 'right-container')}>
@@ -142,7 +165,7 @@ function Login({ onPress }) {
                 <Checkbox className={cx('text-gray h7')}
                     onChange={onChange}>
                     {Languages.auth.savePwd}</Checkbox>
-                <span className={cx('text-red h7')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
+                <span className={cx('text-red h7', 'hover-text')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
                     {Languages.auth.forgotPwd}
                 </span>
             </div>
@@ -166,21 +189,13 @@ function Login({ onPress }) {
             </div>
 
             <div className={cx('row-center y30')}>
-
-                {/* <Button
-                    label={Languages.auth.facebook}
-                    buttonStyle={BUTTON_STYLES.OUTLINE_BLUE}
-                    isLowerCase
-                    containButtonStyles={'flex x10'}
-                    rightIcon={IcFacebook}
-                /> */}
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}
                     isLowerCase
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
-                    onPress={onGoogleSign}
+                    onPress={onLoginGoogle}
                 />
             </div>
 
@@ -188,12 +203,12 @@ function Login({ onPress }) {
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.notAccountYet}
                 </span>
-                <a className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
+                <span className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.register)}>
                     {Languages.auth.registerNow}
-                </a>
+                </span>
             </div>
         </div>;
-    }, [isMobile, onGoogleSign, onLogin, onNavigate, phone]);
+    }, [isMobile, onLogin, onLoginGoogle, onNavigate, phone]);
 
     const renderView = useMemo(() => {
         return <>

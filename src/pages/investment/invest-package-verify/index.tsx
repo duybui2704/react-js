@@ -19,10 +19,11 @@ import { InvestMethod } from 'pages/__mocks__/invest';
 import { COLOR_TRANSACTION, TYPE_TRANSFER_AMOUNT } from 'commons/constants';
 import Footer from 'components/footer';
 import toasty from 'utils/toasty';
+import { observer } from 'mobx-react';
 
 const cx = classNames.bind(styles);
 
-const InvestPackageVerify = ({ onBackDetail, onNextScreen, investPackage }: {
+const InvestPackageVerify = observer(({ onBackDetail, onNextScreen, investPackage }: {
     onBackDetail: () => void,
     onNextScreen: () => void,
     investPackage?: PackageInvest
@@ -185,7 +186,7 @@ const InvestPackageVerify = ({ onBackDetail, onNextScreen, investPackage }: {
             </div>
         </div>
     );
-};
+});
 
 export default InvestPackageVerify;
 

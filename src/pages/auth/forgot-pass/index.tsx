@@ -90,7 +90,7 @@ function ForgotPass({ onPress }) {
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>
-                <span className={cx('text-green h6')} onClick={() => onNavigate(Languages.auth.register)}>
+                <span className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.register)}>
                     {Languages.auth.registerNow}
                 </span>
             </div>
@@ -102,7 +102,7 @@ function ForgotPass({ onPress }) {
             {renderRightContent}
             {isLoading && <Loading />}
         </>;
-    }, []);
+    }, [isLoading, renderRightContent]);
 
     return renderView;
 }

@@ -26,10 +26,10 @@ const Manage = observer(({ defaultTabs }:
     const [investPackage, setInvestPackage] = useState<PackageInvest>();
 
     const onNavigateDetail = useCallback((data: PackageInvest, tabs: number) => {
-        setTabNameHistory(tabNameHistory + 1);
+        setTabNameHistory(last => last + 1);
         setInvestPackage(data);
         setTabNameBackHistory(tabs);
-    }, [tabNameHistory]);
+    }, []);
 
     const goBack = useCallback(() => {
         setTabNameHistory(0);
@@ -63,7 +63,7 @@ const Manage = observer(({ defaultTabs }:
             },
             {
                 id: '3',
-                renderComponent: <ChildTabsTransaction keyTabs={0}/>,
+                renderComponent: <ChildTabsTransaction keyTabs={0} />,
                 title: Languages.manageTabs?.[2]
             }
         ];

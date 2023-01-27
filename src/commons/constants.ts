@@ -102,7 +102,7 @@ export enum TYPE_TRANSFER_AMOUNT {
 
 export enum TYPE_TAB_HISTORY {
     IS_INVESTING = 0,
-    HISTORY = 1,
+    EXPIRED = 1,
 }
 
 export enum TYPE_SIZE {

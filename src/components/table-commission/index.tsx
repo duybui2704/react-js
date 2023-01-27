@@ -1,17 +1,14 @@
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import {
-    DataColumnCommissionType,
-    DataTotalColumnCommissionType
-} from 'models/invest';
+import { Detail, Total } from 'models/comission';
 import React, { useCallback } from 'react';
 import style from './table-commission.module.scss';
 const cx = classNames.bind(style);
 
-const TableCommission = ({dataTableInvest, dataFooter, columnName }: {
-  dataTableInvest?: DataColumnCommissionType[];
-  columnName: string[];
-  dataFooter: DataTotalColumnCommissionType;
+const TableCommission = ({ dataTableInvest, dataFooter, columnName }: {
+    dataTableInvest?: Detail[];
+    columnName: string[];
+    dataFooter: Total;
 }) => {
     const renderTableColumnValue = useCallback((_arrayColumn: Array<string>) => {
         return (
@@ -26,19 +23,19 @@ const TableCommission = ({dataTableInvest, dataFooter, columnName }: {
     }, []);
 
     const renderTableRowValueInvest = useCallback(
-        (_arrayRow: DataColumnCommissionType[]) => {
+        (_arrayRow: Detail[]) => {
             return (
                 <tbody>
-                    {_arrayRow?.map?.((item: DataColumnCommissionType, index: number) => {
+                    {_arrayRow?.map?.((item: Detail, index: number) => {
                         return (
                             <tr
                                 key={index}
                                 className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}
                             >
-                                <td>{item?.id}</td>
-                                <td>{item?.phoneNumber}</td>
-                                <td>{item?.totalInvest}</td>
-                                <td>{item?.commissionAmount}</td>
+                                <td>{index + 1}</td>
+                                <td>{item?.name}</td>
+                                <td>{item?.total_money}</td>
+                                <td>{item?.money_commission}</td>
                             </tr>
                         );
                     })}
@@ -48,13 +45,13 @@ const TableCommission = ({dataTableInvest, dataFooter, columnName }: {
     );
 
     const renderTableRowFooter = useCallback(
-        (_arrayRow: DataTotalColumnCommissionType) => {
+        (_arrayRow: Total) => {
             return (
                 <tbody>
                     <tr className={cx('style-table-footer')}>
                         <td colSpan={2}>{Languages.tableCommission.sum}</td>
-                        <td>{_arrayRow?.totalInvest}</td>
-                        <td>{_arrayRow?.totalCommission}</td>
+                        <td>{_arrayRow?.total_money || 0}</td>
+                        <td>{_arrayRow?.money_commission || 0}</td>
                     </tr>
                 </tbody>
             );

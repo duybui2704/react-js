@@ -17,7 +17,7 @@ import InvestTab from 'pages/investment/invest-tab';
 import Manage from 'pages/manage';
 import News from 'pages/news';
 import Profile from 'pages/profile';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
 import { COLORS } from 'theme/colors';
@@ -34,9 +34,15 @@ import { observer } from 'mobx-react';
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
 
+interface TabsModel {
+    label: string,
+    key: string,
+    children: ReactNode
+}
+
 const Home = observer(() => {
     const navigate = useNavigate();
-    const { userManager } = useAppStore();
+    const { userManager, apiServices, common } = useAppStore();
     const isMobile = useIsMobile();
     const [stepIndex, setStepIndex] = useState<number>(0);
     // const [toggle, setToggle] = useState<boolean>(false);
@@ -62,6 +68,15 @@ const Home = observer(() => {
             EventEmitter.remove();
         };
     }, [onHandleChangeTab, onLogOut]);
+
+    useEffect(() => {
+        fetchAppConfig();
+    }, []);
+
+    const fetchAppConfig = useCallback(async () => {
+        const config = await apiServices.common.getAppConfig();
+        common.setAppConfig(config.data);
+    }, [apiServices.common, common]);
 
     const onChangeMenu = useCallback((index: number) => {
         setStepIndex(index);
@@ -132,7 +147,7 @@ const Home = observer(() => {
                 }
             </div>
         };
-    }, [navigate, onLogOut, renderIconVerify, userManager.userInfo?.avatar_user, userManager.userInfo?.full_name]);
+    }, [navigate, onLogOut, renderIconVerify, userManager, sessionManager.accessToken]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;
@@ -160,53 +175,33 @@ const Home = observer(() => {
     }, []);
 
     const tabs = useMemo(() => {
-        if (userManager.userInfo) {
-            return [
-                {
-                    label: Languages.tabs[0],
-                    key: `${TAB_INDEX.INTRO}`,
-                    children: getStepLayout(TAB_INDEX.INTRO)
-                },
-                {
-                    label: Languages.tabs[1],
-                    key: `${TAB_INDEX.INVESTMENT}`,
-                    children: getStepLayout(TAB_INDEX.INVESTMENT)
-                },
-                {
-                    label: Languages.tabs[2],
-                    key: `${TAB_INDEX.MANAGEMENT}`,
-                    children: getStepLayout(TAB_INDEX.MANAGEMENT)
-                },
-                {
-                    label: Languages.tabs[3],
-                    key: `${TAB_INDEX.NEWS}`,
-                    children: getStepLayout(TAB_INDEX.NEWS)
-                },
-                {
-                    label: Languages.tabs[4],
-                    key: `${TAB_INDEX.PROFILE}`,
-                    children: getStepLayout(TAB_INDEX.PROFILE)
-                }
-            ];
-        } else {
-            return [
-                {
-                    label: Languages.tabs[0],
-                    key: `${TAB_INDEX.INTRO}`,
-                    children: getStepLayout(TAB_INDEX.INTRO)
-                },
-                {
-                    label: Languages.tabs[1],
-                    key: `${TAB_INDEX.INVESTMENT}`,
-                    children: getStepLayout(TAB_INDEX.INVESTMENT)
-                },
-                {
-                    label: Languages.tabs[3],
-                    key: `${TAB_INDEX.NEWS}`,
-                    children: getStepLayout(TAB_INDEX.NEWS)
-                }
-            ];
-        }
+        return ([
+            {
+                label: Languages.tabs[0],
+                key: `${TAB_INDEX.INTRO}`,
+                children: getStepLayout(TAB_INDEX.INTRO)
+            },
+            {
+                label: Languages.tabs[1],
+                key: `${TAB_INDEX.INVESTMENT}`,
+                children: getStepLayout(TAB_INDEX.INVESTMENT)
+            },
+            userManager.userInfo && {
+                label: Languages.tabs[2],
+                key: `${TAB_INDEX.MANAGEMENT}`,
+                children: getStepLayout(TAB_INDEX.MANAGEMENT)
+            },
+            {
+                label: Languages.tabs[3],
+                key: `${TAB_INDEX.NEWS}`,
+                children: getStepLayout(TAB_INDEX.NEWS)
+            },
+            userManager.userInfo && {
+                label: Languages.tabs[4],
+                key: `${TAB_INDEX.PROFILE}`,
+                children: getStepLayout(TAB_INDEX.PROFILE)
+            }
+        ] as TabsModel[]);
     }, [getStepLayout, userManager.userInfo]);
 
     const onChangeTab = (key: string) => {

@@ -1,5 +1,4 @@
 import { BUTTON_STYLES } from 'components/button/types';
-import { ItemProps } from 'models/common';
 import { ReactNode } from 'react';
 export type PopupBaseProps = {
     onClose?: () => any;
@@ -8,8 +7,6 @@ export type PopupBaseProps = {
     onSuccessPress?: (...params: any[]) => any;
     onCodeChanged?: () => any;
     onSuccess?: any;
-    data?: any;
-    dataChannel?: ItemProps[];
     content?: string;
     btnText?: string;
     description?: string;

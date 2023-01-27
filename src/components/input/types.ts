@@ -38,6 +38,7 @@ export type TextFieldProps = {
     important?: boolean;
     labelRight?: string;
     spellCheck?: boolean;
+    pattern?: string;
     onEndEditing?: (text: string, tag?: string) => any;
     onClickRightIcon?: (text: string) => any;
     onFocusCallback?: (tag?: string) => any;

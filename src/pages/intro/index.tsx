@@ -36,9 +36,8 @@ function Intro() {
     const [step, setStep] = useState<number>(1);
     const { apiServices } = useAppStore();
     const isMobile = useIsMobile();
-    const [run, setRun] = useState<boolean>(false);
+    // const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
-    const [numberPage, setNumberPage] = useState<number>(1);
     const [dataMoney, setDataMoney] = useState<ItemProps[]>([]);
     const [dataTime, setDataTime] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -243,7 +242,6 @@ function Intro() {
 
         const onChangeSteps = () => {
             setStep(index);
-            document.getElementById('fade');
         };
 
         return (
