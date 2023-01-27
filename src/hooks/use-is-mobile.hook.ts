@@ -1,8 +1,9 @@
 import { useLayoutEffect, useState } from 'react';
 import debounce from 'lodash/debounce';
+import sessionManager from 'managers/session-manager';
 
 const useIsMobile = (): boolean => {
-    const [isMobile, setIsMobile] = useState(false);
+    const [isMobile, setIsMobile] = useState(sessionManager.isMobile || false);
 
     useLayoutEffect(() => {
         const updateSize = (): void => {

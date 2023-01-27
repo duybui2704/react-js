@@ -186,13 +186,13 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                 <Checkbox className={cx('text-gray h7')}
                     onChange={onChange}>
                     {Languages.auth.savePwd}</Checkbox>
-                <span className={cx('text-red h7', 'hover-text')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
+                <a className={cx('text-red h7', 'hover-text')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
                     {Languages.auth.forgotPwd}
-                </span>
+                </a>
             </div>
 
             <Button
-                label={Languages.auth.login}
+                label={Languages.auth.register}
                 buttonStyle={BUTTON_STYLES.GREEN}
                 isLowerCase
                 onPress={onSignUp}
@@ -200,7 +200,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                 customStyles={{ padding: 10 }}
             />
 
-            <div className={cx('row-center y30')}>
+            <div className={cx('row-center y20')}>
                 <div className={cx('line')} />
                 <span className={cx('text-gray h7 p5')}>
                     {Languages.auth.or}
@@ -208,7 +208,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                 <div className={cx('line')} />
             </div>
 
-            <div className={cx('row-center y30')}>
+            <div className={cx('row-center y20')}>
                 <Button
                     label={Languages.auth.google}
                     buttonStyle={BUTTON_STYLES.OUTLINE_RED}
@@ -218,7 +218,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                 />
             </div>
 
-            <div className={cx('row y10')}>
+            <div className={cx('row y20')}>
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>

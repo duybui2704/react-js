@@ -20,6 +20,7 @@ import { Loading } from 'components/loading';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
@@ -32,9 +33,9 @@ import styles from './intro.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Intro() {
+const Intro = observer(() => {
     const [step, setStep] = useState<number>(1);
-    const { apiServices } = useAppStore();
+    const { apiServices, userManager } = useAppStore();
     const isMobile = useIsMobile();
     // const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
@@ -57,13 +58,20 @@ function Intro() {
     const pickerDateRef = useRef<PickerAction>(null);
     const elementRef = useRef<any>(null);
 
+    
+
     useEffect(() => {
         setTopIntroHeight(elementRef?.current?.clientHeight);
         fetchDataInvest();
-        fetchContractsDash();
         fetchDataMoney();
         fetchDataTimeInvestment();
     }, []);
+    
+    useEffect(() => {
+        if(userManager.userInfo){
+            fetchContractsDash();
+        }
+    }, [userManager.userInfo]);
 
     // useEffect(() => {
     //     const scrollHandler = () => {
@@ -572,6 +580,6 @@ function Intro() {
             <Footer />
         </div>
     );
-}
+});
 
 export default Intro;

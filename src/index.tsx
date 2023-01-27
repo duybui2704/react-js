@@ -26,6 +26,7 @@ function App(): JSX.Element {
     }
 
     useEffect(() => {
+        handleWindowSizeChange();
         window.addEventListener('resize', handleWindowSizeChange);
         return () => {
             window.removeEventListener('resize', handleWindowSizeChange);
@@ -40,14 +41,14 @@ function App(): JSX.Element {
         router.subscribe((state) => console.log('new state', state));
     }, [router]);
 
-    return (
-        <React.StrictMode>
-            <AppStoreProvider>
-                <RouterProvider router={router} />
-            </AppStoreProvider>
-            <ToastContainer theme="colored" className="customize-toast" limit={1} autoClose={5000} />
-        </React.StrictMode>
-    );
+    return <>
+        {/* <React.StrictMode> */}
+        <AppStoreProvider>
+            <RouterProvider router={router} />
+        </AppStoreProvider>
+        <ToastContainer theme="colored" className="customize-toast" limit={1} autoClose={5000} />
+        {/* </React.StrictMode> */}
+    </>;
 }
 const root = createRoot(container!);
 root.render(<App />);

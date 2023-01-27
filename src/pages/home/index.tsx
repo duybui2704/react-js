@@ -72,7 +72,7 @@ const Home = observer(() => {
     useEffect(() => {
         fetchAppConfig();
     }, []);
-
+    
     const fetchAppConfig = useCallback(async () => {
         const config = await apiServices.common.getAppConfig();
         common.setAppConfig(config.data);
@@ -147,7 +147,7 @@ const Home = observer(() => {
                 }
             </div>
         };
-    }, [navigate, onLogOut, renderIconVerify, userManager, sessionManager.accessToken]);
+    }, [navigate, onLogOut, renderIconVerify, userManager]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;

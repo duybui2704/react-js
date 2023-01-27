@@ -86,13 +86,13 @@ function ForgotPass({ onPress }) {
                 customStyles={{ padding: 10 }}
             />
 
-            <div className={cx('row y10')}>
+            <div className={cx('row y20')}>
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>
-                <span className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.register)}>
+                <a className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.register)}>
                     {Languages.auth.registerNow}
-                </span>
+                </a>
             </div>
         </div>;
     }, [isMobile, onForgotPwd, onNavigate]);
