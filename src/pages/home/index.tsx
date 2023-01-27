@@ -145,8 +145,6 @@ const Home = observer(() => {
 
     const getStepLayout = useCallback((index: number) => {
         switch (index) {
-            case TAB_INDEX.INTRO:
-                return <Intro />;
             case TAB_INDEX.INVESTMENT:
                 return <InvestTab />;
             case TAB_INDEX.MANAGEMENT:
@@ -154,8 +152,10 @@ const Home = observer(() => {
             case TAB_INDEX.NEWS:
                 return <News />;
             case TAB_INDEX.PROFILE:
-            default:
                 return <Profile />;
+            case TAB_INDEX.INTRO:
+            default:
+                return <Intro />;
         }
     }, []);
 
