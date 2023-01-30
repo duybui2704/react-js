@@ -70,8 +70,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     useEffect(() => {
         fetchHistoryList();
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
-    }, [dataFilter, tabName]);
+    }, [dataFilter]);
 
     const fetchHistoryList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getListContractInvesting(
@@ -84,7 +83,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
             PAGE_SIZE_INVEST) as any;
 
         if (investmentList.success) {
-            // setCountInvest(5);
+            setCountInvest(investmentList?.total || 0);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
             setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {

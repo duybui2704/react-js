@@ -78,7 +78,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             PAGE_SIZE_INVEST
         ) as any;
         if (investmentList.success) {
-            setCountInvest(5);
+            setCountInvest(investmentList?.total || 0);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
             setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {
