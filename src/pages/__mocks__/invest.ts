@@ -16,11 +16,11 @@ export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'S�
 export const columnNameCommission = ['STT', 'Họ và tên', 'Tổng tiền đầu tư', 'Hoa hồng']
 
 export const arrInvestKey = ['ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistory = ['so_tien', 'so_tien', 'so_tien', 'trang_thai', 'ngay_tra_lai'];
+export const arrKeyHistory = ['tien_goc', 'tien_lai', 'so_tien', 'trang_thai', 'ngay_tra_lai'];
 export const arrKeyCommission = ['name', 'total_money', 'money_commission'];
 
 export const arrKeyInvestMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistoryMobile = ['ngay_tra_lai', 'so_tien', 'so_tien', 'so_tien'];
+export const arrKeyHistoryMobile = ['ngay_tra_lai', 'tien_goc', 'tien_lai', 'so_tien'];
 export const arrKeyCommissionMobile = ['total_money', 'money_commission'];
 
 export const labelInvestArr = {
@@ -32,9 +32,9 @@ export const labelInvestArr = {
 
 export const labelArrHistory = {
     ngay_tra_lai: 'Ngày thanh toán',
-    so_tien_goc: 'Số tiền gốc',
-    so_tien_lai: 'Số tiền lãi',
-    tong_tien: 'Tổng tiền'
+    tien_goc: 'Số tiền gốc',
+    tien_lai: 'Số tiền lãi',
+    so_tien: 'Tổng tiền'
 };
 
 export const labelArrCommission = {

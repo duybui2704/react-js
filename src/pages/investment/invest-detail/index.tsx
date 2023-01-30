@@ -55,13 +55,6 @@ const InvestDetail = observer(({ onBackScreen, onNextScreen, investPackage, isDe
         }
     }, [isDetailHistory]);
 
-    const convertData = useCallback((data: any) => {
-        for (let i = 0; i < data?.length; i++) {
-            data[i].stt = (i + 1).toString();
-        }
-        return data;
-    }, []);
-
     const onBack = useCallback(() => {
         onBackScreen?.();
     }, [onBackScreen]);

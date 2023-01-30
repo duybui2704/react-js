@@ -50,7 +50,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [dataFilter, setDataFilter] = useState<HistoryFilter>({
-        optionInvest: '1',
+        optionInvest: `${tabsNumber + 1}` || '1', // tabsNumber===( 0: investing, 1: đã đáo hạn)
         amountInvest: '',
         fromDate: '',
         toDate: ''
