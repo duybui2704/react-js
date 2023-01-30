@@ -1,8 +1,4 @@
-import Languages from "commons/languages";
-import { BankInformationModel, DataTotalColumnCommissionType } from "models/invest";
-
-export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
-export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+import { BankInformationModel } from "models/invest";
 
 export const InvestMethod = [
     {
@@ -30,24 +26,36 @@ export const BankTransferInfo: BankInformationModel = {
     id: '970415',
 }
 
-export const arrInvestKey = ['stt', 'ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
-export const arrKeyHistory = ['trang_thai', 'trang_thai', 'so_tien', 'trang_thai', 'trang_thai', 'ngay_tra_lai'];
+export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
+export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
+export const columnNameCommission = ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng']
+
+export const arrInvestKey = ['ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
+export const arrKeyHistory = ['so_tien', 'so_tien', 'so_tien', 'trang_thai', 'ngay_tra_lai'];
+export const arrKeyCommission = ['name', 'total_money', 'money_commission'];
 
 export const arrKeyInvestMobile = ['tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistoryMobile = ['ngay_tra_lai', 'so_tien', 'so_tien', 'so_tien'];
+export const arrKeyCommissionMobile = ['total_money', 'money_commission'];
 
 export const labelInvestArr = {
-    ngay_nhan: Languages.invest.datePayment,
-    tien_goc_tra: Languages.invest.principalAmount,
-    tien_lai_tra: Languages.invest.interestAmount,
-    tong_goc_lai: Languages.invest.totalAmount
+    ngay_nhan: 'Ngày thanh toán',
+    tien_goc_tra: 'Số tiền gốc',
+    tien_lai_tra: 'Số tiền lãi',
+    tong_goc_lai: 'Tổng tiền'
 };
 
 export const labelArrHistory = {
-    ngay_tra_lai: Languages.invest.datePayment,
-    so_tien_goc: Languages.invest.principalAmount,
-    so_tien_lai: Languages.invest.interestAmount,
-    tong_tien: Languages.invest.totalAmount
+    ngay_tra_lai: 'Ngày thanh toán',
+    so_tien_goc: 'Số tiền gốc',
+    so_tien_lai: 'Số tiền lãi',
+    tong_tien: 'Tổng tiền'
+};
+
+export const labelArrCommission = {
+    name: 'Họ và tên',
+    total_money: 'Tiền đầu tư',
+    money_commission: 'Hoa hồng',
 };
 
 

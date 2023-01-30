@@ -2,11 +2,13 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
-import TableCommission from 'components/table-commission';
+import PeriodInvestMobile from 'components/period-invest-mobile';
+import TableInvest from 'components/table-invest';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { observer } from 'mobx-react';
-import { CommissionModel, Detail, Total } from 'models/comission';
+import { CommissionModel, Detail, Total } from 'models/commission';
+import { arrKeyCommission, arrKeyCommissionMobile, columnNameCommission, labelArrCommission } from 'pages/__mocks__/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './commission.module.scss';
 
@@ -16,7 +18,7 @@ const Commission = observer(() => {
     const { apiServices, common } = useAppStore();
     const isMobile = useIsMobile();
 
-    const [filterDate, setFilterDate] = useState<string>('');
+    const [filterDate, setFilterDate] = useState<string>(new Date().toISOString().split('T')[0].slice(0, 7));
     const [commission, setCommission] = useState<CommissionModel>();
     const toDateRef = useRef<TextFieldActions>(null);
 
@@ -37,11 +39,25 @@ const Commission = observer(() => {
     }, [apiServices.auth, filterDate]);
 
     const renderTable = useMemo(() => {
-        return <TableCommission
-            dataTableInvest={commission?.detail as Detail[]}
-            columnName={Languages.commission.columnNameCommission}
-            dataFooter={commission?.total as Total} />;
-    }, [commission?.detail, commission?.total]);
+        return (
+            <>
+                {isMobile
+                    ? <PeriodInvestMobile
+                        dataTableInvest={commission?.detail as Detail[]}
+                        labelArr={labelArrCommission}
+                        arrKey={arrKeyCommissionMobile}
+                        total={commission?.total as Total}
+                    />
+                    : <TableInvest
+                        dataTableInvest={commission?.detail as Detail[]}
+                        arrKey={arrKeyCommission}
+                        columnName={columnNameCommission}
+                        dataFooter={commission?.total as Total}
+                    />
+                }
+            </>
+        );
+    }, [commission?.detail, commission?.total, isMobile]);
 
     const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
         const onChangeInput = (event: string) => {
@@ -55,7 +71,7 @@ const Commission = observer(() => {
                 type={'month'}
                 containerInput={cx('input-container')}
                 placeHolder={_placeHolder}
-                value={_value}
+                value={_value || new Date().toISOString().split('T')[0].slice(0, 7)}
                 maxLength={7}
                 onChangeText={onChangeInput}
                 max={new Date().toISOString().split('T')[0].slice(0, 7)}
