@@ -236,15 +236,12 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     }, [renderDivider, renderInvestList, isMobile, canLoadMore, fetchPackageInvestList]);
 
     return (
-        <div className={cx('page-container')}>
-            {isMobile && renderTopMobile}
-            <div className={cx('page-wrap')} ref={divRef} >
-                {!isMobile && renderTopWeb}
-                <div className={cx('page-content')} >
-                    {renderFlatList(investList)}
-                    <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
-                </div>
+        <div className={cx('page')}>
+            <div className={cx('page-header')} ref={divRef} >
+                {isMobile ? renderTopMobile : renderTopWeb}
             </div>
+            {renderFlatList(investList)}
+            <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
             {renderPopupSearchPackage()}
         </div>
     );

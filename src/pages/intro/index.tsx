@@ -58,8 +58,6 @@ const Intro = observer(() => {
     const pickerDateRef = useRef<PickerAction>(null);
     const elementRef = useRef<any>(null);
 
-    
-
     useEffect(() => {
         setTopIntroHeight(elementRef?.current?.clientHeight);
         fetchDataInvest();
