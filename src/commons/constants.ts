@@ -90,8 +90,9 @@ export enum TYPE_FILE {
 }
 
 export enum TYPE_STATUS_INVEST {
-    PAYED = '1',
-    UN_PAYED = '0',
+    PAYED = 'Đã thanh toán',
+    PROCESSING = 'Đang xử lý',
+    UN_PAYED = 'Chưa đến hạn',
 }
 
 export enum TYPE_TRANSFER_AMOUNT {

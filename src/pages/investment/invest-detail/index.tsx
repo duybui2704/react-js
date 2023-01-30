@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
-import { arrKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyMobile, columnNameHistory, columnNameInvest, labelArrHistory, labelInvestArr } from 'pages/__mocks__/invest';
+import { arrInvestKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyInvestMobile, columnNameHistory, columnNameInvest, labelArrHistory, labelInvestArr } from 'pages/__mocks__/invest';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { COLOR_TRANSACTION, TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';
@@ -211,11 +211,11 @@ const InvestDetail = observer(({ onBackScreen, onNextScreen, investPackage, isDe
                     ? <PeriodInvestMobile
                         dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest}
                         labelArr={isDetailHistory ? labelArrHistory : labelInvestArr}
-                        arrKey={isDetailHistory ? arrKeyHistoryMobile : arrKeyMobile}
+                        arrKey={isDetailHistory ? arrKeyHistoryMobile : arrKeyInvestMobile}
                     />
                     : <TableInvest
                         dataTableInvest={isDetailHistory ? dataDetailHistory : dataPeriodInvest}
-                        arrKey={isDetailHistory ? arrKeyHistory : arrKey}
+                        arrKey={isDetailHistory ? arrKeyHistory : arrInvestKey}
                         columnName={isDetailHistory ? columnNameHistory : columnNameInvest}
                     />
                 }

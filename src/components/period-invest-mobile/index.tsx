@@ -1,23 +1,25 @@
 import classNames from 'classnames/bind';
-import { TYPE_STATUS_INVEST } from 'commons/constants';
-import Languages from 'commons/languages';
-import { DataColumnInvestType } from 'models/invest';
+import { COLOR_TRANSACTION } from 'commons/constants';
 import React, { useCallback } from 'react';
+import { COLORS } from 'theme/colors';
 import style from './period-invest-mobile.module.scss';
 const cx = classNames.bind(style);
 
-const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey} : { dataTableInvest: any, labelArr: Object, arrKey: Array<string> }) => {
+const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey }: { dataTableInvest: any, labelArr: Object, arrKey: Array<string> }) => {
 
     const renderLabel = useCallback((item?: Object) => {
         for (const key in item) {
             if (key === 'ky_tra') {
                 return <span className={cx('text-green medium h7 text-center')}>{item['ky_tra']}</span>;
             }
-            if (key === 'status') {
-                return <span className={cx('h7 center', item[key] === TYPE_STATUS_INVEST.PAYED ? 'text-green' : 'text-gray')}>
-                    {item[key] === TYPE_STATUS_INVEST.PAYED ? Languages.historyDetail.payed : Languages.historyDetail.unPayed}</span>;
+            if (key === 'trang_thai') {
+                return <span
+                    className={cx('h7 center')}
+                    style={{ color: item['color'] === COLOR_TRANSACTION.GREEN ? COLORS.GREEN_2 : item['color'] }}
+                >
+                    {item['trang_thai']}</span>;
             }
-            if (key === 'ma_hop_dong') {    
+            if (key === 'ma_hop_dong') {
                 return <span className={cx('medium h7 text-center text-blue')}>{item['ma_hop_dong']}</span>;
             }
         }

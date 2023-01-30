@@ -1,8 +1,8 @@
 import classNames from 'classnames/bind';
-import { TYPE_STATUS_INVEST } from 'commons/constants';
+import { COLOR_TRANSACTION, TYPE_STATUS_INVEST } from 'commons/constants';
 import Languages from 'commons/languages';
-import { DataColumnInvestType } from 'models/invest';
 import React, { useCallback } from 'react';
+import { COLORS } from 'theme/colors';
 import style from './table-invest.module.scss';
 const cx = classNames.bind(style);
 
@@ -17,12 +17,16 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName }: { dataTableInvest:
                     </tr>
                 </thead>
                 <tbody>
-                    {_arrayRow?.map?.((item: DataColumnInvestType, index: number) => {
+                    {_arrayRow?.map?.((item: any, index: number) => {
 
                         const renderItem = (key: string, _indexItem: number) => {
-                            if (key === 'status') {
-                                return <td className={cx('h7', item[key] === TYPE_STATUS_INVEST.PAYED ? 'text-green' : 'text-gray')} key={_indexItem}>
-                                    {item[key] === TYPE_STATUS_INVEST.PAYED ? Languages.historyDetail.payed : Languages.historyDetail.unPayed}</td>;
+                            if (key === 'trang_thai') {
+                                return <td
+                                    key={_indexItem}
+                                    className={cx('h7')}
+                                    style={{ color: item['color'] === COLOR_TRANSACTION.GREEN ? COLORS.GREEN_2 : item['color'] }}
+                                >
+                                    {item['trang_thai']}</td>;
                             } else {
                                 return <td className={cx('text-gray h7')} key={_indexItem}>{item[key]}</td>;
                             }
