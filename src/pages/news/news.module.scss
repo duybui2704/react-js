@@ -1,17 +1,38 @@
 @import "assets/scss";
 .page {
     display: flex;
-    flex-direction: row;
-    max-height: 100vh;
-    height: 85vh;
+    flex-direction: column;
+    height: calc(var(--vh, 1vh) * 100 - $header-height); // margin size equal tab-bar height
     overflow-y: scroll;
-    overflow-x: hidden;
+}
+.page-content {
+    display: flex;
+    flex-direction: row;
 }
 
 .padding {
     padding: 2% 10%;
+    @include tablet() {
+        padding: 1% 5%;
+    }
     @include mobile() {
         padding: 10px 5px;
+    }
+}
+
+.news-horizontal-container {
+    display: flex;
+    flex-direction: row;
+    padding: 20px;
+    overflow-x: auto;
+    &::-webkit-scrollbar {
+        height: 4px;
+    }
+    @include tablet() {
+        width: calc(100vw - 50px);
+    } 
+    @include mobile() {
+        width: calc(100vw - 50px);
     }
 }
 
@@ -50,7 +71,10 @@
 }
 
 .content-view {
-    width: calc(100% - 10px);
+    overflow-x: hidden;
+    @include mobile() {
+        width: calc(100vw - 20px);
+    }
 }
 
 .padding-top {

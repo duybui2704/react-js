@@ -1,13 +1,11 @@
 import axios from 'axios';
 // import { HeaderType } from './types';
-import { browserName, fullBrowserVersion, osName, osVersion } from 'react-device-detect';
 import { TIMEOUT_API } from 'commons/configs';
 import { Events } from 'commons/constants';
 import Languages from 'commons/languages';
 import config from 'config';
-import useIsMobile from 'hooks/use-is-mobile.hook';
 import SessionManager from 'managers/session-manager';
-import { toJS } from 'mobx';
+import { browserName, fullBrowserVersion, osName, osVersion } from 'react-device-detect';
 import { EventEmitter } from 'utils/event-emitter';
 import toasty from 'utils/toasty';
 import validate from 'utils/validate';

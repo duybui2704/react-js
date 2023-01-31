@@ -28,7 +28,7 @@ export interface NewsModel extends BaseModel {
     sub_link?: string;
     limit?: string;
     type_new?: string;
-    created_at?: number;
+    created_at: number;
     updated_at?: number;
     created_by?: number;
     updated_by?: string;

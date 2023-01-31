@@ -16,7 +16,7 @@ export class CommonServices extends BaseService {
 
     getContractsDash = async () => this.api().post(API_CONFIG.CONTRACTS_DASH, {});
 
-    getBanners = async () => this.api().post(API_CONFIG.GET_BANNERS, {});
+    getNews = async () => this.api().post(API_CONFIG.GET_BANNERS, {});
 
     getBannerHome = async () => this.api().post(API_CONFIG.GET_BANNERS_HOME, {});
 

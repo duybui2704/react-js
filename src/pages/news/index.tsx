@@ -1,103 +1,119 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styles from './news.module.scss';
+import IcClock from 'assets/image/ic_clock.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import IcClock from 'assets/image/ic_clock.svg';
-import IcView from 'assets/image/ic_view.svg';
-import ImgContentNews from 'assets/image/img_content_news.jpg';
-import ImgPPNews from 'assets/image/img_pp_news.jpeg';
-import { LinkComponent } from 'components/link/link';
-import { dataNews } from 'pages/__mocks__/news';
+import Footer from 'components/footer';
+import { NewsComponent } from 'components/news-component';
+import { NewsExtraComponent } from 'components/news-component-extra';
+import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import { NewsModel } from 'models/news';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import dateUtils from 'utils/date-utils';
+import styles from './news.module.scss';
 
 const cx = classNames.bind(styles);
+const SPLIT_NEWS = 5;
+const IMG_TAG = 'display: block; width: 100%;';
 
 function News() {
-    const [toggle, setToggle] = useState<boolean>(false);
+    const { apiServices } = useAppStore();
+    const [news, setNews] = useState<NewsModel[]>([]);
+    const [focusedNews, setFocusedNews] = useState<NewsModel>();
 
     const isMobile = useIsMobile();
 
     useEffect(() => {
-        renderTimeDate();
-        const interval = setInterval(() => {
-            setToggle(last => !last);
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [toggle]);
+        fetchNews();
+    }, []);
+
+    const fetchNews = useCallback(async () => {
+        const api = await apiServices.common.getNews();
+        if (api.success) {
+            const data = api?.data as NewsModel[];
+            setNews(data);
+            if (data.length > 0) {
+                setFocusedNews(data[1]);
+            }
+        }
+    }, [apiServices.common]);
 
     const renderTimeDate = useCallback(() => {
-        var today = new Date();
-        const time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
-        var date = today.getDate() + '-' + (today.getMonth() + 1) + '-' + today.getFullYear();
         return (
             <div className={cx('column')}>
-                <span className={cx('text-green medium h4')}>{Languages.news.investTienngay}</span>
+                <span className={cx('text-green medium h4')}>{focusedNews?.title_vi}</span>
                 <div className={cx('row y10')}>
                     <img src={IcClock} className={cx('pr5')} />
-                    <span className={cx('text-gray h7 pl5')}>{`${time}`}</span>
-                    <span className={cx('text-gray h7 pl5 x30')}>{`${date}`}</span>
-                    <img src={IcView} className={cx('pr5')} />
-                    <span className={cx('text-gray h7 pl5')}>{`${903}`}</span>
-                    <span className={cx('text-gray h7 pl5')}>{Languages.news.view}</span>
+                    <span className={cx('text-gray h7 pl5')}>{dateUtils.getDateFormat(focusedNews?.created_at)}</span>
                 </div>
-                <div className={cx('line-bottom', 'y10')} />
             </div>
         );
-    }, []);
-
-    const renderImage = useMemo(() => {
-        
-        return (
-            <img src={ImgPPNews} className={cx('xl10', 'img')} />
-        );
-    }, []);
+    }, [focusedNews?.created_at, focusedNews?.title_vi]);
 
     const renderContent = useMemo(() => {
         return (
             <div className={cx('column flex y15', 'content-view')}>
-                <span className={cx('text-gray h7 bold')}>{Languages.news.loremIpsum}</span>
-                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
-                <img src={ImgContentNews} className={cx('y10')} width={'100%'} />
-                <span className={cx('text-gray h7 bold y10')}>{Languages.news.loremIpsum}</span>
-                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
-                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
-                <span className={cx('text-gray h7 y10')}>{Languages.news.loremIpsumContent}</span>
+                <img src={focusedNews?.image} className={cx('y10')} width={'100%'} />
+                <div className={cx('text-gray h7 bold y10')}
+                    dangerouslySetInnerHTML={{ __html: focusedNews?.content_vi.replace(IMG_TAG, '') || '' }} />
 
             </div>
         );
+    }, [focusedNews]);
+
+    const onNewsClick = useCallback((item: NewsModel) => {
+        setFocusedNews(item);
     }, []);
 
-    const renderLink = useMemo(() => {
+    const renderHotNews = useMemo(() => {
         return (
             <div className={cx('column')}>
-                <span className={cx('text-green medium h6')}>{Languages.news.news}</span>
-                <LinkComponent
-                    dataLink={dataNews}
-                    styleContainer={isMobile ? cx('row', 'scroll-y') : undefined}
-                    styleRow={isMobile ? cx('row x10', 'style') : undefined}
+                <span className={cx('text-black bold h6')}>{Languages.news.new.toUpperCase()}</span>
+                <NewsComponent
+                    dataLink={news.slice(0, SPLIT_NEWS)}
+                    styleContainer={isMobile ? cx('news-horizontal-container') : undefined}
+                    styleRow={isMobile ? cx('row x10', 'style', 'shadow') : cx('shadow')}
+                    onClick={onNewsClick}
                 />
             </div>
         );
-    }, [isMobile]);
+    }, [isMobile, news, onNewsClick]);
+
+    const renderOtherNews = useMemo(() => {
+        return (
+            <div className={cx('column')}>
+                <span className={cx('text-green medium h6')}>{Languages.news.other.toUpperCase()}</span>
+                <NewsExtraComponent
+                    dataLink={news.slice(SPLIT_NEWS)}
+                    isMobile={isMobile}
+                    onClick={onNewsClick}
+                />
+            </div>
+        );
+    }, [isMobile, news, onNewsClick]);
 
     return (
-        <div className={cx('page', 'padding')}>
-            {isMobile ?
-                <div className={cx('column')}>
-                    {renderLink}
-                    <div className={cx('padding-top')}>{renderTimeDate()}</div>
-                    {renderContent}
-                </div> :
-                <>
-                    <div className={cx('container-left')}>
-                        {renderTimeDate()}
+        <div className={cx('page')}>
+            <div className={cx('page-content', 'padding')}>
+                {isMobile ?
+                    <div className={cx('column')}>
+                        {renderHotNews}
+                        <div className={cx('padding-top')}>{renderTimeDate()}</div>
                         {renderContent}
-                    </div>
-                    <div className={cx('container-right')}>
-                        {renderImage}
-                        {renderLink}
-                    </div>
-                </>}
+                    </div> :
+                    <>
+                        <div className={cx('container-left')}>
+                            {renderTimeDate()}
+                            {renderContent}
+                        </div>
+                        <div className={cx('container-right')}>
+                            {renderHotNews}
+                        </div>
+                    </>}
+            </div>
+            <div className={cx('padding')}>
+                {renderOtherNews}
+            </div>
+            <Footer />
         </div>
     );
 }
