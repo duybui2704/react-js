@@ -28,7 +28,7 @@ function News() {
 
     const fetchNews = useCallback(async () => {
         const api = await apiServices.common.getNews();
-        if (api.success) {
+        if (api.config) {
             const data = api?.data as NewsModel[];
             setNews(data);
             if (data.length > 0) {
@@ -62,6 +62,7 @@ function News() {
 
     const onNewsClick = useCallback((item: NewsModel) => {
         setFocusedNews(item);
+        document.getElementsByClassName(cx('page'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     }, []);
 
     const renderHotNews = useMemo(() => {
