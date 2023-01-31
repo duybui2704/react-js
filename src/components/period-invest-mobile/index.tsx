@@ -46,16 +46,32 @@ const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey, total }: {
                             {renderLabel(item)}
                             <div key={index} className={cx((index + 1) % 2 === 0 ? 'row-even' : 'row-odd')}>
                                 {arrKey?.map((keyItem: string, indexKey: number) => {
-                                    if (Object.keys(item).some((key => key === keyItem))) {
+                                    if (Object.keys(item).some((key => key === keyItem && key !== 'color'))) {
                                         return (
                                             <div className={cx('row y20 space-between')} key={indexKey}>
                                                 <span className={cx('text-gray h7 text-end')}>{labelArr[keyItem]}</span>
-                                                <span className={cx('text-gray h7 text-end')}>
-                                                    {(`${item[keyItem]}`.trim().charAt(Number([item[keyItem].length - 1])) === 'D' ||
-                                                        `${item[keyItem]}`.trim().charAt(Number([item[keyItem].length - 1])) === 'đ')
-                                                        ? item[keyItem].replace(' VND', '').replace(' đ', '').replaceAll('.', ',')
-                                                        : item[keyItem].replaceAll('.', ',')}
-                                                </span>
+                                                {keyItem === 'hinh_thuc'
+                                                    ? <span
+                                                        className={cx('text-green h7 text-end')}
+                                                        style={{ color: item['color'] === COLOR_TRANSACTION.GREEN ? COLORS.GREEN_2 : item['color'] }}
+                                                    >
+                                                        {item[keyItem]}
+                                                    </span>
+                                                    : <span className={cx('text-gray h7 text-end')}>
+                                                        {(`${item[keyItem]}`.trim().charAt(Number([item[keyItem].length - 1])) === 'D' ||
+                                                            `${item[keyItem]}`.trim().charAt(Number([item[keyItem].length - 1])) === 'đ')
+                                                            ? item[keyItem]
+                                                                .replace(' VND', '')
+                                                                .replace(' đ', '')
+                                                                .replace('+', '')
+                                                                .replace('-', '')
+                                                                .replaceAll('.', ',')
+                                                            : item[keyItem]
+                                                                .replace('+', '')
+                                                                .replace('-', '')
+                                                                .replaceAll('.', ',')}
+                                                    </span>}
+
                                             </div>
                                         );
                                     }

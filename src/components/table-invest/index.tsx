@@ -14,7 +14,6 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
     columnName: string[],
     dataFooter?: Total
 }) => {
-
     const renderTableRowValueInvest = useCallback((_arrayRow: any, _arrayColumn: Array<string>, _arrKey: Array<string>) => {
         return (
             <>
@@ -26,7 +25,13 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
                 <tbody>
                     {_arrayRow?.map?.((item: any, index: number) => {
                         const renderItem = (key: string, _indexItem: number) => {
-                            if (key === 'trang_thai') {
+                            if (key === 'hinh_thuc') {
+                                return <td key={_indexItem} className={cx('h7')}
+                                    style={{ color: item['color'] === COLOR_TRANSACTION.GREEN ? COLORS.GREEN_2 : item['color'] }}>
+                                    {item['hinh_thuc']}</td>;
+                            } else if (key === 'ma_hop_dong') {
+                                return <td key={_indexItem} className={cx('h7 text-center text-blue')}>{item['ma_hop_dong']}</td>;
+                            } else if (key === 'trang_thai') {
                                 return <td
                                     key={_indexItem}
                                     className={cx('h7')}
@@ -37,8 +42,16 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
                                 return <td className={cx('text-gray h7')} key={_indexItem}>
                                     {(`${item[key]}`.trim().charAt(Number([item[key].length - 1])) === 'D' ||
                                         `${item[key]}`.trim().charAt(Number([item[key].length - 1])) === 'đ')
-                                        ? item[key].replace(' VND', '').replace(' đ', '').replaceAll('.', ',')
-                                        : item[key].replaceAll('.', ',')}
+                                        ? item[key]
+                                            .replace(' VND', '')
+                                            .replace(' đ', '')
+                                            .replace('+', '')
+                                            .replace('-', '')
+                                            .replaceAll('.', ',')
+                                        : item[key]
+                                            .replace('+', '')
+                                            .replace('-', '')
+                                            .replaceAll('.', ',')}
                                 </td>;
                             }
                         };
@@ -72,7 +85,7 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
     }, []);
 
     return (
-        <table>
+        <table className={cx('table-invest')}>
             {renderTableRowValueInvest(dataTableInvest, columnName, arrKey)}
             {dataFooter && renderTableRowFooter(dataFooter as Total)}
         </table>

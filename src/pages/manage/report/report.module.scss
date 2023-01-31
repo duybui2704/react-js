@@ -3,9 +3,6 @@
     width: 100%;
     overflow: auto;
     height: 85vh;
-    &::-webkit-scrollbar {
-        display: none;
-    }
     @include tablet {
         height: 87vh;
     }
@@ -15,9 +12,6 @@
     width: 100%;
     overflow: auto;
     height: 86vh;
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 .all-content-container {
