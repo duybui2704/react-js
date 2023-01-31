@@ -76,7 +76,8 @@ const Languages = {
         errStkEmpty: 'Số tài khoản hoặc số thẻ trống',
         errNameEmpty: 'Tên chủ tài khoản ngân hàng trống',
         errBankEmpty: 'Ngân hàng chưa được chọn',
-        errStk: 'Số tài khoản hoặc số thẻ ít hơn giới hạn cho phép'
+        errStk: 'Số tài khoản hoặc số thẻ ít hơn giới hạn cho phép',
+        errDescribeRatingEmpty: 'Bạn cần viết đánh giá trước khi gửi lên!'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {

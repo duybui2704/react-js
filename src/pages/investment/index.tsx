@@ -207,7 +207,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const renderInvestList = useCallback((_dataList?: any) => {
         return (
             <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
-                <Row gutter={isMobile ? [24, 36] : [24, 44]}>
+                <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('min-height-list')}>
                     {_dataList?.map((itemInvest: PackageInvest, index: number) => {
                         return renderItemInvest(index, itemInvest);
                     })}

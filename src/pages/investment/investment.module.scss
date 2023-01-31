@@ -34,11 +34,6 @@
         align-items: center;
         background-color: $color-gray10;
         width: 100%;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    .top-search-mobile-component::-webkit-scrollbar {
-        display: none;
     }
     .right-top-search-component {
         display: flex;
@@ -136,4 +131,8 @@
     padding: 6px;
     font-size: $text-h7;
     font-family: $font-medium;
+}
+
+.min-height-list {
+    min-height: 25vh;
 }
