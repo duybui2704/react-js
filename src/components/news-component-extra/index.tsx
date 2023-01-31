@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import styles from './.module.scss';
 import { NewsModel } from 'models/news';
 import dateUtils from 'utils/date-utils';
+import LazyImage from 'components/image';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +30,7 @@ export const NewsExtraComponent = ({ dataLink, isMobile, onClick }: linkProps) =
                     <a className={styleRow} key={index}
                         onClick={() => onClick(item)}>
                         <div className={cx('center')}>
-                            <img src={item.image} className={styleImg} />
+                            <LazyImage src={item.image} className={styleImg} />
                         </div>
                         <div className={cx('column y10 x10')}>
                             <span className={cx(`${'xl10 h7 text-black1 text-preview'}`)}>{item.title_vi}</span>

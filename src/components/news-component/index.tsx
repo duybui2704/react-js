@@ -4,6 +4,7 @@ import styles from './.module.scss';
 import { Col, Row } from 'antd';
 import { NewsModel } from 'models/news';
 import dateUtils from 'utils/date-utils';
+import LazyImage from 'components/image';
 
 const cx = classNames.bind(styles);
 

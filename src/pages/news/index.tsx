@@ -2,6 +2,7 @@ import IcClock from 'assets/image/ic_clock.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import Footer from 'components/footer';
+import LazyImage from 'components/image';
 import { NewsComponent } from 'components/news-component';
 import { NewsExtraComponent } from 'components/news-component-extra';
 import { useAppStore } from 'hooks';
@@ -52,7 +53,7 @@ function News() {
     const renderContent = useMemo(() => {
         return (
             <div className={cx('column flex y15', 'content-view')}>
-                <img src={focusedNews?.image} className={cx('y10')} width={'100%'} />
+                <LazyImage src={focusedNews?.image} className={cx('y10')} width={'100%'} />
                 <div className={cx('text-gray h7 bold y10')}
                     dangerouslySetInnerHTML={{ __html: focusedNews?.content_vi.replace(IMG_TAG, '') || '' }} />
 
@@ -71,7 +72,7 @@ function News() {
                 <span className={cx('text-black bold h6')}>{Languages.news.new.toUpperCase()}</span>
                 <NewsComponent
                     dataLink={news.slice(0, SPLIT_NEWS)}
-                    styleContainer={isMobile ? cx('news-horizontal-container') : undefined}
+                    styleContainer={isMobile ? cx('row', 'scroll-y') : undefined}
                     styleRow={isMobile ? cx('row x10', 'style', 'shadow') : cx('shadow')}
                     onClick={onNewsClick}
                 />
