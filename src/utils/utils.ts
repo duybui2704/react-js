@@ -101,6 +101,7 @@ function formatObjectFilterInvest(data: any) {
     }
     return [];
 }
+
 function formatTextToNumber(textNumber: string | undefined) {
     if (!textNumber) {
         return 0;
@@ -109,6 +110,15 @@ function formatTextToNumber(textNumber: string | undefined) {
         const num = (`${textNumber}`).replace(/[^0-9]/g, '');
         return num;
     }
+}
+
+function formatHidePhoneNumber(textNumber: string) {
+    const length = textNumber.length;
+    const replacement = '*';
+    for (let i = 3; i < length - 2; i++) {
+        textNumber = textNumber.substring(0, i) + replacement + textNumber.substring(i + 1);
+    }
+    return textNumber;
 }
 
 export default {
@@ -123,5 +133,6 @@ export default {
     convertSecondToMinutes,
     formatObjectFilterInvest,
     formatTextToNumber,
-    formatMoneyToCommaAndNotSuffixes
+    formatMoneyToCommaAndNotSuffixes,
+    formatHidePhoneNumber
 };

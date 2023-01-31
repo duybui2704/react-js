@@ -16,7 +16,7 @@ import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
 import { useAppStore } from 'hooks';
-import { COLOR_TRANSACTION } from 'commons/constants';
+import { COLOR_TRANSACTION, GENDER } from 'commons/constants';
 import { BUTTON_STYLES } from 'components/button/types';
 
 const cx = classNames.bind(styles);
@@ -54,6 +54,7 @@ function InfoAccount() {
 
     useEffect(() => {
         setInfo(userManager.userInfo || {});
+        setGender(userManager.userInfo?.gender || '');
     }, [userManager.userInfo]);
 
     const renderItem = useCallback((title: string, value?: string, isLast?: boolean) => {
@@ -131,8 +132,8 @@ function InfoAccount() {
             const resData = res.data as UpdateInfoModal;
             userManager.updateUserInfo({
                 ...userManager.userInfo,
-                full_name: name,
-                gender: refName.current?.getValue(),
+                full_name: refName.current?.getValue(),
+                gender: gender,
                 address: refAddress.current?.getValue()
             });
         }
@@ -224,7 +225,7 @@ function InfoAccount() {
                     </div>
                     {renderItem(Languages.profile.userName, info?.full_name)}
                     {renderItem(Languages.profile.birthday, info?.birth_date)}
-                    {renderItem(Languages.profile.gender, info?.gender)}
+                    {renderItem(Languages.profile.gender, info?.gender === GENDER.MALE ? dataGender[0]?.label : dataGender[1]?.label)}
                     {renderItem(Languages.profile.phone, info?.phone_number)}
                     {renderItem(Languages.profile.email, info?.email)}
                     {renderItem(Languages.profile.address, info?.address, true)}
@@ -232,7 +233,7 @@ function InfoAccount() {
                 {renderStatusAcc}
             </>
         );
-    }, [info?.address, info?.birth_date, info?.email, info?.full_name, info?.gender, info?.phone_number, onEdit, renderItem, renderStatusAcc]);
+    }, [info, onEdit, renderItem, renderStatusAcc]);
 
     return (
         <div className={cx('colum content')}>

@@ -17,7 +17,7 @@ import styles from './otp-auth.module.scss';
 
 const cx = classNames.bind(styles);
 
-function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: string, title: string }) {
+function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox }: { onPress: any, phoneNumber: string, pwd: string, title: string, checkbox: boolean }) {
     let timer = 0;
     const isMobile = useIsMobile();
     const [check, setCheck] = useState<boolean>(false);
@@ -84,6 +84,13 @@ function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: s
                         sessionManager.setAccessToken(temp?.token);
                         const resInfoAcc = await apiServices.auth.getUserInfo() as any;
                         if (resInfoAcc.success) {
+                            if (!checkbox) {
+                                sessionManager.setSavePhoneLogin();
+                                sessionManager.setSavePassLogin();
+                            } else {
+                                sessionManager.setSavePhoneLogin(phoneNumber);
+                                sessionManager.setSavePassLogin(pwd);
+                            }
                             const resData = resInfoAcc.data as UserInfoModel;
                             userManager.updateUserInfo(resData);
                         }
@@ -131,9 +138,14 @@ function OTPAuth({ onPress, phoneNumber, title }: { onPress: any, phoneNumber: s
                 {Languages.auth.enterAuthCode}
             </span>
             <div className={cx('row y10')}>
-                <span className={cx('text-gray h7 x5 regular')}>
-                    {Languages.auth.contentForgotPwd}
-                </span>
+                {title === Languages.auth.changePwd ?
+                    <span className={cx('text-gray h7 x5 regular')}>
+                        {Languages.auth.contentOTPStart}{utils.formatHidePhoneNumber(`${phoneNumber}`)}{Languages.auth.contentForgotPwdEnd}`
+                    </span> :
+                    <span className={cx('text-gray h7 x5 regular')}>
+                        {Languages.auth.contentOTPStart}{utils.formatHidePhoneNumber(`${phoneNumber}`)}{Languages.auth.contentSignEnd}`
+                    </span>
+                }
             </div>
             <label className={cx('text-gray h7 x5 regular y30')}>
                 {Languages.auth.codeConfirm}

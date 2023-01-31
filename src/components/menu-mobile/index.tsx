@@ -61,6 +61,14 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             navigate(Paths.auth, { state: { name: Languages.auth.login } });
         }, [navigate]);
 
+        const navigateToLogin = () => {
+            navigate(Paths.auth, { state: { name: Languages.auth.login } });
+        };
+
+        const navigateToRegister = () => {
+            navigate(Paths.auth, { state: { name: Languages.auth.register } });
+        };
+
         const renderTokenView = useMemo(() => {
             return (
                 <>
@@ -82,7 +90,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                                 labelStyles={cx('text-green h6 medium')}
                                 buttonStyle={BUTTON_STYLES.WHITE}
                                 isLowerCase
-                                onPress={() => navigate(Paths.auth, { state: { name: Languages.auth.login } })}
+                                onPress={navigateToLogin}
                             />
                             <Button
                                 label={Languages.auth.signUp}
@@ -90,13 +98,13 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                                 containButtonStyles={cx('button-green', 'y20')}
                                 buttonStyle={BUTTON_STYLES.GREEN}
                                 isLowerCase
-                                onPress={() => navigate(Paths.auth, { state: { name: Languages.auth.register } })}
+                                onPress={navigateToRegister}
                             />
                         </div>
                     }
                 </>
             );
-        }, [navigate, onLogout]);
+        }, [navigateToLogin, navigateToRegister, onLogout]);
 
         const renderCustom = useCallback(() => {
             return (

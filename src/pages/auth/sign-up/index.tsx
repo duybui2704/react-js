@@ -4,7 +4,9 @@ import IcGoogle from 'assets/icon/ic_google.svg';
 import IcPhone from 'assets/icon/ic_phone.svg';
 import IcEmail from 'assets/image/ic_email.svg';
 import IcProfile from 'assets/image/ic_profile.svg';
+import IcReferralCode from 'assets/image/ic_referral_code.svg';
 import classNames from 'classnames/bind';
+import { TYPE_INPUT } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
@@ -20,11 +22,11 @@ import styles from './sign-up.module.scss';
 
 const cx = classNames.bind(styles);
 
-function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps[] }) {
+function SignUp({ onPress, dataChannel, onLoginGoogle }: { onPress: any, dataChannel: ItemProps[], onLoginGoogle: any }) {
     const isMobile = useIsMobile();
     const [isLoading, setLoading] = useState<boolean>(false);
     const { apiServices } = useAppStore();
-
+    const [checkBox, setCheckBox] = useState<boolean>(false);
     const refPhone = useRef<TextFieldActions>(null);
     const refName = useRef<TextFieldActions>(null);
     const refEmail = useRef<TextFieldActions>(null);
@@ -35,7 +37,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
     const refPwd = useRef<TextFieldActions>(null);
 
     const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
+        setCheckBox(e.target.checked);
     };
 
     const onValidate = useCallback(() => {
@@ -52,7 +54,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
         const errMsgPwd = formValidate.passValidate(pwd);
         const errMsgEmail = formValidate.emailValidate(email);
         const errMsgConfirm = formValidate.passConFirmValidate(pwd, pwdConfirm);
-        const errMsgPresenter = formValidate.passConFirmPhone(presenter);
+        const errMsgPresenter = formValidate.passConFirmPhoneNotEmpty(presenter);
         const errMsgChannel = formValidate.emptyValidate(channel || '');
 
         refPhone.current?.setErrorMsg(errMsgPhone);
@@ -72,7 +74,6 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
     const onSignUp = useCallback(async () => {
         if (onValidate()) {
             setLoading(true);
-
             const res = await apiServices.auth.registerAuth(
                 refPhone.current?.getValue(),
                 refName.current?.getValue(),
@@ -83,10 +84,10 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                 refPresenter.current?.getValue()) as any;
             setLoading(false);
             if (res.success) {
-                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), title: Languages.auth.signUp });
+                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), password: refPwd.current?.getValue(), title: Languages.auth.signUp, checkbox: checkBox });
             }
         }
-    }, [apiServices.auth, onPress, onValidate]);
+    }, [apiServices.auth, checkBox, onPress, onValidate]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
@@ -104,7 +105,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
 
             <MyTextInput
                 ref={refName}
-                type={'text'}
+                type={TYPE_INPUT.TEXT}
                 label={Languages.auth.name}
                 placeHolder={Languages.auth.name}
                 important
@@ -116,7 +117,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
 
             <MyTextInput
                 ref={refPhone}
-                type={'phone'}
+                type={TYPE_INPUT.TEL}
                 label={Languages.auth.phone}
                 placeHolder={Languages.auth.phone}
                 important
@@ -128,7 +129,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
 
             <MyTextInput
                 ref={refEmail}
-                type={'email'}
+                type={TYPE_INPUT.EMAIL}
                 label={Languages.auth.email}
                 placeHolder={Languages.auth.email}
                 important
@@ -140,7 +141,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
 
             <MyTextInput
                 ref={refPwd}
-                type={'password'}
+                type={TYPE_INPUT.PASSWORD}
                 label={Languages.auth.pwd}
                 placeHolder={Languages.auth.pwd}
                 containerStyle={cx('y15')}
@@ -151,7 +152,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
 
             <MyTextInput
                 ref={refPwdConfirm}
-                type={'password'}
+                type={TYPE_INPUT.PASSWORD}
                 label={Languages.auth.pwdConfirm}
                 placeHolder={Languages.auth.pwdConfirm}
                 important
@@ -172,12 +173,11 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
 
             <MyTextInput
                 ref={refPresenter}
-                type={'phone'}
+                type={TYPE_INPUT.TEL}
                 label={Languages.auth.presenter}
                 placeHolder={Languages.auth.presenter}
-                important
                 containerStyle={cx('y15')}
-                rightIcon={IcPhone}
+                rightIcon={IcReferralCode}
                 value={''}
                 maxLength={10}
             />
@@ -215,6 +215,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                     isLowerCase
                     containButtonStyles={'flex'}
                     rightIcon={IcGoogle}
+                    onPress={onLoginGoogle}
                 />
             </div>
 
@@ -227,7 +228,7 @@ function SignUp({ onPress, dataChannel }: { onPress: any, dataChannel: ItemProps
                 </span>
             </div>
         </div>;
-    }, [isMobile, dataChannel, onSignUp, onNavigate]);
+    }, [isMobile, dataChannel, onSignUp, onLoginGoogle, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>

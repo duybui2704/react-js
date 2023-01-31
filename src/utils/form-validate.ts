@@ -192,6 +192,18 @@ function passConFirmPhone (phone: string) {
     return errMsg;
 }
 
+function passConFirmPhoneNotEmpty(phone: string) {
+    let errMsg = '';
+    if (Validate.isStringEmpty(phone)) {
+        errMsg = '';
+    } else if (!validatePhone(phone)) {
+        errMsg = Languages.errorMsg.phoneRegex;
+    } else if (phone.length < 10 || phone.length > 10) {
+        errMsg = Languages.errorMsg.phoneCount;
+    }
+    return errMsg;
+}
+
 function inputNameEmpty (value: any, errEmpty: string, errCharacters?: any) {
     let errMsg = '';
     if (Validate.isStringEmpty(value)) {
@@ -347,5 +359,6 @@ export default {
     inputNoSpecialCharacters,
     accountHolderValidate,
     isValidAll,
-    inputEmpty
+    inputEmpty,
+    passConFirmPhoneNotEmpty
 };

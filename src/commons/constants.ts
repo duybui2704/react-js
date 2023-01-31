@@ -142,3 +142,17 @@ export enum STATUS_CONTRACT {
     EXPIRE = '2'
 }
 
+export enum CHANNEL {
+    ZALO = '0',
+    FACEBOOK = '1',
+    TIKTOK = '3',
+    WEBSITE = '4',
+    FRIEND = '5',
+    OTHER = '6'
+}
+
+export enum GENDER {
+    FEMALE = 'female',
+    MALE = 'male'
+}
+
