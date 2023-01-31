@@ -3,7 +3,7 @@ import { API_CONFIG } from './constants';
 
 export class HistoryServices extends BaseService {
 
-    getHistory = async (fdate?: string, tdate?: string, option?: string,per_page?: number, uriSegment?: number) =>
+    getTransactionList = async (fdate?: string, tdate?: string, option?: string,per_page?: number, uriSegment?: number) =>
         this.api().post(API_CONFIG.HISTORY, this.buildFormData({        // type user
             fdate,          // ngay tim kiem
             tdate,          // ngay ket thuc

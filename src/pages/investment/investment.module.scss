@@ -4,7 +4,6 @@
     display: flex;
     flex-direction: column;
     height: calc(var(--vh, 1vh) * 100 - $header-height); // margin size equal tab-bar height
-
     .page-header {
         justify-content: center;
     }
@@ -131,4 +130,10 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.label-button-see-more {
+    padding: 6px;
+    font-size: $text-h7;
+    font-family: $font-medium;
 }

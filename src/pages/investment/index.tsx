@@ -78,7 +78,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             PAGE_SIZE_INVEST
         ) as any;
         if (investmentList.success) {
-            setCountInvest(5);
+            setCountInvest(investmentList?.total || 0);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
             setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {
@@ -164,11 +164,16 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
 
     const renderPopupSearchPackage = useCallback(() => {
         return (
-            <PopupBaseMobile ref={popupSearchRef} hasCloseIc
-                customerContent={renderTopWeb} hasTwoButton
-                labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
-                titleHeader={Languages.invest.searchInvestPackage} buttonLeftStyle={BUTTON_STYLES.GRAY}
-                onClose={onClosePopup} onSuccessPress={onSuccessPopup}
+            <PopupBaseMobile ref={popupSearchRef}
+                hasCloseIc
+                customerContent={renderTopWeb} 
+                hasTwoButton
+                labelCancel={Languages.invest.cancel} 
+                labelSuccess={Languages.common.search}
+                titleHeader={Languages.invest.searchInvestPackage}
+                buttonLeftStyle={BUTTON_STYLES.GRAY}
+                onClose={onClosePopup}
+                onSuccessPress={onSuccessPopup}
             />
         );
     }, [onClosePopup, onSuccessPopup, renderTopWeb]);
@@ -223,12 +228,14 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 <Row gutter={[24, 44]} className={cx(isMobile ? 'button-see-more-mobile' : 'button-see-more')} >
                     {canLoadMore &&
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                            <Button fontSize={20} width={100}
+                            <Button 
+                                fontSize={20} 
+                                width={100}
+                                labelStyles={cx('label-button-see-more')}
                                 buttonStyle={BUTTON_STYLES.GREEN}
                                 label={Languages.invest.seeMore}
                                 isLowerCase onPress={loadMore} />
-                        </Col>
-                    }
+                        </Col>}
                 </Row>
                 <Footer />
             </div>

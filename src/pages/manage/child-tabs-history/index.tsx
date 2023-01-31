@@ -21,6 +21,7 @@ import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { PackageInvest } from 'models/invest';
+import { TabHistory } from 'pages/__mocks__/manage';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
@@ -50,7 +51,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [dataFilter, setDataFilter] = useState<HistoryFilter>({
-        optionInvest: '1',
+        optionInvest: `${tabsNumber + 1}` || '1', // tabsNumber===( 0: investing, 1: đã đáo hạn)
         amountInvest: '',
         fromDate: '',
         toDate: ''
@@ -70,8 +71,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     useEffect(() => {
         fetchHistoryList();
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
-    }, [dataFilter, tabName]);
+    }, [dataFilter]);
 
     const fetchHistoryList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getListContractInvesting(
@@ -84,7 +84,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
             PAGE_SIZE_INVEST) as any;
 
         if (investmentList.success) {
-            // setCountInvest(5);
+            setCountInvest(investmentList?.total || 0);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
             setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
             if (loadMore) {
@@ -238,7 +238,10 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         };
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('col-history')} key={`${index}${dataInvest.id}`}>
-                <HistoryPackage onPressPackage={onNavigateInvestDetail} dataInvest={dataInvest} isInvesting={tabName === TYPE_TAB_HISTORY.IS_INVESTING} />
+                <HistoryPackage
+                    onPressPackage={onNavigateInvestDetail}
+                    dataInvest={dataInvest}
+                    isInvesting={tabName === TYPE_TAB_HISTORY.IS_INVESTING} />
             </Col>
         );
     }, [onNextScreen, tabName]);
@@ -257,9 +260,14 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         pickerAmountRef.current?.clearValue?.();
         fromDateRef.current?.setValue?.('');
         toDateRef.current?.setValue?.('');
-        setDataFilter({});
+        setDataFilter({
+            ...dataFilter,
+            amountInvest: '',
+            fromDate: '',
+            toDate: ''
+        });
         setOffset(0);
-    }, []);
+    }, [dataFilter]);
 
     const onSuccessPopup = useCallback(() => {
         setOffset(0);
@@ -273,11 +281,16 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     const renderPopupSearchPackage = useCallback(() => {
         return (
-            <PopupBaseMobile ref={popupSearchRef} hasCloseIc
-                customerContent={renderContentPopup} hasTwoButton
-                labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
-                titleHeader={Languages.history.searchProjectInvest} buttonLeftStyle={BUTTON_STYLES.GRAY}
-                onClose={onClosePopup} onSuccessPress={onSuccessPopup}
+            <PopupBaseMobile ref={popupSearchRef}
+                hasCloseIc
+                customerContent={renderContentPopup}
+                hasTwoButton
+                labelCancel={Languages.invest.cancel}
+                labelSuccess={Languages.common.search}
+                titleHeader={Languages.history.searchProjectInvest}
+                buttonLeftStyle={BUTTON_STYLES.GRAY}
+                onClose={onClosePopup}
+                onSuccessPress={onSuccessPopup}
             />
         );
     }, [onClosePopup, onSuccessPopup, renderContentPopup]);
@@ -292,7 +305,13 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     {renderInvestList(_list)}
                     <Row gutter={[24, 0]} onClick={loadMore} className={cx('button-see-more')}>
                         {canLoadMore && <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                            <Button buttonStyle={BUTTON_STYLES.GREEN} fontSize={20} width={100} label={Languages.invest.seeMore} isLowerCase />
+                            <Button 
+                                buttonStyle={BUTTON_STYLES.GREEN}
+                                fontSize={20} 
+                                width={100} 
+                                labelStyles={cx('label-button-see-more')}
+                                label={Languages.invest.seeMore} 
+                                isLowerCase />
                         </Col>}
                     </Row>
                 </div>
@@ -303,7 +322,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         );
     }, [canLoadMore, fetchHistoryList, isMobile, renderInvestList]);
 
-    const onChangeTab = useCallback((tabNumber: number) => {
+    const onChangeTab = useCallback((tabNumber: number, tabValue: string) => {
         if (tabName !== tabNumber) {
             setTabName(tabNumber);
             pickerAmountRef.current?.clearValue?.();
@@ -315,7 +334,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     return (
         <div className={cx('page-container')}>
-            <TabsButtonBar dataTabs={Languages.historyTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`} />
+            <TabsButtonBar dataTabs={TabHistory} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`} />
             {isMobile && renderFilterMobile}
             <div className={cx(isMobile ? 'page-wrap-mobile' : 'page-wrap')}>
                 {!isMobile && renderFilterWeb}

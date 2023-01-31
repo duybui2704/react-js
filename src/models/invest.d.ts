@@ -106,16 +106,6 @@ export interface InvestFilter {
     amountInvest?: string;
 }
 
-export interface DataColumnInvestType {
-    id: string;
-    receivingPeriod: string;
-    principalAmount: string;
-    profitAmount: string;
-    total: string;
-    receivedDate: string;
-    stt?: string;
-}
-
 export interface DataColumnCommissionType {
     id: string;
     phoneNumber: string;

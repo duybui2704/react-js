@@ -3,9 +3,6 @@
     width: 100%;
     overflow: auto;
     height: calc(var(--vh, 1vh) * 100 - $header-height);
-    &::-webkit-scrollbar {
-        display: none;
-    }
 }
 
 .all-content {
@@ -15,7 +12,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 40px 0 0 0;
+    padding-top: 40px;
 }
 
 .row-content {

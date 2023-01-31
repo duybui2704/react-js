@@ -23,10 +23,9 @@ export interface TransactionTypeModel {
 }
 
 export interface DataColumnTransactionType {
-    id: string;
-    money: string;
-    content: string;
+    color: string;
+    so_tien: string;
+    hinh_thuc: string;
     ma_hop_dong: string;
-    time: string;
-    stt?: string;
+    created_at: string;
 }

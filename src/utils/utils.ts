@@ -29,6 +29,17 @@ function formatMoneyNotSuffixes(number: string | number | undefined) {
     );
 }
 
+function formatMoneyToCommaAndNotSuffixes(number: string | number | undefined) {
+    if (!number) {
+        return '0';
+    }
+    return (
+        `${Math.ceil(Number(number))
+            .toString()
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
+    );
+}
+
 function capitalizeFirstLetter(text: string) {
     return text.charAt(0).toUpperCase() + text.slice(1);
 }
@@ -111,5 +122,6 @@ export default {
     formatObjectToKeyLabel,
     convertSecondToMinutes,
     formatObjectFilterInvest,
-    formatTextToNumber
+    formatTextToNumber,
+    formatMoneyToCommaAndNotSuffixes
 };

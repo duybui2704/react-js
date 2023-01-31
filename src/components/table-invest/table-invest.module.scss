@@ -1,6 +1,7 @@
 @import 'assets/scss';
-table {
+.table-invest {
     border-spacing: 0px;
+    min-height: 20vh;
 }
 
 thead {
@@ -36,4 +37,11 @@ tbody {
 
 .green-value {
     color: $color-green-header;
+}
+
+.style-table-footer {
+    background-color: $color-gray5;
+    border-bottom: none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }

@@ -5,85 +5,91 @@ import styles from './child-tabs-transaction.module.scss';
 import { Col, Row } from 'antd';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
-import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
+import { TYPE_INPUT } from 'commons/constants';
 import { BUTTON_STYLES } from 'components/button/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import TableInvest from 'components/table-invest';
-import { dataColumnTransaction, transactionMoneyOut, transactionMoneyIn, columnNameTransaction, columnNameTransactionMobile } from 'pages/__mocks__/transaction';
+import { columnNameTransaction, labelArrTransactionMobile, arrKeyTransactionMobile, arrKeyTransactionWeb } from 'pages/__mocks__/transaction';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import { DataColumnTransactionType as DataColumnTransactionType } from 'models/transaction';
 import TabsButtonBar from 'components/tabs-button-bar';
 import { PopupBaseActions } from 'components/modal/modal';
 import PopupBaseMobile from 'components/popup-base-mobile';
-import { ItemProps } from 'models/common';
-import { PickerAction } from 'components/picker-component/picker-component';
 import Footer from 'components/footer';
-
+import { useAppStore } from 'hooks';
+import { PAGE_SIZE_INVEST } from 'commons/configs';
+import { TabTransaction } from 'pages/__mocks__/manage';
+import { useWindowScrollPositions } from 'hooks/use-position-scroll';
+import ScrollTopComponent from 'components/scroll-top';
+import { Button } from 'components/button';
 
 const cx = classNames.bind(styles);
 interface HistoryFilter {
-    amountInvest?: string;
+    optionInvest?: string;
     fromDate?: string;
     toDate?: string;
 }
 
-const labelArrMobile = {
-    money: Languages.transaction.table.money,
-    content: Languages.transaction.table.content,
-    time: Languages.transaction.table.time
-};
-
-const arrKeyMobile = ['money', 'content', 'time'];
-const arrKeyWeb = ['stt', 'money', 'content', 'ma_hop_dong', 'time'];
-
 function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
+    const isMobile = useIsMobile();
+    const { apiServices } = useAppStore();
+    const { scrollTop } = useWindowScrollPositions(cx('scroll-container'));
+
+    const [dataFilter, setDataFilter] = useState<HistoryFilter>({
+        optionInvest: 'all',
+        fromDate: '',
+        toDate: ''
+    });
+
+    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnTransactionType[]>([]);
+    const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
+    const [offset, setOffset] = useState<number>(0);
+    const [tabName, setTabName] = useState<number>(keyTabs);
+
+    const popupSearchRef = useRef<PopupBaseActions>(null);
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
-    const isMobile = useIsMobile();
-    const [dataFilter, setDataFilter] = useState<HistoryFilter>({});
-    const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnTransactionType[]>([]);
-
-    const [tabName, setTabName] = useState<number>(keyTabs);
-    const popupSearchRef = useRef<PopupBaseActions>(null);
-    const [countInvest, setCountInvest] = useState<number>(0);
-    const [amountList, setAmountList] = useState<ItemProps[]>([]);
-    const pickerAmountRef = useRef<PickerAction>(null);
 
     useEffect(() => {
-        fetchData();
+        fetchDataFilter();
+    }, [dataFilter]);
+
+    const handleScrollToTop = useCallback(() => {
+        document.getElementsByClassName(cx('scroll-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     }, []);
 
-    const fetchData = useCallback(() => {
-        setCountInvest(tabName === TYPE_TAB_HISTORY.IS_INVESTING ? 12 : 4);
-    }, [tabName]);
-    
+    const fetchDataFilter = useCallback(async (loadMore?: boolean) => {
+        const res = await apiServices.history.getTransactionList(
+            dataFilter.fromDate || '',
+            dataFilter.toDate || '',
+            dataFilter.optionInvest,
+            PAGE_SIZE_INVEST,
+            loadMore ? offset : 0,
+        ) as any;
 
-    useEffect(() => {
-        console.log('keyTabs', keyTabs);
-        if (tabName === 1) {
-            setDataPeriodInvest(convertData(dataColumnTransaction));
-        } else if (tabName === 2) {
-            setDataPeriodInvest(convertData(transactionMoneyOut));
-        } else {
-            setDataPeriodInvest(convertData(transactionMoneyIn));
+        if (res.success) {
+            setCanLoadMore(res?.data?.length === PAGE_SIZE_INVEST);
+            setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
+            if (loadMore) {
+                setDataPeriodInvest(last => [...last, ...res.data]);
+            } else {
+                setDataPeriodInvest(res?.data);
+            }
         }
-    }, [keyTabs, tabName]);
+    }, [apiServices.history, dataFilter, offset]);
 
-    // thêm trường stt vào từng item trong mảng
-    const convertData = useCallback((data: any) => {
-        for (let i = 0; i < data?.length; i++) {
-            data[i].stt = (i + 1).toString();
-        }
-        return data;
-    }, []);
-
-    const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
-        const onChangeInput = (event: any) => { // format date: 2022-12-14
-            // const [year, month, day] = _refInput.current?.getValue?.()?.trim().split('-') || '';
-            // const value = `${day}/${month}/${year}` || '';
-            console.log('event==', _refInput.current?.getValue?.());
-
+    const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string, minDate?: string) => {
+        const onChangeInput = (event: string) => {
+            if (!isMobile) {
+                const isFromDate = _placeHolder === Languages.history.fromDate;
+                setOffset(0);
+                if (event !== dataFilter.fromDate && isFromDate) {
+                    setDataFilter({ ...dataFilter, fromDate: event ? _refInput.current?.getValue?.() : '' });
+                } else if (event !== dataFilter.toDate && !isFromDate) {
+                    setDataFilter({ ...dataFilter, toDate: event ? _refInput.current?.getValue?.() : '' });
+                }
+            }
         };
         return (
             <Col xs={12} sm={12} md={12} lg={12} xl={12} >
@@ -94,10 +100,13 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
                     value={_value}
                     maxLength={8}
                     onChangeText={onChangeInput}
+                    max={dataFilter.toDate || new Date().toISOString().split('T')[0]}
+                    min={minDate}
+                    inputStyle={cx('content-item-picker-text')}
                 />
             </Col>
         );
-    }, []);
+    }, [dataFilter, isMobile]);
 
     const renderFilterWeb = useMemo(() => {
         return (
@@ -105,50 +114,61 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
                 <Col xs={24} sm={24} md={12} lg={8} xl={6} className={cx(isMobile ? 'title-mobile' : 'title')}>
                     <span className={cx('text-gray8 medium h6')}>{Languages.transaction.infoTransactions}</span>
                 </Col>
-                {!isMobile &&  <Col xs={24} sm={24} md={12} lg={16} xl={18} className={cx('flex-end')}>
-                    <div className={cx('wid-50')}>
+                {!isMobile &&
+                    <Col xs={24} sm={24} md={24} lg={12} xl={12} >
                         <Row gutter={[16, 4]}>
-                            {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
-                            {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
+                            {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '')}
+                            {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '', dataFilter.fromDate)}
                         </Row>
-                    </div>
-                </Col>}
+                    </Col>}
             </Row>
         );
     }, [dataFilter.fromDate, dataFilter.toDate, isMobile, renderDate]);
 
     const renderContentPopup = useMemo(() => {
         return (
-            <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                <Col xs={24} sm={24} md={24} lg={24} xl={24} >
-                    <Row gutter={[16, 4]}>
-                        <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
-                            <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
-                        </Col>
-                        {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '',)}
-                        {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
-                    </Row>
+            <Row gutter={[16, 4]}>
+                <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
+                    <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
                 </Col>
+                {renderDate(Languages.history.fromDate, fromDateRef, dataFilter.fromDate || '')}
+                {renderDate(Languages.history.toDate, toDateRef, dataFilter.toDate || '')}
             </Row>
         );
     }, [dataFilter.fromDate, dataFilter.toDate, renderDate]);
 
     const onClosePopup = useCallback(() => {
-        pickerAmountRef.current?.clearValue?.();
-        setDataFilter({});
-    }, []);
+        fromDateRef.current?.setValue?.('');
+        toDateRef.current?.setValue?.('');
+        setDataFilter({
+            ...dataFilter,
+            fromDate: '',
+            toDate: ''
+        });
+        setOffset(0);
+    }, [dataFilter]);
 
     const onSuccessPopup = useCallback(() => {
-        fetchData();
-    }, [fetchData]);
+        setOffset(0);
+        setDataFilter({
+            ...dataFilter,
+            fromDate: fromDateRef.current?.getValue(),
+            toDate: toDateRef.current?.getValue()
+        });
+    }, [dataFilter]);
 
     const renderPopupSearchPackage = useCallback(() => {
         return (
-            <PopupBaseMobile ref={popupSearchRef} hasCloseIc
-                customerContent={renderContentPopup} hasTwoButton
-                labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
-                titleHeader={Languages.transaction.search} buttonLeftStyle={BUTTON_STYLES.GRAY}
-                onClose={onClosePopup} onSuccessPress={onSuccessPopup}
+            <PopupBaseMobile ref={popupSearchRef}
+                hasCloseIc
+                customerContent={renderContentPopup}
+                hasTwoButton
+                labelCancel={Languages.invest.cancel}
+                labelSuccess={Languages.common.search}
+                titleHeader={Languages.transaction.search}
+                buttonLeftStyle={BUTTON_STYLES.GRAY}
+                onClose={onClosePopup}
+                onSuccessPress={onSuccessPopup}
             />
         );
     }, [onClosePopup, onSuccessPopup, renderContentPopup]);
@@ -159,43 +179,61 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
 
     const renderFilterMobile = useMemo(() => {
         return (
-            <div className={cx('top-search-mobile-component')}>
-                <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
-                    <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
-                    <img src={IcFilter} />
-                </div>
+            <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
+                <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
+                <img src={IcFilter} />
             </div>
         );
     }, [handleOpenPopupSearch]);
 
-    const onChangeTab = useCallback((tabNumber: number) => {
-        if (tabName !== tabNumber) {
-            setTabName(tabNumber);
-            console.log(tabNumber);
+    const onChangeTab = useCallback((tabIndex: number, tabValue: string) => {
+        if (tabName !== tabIndex) {
+            setTabName(tabIndex);
+            setDataFilter({ ...dataFilter, optionInvest: tabValue });
         }
-    }, [tabName]);
+    }, [dataFilter, tabName]);
+
+    const loadMore = useCallback(() => {
+        fetchDataFilter(true);
+    }, [fetchDataFilter]);
 
     return (
         <div className={cx('page-container')}>
-            <div className={cx('content-container')}>
-                <div className={cx('tabs-container')}>
-                    <TabsButtonBar dataTabs={Languages.transactionTabs} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${keyTabs}`} />
-                    {isMobile && renderFilterMobile}
-                </div>
-                    
+            <div className={cx('tabs-container')}>
+                <TabsButtonBar dataTabs={TabTransaction} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${keyTabs}`} />
+                {isMobile && renderFilterMobile}
             </div>
-               
-            <div className={cx(isMobile ? 'scroll-mobile-container' : 'scroll-web-container')}>
-                <div  className={cx(isMobile ? 'table-mobile-container' : 'table-web-container')}>
+            <div className={cx('scroll-container')}>
+                <div className={cx(isMobile ? 'table-mobile-container' : 'table-web-container')}>
                     {renderFilterWeb}
-                    {isMobile ?
-                        <PeriodInvestMobile dataTableInvest={dataPeriodInvest} labelArr={labelArrMobile} arrKey={arrKeyMobile} /> :
-                        <TableInvest dataTableInvest={dataPeriodInvest} columnName={columnNameTransaction} arrKey={arrKeyWeb} />}
+                    {isMobile
+                        ? <PeriodInvestMobile
+                            dataTableInvest={dataPeriodInvest}
+                            labelArr={labelArrTransactionMobile}
+                            arrKey={arrKeyTransactionMobile} />
+
+                        : <TableInvest
+                            dataTableInvest={dataPeriodInvest}
+                            columnName={columnNameTransaction}
+                            arrKey={arrKeyTransactionWeb} />}
                 </div>
-                <Footer/>
+                <Row onClick={loadMore} className={cx('button-see-more')}>
+                    {canLoadMore &&
+                        <Col xs={24} sm={24} md={12} lg={12} xl={8}>
+                            <Button
+                                buttonStyle={BUTTON_STYLES.GREEN}
+                                fontSize={20}
+                                width={100}
+                                labelStyles={cx('label-button-see-more')}
+                                label={Languages.invest.seeMore}
+                                isLowerCase />
+                        </Col>}
+                </Row>
+                <Footer />
             </div>
             {renderPopupSearchPackage()}
-        </div>        
+            <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
+        </div>
     );
 }
 

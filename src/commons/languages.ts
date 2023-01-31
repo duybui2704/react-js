@@ -393,14 +393,15 @@ const Languages = {
     commission: {
         investmentCommission: 'Hoa hoa hồng nhà đầu tư',
         star: '* ',
-        columnNameCommission: ['STT', 'Số điện thoại', 'Tổng tiền đầu tư', 'Hoa hồng'],
         describe: [
             'Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
             'Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày %str'
-        ]
-    },
-    tableCommission: {
-        sum: 'Tổng'
+        ],
+        total: 'Tổng',
+        totalInvestAmount: 'Tổng tiền đầu tư',
+        investAmount: 'Tiền đầu tư',
+        totalCommission: 'Tổng hoa hồng',
+        commissionAmount: 'Hoa hồng'
     },
     msgNotify: {
         successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'
