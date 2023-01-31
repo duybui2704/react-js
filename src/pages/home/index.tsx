@@ -6,6 +6,7 @@ import IcTicked from 'assets/image/ic_green_round_ticked.svg';
 import IcNoVerify from 'assets/image/ic_red_round_close.svg';
 import IcNotification from 'assets/image/ic_notification.svg';
 import ImgNoAvatar from 'assets/image/img_no_avatar.jpg';
+import IcPopupAuth from 'assets/image/ic_popup_auth.svg';
 
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
@@ -30,6 +31,8 @@ import { useAppStore } from 'hooks';
 import { EventEmitter } from 'utils/event-emitter';
 import { COLOR_TRANSACTION, Events, TAB_INDEX } from 'commons/constants';
 import { observer } from 'mobx-react';
+import PopupBaseCenterScreen from 'components/popup-base-center-screen';
+import { PopupBaseActions } from 'components/modal/modal';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
@@ -47,15 +50,14 @@ const Home = observer(() => {
     const [stepIndex, setStepIndex] = useState<number>(0);
     // const [toggle, setToggle] = useState<boolean>(false);
 
+    const refPopupLogout = useRef<PopupBaseActions>(null);
     const refDrawer = useRef<DrawerBaseActions>(null);
 
     const [position] = useState<PositionType[]>(['left', 'right']);
 
     const onLogOut = useCallback(() => {
-        setStepIndex(0);
-        userManager.updateUserInfo(undefined);
-        sessionManager.logout();
-    }, [userManager]);
+        refPopupLogout.current?.showModal();
+    }, []);
 
     const onHandleChangeTab = useCallback((index: number) => {
         setStepIndex(index);
@@ -212,6 +214,17 @@ const Home = observer(() => {
         refDrawer.current?.show();
     }, []);
 
+    const onClosePopup = useCallback(() => {
+        refPopupLogout.current?.hideModal();
+    }, []);
+
+    const onSuccess = useCallback(() => {
+        setStepIndex(0);
+        userManager.updateUserInfo(undefined);
+        sessionManager.logout();
+        refPopupLogout.current?.hideModal();
+    }, [userManager]);
+
     return (
         <>
             {isMobile
@@ -235,6 +248,19 @@ const Home = observer(() => {
 
                 />
             }
+            <PopupBaseCenterScreen
+                ref={refPopupLogout}
+                labelSuccess={Languages.common.agree}
+                labelCancel={Languages.common.cancel}
+                hasTwoButton
+                onClose={onClosePopup}
+                onSuccessPress={onSuccess}
+                icon={IcPopupAuth}
+                hasCloseIc
+                buttonLeftStyle={BUTTON_STYLES.GREEN}
+                buttonRightStyle={BUTTON_STYLES.RED}
+                title={Languages.home.logout}
+            />
         </>
     );
 });

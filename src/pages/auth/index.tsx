@@ -9,15 +9,16 @@ import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import PopupOTP from 'components/modal-otp';
-import { PopupBaseActions } from 'components/modal-otp/modal';
+import { authGoogle } from 'firebase-config';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
+import sessionManager from 'managers/session-manager';
 import { LoginWithThirdPartyModel } from 'models/auth';
 import { ChannelModel } from 'models/channel';
 import { ItemProps } from 'models/common';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import utils from 'utils/utils';
 import styles from './auth.module.scss';
@@ -26,29 +27,29 @@ import ForgotPass from './forgot-pass';
 import Login from './login';
 import OTPAuth from './otp-auth';
 import SignUp from './sign-up';
+import SignUpGoogle from './sign-up-google';
 
 const cx = classNames.bind(styles);
 
 function Auth() {
     const isMobile = useIsMobile();
-
+    const location = useLocation();
     const navigate = useNavigate();
     const [steps, setSteps] = useState<any>({ name: Languages.auth.login });
     const [dataGoogle, setDataGoogle] = useState<LoginWithThirdPartyModel>();
-    const popupOTP = useRef<PopupBaseActions>(null);
     const { apiServices, userManager } = useAppStore();
     const [dataChannel, setDataChannel] = useState<ItemProps[]>([]);
 
 
-    // useEffect(() => {
-    //     const _location = location.state;
-    //     setSteps(_location || { name: Languages.auth.enterAuthCode });
-    // }, [location.state]);
+    useEffect(() => {
+        const _location = location.state;
+        setSteps(_location || { name: Languages.auth.enterAuthCode });
+    }, [location.state]);
+
     const fetchData = useCallback(async () => {
         const res = await apiServices.auth.getChanelSource(3) as any;
         if (res.success) {
             const _dataChanel = utils.formatObjectFilterInvest(res.data as ChannelModel[]);
-            console.log(_dataChanel);
             const temp = [] as ItemProps[];
             _dataChanel?.forEach((item: any) => {
                 temp.push({
@@ -125,31 +126,61 @@ function Auth() {
         setSteps(transmissionName);
     }, []);
 
-    const openPopup = useCallback((data: LoginWithThirdPartyModel) => {
-        popupOTP.current?.showModal();
-        setDataGoogle(data);
-    }, []);
+    const onLoginGoogle = useCallback(() => {
+        const provider = new GoogleAuthProvider();
+        authGoogle.languageCode = 'it';
+        provider.setCustomParameters({ prompt: 'select_account' });
+        signInWithPopup(authGoogle, provider).then(async (result) => {
+            const res = await apiServices?.auth?.loginWithThirdParty(
+                'google',
+                result?.user.providerData[0].uid,
+                result.user.email || '',
+                result.user.displayName || ''
+            ) as any;
+            if (res.success) {
+                const dataLogin = res.data as LoginWithThirdPartyModel;
+                if (dataLogin?.token) {
+                    sessionManager.setAccessToken(dataLogin?.token);
+                    userManager.updateUserInfo({ ...dataLogin });
+                    if (sessionManager.accessToken) {
+                        if (sessionManager.accessToken) {
+                            setTimeout(() => {
+                                navigate(Paths.home);
+                            }, 200);
+                        }
+                    }
+                } else {
+                    setDataGoogle(dataLogin);
+                    setSteps({ name: Languages.auth.socialGoogle });
+                }
+            }
+        }).catch((error) => {
+            console.log('error ===', error);
+        });
+    }, [apiServices?.auth, navigate, userManager]);
 
     const renderSteps = useMemo(() => {
 
         switch (steps?.name) {
             case Languages.auth.login:
-                return <Login onPress={onChangeSteps} openPopup={openPopup} />;
+                return <Login onPress={onChangeSteps} onLoginGoogle={onLoginGoogle} />;
             case Languages.auth.register:
-                return <SignUp onPress={onChangeSteps} dataChannel={dataChannel} />;
+                return <SignUp onPress={onChangeSteps} dataChannel={dataChannel} onLoginGoogle={onLoginGoogle} />;
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
-                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} title={steps?.title} />;
+                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} pwd={steps?.password} title={steps?.title} checkbox={steps?.checkbox} />;
             case Languages.auth.changePwd:
                 return <ChangePwd onPress={onChangeSteps} />;
+            case Languages.auth.socialGoogle:
+                return <SignUpGoogle onPress={onChangeSteps} data={dataGoogle} dataChannel={dataChannel} />;
             default:
                 return null;
         }
-    }, [dataChannel, onChangeSteps, openPopup, steps]);
+    }, [dataChannel, dataGoogle, onChangeSteps, onLoginGoogle, steps]);
 
     const renderView = useMemo(() => {
-        return <div className={isMobile ? cx('column', 'root-container', 'scroll') : cx('row', 'root-container')}>
+        return <div className={isMobile ? cx('column', 'root-container') : cx('row', 'root-container')}>
             <Row gutter={[24, 16]} className={cx('container')}>
                 <Col xs={24} md={24} lg={12} xl={16} className={cx('container')}>
                     {renderLeftContent}
@@ -158,13 +189,8 @@ function Auth() {
                     {renderSteps}
                 </Col>
             </Row>
-            <PopupOTP
-                ref={popupOTP}
-                data={dataGoogle}
-                dataChannel={dataChannel}
-            />
         </div>;
-    }, [dataChannel, dataGoogle, isMobile, renderLeftContent, renderSteps]);
+    }, [isMobile, renderLeftContent, renderSteps]);
 
     return renderView;
 }

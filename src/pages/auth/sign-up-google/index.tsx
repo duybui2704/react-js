@@ -1,41 +1,33 @@
-import { Modal } from 'antd';
-import classNames from 'classnames/bind';
 import IcPhone from 'assets/icon/ic_phone.svg';
+import IcReferralCode from 'assets/image/ic_referral_code.svg';
+import classNames from 'classnames/bind';
+import { CHANNEL } from 'commons/constants';
 import Languages from 'commons/languages';
-import { PopupBaseProps, PopupBaseActions } from 'components/modal/modal';
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import styles from './modal-otp.module.scss';
-import OtpInput from 'react-otp-input';
-import formValidate from 'utils/form-validate';
-import utils from 'utils/utils';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
-import { useAppStore } from 'hooks';
-import { LoginWithThirdPartyModel } from 'models/auth';
-import sessionManager from 'managers/session-manager';
-import { UserInfoModel } from 'models/user-model';
-import toasty from 'utils/toasty';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
-import { Paths } from 'routers/paths';
+import { useAppStore } from 'hooks';
+import useIsMobile from 'hooks/use-is-mobile.hook';
+import sessionManager from 'managers/session-manager';
+import { LoginWithThirdPartyModel } from 'models/auth';
+import { UserInfoModel } from 'models/user-model';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import OtpInput from 'react-otp-input';
 import { useNavigate } from 'react-router-dom';
-import { CHANNEL } from 'commons/constants';
+import { Paths } from 'routers/paths';
+import formValidate from 'utils/form-validate';
+import toasty from 'utils/toasty';
+import utils from 'utils/utils';
+import styles from './sign-up-google.module.scss';
 
 const cx = classNames.bind(styles);
 
-const stylesContainerCenter = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-    height: '80%'
-} as any;
-
-const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, data }: PopupBaseProps, ref) => {
+const SignUpGoogle = (({ onPress, dataChannel, data }) => {
     const navigate = useNavigate();
     const timer = useRef<number>(180);
-    const [visible, setVisible] = useState(false);
+    const isMobile = useIsMobile();
     const [errMsg, setErrMsg] = useState<string>('');
     const [timerCount, setTimerCount] = useState<number>(180);
     const [checkOTP, setCheckOTP] = useState<boolean>(false);
@@ -68,38 +60,6 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
             }
         }, 1000);
     }, [timer]);
-
-    const hideModal = useCallback(() => {
-        setVisible(false);
-        setCheckOTP(false);
-    }, []);
-
-    const showModal = useCallback(() => {
-        timer.current = 180;
-        setVisible(true);
-        setCheckOTP(false);
-        setShowReferral(false);
-        formData.current = {
-            phone: '',
-            channel: '',
-            code: '',
-            otp: ''
-        };
-        setErrMsg('');
-    }, []);
-
-    useImperativeHandle(ref, () => ({
-        showModal,
-        hideModal
-    }));
-
-    const handleCancel = useCallback(() => {
-        hideModal();
-    }, [hideModal]);
-
-    const onBackDrop = useCallback(() => {
-        handleCancel();
-    }, [handleCancel]);
 
     const onValidate = useCallback(() => {
         if (formData.current.otp.length === 0) {
@@ -138,24 +98,19 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
 
     const onConfirmOTP = useCallback(async () => {
         if (onValidate()) {
-            const resActive = await apiServices?.auth?.activePhone(data?.id || '', formData.current.otp, data?.checksum || '') as any;
+            const resActive = await apiServices?.auth?.activePhone(`${data?.id}` || '', formData.current.otp, data?.checksum || '') as any;
             if (resActive.success) {
                 const resData = resActive.data as LoginWithThirdPartyModel;
                 sessionManager.setAccessToken(resData?.token);
                 userManager.updateUserInfo(resActive.data as UserInfoModel);
                 if (sessionManager.accessToken) {
-                    if (sessionManager.accessToken) {
-                        setTimeout(() => {
-                            navigate(Paths.home);
-                        }, 500);
-                    }
+                    setTimeout(() => {
+                        navigate(Paths.home);
+                    }, 500);
                 }
             } else {
                 toasty.error(resActive.message);
             }
-            // setTimeout(() => {
-            //     hideModal();
-            // }, 2000);
         }
     }, [apiServices?.auth, data?.checksum, data?.id, navigate, onValidate, userManager]);
 
@@ -173,11 +128,11 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
                 </span>
                 <div className={cx('row y10')}>
                     <span className={cx('text-gray h7 x5')}>
-                        {/* {Languages.auth.contentForgotPwdEnd} */}
+                        {Languages.auth.contentOTPStart}{utils.formatHidePhoneNumber(`${formData.current.phone}`)}{Languages.auth.contentOTPEnd}
                     </span>
                 </div>
                 <label className={cx('text-gray h7 x5 y30')}>
-                    {Languages.auth.codeConfirm}
+                    {Languages.auth.enterAuthCode}
                     <span className={cx('text-red h7 x5 pl3')}>{Languages.common.mustChoose}</span>
                 </label>
                 <div className={cx('row')}>
@@ -255,6 +210,17 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
         }
     }, []);
 
+    const onNavigate = useCallback(() => {
+        onPress?.({ name: Languages.auth.login });
+    }, [onPress]);
+
+    const onClear = useCallback(() => {
+        setShowReferral(false);
+        formData.current.channel = '';
+        formData.current.code = '';
+        setToggle(last => !last);
+    }, []);
+
     const renderViewPhone = useMemo(() => {
         return (
             <>
@@ -287,6 +253,7 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
                     mainContainer={cx('y10', 'picker-container')}
                     titleItemPickerText={'text-gray h7 regular b5'}
                     isImportant
+                    onClear={onClear}
                     onSelectItem={onChooseChannel}
                 />
                 {isShowReferral && <MyTextInput
@@ -296,7 +263,7 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
                     placeHolder={Languages.auth.txtRefCode}
                     important
                     containerStyle={cx('y10')}
-                    rightIcon={IcPhone}
+                    rightIcon={IcReferralCode}
                     value={formData.current.code || ''}
                     maxLength={10}
                     onChangeText={onChangeText}
@@ -309,6 +276,14 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
                     containButtonStyles={'y20'}
                     customStyles={{ padding: 10 }}
                 />
+                <div className={cx('row y20')}>
+                    <span className={cx('text-gray h6 x5')}>
+                        {Languages.auth.accountYet}
+                    </span>
+                    <span className={cx('text-green h6', 'hover-text')} onClick={onNavigate}>
+                        {Languages.auth.loginNow}
+                    </span>
+                </div>
             </>
         );
     }, [dataChannel, isShowReferral, onChangeText, onChooseChannel, onSendOTP, toggle]);
@@ -322,18 +297,10 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
     }, [checkOTP, renderViewOTP, renderViewPhone]);
 
     return (
-        <Modal
-            open={visible}
-            closable={false}
-            footer={null}
-            onCancel={onBackDrop}
-            style={stylesContainerCenter}
-        >
-            <div className={cx('column', 'container')}>
-                {renderBody}
-            </div>
-        </Modal>
+        <div className={!isMobile ? cx('right-container-mobile') : cx('right-container', 'scroll')}>
+            {renderBody}
+        </div>
     );
 });
 
-export default PopupOTP;
+export default SignUpGoogle;

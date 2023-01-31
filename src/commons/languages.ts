@@ -76,7 +76,8 @@ const Languages = {
         errStkEmpty: 'Số tài khoản hoặc số thẻ trống',
         errNameEmpty: 'Tên chủ tài khoản ngân hàng trống',
         errBankEmpty: 'Ngân hàng chưa được chọn',
-        errStk: 'Số tài khoản hoặc số thẻ ít hơn giới hạn cho phép'
+        errStk: 'Số tài khoản hoặc số thẻ ít hơn giới hạn cho phép',
+        errDescribeRatingEmpty: 'Bạn cần viết đánh giá trước khi gửi lên!'
     },
     tabs: ['Đầu tư TienNgay', 'Đầu tư', 'Quản lý', 'Tin tức', 'Tài khoản'],
     header: {
@@ -132,7 +133,8 @@ const Languages = {
         getBackPass: 'Lấy lại mật khẩu',
         enterAuthCode: 'Nhập mã xác thực',
         confirm: 'Xác nhận',
-        contentForgotPwd: 'Chúng tôi đã gửi cho bạn một mã xác nhận 6 số qua số điện thoại 096*****37. Hãy kiểm tra và nhập mã xác nhận để lấy lại mật khẩu.',
+        contentForgotPwdEnd: '. Hãy kiểm tra và nhập mã xác nhận để lấy lại mật khẩu.',
+        contentSignEnd: '. Hãy kiểm tra và nhập mã xác nhận để đăng ký tài khoản.',
         codeConfirm: 'Mã xác nhận',
         changePwd: 'Đổi mật khẩu',
         sendToAfterOTP: 'Gửi lại mã sau',
@@ -144,9 +146,12 @@ const Languages = {
         contentLinkSocial: 'Xin vui lòng nhập các thông tin dưới đây để hoàn thành việc đăng ký tài khoản.',
         socialGoogle: 'Đăng ký liên kết tài khoản với Google',
         sendOTP: 'Gửi mã',
-        txtRefCode: 'Mã giới thiệu'
+        txtRefCode: 'Mã giới thiệu',
+        contentOTPStart: 'Chúng tôi đã gửi cho bạn một mã xác nhận 6 số qua số điện thoại ',
+        contentOTPEnd: '. Hãy kiểm tra và nhập mã xác nhận để đăng ký liên kết tài khoản google thành công.'
     },
     home: {
+        logout: 'Bạn có chắc chắn muốn đăng xuất?'
     },
     invest: {
         investAmountChoose: 'Chọn số tiền đầu tư',

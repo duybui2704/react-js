@@ -5,6 +5,7 @@ export type ItemProps = {
     text?: string;
     id?: string;
     icon?: string;
+    link?: string;
 };
 
 export type Image = {

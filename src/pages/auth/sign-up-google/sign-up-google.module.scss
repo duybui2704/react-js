@@ -1,7 +1,26 @@
 @import "assets/scss";
-.root-container {
+.input {
+    padding: 10px 15px;
+    border: 1px solid $color-gray;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.input:hover {
+    border: 1px solid $color-green;
+}
+
+.container-input {
     display: flex;
     flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 15px;
+}
+
+.message-error {
+    margin: 5px 0px 0 0px;
+    background-color: $color-white;
 }
 
 .right-container {
@@ -14,6 +33,7 @@
     padding-bottom: 4%;
     margin-bottom: 30px;
     flex: 1;
+    max-height: 95vh;
 }
 
 .right-container-mobile {
@@ -24,28 +44,10 @@
     flex: 1;
 }
 
-.line {
-    display: flex;
-    height: 1px;
-    width: 100%;
-    background-color: $color-gray-e8;
-}
-
 .scroll {
     overflow-y: auto;
 }
 
-.jus-between {
-    display: flex;
-    justify-content: space-between;
-}
-
-.picker-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
 .hover-text:hover {
-    color: $color-blue
+    opacity: 0.8;
 }

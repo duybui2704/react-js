@@ -39,18 +39,18 @@ class SessionManager {
     setSavePhoneLogin(phone?: string) {
         this.savePhone = phone;
         if (phone) {
-            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PHONE, JSON.stringify(this.savePhone));
+            localStorage.setItem(StorageKeys.KEY_SAVE_PHONE, JSON.stringify(this.savePhone));
         } else {
-            localStorage.clearDataOfKey(StorageKeys.KEY_SAVE_PHONE);
+            localStorage.removeItem(StorageKeys.KEY_SAVE_PHONE);
         }
     }
 
     setSavePassLogin(pass?: string) {
         this.savePwd = pass;
         if (pass) {
-            localStorage.saveDataToKey(StorageKeys.KEY_SAVE_PWD, JSON.stringify(this.savePwd));
+            localStorage.setItem(StorageKeys.KEY_SAVE_PWD, JSON.stringify(this.savePwd));
         } else {
-            localStorage.clearDataOfKey(StorageKeys.KEY_SAVE_PWD);
+            localStorage.removeItem(StorageKeys.KEY_SAVE_PWD);
         }
     }
 

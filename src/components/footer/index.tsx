@@ -1,9 +1,7 @@
 import { Col, Row } from 'antd';
 import IcLogo from 'assets/icon/ic_logoft.svg';
 import IcFB from 'assets/icon/ic_facebookft.svg';
-import IcYT from 'assets/icon/ic_youtube.svg';
-import IcFR from 'assets/icon/ic_frame.svg';
-import IcPublic from 'assets/icon/ic_public.svg';
+import IcGG from 'assets/icon/ic_frame.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -16,243 +14,238 @@ import { TextFieldActions } from 'components/input/types';
 import { TYPE_INPUT } from 'commons/constants';
 import formValidate from 'utils/form-validate';
 import toasty from 'utils/toasty';
+import { LINKS } from 'api/constants';
+import { ItemProps } from 'models/common';
+import { useAppStore } from 'hooks';
+import { useNavigate } from 'react-router';
+import { Paths } from 'routers/paths';
 
 const cx = classNames.bind(styles);
 
 type FormFeedbackModel = {
-  user: string;
-  phone: string;
-  note: string;
+    user: string;
+    phone: string;
+    note: string;
 };
 
+const IconLinks: ItemProps[] = [
+    {
+        icon: IcFB,
+        link: LINKS.FB_FAN_PAGE
+    },
+    {
+        icon: IcGG,
+        link: LINKS.TIEN_NGAY
+    }
+];
+
 function Footer() {
+    const { apiServices, userManager } = useAppStore();
+    const navigate = useNavigate();
+
     const refName = useRef<TextFieldActions>(null);
     const refPhone = useRef<TextFieldActions>(null);
     const refNote = useRef<TextFieldActions>(null);
 
     const [formFeedback, setFormFeedback] = useState<FormFeedbackModel>({
-        user: '',
-        phone: '',
+        user: userManager.userInfo?.full_name || '',
+        phone: userManager.userInfo?.phone_number || '',
         note: ''
     });
 
-    const onSend = useCallback(() => {
-        const errMsgPhone = formValidate.passConFirmPhone(
-            refPhone.current?.getValue()
-        );
-        const errMsgName = formValidate.userNameValidate(
-            refName.current?.getValue()
-        );
+    const onValidate = useCallback(() => {
+        const errMsgName = formValidate.userNameValidate(refName.current?.getValue());
+        const errMsgPhone = formValidate.passConFirmPhone(refPhone.current?.getValue());
+        const errMsgNote = formValidate.inputEmpty(
+            refNote.current?.getValue(),
+            Languages.errorMsg.errDescribeRatingEmpty);
 
-        if (!refName.current?.getValue()) {
+        if (errMsgName) {
             toasty.error(errMsgName);
-        } else if (!refPhone.current?.getValue()) {
+        } else if (!errMsgName && errMsgPhone) {
             toasty.error(errMsgPhone);
+        } else if (!errMsgName && !errMsgPhone && errMsgNote) {
+            toasty.error(errMsgNote);
         }
 
-        if (errMsgPhone.length + errMsgName.length > 0) {
-            refName.current?.setValue?.('');
-            refPhone.current?.setValue('');
-            refNote.current?.setValue('');
-            setFormFeedback({
-                user: '',
-                phone: '',
-                note: ''
-            });
-        }
+        if (errMsgPhone.length + errMsgName.length + errMsgNote.length === 0) {
+            return true;
+        } return false;
     }, []);
 
-    const renderButton = useCallback(
-        (_label: string) => {
-            return (
-                <Button
-                    label={_label}
-                    buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
-                    width={100}
-                    containButtonStyles={cx('btn-footer-style')}
-                    onPress={onSend}
-                />
-            );
-        },
-        [onSend]
-    );
-
-    const renderInput = useCallback(
-        (
-            _ref: any,
-            _value: any,
-            _type: string,
-            _placeholder: string,
-            _maxLength: number
-        ) => {
-            const onChange = (e: string) => {
-                switch (_placeholder) {
-                    case Languages.footer.yourName:
-                        setFormFeedback({ ...formFeedback, user: e });
-                        break;
-                    case Languages.footer.phoneNumber:
-                        setFormFeedback({ ...formFeedback, phone: e });
-                        break;
-                    default:
-                        break;
+    const onSend = useCallback(async () => {
+        if (!userManager.userInfo) {
+            navigate(Paths.auth, { state: { name: Languages.auth.login } });
+        } else {
+            if (onValidate()) {
+                const res = await apiServices.common.ratingApp(5, refNote.current?.getValue()) as any;
+                if (res.success) {
+                    refNote.current?.setValue('');
+                    setFormFeedback({
+                        ...formFeedback,
+                        note: ''
+                    });
                 }
-            };
-            return (
-                <MyTextInput
-                    ref={_ref}
-                    value={_value}
-                    type={_type}
-                    placeHolder={_placeholder}
-                    inputStyle={cx('style-input')}
-                    containerInput={cx('ctn-style-input')}
-                    onChangeText={onChange}
-                    maxLength={_maxLength}
-                />
-            );
-        },
-        [formFeedback]
-    );
+            }
+        }
+    }, [apiServices.common, formFeedback, navigate, onValidate, userManager.userInfo]);
 
-    const renderTextarea = useCallback(
-        (_ref: any, _placeholder: string) => {
-            const onChange = (e: string) => {
-                setFormFeedback({ ...formFeedback, note: e });
-            };
-            return (
-                <MyTextAreaInput
-                    ref={_ref}
-                    placeHolder={_placeholder}
-                    inputStyle={cx('textarea-footer')}
-                    containerInput={cx('textarea-container')}
-                    value={formFeedback.note}
-                    onChangeText={onChange}
-                />
-            );
-        },
-        [formFeedback]
-    );
+    const renderButton = useCallback((_label: string) => {
+        return (
+            <Button
+                label={_label}
+                buttonStyle={BUTTON_STYLES.OUTLINE_GREEN}
+                width={100}
+                labelStyles={cx('label-button-rating')}
+                onPress={onSend}
+                isLowerCase
+            />
+        );
+    }, [onSend]);
+
+    const renderInput = useCallback((
+        _ref: any,
+        _value: any,
+        _type: string,
+        _placeholder: string,
+        _maxLength: number
+    ) => {
+        const onChange = (text: string) => {
+            switch (_placeholder) {
+                case Languages.footer.yourName:
+                    setFormFeedback({ ...formFeedback, user: text });
+                    break;
+                case Languages.footer.phoneNumber:
+                    setFormFeedback({ ...formFeedback, phone: text });
+                    break;
+                default:
+                    break;
+            }
+        };
+        return (
+            <MyTextInput
+                ref={_ref}
+                value={_value}
+                type={_type}
+                placeHolder={_placeholder}
+                inputStyle={cx('style-input')}
+                containerInput={cx('ctn-style-input')}
+                onChangeText={onChange}
+                maxLength={_maxLength}
+            />
+        );
+    }, [formFeedback]);
+
+    const renderTextarea = useCallback((_ref: any, _placeholder: string) => {
+        const onChange = (e: string) => {
+            setFormFeedback({ ...formFeedback, note: e });
+        };
+        return (
+            <MyTextAreaInput
+                ref={_ref}
+                placeHolder={_placeholder}
+                inputStyle={cx('textarea-footer')}
+                containerInput={cx('textarea-container')}
+                value={formFeedback.note}
+                onChangeText={onChange}
+            />
+        );
+    }, [formFeedback]);
+
+    const renderIcon = useCallback((key: number, icon: any, link: string) => {
+        const openLink = () => {
+            window.open(link);
+        };
+        return <img key={key} src={icon} alt='' className={cx('item-icon-link')} onClick={openLink} />;
+    }, []);
+
+    const renderIconLinks = useMemo(() => {
+        return (
+            <div className={cx('footer-icon', 'jus-start g-16')}>
+                {IconLinks.map((item: ItemProps[] | any, index: number) => {
+                    return renderIcon(index, item?.icon, item?.link);
+                })}
+            </div>
+        );
+    }, [renderIcon]);
+
+    const renderInfoCompany = useMemo(() => {
+        return (
+            <div className={cx('content-footer-left', 'column g-10')}>
+                <img src={IcLogo} className={cx('icon-tienngay')} />
+                <span className={cx('h5 medium text-white-style')}>{Languages.footer.companyName}</span>
+                <span className={cx('h6 text-white-style', 'company')}>{Languages.footer.companyAddress}</span>
+                <span className={cx('h6 text-white-style')}>{Languages.footer.email}</span>
+                <span className={cx('h6 text-white-style')}>{Languages.footer.phone}</span>
+                {renderIconLinks}
+            </div>
+        );
+    }, [renderIconLinks]);
+
+    const renderInfoSupport = useMemo(() => {
+        return (
+            <Row gutter={[32, 24]}>
+                <Col xs={12} sm={12} md={24} lg={24} xl={24} className={cx('info-link-container')}>
+                    <span className={cx('title-info-link')}>{Languages.footer.information}</span>
+                    {Languages.footer.informationChild.map((item) => (
+                        <span className={cx('item-link')} key={item}>{item}</span>
+                    ))}
+                </Col>
+                <Col xs={12} sm={12} md={24} lg={24} xl={24} className={cx('info-link-container')}>
+                    <span className={cx('title-info-link')}>{Languages.footer.customerSupport}</span>
+                    {Languages.footer.customerChild.map((item) => (
+                        <span className={cx('item-link')} key={item}>{item}</span>
+                    ))}
+                </Col>
+            </Row>
+        );
+    }, []);
+
+    const renderRating = useMemo(() => {
+        return (
+            <Col xs={24} sm={12} md={16} lg={16} xl={16}>
+                <span className={cx('h5 medium text-white')}>{Languages.footer.customerFeedback}</span>
+                <Row gutter={[16, 8]} className={cx('y15')}>
+                    <Col span={12}>
+                        {renderInput(refName, formFeedback.user, TYPE_INPUT.TEXT, Languages.footer.yourName, 50)}
+                    </Col>
+                    <Col span={12}>
+                        {renderInput(refPhone, formFeedback.phone, TYPE_INPUT.NUMBER, Languages.footer.phoneNumber, 10)}
+                    </Col>
+                    <Col span={24}>
+                        {renderTextarea(refNote, Languages.footer.yourComments)}
+                    </Col>
+                    <Col span={24}>
+                        {renderButton(Languages.footer.sendFeedback)}
+                    </Col>
+                </Row>
+            </Col>
+        );
+    }, [formFeedback.phone, formFeedback.user, renderButton, renderInput, renderTextarea]);
 
     const renderFooter = useMemo(() => {
         return (
             <div className={cx('text-left')}>
-                <div className={cx('box-footer-top')}>
-                    <Row>
-                        <Col span={9} xs={24} md={24} lg={8}>
-                            <div className={cx('box-footer-left pb16 ')}>
-                                <div className={cx('content-footer-left', 'column g-10')}>
-                                    <img src={IcLogo} className={cx('icon-tienngay')} />
-                                    <div className={cx('h5 medium text-white-style')}>
-                                        {Languages.footer.companyName}
-                                    </div>
-                                    <span className={cx('h6 text-white-style', 'company')}>
-                                        {Languages.footer.companyAddress}
-                                    </span>
-                                    <span className={cx('h6 text-white-style')}>
-                                        {Languages.footer.email}
-                                    </span>
-                                    <span className={cx('h6 text-white-style')}>
-                                        {Languages.footer.phone}
-                                    </span>
-                                    <div className={cx('footer-icon', 'jus-start g-16')}>
-                                        <img src={IcFB} alt="" />
-                                        <img src={IcFR} alt="" />
-                                        <img src={IcPublic} alt="" />
-                                        <img src={IcYT} alt="" />
-                                    </div>
-                                </div>
-                            </div>
-                        </Col>
-                        <Col span={6} xs={24} md={12} lg={8}>
-                            <div
-                                className={cx(
-                                    'box-information',
-                                    'g-24 center-flex-left pb16 row-mobile'
-                                )}
-                            >
-                                <div
-                                    className={cx('information', 'column g-8 text-white-style')}
-                                >
-                                    <div className={cx('h5 medium text-white-style ')}>
-                                        {Languages.footer.information}
-                                    </div>
-                                    {Languages.footer.informationChild.map((item) => (
-                                        <span className={cx('h6')} key={item}>
-                                            {item}
-                                        </span>
-                                    ))}
-                                </div>
-                                <div
-                                    className={cx('information', 'column g-8 text-white-style')}
-                                >
-                                    <div className={cx('h5 medium text-white-style')}>      
-                                        {Languages.footer.customerSupport}
-                                    </div>
-                                    {Languages.footer.customerChild.map((item) => (
-                                        <span className={cx('h6 text-white-style')} key={item}>
-                                            {item}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        </Col>
-                        <Col span={9} xs={24} md={12} lg={8}>
-                            <div
-                                className={cx(
-                                    'box-footer-right',
-                                    'column g-8 text-white-style'
-                                )}
-                            >
-                                <div className={cx('h5 medium text-white-style')}>
-                                    {Languages.footer.customerFeedback}
-                                </div>
-                                <Row className={cx('space-between')}>
-                                    <Col span={12}>
-                                        {renderInput(
-                                            refName,
-                                            formFeedback.user,
-                                            TYPE_INPUT.TEXT,
-                                            Languages.footer.yourName,
-                                            50
-                                        )}
-                                    </Col>
-                                    <Col span={11}>
-                                        {renderInput(
-                                            refPhone,
-                                            formFeedback.phone,
-                                            TYPE_INPUT.PHONE,
-                                            Languages.footer.phoneNumber,
-                                            10
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        {renderTextarea(refNote, Languages.footer.yourComments)}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        {renderButton(Languages.footer.sendFeedback)}
-                                    </Col>
-                                </Row>
-                            </div>
-                        </Col>
-                    </Row>
-                </div>
+                <Row gutter={[32, 24]} className={cx('box-footer-top')}>
+                    <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                        {renderInfoCompany}
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                        <Row gutter={[12, 24]}>
+                            <Col xs={24} sm={12} md={8} lg={8} xl={8}>
+                                {renderInfoSupport}
+                            </Col>
+                            {renderRating}
+                        </Row>
+                    </Col>
+                </Row>
                 <div className={cx('box-footer-bottom')}>
-                    <span className={cx('h6 text-white-style')}>
-                        {Languages.footer.copyRight}
-                    </span>
+                    <span className={cx('h6 text-white-style')}>{Languages.footer.copyRight}</span>
                 </div>
             </div>
         );
-    }, [
-        formFeedback.phone,
-        formFeedback.user,
-        renderButton,
-        renderInput,
-        renderTextarea
-    ]);
+    }, [renderInfoCompany, renderInfoSupport, renderRating]);
+
     return <div className={cx('footer-container')}>{renderFooter}</div>;
 }
 
