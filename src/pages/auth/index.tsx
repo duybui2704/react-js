@@ -150,7 +150,8 @@ export const Auth = ({ data }) => {
                 const dataLogin = res.data as LoginWithThirdPartyModel;
                 if (dataLogin?.token) {
                     sessionManager.setAccessToken(dataLogin?.token);
-                    userManager.updateUserInfo({ ...dataLogin });
+                    const resInfoAcc = await apiServices.auth.getUserInfo();
+                    userManager.updateUserInfo({ ...resInfoAcc.data, ...dataLogin });
                     if (sessionManager.accessToken) {
                         if (sessionManager.accessToken) {
                             setTimeout(() => {

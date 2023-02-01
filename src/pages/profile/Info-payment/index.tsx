@@ -182,13 +182,23 @@ function InfoPayment() {
                     defaultValue={userManager.userInfo?.tra_lai?.bank_name}
                     placeholder={Languages.profile.bank}
                     mainContainer={cx('y15', 'picker-container')}
-                    titleItemPickerText={'text-gray h7 regular b5'}
+                    titleItemPickerText={'text-gray h7 b5'}
                     onSelectItem={onChooseBank}
                     isImportant
                 />
                 {renderInput(refName,  userManager.userInfo?.tra_lai?.name_bank_account || '', 'text', Languages.profile.accountName, 50, false, 'account_name')}
                 {renderInput(refNumber, userManager.userInfo?.tra_lai?.interest_receiving_account || '', 'tel', Languages.profile.accountNumber, 16, false, 'account_number')}
-                <span className={cx('h7 regular text-gray y10')}>{Languages.profile.nodeBank}</span>
+                <span className={cx('h7 text-red y10 medium')}>
+                    {Languages.profile.noteBank}
+                    <span className={cx('h7 text-gray y10')}>
+                        {Languages.profile.contentNoteBank}
+                        <span className={cx('h7 text-green y10 medium')}>
+                            {Languages.profile.contentTienNgayFirst}
+                            <span className={cx('h7 text-gray y10')}>{Languages.profile.contentTienngayEnd}</span>
+                        </span>
+                    </span>
+                </span>
+
                 <div className={cx('wid-100', 'row y20')}>
                     <Button
                         label={Languages.common.save}
