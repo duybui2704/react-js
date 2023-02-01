@@ -6,7 +6,7 @@ import IcEmail from 'assets/image/ic_email.svg';
 import IcProfile from 'assets/image/ic_profile.svg';
 import IcReferralCode from 'assets/image/ic_referral_code.svg';
 import classNames from 'classnames/bind';
-import { TYPE_INPUT } from 'commons/constants';
+import { CHANNEL, TYPE_INPUT } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
@@ -16,13 +16,19 @@ import PickerComponent, { PickerAction } from 'components/picker-component/picke
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { ItemProps } from 'models/common';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import formValidate from 'utils/form-validate';
 import styles from './sign-up.module.scss';
 
 const cx = classNames.bind(styles);
 
-function SignUp({ onPress, dataChannel, onLoginGoogle }: { onPress: any, dataChannel: ItemProps[], onLoginGoogle: any }) {
+function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
+    : {
+        onPress: any,
+        dataChannel: ItemProps[],
+        onLoginGoogle: any,
+        refNumber?: string,
+    }) {
     const isMobile = useIsMobile();
     const [isLoading, setLoading] = useState<boolean>(false);
     const { apiServices } = useAppStore();
@@ -35,6 +41,12 @@ function SignUp({ onPress, dataChannel, onLoginGoogle }: { onPress: any, dataCha
     const refChannel = useRef<PickerAction>(null);
 
     const refPwd = useRef<TextFieldActions>(null);
+
+    useEffect(()=>{
+        if(refNumber){
+            refChannel?.current?.setValue(dataChannel.find(item => item.value === CHANNEL.FRIEND)?.value || '');
+        }
+    }, [dataChannel, refNumber]);
 
     const onChange = (e: CheckboxChangeEvent) => {
         setCheckBox(e.target.checked);
@@ -169,6 +181,9 @@ function SignUp({ onPress, dataChannel, onLoginGoogle }: { onPress: any, dataCha
                 mainContainer={cx('y15', 'picker-container')}
                 titleItemPickerText={'text-gray h7 regular b5'}
                 isImportant
+                showSearch={false}
+                disable={!!refNumber}
+                showArrow={!!refNumber}
             />
 
             <MyTextInput
@@ -178,8 +193,9 @@ function SignUp({ onPress, dataChannel, onLoginGoogle }: { onPress: any, dataCha
                 placeHolder={Languages.auth.presenter}
                 containerStyle={cx('y15')}
                 rightIcon={IcReferralCode}
-                value={''}
+                value={refNumber}
                 maxLength={10}
+                disabled={!!refNumber}
             />
 
             <div className={cx('row-center y20')}>
@@ -223,12 +239,12 @@ function SignUp({ onPress, dataChannel, onLoginGoogle }: { onPress: any, dataCha
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>
-                <span className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.login)}>
+                <a className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.login)}>
                     {Languages.auth.loginNow}
-                </span>
+                </a>
             </div>
         </div>;
-    }, [isMobile, dataChannel, onSignUp, onLoginGoogle, onNavigate]);
+    }, [isMobile, dataChannel, refNumber, onSignUp, onLoginGoogle, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>

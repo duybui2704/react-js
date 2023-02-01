@@ -8,6 +8,7 @@ import ImgGooglePlay from 'assets/image/img_gg_chplay.svg';
 import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
+import { AUTH_STATE } from 'commons/constants';
 import Languages from 'commons/languages';
 import { authGoogle } from 'firebase-config';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -18,7 +19,7 @@ import { LoginWithThirdPartyModel } from 'models/auth';
 import { ChannelModel } from 'models/channel';
 import { ItemProps } from 'models/common';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import utils from 'utils/utils';
 import styles from './auth.module.scss';
@@ -31,20 +32,28 @@ import SignUpGoogle from './sign-up-google';
 
 const cx = classNames.bind(styles);
 
-function Auth() {
+export const Auth = ({ data }) => {
     const isMobile = useIsMobile();
     const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const refNumber = searchParams.get('ref') || '';
+
     const navigate = useNavigate();
     const [steps, setSteps] = useState<any>({ name: Languages.auth.login });
     const [dataGoogle, setDataGoogle] = useState<LoginWithThirdPartyModel>();
     const { apiServices, userManager } = useAppStore();
     const [dataChannel, setDataChannel] = useState<ItemProps[]>([]);
 
-
     useEffect(() => {
-        const _location = location.state;
-        setSteps(_location || { name: Languages.auth.enterAuthCode });
-    }, [location.state]);
+        switch (data) {
+            case AUTH_STATE.REGISTER:
+                setSteps({ name: Languages.auth.signUp });
+                break;
+            default:
+                setSteps({ name: Languages.auth.login });
+                break;
+        }
+    }, [data, location]);
 
     const fetchData = useCallback(async () => {
         const res = await apiServices.auth.getChanelSource(3) as any;
@@ -165,7 +174,7 @@ function Auth() {
             case Languages.auth.login:
                 return <Login onPress={onChangeSteps} onLoginGoogle={onLoginGoogle} />;
             case Languages.auth.register:
-                return <SignUp onPress={onChangeSteps} dataChannel={dataChannel} onLoginGoogle={onLoginGoogle} />;
+                return <SignUp onPress={onChangeSteps} dataChannel={dataChannel} onLoginGoogle={onLoginGoogle} refNumber={refNumber} />;
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
@@ -177,7 +186,7 @@ function Auth() {
             default:
                 return null;
         }
-    }, [dataChannel, dataGoogle, onChangeSteps, onLoginGoogle, steps]);
+    }, [dataChannel, dataGoogle, onChangeSteps, onLoginGoogle, refNumber, steps]);
 
     const renderView = useMemo(() => {
         return <div className={isMobile ? cx('column', 'root-container') : cx('row', 'root-container')}>
@@ -193,6 +202,6 @@ function Auth() {
     }, [isMobile, renderLeftContent, renderSteps]);
 
     return renderView;
-}
+};
 
 export default Auth;

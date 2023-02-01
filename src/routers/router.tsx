@@ -43,9 +43,10 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
                         }
                     }}>
                     {props.hasHeader && <Header />}
-                    <div className={'content'}>
-                        <props.page />
-                    </div>
+                    {/* <div className={'content'}> */}
+                    <props.page
+                        {...props} />
+                    {/* </div> */}
                     {/* {props.hasFooter && <Footer />} */}
                 </ConfigProvider>
             </div>

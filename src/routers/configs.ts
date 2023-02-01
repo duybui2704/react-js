@@ -1,17 +1,18 @@
 // Layouts
 
 // Pages
+import { AUTH_STATE } from 'commons/constants';
 import Auth from 'pages/auth';
 import NotFound from 'pages/common/not-found';
 import Home from 'pages/home';
-import Profile from 'pages/profile';
 import { Paths } from './paths';
 export interface RouteProps {
     path: string;
-    page: () => JSX.Element;
+    page: (props: any) => JSX.Element;
     hasHeader?: boolean;
     hasFooter?: boolean;
     needAuth?: boolean;
+    data?: any
 }
 
 // Public routes
@@ -21,7 +22,8 @@ const publicRoutes = [
     { path: Paths.any, page: NotFound},
 
     //auth
-    { path: Paths.auth, page: Auth, hasHeader: true }
+    { path: Paths.auth, page: Auth, hasHeader: true },
+    { path: Paths.register, page: Auth, data: AUTH_STATE.REGISTER, hasHeader: true }
 
 ] as RouteProps[];
 

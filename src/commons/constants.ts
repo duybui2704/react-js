@@ -156,3 +156,11 @@ export enum GENDER {
     MALE = 'male'
 }
 
+export enum AUTH_STATE {
+    LOGIN = 'LOGIN',
+    REGISTER = 'REGISTER',
+    OTP = 'OTP',
+    FORGOT_PWD = 'FORGOT_PWD',
+}
+
+
