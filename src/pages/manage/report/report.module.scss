@@ -2,6 +2,7 @@
 .page-container {
     width: 100%;
     overflow: auto;
+    overflow-x: hidden;
     height: 85vh;
     @include tablet {
         height: 87vh;
@@ -11,6 +12,7 @@
 .page-container-mobile {
     width: 100%;
     overflow: auto;
+    overflow-x: hidden;
     height: 86vh;
 }
 

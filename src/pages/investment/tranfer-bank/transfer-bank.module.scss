@@ -3,6 +3,7 @@
     width: 100%;
     overflow: auto;
     height: calc(var(--vh, 1vh) * 100 - $header-height);
+    overflow-x: hidden;
 }
 
 .all-content {
