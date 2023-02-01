@@ -12,3 +12,12 @@ a {
         opacity: 0.8;
     }
 }
+
+img {
+    text-decoration: none;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}

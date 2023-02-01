@@ -15,8 +15,6 @@ import { LoginWithThirdPartyModel } from 'models/auth';
 import { UserInfoModel } from 'models/user-model';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import OtpInput from 'react-otp-input';
-import { useNavigate } from 'react-router-dom';
-import { Paths } from 'routers/paths';
 import formValidate from 'utils/form-validate';
 import toasty from 'utils/toasty';
 import utils from 'utils/utils';
@@ -24,8 +22,7 @@ import styles from './sign-up-google.module.scss';
 
 const cx = classNames.bind(styles);
 
-const SignUpGoogle = (({ onPress, dataChannel, data, refNumber }) => {
-    const navigate = useNavigate();
+const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => {
     const timer = useRef<number>(180);
     const isMobile = useIsMobile();
     const [errMsg, setErrMsg] = useState<string>('');
@@ -115,14 +112,14 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber }) => {
                 userManager.updateUserInfo(resActive.data as UserInfoModel);
                 if (sessionManager.accessToken) {
                     setTimeout(() => {
-                        navigate(Paths.home);
+                        onSuccess();
                     }, 500);
                 }
             } else {
                 toasty.error(resActive.message);
             }
         }
-    }, [apiServices?.auth, data?.checksum, data?.id, navigate, onValidate, userManager]);
+    }, [apiServices?.auth, data?.checksum, data?.id, onSuccess, onValidate, userManager]);
 
     const onSendToOTP = useCallback(async () => {
         if (timerCount === 0) {

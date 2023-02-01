@@ -3,6 +3,7 @@
 // Pages
 import { AUTH_STATE } from 'commons/constants';
 import Auth from 'pages/auth';
+import Congrats from 'pages/auth/congrats';
 import NotFound from 'pages/common/not-found';
 import Home from 'pages/home';
 import Policy from 'pages/policy';
@@ -25,6 +26,7 @@ const publicRoutes = [
     //auth
     { path: Paths.auth, page: Auth, hasHeader: true },
     { path: Paths.register, page: Auth, data: AUTH_STATE.REGISTER, hasHeader: true },
+    { path: Paths.congrats, page: Congrats},
 
     // policy
     { path: Paths.policy, page: Policy }

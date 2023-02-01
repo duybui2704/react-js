@@ -1,4 +1,5 @@
 import { Col, Row } from 'antd';
+import { LINKS } from 'api/constants';
 import BgAuth from 'assets/image/bg_auth.jpg';
 import ImgLogin from 'assets/image/bg_login.svg';
 import BgPwd from 'assets/image/bg_pwd.svg';
@@ -19,7 +20,7 @@ import { LoginWithThirdPartyModel } from 'models/auth';
 import { ChannelModel } from 'models/channel';
 import { ItemProps } from 'models/common';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import utils from 'utils/utils';
 import styles from './auth.module.scss';
@@ -29,6 +30,7 @@ import Login from './login';
 import OTPAuth from './otp-auth';
 import SignUp from './sign-up';
 import SignUpGoogle from './sign-up-google';
+import { isAndroid, isIOS } from 'react-device-detect';
 
 const cx = classNames.bind(styles);
 
@@ -100,6 +102,14 @@ export const Auth = ({ data }) => {
         };
     }, [backgroundImage]);
 
+    const openGooglePlay = useCallback(() => {
+        window.open(LINKS.STORE_ANDROID);
+    }, []);
+
+    const openAppStore = useCallback(() => {
+        window.open(LINKS.STORE_IOS);
+    }, []);
+
     const renderLeftContent = useMemo(() => {
         return <div className={cx('left-container')}
             style={renderLeftBackground}>
@@ -121,15 +131,25 @@ export const Auth = ({ data }) => {
             </span>
             <div className={cx('row y10')}>
                 <div className={cx('column x50', 'jus-between')}>
-                    <img src={ImgAppStore} className={cx('img-store')} />
-                    <div className={cx('y40')}>
-                        <img src={ImgGooglePlay} className={cx('img-store')} />
-                    </div>
+                    <img src={ImgAppStore} className={cx('img-store')} onClick={openAppStore} />
+                    <img src={ImgGooglePlay} className={cx('img-store y40')} onClick={openGooglePlay} />
                 </div>
                 <img src={ImgQrCode} className={cx('img-qr')} />
             </div>
         </div>;
-    }, [navigate, renderLeftBackground]);
+    }, [navigate, openAppStore, openGooglePlay, renderLeftBackground]);
+
+    const onSuccess = useCallback(() => {
+        // in this phase, just recommend user using app
+        // navigate(Paths.home);
+        if (isAndroid) {
+            openGooglePlay();
+        } else if (isIOS) {
+            openAppStore();
+        } else {
+            navigate(Paths.congrats);
+        }
+    }, [navigate, openAppStore, openGooglePlay]);
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
         setSteps(transmissionName);
@@ -175,19 +195,31 @@ export const Auth = ({ data }) => {
             case Languages.auth.login:
                 return <Login onPress={onChangeSteps} onLoginGoogle={onLoginGoogle} />;
             case Languages.auth.register:
-                return <SignUp onPress={onChangeSteps} dataChannel={dataChannel} onLoginGoogle={onLoginGoogle} refNumber={refNumber} />;
+                return <SignUp onPress={onChangeSteps}
+                    dataChannel={dataChannel}
+                    onLoginGoogle={onLoginGoogle}
+                    refNumber={refNumber} />;
             case Languages.auth.forgotPwd:
                 return <ForgotPass onPress={onChangeSteps} />;
             case Languages.auth.enterAuthCode:
-                return <OTPAuth onPress={onChangeSteps} phoneNumber={steps?.phone} pwd={steps?.password} title={steps?.title} checkbox={steps?.checkbox} />;
+                return <OTPAuth onPress={onChangeSteps}
+                    phoneNumber={steps?.phone}
+                    pwd={steps?.password}
+                    title={steps?.title}
+                    checkbox={steps?.checkbox}
+                    onSuccess={onSuccess} />;
             case Languages.auth.changePwd:
                 return <ChangePwd onPress={onChangeSteps} />;
             case Languages.auth.socialGoogle:
-                return <SignUpGoogle onPress={onChangeSteps} data={dataGoogle} dataChannel={dataChannel} refNumber={refNumber} />;
+                return <SignUpGoogle onPress={onChangeSteps}
+                    data={dataGoogle}
+                    dataChannel={dataChannel}
+                    refNumber={refNumber}
+                    onSuccess={onSuccess} />;
             default:
                 return null;
         }
-    }, [dataChannel, dataGoogle, onChangeSteps, onLoginGoogle, refNumber, steps]);
+    }, [dataChannel, dataGoogle, onChangeSteps, onLoginGoogle, onSuccess, refNumber, steps]);
 
     const renderView = useMemo(() => {
         return <div className={isMobile ? cx('column', 'root-container') : cx('row', 'root-container')}>

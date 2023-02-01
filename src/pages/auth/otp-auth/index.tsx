@@ -9,22 +9,27 @@ import sessionManager from 'managers/session-manager';
 import { UserInfoModel } from 'models/user-model';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import OtpInput from 'react-otp-input';
-import { useNavigate } from 'react-router-dom';
-import { Paths } from 'routers/paths';
 import formValidate from 'utils/form-validate';
 import utils from 'utils/utils';
 import styles from './otp-auth.module.scss';
 
 const cx = classNames.bind(styles);
 
-function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox }: { onPress: any, phoneNumber: string, pwd: string, title: string, checkbox: boolean }) {
+function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox, onSuccess }:
+    {
+        onPress: any,
+        phoneNumber: string,
+        pwd: string,
+        title: string,
+        checkbox: boolean,
+        onSuccess: () => void
+    }) {
     let timer = 0;
     const isMobile = useIsMobile();
     const [check, setCheck] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { apiServices, userManager } = useAppStore();
     const [timerCount, setTimerCount] = useState(180);
-    const navigator = useNavigate();
     const [value, setValue] = useState<string>('');
     const [errMsg, setErrMsg] = useState<string>('');
 
@@ -48,7 +53,7 @@ function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox }: { onPress: any,
 
     const getTime = () => Math.floor(Date.now() / 1000);
 
-    const onValidate = useCallback(() => { 
+    const onValidate = useCallback(() => {
         if (value.length === 0) {
             setErrMsg(Languages.errorMsg.emptyOTP);
             return false;
@@ -94,16 +99,12 @@ function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox }: { onPress: any,
                             const resData = resInfoAcc.data as UserInfoModel;
                             userManager.updateUserInfo(resData);
                         }
-                        navigator(Paths.home);
+                        onSuccess();
                     }
                 }
             }
         }
-    }, [apiServices.auth, navigator, onPress, onValidate, phoneNumber, title, userManager, value]);
-
-    const onNavigate = useCallback(async (nameTabs: string) => {
-        onPress?.({ name: nameTabs });
-    }, [onPress]);
+    }, [apiServices.auth, checkbox, onPress, onSuccess, onValidate, phoneNumber, pwd, title, userManager, value]);
 
     const onChangeOTP = useCallback((otp: string) => {
         setErrMsg('');
@@ -170,7 +171,7 @@ function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox }: { onPress: any,
                     {timerCount > 0 ? Languages.auth.sendToAfterOTP : Languages.auth.sendToOTP}
                 </span>
                 {timerCount > 0 && <span className={cx('h6 text-red y10 p5')}>
-                    {`${utils.convertSecondToMinutes(timerCount)}`}{' '}{Languages.auth.minute}</span>}
+                    {utils.convertSecondToMinutes(timerCount)}</span>}
             </div>
             <Button
                 label={Languages.auth.confirm}

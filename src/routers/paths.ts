@@ -6,6 +6,7 @@ export const Paths = {
     //auth
     auth: '/auth',
     register: '/register',
+    congrats: '/congrats',
 
     //profile
     profile: '/profile',

@@ -139,7 +139,6 @@ function Login({ onPress, onLoginGoogle }) {
                 </a>
             </div>
 
-
             <Button
                 label={Languages.auth.login}
                 buttonStyle={BUTTON_STYLES.GREEN}
