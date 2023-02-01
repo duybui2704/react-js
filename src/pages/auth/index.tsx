@@ -31,6 +31,7 @@ import OTPAuth from './otp-auth';
 import SignUp from './sign-up';
 import SignUpGoogle from './sign-up-google';
 import { isAndroid, isIOS } from 'react-device-detect';
+import helper from 'utils/helper';
 
 const cx = classNames.bind(styles);
 
@@ -58,7 +59,7 @@ export const Auth = ({ data }) => {
     }, [data, location]);
 
     const fetchData = useCallback(async () => {
-        const res = await apiServices.auth.getChanelSource(3) as any;
+        const res = await apiServices.auth.getChanelSource(3);
         if (res.success) {
             const _dataChanel = utils.formatObjectFilterInvest(res.data as ChannelModel[]);
             const temp = [] as ItemProps[];
@@ -103,11 +104,11 @@ export const Auth = ({ data }) => {
     }, [backgroundImage]);
 
     const openGooglePlay = useCallback(() => {
-        window.open(LINKS.STORE_ANDROID);
+        helper.openLink(LINKS.STORE_ANDROID);
     }, []);
 
     const openAppStore = useCallback(() => {
-        window.open(LINKS.STORE_IOS);
+        helper.openLink(LINKS.STORE_IOS);
     }, []);
 
     const renderLeftContent = useMemo(() => {

@@ -5,14 +5,14 @@ import config from 'config';
 export enum LINKS {
     VPS = 'https://openaccount.vps.com.vn/?MKTID=H787',
     FB_FAN_PAGE = 'https://www.facebook.com/tienngay8386',
-    STORE_ANDROID = 'https://play.google.com/store/apps/details?id=vn.tienngay.customer',
-    STORE_IOS = 'https://apps.apple.com/id/app/tienngay-customer/id1560920806',
+    STORE_ANDROID = 'https://play.google.com/store/apps/details?id=vn.tienngay.investor',
+    STORE_IOS = 'https://apps.apple.com/id/app/id1563318851',
     AQ_INVESTOR = 'https://tienngay.vn/template/hoidap',
     POLICY_INVESTOR = 'https://tienngay.vn/template/dieukhoansudung',
     MANUAL_INVESTOR = 'https://tienngay.vn/template/thongtinapp',
     LUCKY_LOTT_ANDROID = 'https://play.google.com/store/apps/details?id=com.luckylott.store',
     LUCKY_LOTT_IOS = 'https://apps.apple.com/vn/app/luckylott/id1518746631',
-    ONE_LINK = 'https://onelink.to/3e87sk',
+    ONE_LINK = 'https://tienngay.vn/open-appndt',
     TIEN_NGAY = 'https://tienngay.vn/'
 }
 
@@ -21,12 +21,6 @@ export enum CONTACT {
 }
 
 export enum API_CONFIG {
-    BASE_URL_ERROR = 'https://sandboxapindt.tienngay.vn/',
-    // BASE_URL_ERROR = 'https://apindt.tienngay.vn/',
-
-    // BASE_URL = 'https://appndt.tienngay.vn/V2/',
-    BASE_URL = 'https://appndt.tienvui.vn/V2/',
-
     // common
     GET_BANNERS = '/banner/news', // banner app
     GET_BANNERS_HOME = '/banner/home_V2',
