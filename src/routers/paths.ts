@@ -8,7 +8,8 @@ export const Paths = {
     register: '/register',
 
     //profile
-    profile: '/profile'
+    profile: '/profile',
 
-
+    // policy
+    policy: '/policy'
 };

@@ -11,7 +11,7 @@ import { MyTextAreaInput } from 'components/text-area';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import styles from './footer.module.scss';
 import { TextFieldActions } from 'components/input/types';
-import { TYPE_INPUT } from 'commons/constants';
+import { Events, TAB_INDEX, TYPE_INPUT } from 'commons/constants';
 import formValidate from 'utils/form-validate';
 import toasty from 'utils/toasty';
 import { LINKS } from 'api/constants';
@@ -19,6 +19,7 @@ import { ItemProps } from 'models/common';
 import { useAppStore } from 'hooks';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
+import { EventEmitter } from 'utils/event-emitter';
 
 const cx = classNames.bind(styles);
 
@@ -137,8 +138,8 @@ function Footer() {
     }, [formFeedback]);
 
     const renderTextarea = useCallback((_ref: any, _placeholder: string) => {
-        const onChange = (e: string) => {
-            setFormFeedback({ ...formFeedback, note: e });
+        const onChange = (text: string) => {
+            setFormFeedback({ ...formFeedback, note: text });
         };
         return (
             <MyTextAreaInput
@@ -182,24 +183,45 @@ function Footer() {
         );
     }, [renderIconLinks]);
 
+    const renderTabLink = useCallback((label: string) => {
+        const onOpenLink = () => {
+            switch (label) {
+                case Languages.footer.informationChild[0]:
+                    EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.NEWS);
+                    break;
+                case Languages.footer.informationChild[1]:
+                    break;
+                case Languages.footer.informationChild[2]:
+                    navigate(Paths.policy);
+                    break;
+                case Languages.footer.customerChild[0]:
+                    break;
+                case Languages.footer.customerChild[1]:
+                    break;
+                default:
+                    break;
+            }
+        };
+        return <span className={cx('item-link')} onClick={onOpenLink}>{label}</span>;
+    }, [navigate]);
+
     const renderInfoSupport = useMemo(() => {
         return (
             <Row gutter={[32, 24]}>
                 <Col xs={12} sm={12} md={24} lg={24} xl={24} className={cx('info-link-container')}>
                     <span className={cx('title-info-link')}>{Languages.footer.information}</span>
-                    {Languages.footer.informationChild.map((item) => (
-                        <span className={cx('item-link')} key={item}>{item}</span>
-                    ))}
+                    {renderTabLink(Languages.footer.informationChild[0])}
+                    {renderTabLink(Languages.footer.informationChild[1])}
+                    {renderTabLink(Languages.footer.informationChild[2])}
                 </Col>
                 <Col xs={12} sm={12} md={24} lg={24} xl={24} className={cx('info-link-container')}>
                     <span className={cx('title-info-link')}>{Languages.footer.customerSupport}</span>
-                    {Languages.footer.customerChild.map((item) => (
-                        <span className={cx('item-link')} key={item}>{item}</span>
-                    ))}
+                    {renderTabLink(Languages.footer.customerChild[0])}
+                    {renderTabLink(Languages.footer.customerChild[1])}
                 </Col>
             </Row>
         );
-    }, []);
+    }, [renderTabLink]);
 
     const renderRating = useMemo(() => {
         return (

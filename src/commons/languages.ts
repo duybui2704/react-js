@@ -99,7 +99,7 @@ const Languages = {
         email: 'Email: contact@tienngay.vn',
         phone: 'Phone: contact@tienngay.vn',
         information: 'Thông tin',
-        informationChild: ['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
+        informationChild: ['Tin tức', 'Tuyển dụng', 'Điều kiện và điều khoản'],
         customerSupport: 'Hỗ trợ khách hàng',
         customerChild: ['Sản phẩm', 'Điểm giao dịch'],
         customerFeedback: 'Mọi góp ý của bạn là niềm hạnh phúc của chúng tôi',
@@ -413,6 +413,80 @@ const Languages = {
     },
     msgNotify: {
         successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'
+    },
+    policy: {
+        titlePolicy: 'ĐIỀU KHOẢN SỬ DỤNG',
+        tienNgay: 'TIENNGAY.VN APP',
+        describePolicy: 'Nội dung Bản điều khoản sử dụng dịch vụ TienNgay.vn app dưới đây tạo thành một Hợp đồng sử dụng dịch vụ ràng buộc về mặt pháp lý giữa Công Ty Cổ Phần Công Nghệ Tài Chính Việt và Khách hàng. Khi sử dụng dịch vụ TienNgay.vn app có nghĩa là khách hàng đã chấp nhận các Điều khoản và điều kiện dưới đây, đồng thời chịu sự ràng buộc phải tuân thủ bởi các điều khoản và điều kiện đó. Khách hàng có trách nhiệm xem xét và đọc kỹ nội dung của Bản điều khoản này, nếu khách hàng không đồng ý với các điều kiện và điều khoản này thì nên chấm dứt sử dụng ứng dụng này.',
+        bigHeader: [
+            '1. Mô tả dịch vụ',
+            '2. Quyền và trách nhiệm của Khách hàng',
+            '3. Quyền và trách nhiệm của VFC',
+            '4. Rủi ro và miễn trừ trách nhiệm',
+            '5. Luật áp dụng và giải quyết tranh chấp',
+            '6. Điều khoản cuối cùng'
+        ],
+        subTitlePolicy: {
+            article1: [
+                'Ứng dụng TienNgay.vn app là phần mềm công nghệ cung cấp dịch vụ tư vấn quản lý do Công Ty Cổ Phần Công Nghệ Tài Chính Việt (sau đây gọi là “VFC”) phát hành, theo đó, Người sử dụng dịch vụ có thể quản lý khoản đầu tư của mình một cách chi tiết khi sử dụng ứng dụng thông qua thiết bị di dộng.'
+            ],
+            article2: [
+                '2.1. Đọc, hiểu, tuân thủ các thủ tục đăng ký, trình tự giao dịch và các quy định, hướng dẫn sử dụng và Bản điều khoản điều kiện này trước khi sử dụng dịch vụ của chúng tôi.',
+                '2.2. Sử dụng đúng mục đích những thông tin dịch vụ do Ứng dụng cung cấp.',
+                '2.3. Cung cấp đầy đủ, chính xác các thông tin cần thiết khi đăng ký và/hoặc phát sinh trong quá trình sử dụng dịch vụ theo yêu cầu của VFC.',
+                '2.4. Tuân thủ các quy định pháp luật và quy định của VFC liên quan đến việc đăng ký và sử dụng Dịch vụ ứng dụng.',
+                '2.5. Không sử dụng Ứng dụng hoặc Phần mềm để gây khó khăn hoặc rối loạn hoạt động hoặc làm giả yêu cầu sử dụng dịch vụ.',
+                '2.6. Không sao chép, hoặc phân phối Phần mềm hoặc nội dung khác mà không có sự cho phép bằng văn bản của VFC.',
+                '2.7. Giữ an toàn và bảo mật mật khẩu tài khoản của mình hoặc bất kỳ phương thức nhận dạng nào mà VFC cung cấp để bạn truy cập vào Dịch vụ.',
+                '2.8. VFC có quyền nhưng không bắt buộc phải chấm dứt Hợp đồng này và chấm dứt việc sử dụng Dịch vụ của bạn bất kỳ lúc nào mà có hoặc không thông báo; có quyền ngừng xử lý bất kỳ một giao dịch nào mà VFC cho rằng giao dịch đó có thể là lừa đảo, bất hợp pháp hoặc có liên quan tới các hành vi phạm tội hoặc khi VFC cho rằng Khách hàng đang vi phạm Điều khoản sử dụng.',
+                '2.9. Cập nhật, theo dõi các thông tin, thông báo, quy định, hướng dẫn về sử dụng Dịch vụ của VFC theo các phương thức như: (i) cập nhật trên Ứng dụng; (ii) tài liệu hướng dẫn của VFC; (iii) thông báo, hướng dẫn qua email, tin nhắn sms; (iv) các phương thức khác theo quy định của VFC trong từng thời kỳ.',
+                '2.10. Gửi yêu cầu hỗ trợ, khiếu nại trong quá trình sử dụng Dịch vụ cho VFC thông qua các hình thức: gọi điện thoại đến Tổng đài hỗ trợ dịch vụ Khách hàng hoặc hình thức khác theo quy đinh của VFC.',
+                '2.11. Hợp tác và cung cấp thông tin cần thiết theo yêu cầu của chúng tôi phù hợp với thỏa thuận với VFC và quy định pháp luật.',
+                '2.12. Các nghĩa vụ khác theo quy định của VFC và các quy định có liên quan của pháp luật.'
+            ],
+            article3: [
+                '3.1. VFC có quyền sở hữu tất cả các quyền, quyền sở hữu và lợi ích, bao gồm tất cả các quyền sở hữu tài sản trí tuệ có liên quan, đối với Phần mềm và/hoặc Ứng dụng. Khách hàng không được phép sao chép, điều chỉnh hoặc sử dụng lại Nội dung tại TienNgay.vn app mà không có sự cho phép trước bằng văn bản của VFC.',
+                '3.2. Tuân thủ các quy định của pháp luật liên quan đến việc cung ứng dịch vụ.',
+                '3.3. Đảm bảo cung cấp chính xác, đầy đủ các dịch vụ cho Khách hàng theo thỏa thuận',
+                '3.4. Cung cấp tài liệu hướng dẫn, hỗ trợ Khách hàng sử dụng dịch vụ.',
+                '3.5. Giải đáp thắc mắc, khiếu nại của Khách hàng liên quan đến dịch vụ.',
+                '3.6. Bảo mật các thông tin của Khách hàng được lưu tại VFC, trừ trường hợp phải thực hiện cung cấp thông tin theo quy định của pháp luật.',
+                {
+                    title: '3.7. Khóa/tạm ngừng/chấm dứt/ hoặc từ chối việc thực hiện giao dịch hoặc tạm ngưng dịch vụ hoặc khóa chức năng đăng nhập của Khách hàng trong quá trình sử dụng Dịch vụ mà không cần phải báo trước cho Khách hàng khi xảy ra các trường hợp như sau:',
+                    subTitle: [
+                        'Tạm ngưng dịch vụ để nâng cấp, bảo trì hệ thống;',
+                        'Khi phát hiện Khách hàng vi phạm bất kỳ nội dung nào trong Bản điều khoản điều kiện này, các quy định về việc sử dụng Ứng dụng do VFC ban hành hoặc các quy định pháp luật có liên quan;',
+                        'Giao dịch của Khách hàng có dấu hiệu vi phạm pháp luật;',
+                        'Theo quyết định và/hoặc yêu cầu của cơ quan nhà nước có thẩm quyền.'
+                    ]
+                },
+                '3.8. Không chịu trách nhiệm về bất kỳ tranh chấp phát sinh nào giữa Khách hàng và bên thứ ba (nếu có) phát sinh từ hoặc liên quan đến các giao dịch được thực hiện không thông qua dịch vụ của Ứng dụng.',
+                '3.9. Thay đổi tài liệu liên quan đến dịch vụ, thay đổi/điều chỉnh thông tin giao diện màn hình, chức năng dịch vụ vào bất kỳ thời điểm nào mà không cần phải báo trước cho Khách hàng.',
+                '3.10. Khi nâng cấp, phát triển dịch vụ, VFC được phép bổ sung, cung cấp thêm các tiện ích dịch vụ cho Khách hàng mà không cần thông báo hoặc yêu cầu Khách hàng đăng ký bổ sung dịch vụ.',
+                '3.11. Khi Khách hàng truy nhập và sử dụng ứng dụng , VFC có thể thu thập và lưu trữ các thông tin như các số liệu thống kê quá trình truy cập, các thông tin cá nhân cung cấp cho VFC khi đăng ký… Các thông tin cá nhân Khách hàng cung cấp bao gồm nhưng không giới hạn bởi tên, ngày sinh, số điện thoại, địa chỉ email, địa chỉ thường trú, địa chỉ sử dụng dịch vụ.... VFC có quyền sử dụng các thông tin này vào việc lập kế hoạch, nghiên cứu, quản lý, giám sát, tư vấn, hỗ trợ giữa VFC với Khách hàng và (hoặc) sử dụng vào mục đích quảng bá, giới thiệu sản phẩm dịch vụ của VFC cho Khách hàng hoặc cung cấp thông tin cho các cơ quan pháp luật theo yêu cầu của Luật pháp hoặc của Toà án.',
+                '3.12. Các quyền khác theo quy định của VFC và của pháp luật.'
+            ],
+            article4: {
+                title: 'Chúng tôi cam kết cung cấp Dịch vụ tốt nhất và cố gắng giảm thiểu các rủi ro có thể gặp phải về kỹ thuật cho Khách hàng; không chịu trách nhiệm về những rủi ro, thiệt hại của Khách hàng khi Khách hàng sử dụng Dịch vụ do những rủi ro sau:',
+                subTitle: [
+                    'Lỗi hệ thống phần cứng, phần mềm không hoạt động hoặc hoạt động không đúng chức năng thiết kế do các yếu tố bất khả kháng gây ra như lũ lụt, hỏa hoạn, thiên tai, chập điện, hư hỏng tự nhiên …;',
+                    'Nguy cơ ngưng trệ hoạt động của hệ thống mạng do lỗi đường truyền Internet, mạng điện thoại di động … của nhà cung cấp dịch vụ gặp sự cố kỹ thuật hoặc quá tải;',
+                    'Hệ thống có thể bị nhiễm virus, bị tấn công hoặc bị ảnh hưởng của những sự cố ngoài tầm kiểm soát của VFC làm ngưng trệ các hoạt động trao đổi thông tin; dẫn đến việc không thể xử lý hoặc thực hiện các giao dịch của Khách hàng;',
+                    'Việc nhận dạng có thể bị nhầm, sai sót do các thông tin nhận dạng Khách hàng (tên truy cập, mật khẩu truy cập, số điện thoại, địa chỉ thư điện tử) bị bên thứ 3 chiếm đoạt bằng các thủ đoạn bất hợp pháp…;',
+                    'Rủi ro lệnh giao dịch một khi đã được Khách hàng gửi đi thì không thể thu hồi do các giao dịch trên hệ thống Ứng dụng của chúng tôi được xử lý và thực hiện một cách tự động.',
+                    'Khách hàng sẽ chịu trách nhiệm hoàn toàn về các quyết định liên quan đến các dịch vụ và sản phẩm được giới thiệu tới khách hàng thông qua dịch vụ, phần mềm và/hoặc ứng dụng. Khách hàng hoàn toàn bãi bỏ và miễn trừ VFC khỏi bất kỳ và mọi trách nhiệm pháp lý, khiếu nại, nguyên nhân khởi tố, hay thiệt hại nào xuất phát từ việc sử dụng dịch vụ, phần mềm và/hoặc ứng dụng của khách hàng, hoặc trong bất kỳ cách nào liên quan đến các bên thứ ba đã được giới thiệu tới khách hàng thông qua dịch vụ, phần mềm và/hoặc ứng dụng.'
+                ]
+            },
+            article5: [
+                '5.1. Điều kiện, điều khoản Dịch vụ này được điều chỉnh bởi pháp luật Việt Nam.',
+                '5.2. Trong quá trình thực hiện nếu phát sinh tranh chấp, hai bên sẽ chủ động giải quyết trên cơ sở thương lượng, hòa giải. Trường hợp không giải quyết được, tranh chấp sẽ được đưa ra Tòa án có thẩm quyền theo quy định pháp luật để giải quyết, trừ trường hợp pháp luật có quy định khác.'
+            ],
+            article6: [
+                '6.1. Các vấn đề chưa được quy định tại Điều kiện, điều khoản này sẽ được thực hiện theo quy định của pháp luật, hướng dẫn của cơ quan Nhà nước có thẩm quyền và/hoặc các cam kết/thỏa thuận có hiệu lực khác giữa các bên.',
+                '6.2. Khách hàng đã đọc, hiểu, nhất trí và cam kết thực hiện đúng các quy định tại Điều kiện, điều khoản sữ dụng này.',
+                '6.3. Điều kiện, điều khoản này có hiệu lực kể từ ngày Khách hàng thực hiện đăng ký và sử dụng dịch vụ ứng dụng/phần mềm của VFC.'
+            ]
+        }
     }
 };
 
