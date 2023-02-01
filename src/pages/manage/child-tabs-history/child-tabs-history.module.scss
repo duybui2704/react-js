@@ -23,6 +23,7 @@
         display: flex;
         flex-direction: column;
         height: calc(63vh + 18px);
+        overflow: hidden;
         position: relative;
         @include tablet {
             height: calc(65vh + 24px);
@@ -32,6 +33,7 @@
         display: flex;
         flex-direction: column;
         height: 72vh;
+        overflow: hidden;
         position: relative;
     }
     .top-search-component {
@@ -155,4 +157,5 @@
 
 .min-height-list {
     min-height: 20vh;
+    overflow: hidden;
 }

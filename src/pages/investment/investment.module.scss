@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     height: calc(var(--vh, 1vh) * 100 - $header-height); // margin size equal tab-bar height
+    overflow: hidden;
     .page-header {
         justify-content: center;
     }
@@ -93,7 +94,7 @@
     flex-direction: column;
     width: 100%;
     flex-grow: 1;
-    overflow: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
 }
 

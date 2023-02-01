@@ -75,6 +75,7 @@
 .container {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 .header {
@@ -91,4 +92,8 @@
 .ic_verify {
     position: absolute;
     right: 10px;
+}
+
+.tabs-web-container {
+    overflow: hidden;
 }

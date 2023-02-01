@@ -245,7 +245,7 @@ const Home = observer(() => {
                     centered
                     tabBarStyle={{ marginBottom: 0 }}
                     color={COLORS.GREEN}
-
+                    className={cx('tabs-web-container')}
                 />
             }
             <PopupBaseCenterScreen
