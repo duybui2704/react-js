@@ -30,6 +30,8 @@ const getHeader = () => {
         'Platform': 'web',
         'Device': `${osName}-${osVersion} : ${browserName}-${fullBrowserVersion}`
     };
+
+    alert(`${osName}-${osVersion} : ${browserName}-${fullBrowserVersion}`);
     
     if (SessionManager.accessToken) {
         myHeader.Authorization = SessionManager.accessToken.split('"').join('');

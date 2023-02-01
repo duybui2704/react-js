@@ -42,8 +42,8 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
 
     const refPwd = useRef<TextFieldActions>(null);
 
-    useEffect(()=>{
-        if(refNumber){
+    useEffect(() => {
+        if (refNumber) {
             refChannel?.current?.setValue(dataChannel.find(item => item.value === CHANNEL.FRIEND)?.value || '');
         }
     }, [dataChannel, refNumber]);
@@ -111,7 +111,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 {Languages.auth.signUp}
             </span>
 
-            <span className={cx('text-gray h7 y10')}>
+            <span className={cx('text-gray h7 y5 b15')}>
                 {Languages.auth.registerAccountNow}
             </span>
 
@@ -128,18 +128,6 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
             />
 
             <MyTextInput
-                ref={refPhone}
-                type={TYPE_INPUT.TEL}
-                label={Languages.auth.phone}
-                placeHolder={Languages.auth.phone}
-                important
-                containerStyle={cx('y15')}
-                rightIcon={IcPhone}
-                value={''}
-                maxLength={10}
-            />
-
-            <MyTextInput
                 ref={refEmail}
                 type={TYPE_INPUT.EMAIL}
                 label={Languages.auth.email}
@@ -149,6 +137,18 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 containerStyle={cx('y15')}
                 value={''}
                 maxLength={50}
+            />
+
+            <MyTextInput
+                ref={refPhone}
+                type={TYPE_INPUT.TEL}
+                label={Languages.auth.phone}
+                placeHolder={Languages.auth.phone}
+                important
+                containerStyle={cx('y15')}
+                rightIcon={IcPhone}
+                value={''}
+                maxLength={10}
             />
 
             <MyTextInput
@@ -202,9 +202,9 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 <Checkbox className={cx('text-gray h7')}
                     onChange={onChange}>
                     {Languages.auth.savePwd}</Checkbox>
-                <a className={cx('text-red h7', 'hover-text')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
+                {!refNumber && <a className={cx('text-red h7', 'hover-text')} onClick={() => onNavigate(Languages.auth.forgotPwd)}>
                     {Languages.auth.forgotPwd}
-                </a>
+                </a>}
             </div>
 
             <Button

@@ -182,7 +182,7 @@ export const Auth = ({ data }) => {
             case Languages.auth.changePwd:
                 return <ChangePwd onPress={onChangeSteps} />;
             case Languages.auth.socialGoogle:
-                return <SignUpGoogle onPress={onChangeSteps} data={dataGoogle} dataChannel={dataChannel} />;
+                return <SignUpGoogle onPress={onChangeSteps} data={dataGoogle} dataChannel={dataChannel} refNumber={refNumber} />;
             default:
                 return null;
         }

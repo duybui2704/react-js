@@ -24,7 +24,7 @@ import styles from './sign-up-google.module.scss';
 
 const cx = classNames.bind(styles);
 
-const SignUpGoogle = (({ onPress, dataChannel, data }) => {
+const SignUpGoogle = (({ onPress, dataChannel, data, refNumber }) => {
     const navigate = useNavigate();
     const timer = useRef<number>(180);
     const isMobile = useIsMobile();
@@ -48,6 +48,16 @@ const SignUpGoogle = (({ onPress, dataChannel, data }) => {
     useEffect(() => {
         setCheckOTP(false);
     }, []);
+
+    useEffect(() => {
+        if (refNumber) {
+            refChannel?.current?.setValue(dataChannel.find(item => item.value === CHANNEL.FRIEND)?.value || '');
+            setShowReferral(true);
+
+            formData.current.channel = refChannel?.current?.getValue() || '';
+            formData.current.code = refNumber;
+        }
+    }, [dataChannel, refNumber]);
 
     const refreshCountdown = useCallback(() => {
         setTimeout(() => {
@@ -166,7 +176,7 @@ const SignUpGoogle = (({ onPress, dataChannel, data }) => {
                 />
             </>
         );
-    }, [errMsg, onChangeOTP, onConfirmOTP, onSendToOTP, timerCount, toggle]);
+    }, [errMsg, onChangeOTP, onConfirmOTP, onSendToOTP, timerCount]);
 
     const onSendOTP = useCallback(async () => {
         if (onValidatePhone()) {
@@ -255,6 +265,8 @@ const SignUpGoogle = (({ onPress, dataChannel, data }) => {
                     isImportant
                     onClear={onClear}
                     onSelectItem={onChooseChannel}
+                    disable={!!refNumber}
+                    showArrow={!!refNumber}
                 />
                 {isShowReferral && <MyTextInput
                     ref={refCode}
@@ -264,9 +276,10 @@ const SignUpGoogle = (({ onPress, dataChannel, data }) => {
                     important
                     containerStyle={cx('y10')}
                     rightIcon={IcReferralCode}
-                    value={formData.current.code || ''}
+                    value={refNumber || formData.current.code || ''}
                     maxLength={10}
                     onChangeText={onChangeText}
+                    disabled={!!refNumber}
                 />}
                 <Button
                     label={Languages.auth.sendOTP}
@@ -280,13 +293,13 @@ const SignUpGoogle = (({ onPress, dataChannel, data }) => {
                     <span className={cx('text-gray h6 x5')}>
                         {Languages.auth.accountYet}
                     </span>
-                    <span className={cx('text-green h6', 'hover-text')} onClick={onNavigate}>
+                    <a className={cx('text-green h6', 'hover-text')} onClick={onNavigate}>
                         {Languages.auth.loginNow}
-                    </span>
+                    </a>
                 </div>
             </>
         );
-    }, [dataChannel, isShowReferral, onChangeText, onChooseChannel, onSendOTP, toggle]);
+    }, [dataChannel, isShowReferral, onChangeText, onChooseChannel, onClear, onNavigate, onSendOTP, refNumber]);
 
     const renderBody = useMemo(() => {
         return (
