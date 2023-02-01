@@ -25,6 +25,8 @@ import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
 import toasty from 'utils/toasty';
 import Languages from 'commons/languages';
 import { observer } from 'mobx-react';
+import Policy from 'pages/policy';
+import QuestionAnswer from './question-answer';
 
 const cx = classNames.bind(styles);
 
@@ -62,9 +64,11 @@ const Profile = observer(() => {
             case 5:
                 return <Commission />;
             case 6:
-                return <Conditions />;
+                return <Policy isInLink={true} />;
             case 7:
                 return <InviteFriend />;
+            case 9:
+                return <QuestionAnswer />;
             default:
                 return;
         }

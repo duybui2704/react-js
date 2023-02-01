@@ -12,16 +12,6 @@
     flex-direction: column;
 }
 
-.padding {
-    padding: 3% 10%;
-    @include tablet() {
-        padding: 3% 5%;
-    }
-    @include mobile() {
-        padding: 24px 16px;
-    }
-}
-
 .padding-in-profile {
     padding: 0;
     @include tablet() {
@@ -85,13 +75,13 @@
     }
 }
 
-.text-sub-title4 {
+.text-sub-title5 {
     color: $color-gray2;
     font-size: $text-h6;
     font-family: $font-regular;
 }
 
-.text-sub-title4-li {
+.text-sub-title5-li {
     color: $color-gray2;
     font-size: $text-h6;
     font-family: $font-regular;
@@ -101,28 +91,12 @@
     }
 }
 
-.text-sub-title4-last {
+.text-sub-title5-last {
     color: $color-gray2;
     font-size: $text-h6;
     font-family: $font-regular;
     padding-bottom: 8px;
     @include mobile() {
         padding-bottom: 8px;
-    }
-}
-
-.text-sub-title-ul {
-    color: $color-gray2;
-    font-size: $text-h6;
-    font-family: $font-regular;
-}
-
-.text-sub-title-li {
-    color: $color-gray2;
-    font-size: $text-h6;
-    font-family: $font-regular;
-    padding-bottom: 6px;
-    @include mobile() {
-        padding-bottom: 6px;
     }
 }

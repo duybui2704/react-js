@@ -488,6 +488,54 @@ const Languages = {
                 '6.3. Điều kiện, điều khoản này có hiệu lực kể từ ngày Khách hàng thực hiện đăng ký và sử dụng dịch vụ ứng dụng/phần mềm của VFC.'
             ]
         }
+    },
+    questionAnswer: {
+        titlePage: 'Hỏi đáp Nhà Đầu Tư',
+        bigHeader: [
+            '1. Chứng chỉ quỹ là gì?',
+            '2. Có nên đầu tư chứng chỉ quỹ?',
+            '3. Quỹ hoán đổi danh mục – quỹ ETF là gì?',
+            '4. Sản phẩm Đầu tư có cam kết lợi nhuận không?',
+            '5. Tiện Ngay có an toàn không?',
+            '6. Tài sản đầu tư của tôi tăng hay giảm do đâu?',
+            '7. Thời gian rút tiền đầu tư mất bao lâu?',
+            '8. Mức đầu tư tối thiểu là bao nhiêu?',
+            '9. Lãi suất bao nhiêu phần trăm?'
+        ],
+        subTitleQA: {
+            article1: [
+                'Chứng chỉ quỹ là một loại chứng khoán nhằm xác nhận quyền sở hữu một phần vốn góp trong quỹ đại chúng của Nhà đầu tư. Quỹ đại chúng được hình thành từ vốn góp của nhà đầu tư với mục đích đầu tư kiếm lợi nhuận từ thị trường chứng khoán. Nhà đầu tư khi góp vốn vào quỹ đại chúng thì phải mua chứng chỉ quỹ để xác nhận sự góp vốn của mình và quỹ chung đó.'
+            ],
+            article2: [
+                'Các quỹ ETF có thể là một phương tiện đầu tư tuyệt vời dành cho các nhà đầu tư lớn và nhỏ.'
+            ],
+            article3: [
+                'Quỹ ETF – viết tắt của cụm từ Exchange Traded Fund còn có tên gọi khác là quỹ hoán đổi danh mục. Quỹ ETF là một rổ chứng khoán hoạt động theo chỉ số đại diện cho một tài sản nhất định nào đó như vàng, hàng hóa, chứng khoán, lĩnh vực ngành hàng…'
+            ],
+            article4: [
+                'Tiện Ngay không cam kết bất kì một mức lãi suất cố định nào đối với sản phẩm Đầu Tư.'
+            ],
+            article5: {
+                title: 'Tiện Ngay là ứng dụng đáp ứng các yêu cầu bảo mật cao trong lĩnh vực công nghệ tài chính:',
+                subTitle: [
+                    'Đảm bảo các tiêu chuẩn bảo mật theo ISO 27001, PCI DSS, Zero Trust.',
+                    'Xây dựng ứng dụng theo tiêu chuẩn quốc gia TCVN ISO 31000:2018 về quản lý rủi ro.',
+                    'Tiện Ngay có đội ngũ chịu trách nhiệm An toàn thông tin riêng, liên tục cập nhật và cải tiến các tính năng bảo mật, sẵn sàng tiếp nhận và xử lý các vấn đề.'
+                ]
+            },
+            article6: [
+                'Tăng giảm tài sản của người dùng đều do tình hình thị trường và hoạt động của các Quỹ đầu tư quyết định. Tài sản của người dùng có thể tăng, giảm hoặc đứng yên tùy vào tình hình thị trường và hoạt động của các Quỹ đầu tư. Ngoài ra, trong một số trường hợp như đầu tư lần đầu hoặc chuyển cấu trúc, các Quỹ đầu tư đang trong quá trình xác nhận cũng có thể khiến tài sản của bạn tạm thời đứng yên, không tăng không giảm.'
+            ],
+            article7: [
+                'Trong vòng tối đa 3 – 5 ngày làm việc, khoản rút của người dùng sẽ về tới tài khoản ngân hàng đã đăng ký.'
+            ],
+            article8: [
+                'Tối thiểu 3.000.000 nhà đầu tư hoàn toàn có thể tận dụng các khoản tiền nhàn rỗi để sinh lời.'
+            ],
+            article9: [
+                'Với tỉ suất lợi nhuận lên tới 15%/năm và kì hạn linh hoạt, các khoản đầu tư thực hiện qua TienNgay.vn Investor sinh lời một cách dễ dàng, thời gian quay vòng vốn nhanh.'
+            ]
+        }
     }
 };
 
