@@ -48,7 +48,7 @@ const Home = observer(() => {
     const { userManager, apiServices, common } = useAppStore();
     const isMobile = useIsMobile();
     const [stepIndex, setStepIndex] = useState<number>(0);
-    // const [toggle, setToggle] = useState<boolean>(false);
+    const [toggle, setToggle] = useState<boolean>(false);
 
     const refPopupLogout = useRef<PopupBaseActions>(null);
     const refDrawer = useRef<DrawerBaseActions>(null);
@@ -82,7 +82,6 @@ const Home = observer(() => {
 
     const onChangeMenu = useCallback((index: number) => {
         setStepIndex(index);
-        // setToggle(last => !last);
     }, []);
 
     const renderIconVerify = useMemo(() => {
@@ -118,7 +117,7 @@ const Home = observer(() => {
             </div>,
             right: <div className={cx('header_right')}>
                 {/* {!sessionManager.accessToken ? <> */}
-                {!userManager.userInfo?.token ? /*tắt đăng nhập cần pass*/
+                {!sessionManager.accessToken ? /*tắt đăng nhập cần pass*/
                     <>
                         <Button
                             label={Languages.auth.login}
@@ -149,7 +148,7 @@ const Home = observer(() => {
                 }
             </div>
         };
-    }, [navigate, onLogOut, renderIconVerify, userManager]);
+    }, [navigate, onLogOut, renderIconVerify, userManager, toggle]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;
@@ -222,6 +221,7 @@ const Home = observer(() => {
         setStepIndex(0);
         userManager.updateUserInfo(undefined);
         sessionManager.logout();
+        setToggle(last => !last);
         refPopupLogout.current?.hideModal();
     }, [userManager]);
 

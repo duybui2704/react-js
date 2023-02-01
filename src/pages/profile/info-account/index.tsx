@@ -230,7 +230,7 @@ function InfoAccount() {
                     </div>
                     {renderItem(Languages.profile.userName, info?.full_name)}
                     {renderItem(Languages.profile.birthday, info?.birth_date)}
-                    {renderItem(Languages.profile.gender, info?.gender === GENDER.MALE ? dataGender[0]?.label : dataGender[1]?.label)}
+                    {renderItem(Languages.profile.gender, info?.gender === GENDER.MALE ? dataGender[0]?.label : info?.gender !== '' ? dataGender[1]?.label : undefined)}
                     {renderItem(Languages.profile.phone, info?.phone_number)}
                     {renderItem(Languages.profile.email, info?.email)}
                     {renderItem(Languages.profile.address, info?.address, true)}
