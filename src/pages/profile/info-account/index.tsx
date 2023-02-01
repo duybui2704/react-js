@@ -18,6 +18,7 @@ import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
 import { useAppStore } from 'hooks';
 import { COLOR_TRANSACTION, GENDER } from 'commons/constants';
 import { BUTTON_STYLES } from 'components/button/types';
+import toasty from 'utils/toasty';
 
 const cx = classNames.bind(styles);
 
@@ -130,12 +131,16 @@ function InfoAccount() {
         ) as any;
         if (res.success) {
             const resData = res.data as UpdateInfoModal;
-            userManager.updateUserInfo({
-                ...userManager.userInfo,
-                full_name: refName.current?.getValue(),
-                gender: gender,
-                address: refAddress.current?.getValue()
-            });
+            // userManager.updateUserInfo({
+            //     ...userManager.userInfo,
+            //     full_name: refName.current?.getValue(),
+            //     gender: gender,
+            //     address: refAddress.current?.getValue()
+            // });
+            toasty.success(resData?.message || res.message);
+            setIsEdit(false);
+            const resInfoAcc = await apiServices.auth.getUserInfo();
+            userManager.updateUserInfo({ ...resInfoAcc.data });
         }
     }, [apiServices.auth, gender, userManager]);
 

@@ -32,10 +32,11 @@ function Login({ onPress, onLoginGoogle }) {
     const refPwd = useRef<TextFieldActions>(null);
 
     useEffect(() => {
+        console.log('sessionManager', sessionManager.savePhone, sessionManager.savePwd);
+
         if (sessionManager.savePhone && sessionManager.savePwd) {
             setPhone(sessionManager.savePhone);
             setPwd(sessionManager.savePwd);
-            console.log(sessionManager.savePhone, sessionManager.savePwd);
         }
     }, []);
 
@@ -90,7 +91,7 @@ function Login({ onPress, onLoginGoogle }) {
             }
             // userManager.updateUserInfo(res.data);
         }
-    }, [apiServices.auth, navigate, onValidate, userManager]);
+    }, [apiServices.auth, checkBox, navigate, onValidate, userManager]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });

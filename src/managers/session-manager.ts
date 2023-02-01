@@ -12,8 +12,10 @@ class SessionManager {
 
     initData() {
         this.accessToken = localStorage.getItem(StorageKeys.KEY_ACCESS_TOKEN);
-        this.savePhone = localStorage.getItem(StorageKeys.KEY_SAVE_PHONE);
-        this.savePwd = localStorage.getItem(StorageKeys.KEY_SAVE_PWD);
+        const _savePhone = localStorage.getItem(StorageKeys.KEY_SAVE_PHONE);
+        this.savePhone = _savePhone && JSON.parse(_savePhone);
+        const _savePwd = localStorage.getItem(StorageKeys.KEY_SAVE_PWD);
+        this.savePwd = _savePwd && JSON.parse(_savePwd);
         const tmpUserInfo = localStorage.getItem(StorageKeys.KEY_USER_INFO);
         this.userInfo = tmpUserInfo && JSON.parse(tmpUserInfo);
     }
