@@ -5,7 +5,7 @@ import styles from './policy.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Policy() {
+const Policy = ({ isInLink }: { isInLink?: boolean }) => {
 
     const renderArticle = useCallback((label: string, arr: Array<string>) => {
         return (
@@ -29,14 +29,14 @@ function Policy() {
                         return <span key={index} className={cx('text-sub-title')}>{item}</span>;
                     } else {
                         return (
-                            <>
-                                <span key={index} className={cx('text-sub-title-ul')}>{item?.title}</span>
+                            <div key={index}>
+                                <span className={cx('text-sub-title-ul')}>{item?.title}</span>
                                 <ul>
                                     {item.subTitle.map((child: string, indexChild: number) => {
                                         return <li key={indexChild} className={cx('text-sub-title-li')}>{child}</li>;
                                     })}
                                 </ul>
-                            </>
+                            </div>
                         );
                     }
                 })}
@@ -63,7 +63,7 @@ function Policy() {
 
     return (
         <div className={cx('page')}>
-            <div className={cx('page-content', 'padding')}>
+            <div className={cx('page-content', !isInLink ? 'padding' : 'padding-in-profile')}>
                 <span className={cx('title-header')}>{Languages.policy.titlePolicy}</span>
                 <span className={cx('title-header')}>{Languages.policy.tienNgay}</span>
                 <span className={cx('describe-header')}>{Languages.policy.describePolicy}</span>
@@ -76,6 +76,6 @@ function Policy() {
             </div>
         </div>
     );
-}
+};
 
 export default Policy;
