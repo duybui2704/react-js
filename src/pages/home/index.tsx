@@ -118,7 +118,7 @@ const Home = observer(() => {
             </div>,
             right: <div className={cx('header_right')}>
                 {/* {!sessionManager.accessToken ? <> */}
-                {!sessionManager.accessToken ? /*tắt đăng nhập cần pass*/
+                {!userManager.userInfo?.token ? /*tắt đăng nhập cần pass*/
                     <>
                         <Button
                             label={Languages.auth.login}
