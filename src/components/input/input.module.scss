@@ -43,7 +43,7 @@
 
 .icon-right {
     position: absolute;
-    right: calc(5% + 40px);
+    right: 15px;
     padding-left: 10px;
     z-index: 1;
 }
@@ -93,6 +93,7 @@
     font-size: $text-h7;
     font-family: $font-regular;
     border: 1px solid $color-gray-d8;
+    position: relative;
 }
 
 .disable-input-container {
@@ -106,6 +107,7 @@
     font-family: $font-regular;
     background-color: $color-gray-e6;
     border: 1px solid $color-gray-d8;
+    position: relative;
 }
 
 .focus-input-container {
@@ -118,6 +120,7 @@
     font-size: $text-h7;
     font-family: $font-regular;
     border: 1px solid $color-green1;
+    position: relative;
 }
 
 .error-input-container {
@@ -132,6 +135,7 @@
     font-family: $font-regular;
     animation: shake 0.9s ease 1;
     border: 1px solid $color-red;
+    position: relative;
 }
 
 .text-error-picker {
