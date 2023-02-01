@@ -228,8 +228,8 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                     {
                         isIcon ? isFocus && <div className={styles.ic_error}><img src={IcSuccess} alt="ic_success" /></div> : ''
                     } */}
-
                     {renderRightIcon}
+
                 </div>
                 {errorMessage}
             </div>
