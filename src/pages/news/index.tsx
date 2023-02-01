@@ -29,7 +29,7 @@ function News() {
 
     const fetchNews = useCallback(async () => {
         const api = await apiServices.common.getNews();
-        if (api.config) {
+        if (api.success) {
             const data = api?.data as NewsModel[];
             setNews(data);
             if (data.length > 0) {
