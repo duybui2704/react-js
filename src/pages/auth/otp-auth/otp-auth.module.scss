@@ -35,10 +35,14 @@
 }
 
 .input {
-    padding: 10px 15px;
     border: 1px solid $color-gray;
     margin-right: 10px;
     border-radius: 5px;
+    width: 70% !important;
+    padding: 15px 0px;
+    @include mobile {
+        padding: 10px 0px;
+    }
 }
 
 .input:hover {
@@ -51,6 +55,10 @@
     justify-content: space-between;
     align-items: flex-start;
     margin-top: 15px;
+    div {
+        flex: 1;
+        display: flex;
+    }
 }
 
 .message-error {

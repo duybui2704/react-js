@@ -84,7 +84,7 @@ function formatObjectToKeyLabel(data: any) {
 }
 
 function convertSecondToMinutes(value: number) {
-    return `${Math.floor(value / 60)}:${value % 60 ? (`${value % 60}`.length > 1 ? value % 60 : '0' + `${value % 60}`) : '00'}`;
+    return `${Math.floor(value / 60)}:${value % 60 ? `0${value % 60}`.slice(-2) : '00'}`;
 }
 
 function formatObjectFilterInvest(data: any) {
