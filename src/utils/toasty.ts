@@ -11,7 +11,8 @@ const getToastOptions = () => {
         pauseOnHover: false,
         draggable: false,
         progress: undefined,
-        closeButton: true
+        closeButton: true,
+        className: 'h6 text-white-style'
     };
 
     if (window.innerWidth < LIMIT_MOBILE_WIDTH || sessionManager.isMobile) {

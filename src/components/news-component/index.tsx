@@ -26,8 +26,8 @@ export const NewsComponent = ({ dataLink, styleContainer, styleContent, styleImg
                     <a key={index} rel={item.link} type="text/css" className={styleRow}
                         onClick={() => onClick(item)}>
                         <Row gutter={[0, 8]} className={styleRow || cx('row y15')} >
-                            <Col xs={24} md={24} lg={12} xl={12} className={cx('center')}>
-                                <img src={item.image} className={styleImg || cx('img', 'center')} />
+                            <Col xs={24} md={24} lg={12} xl={12} className={cx('center', 'img')}>
+                                <LazyImage src={item.image} className={styleImg || cx('img', 'center')} />
                             </Col>
                             <Col xs={24} md={24} lg={12} xl={12} className={cx('column')}>
                                 <span className={cx(`${styleContent || 'xl10h7 text-black1 text-preview'}`)}>{item.title_vi}</span>

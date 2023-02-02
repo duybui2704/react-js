@@ -29,7 +29,7 @@ export const NewsExtraComponent = ({ dataLink, isMobile, onClick }: linkProps) =
                 return (
                     <a className={styleRow} key={index}
                         onClick={() => onClick(item)}>
-                        <div className={cx('center')}>
+                        <div className={cx('news-horizontal-img', 'center')}>
                             <LazyImage src={item.image} className={styleImg} />
                         </div>
                         <div className={cx('column y10 x10')}>
