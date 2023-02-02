@@ -49,9 +49,7 @@ export const Auth = ({ data }) => {
 
     useEffect(() => {
         const _location = location.state;
-        console.log('data ==== ', _location);
-
-        switch (_location?.name) {
+        switch (data || _location?.name) {
             case AUTH_STATE.REGISTER:
                 setSteps({ name: Languages.auth.signUp });
                 break;
