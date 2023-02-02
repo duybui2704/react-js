@@ -33,6 +33,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
     const [isLoading, setLoading] = useState<boolean>(false);
     const { apiServices } = useAppStore();
     const [checkBox, setCheckBox] = useState<boolean>(false);
+    const [isShowReferral, setShowReferral] = useState<boolean>(false);
     const refPhone = useRef<TextFieldActions>(null);
     const refName = useRef<TextFieldActions>(null);
     const refEmail = useRef<TextFieldActions>(null);
@@ -45,6 +46,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
     useEffect(() => {
         if (refNumber) {
             refChannel?.current?.setValue(dataChannel.find(item => item.value === CHANNEL.FRIEND)?.value || '');
+            setShowReferral(true);
         }
     }, [dataChannel, refNumber]);
 
@@ -66,7 +68,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
         const errMsgPwd = formValidate.passValidate(pwd);
         const errMsgEmail = formValidate.emailValidate(email);
         const errMsgConfirm = formValidate.passConFirmValidate(pwd, pwdConfirm);
-        const errMsgPresenter = formValidate.passConFirmPhoneNotEmpty(presenter);
+        const errMsgPresenter = isShowReferral ? formValidate.passConFirmPhone(presenter) : '';
         const errMsgChannel = formValidate.emptyValidate(channel || '');
 
         refPhone.current?.setErrorMsg(errMsgPhone);
@@ -81,7 +83,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
             return true;
         }
         return false;
-    }, []);
+    }, [isShowReferral]);
 
     const onSignUp = useCallback(async () => {
         if (onValidate()) {
@@ -104,6 +106,18 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
     }, [onPress]);
+
+    const onChooseChannel = useCallback((_channel: string) => {
+        if (_channel === CHANNEL.FRIEND) {
+            setShowReferral(true);
+        } else {
+            setShowReferral(false);
+        }
+    }, []);
+
+    const onClear = useCallback(() => {
+        setShowReferral(false);
+    }, []);
 
     const renderRightContent = useMemo(() => {
         return <div className={isMobile ? cx('right-container-mobile') : cx('right-container', 'scroll')}>
@@ -184,9 +198,11 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 showSearch={false}
                 disable={!!refNumber}
                 showArrow={!!refNumber}
+                onClear={onClear}
+                onSelectItem={onChooseChannel}
             />
 
-            <MyTextInput
+            {isShowReferral && <MyTextInput
                 ref={refPresenter}
                 type={TYPE_INPUT.TEL}
                 label={Languages.auth.presenter}
@@ -196,7 +212,8 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 value={refNumber}
                 maxLength={10}
                 disabled={!!refNumber}
-            />
+                important
+            />}
 
             <div className={cx('row-center y20')}>
                 <Checkbox className={cx('text-gray h7')}
@@ -245,7 +262,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 </a>
             </div>}
         </div>;
-    }, [isMobile, dataChannel, refNumber, onSignUp, isLoading, onLoginGoogle, onNavigate]);
+    }, [isMobile, dataChannel, refNumber, onClear, onChooseChannel, isShowReferral, onSignUp, isLoading, onLoginGoogle, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>
