@@ -19,6 +19,7 @@ import { useAppStore } from 'hooks';
 import { COLOR_TRANSACTION, GENDER } from 'commons/constants';
 import { BUTTON_STYLES } from 'components/button/types';
 import toasty from 'utils/toasty';
+import moment from 'moment';
 
 const cx = classNames.bind(styles);
 
@@ -68,7 +69,7 @@ function InfoAccount() {
         );
     }, []);
 
-    const renderInput = useCallback((_ref: any, value: string, type: string, label?: string, maxLength?: number, disabled?: boolean, key?: string) => {
+    const renderInput = useCallback((_ref: any, value: string, type: string, label?: string, maxLength?: number, disabled?: boolean, key?: string, max?: string) => {
 
         const onChange = () => {
             setInfo(
@@ -93,6 +94,7 @@ function InfoAccount() {
                 onChangeText={onChange}
                 maxLength={maxLength}
                 placeHolder={label}
+                max={max}
             />
         );
     }, []);
@@ -157,7 +159,7 @@ function InfoAccount() {
             <div className={cx('container-edit', 'shadow')}>
                 <span className={cx('text-black h5 medium')}>{Languages.profile.editAccount}</span>
                 {renderInput(refName, info?.full_name || '', 'text', Languages.profile.userName, 50, false, 'username')}
-                {renderInput(refBirth, info?.birth_date || '', 'date', Languages.profile.birthday, 50, false, 'birth_date')}
+                {renderInput(refBirth, info?.birth_date || '', 'date', Languages.profile.birthday, 50, false, 'birth_date', moment().format('YYYY-MM-DD'))}
                 {renderRadioGroup(dataGender)}
                 {renderInput(refEmail, info?.email || '', 'email', Languages.profile.email, 50, false, 'email')}
                 {renderInput(refAddress, info?.address || '', 'text', Languages.profile.address, 50, false, 'address')}

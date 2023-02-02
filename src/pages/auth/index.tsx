@@ -48,7 +48,10 @@ export const Auth = ({ data }) => {
     const [dataChannel, setDataChannel] = useState<ItemProps[]>([]);
 
     useEffect(() => {
-        switch (data) {
+        const _location = location.state;
+        console.log('data ==== ', _location);
+
+        switch (_location?.name) {
             case AUTH_STATE.REGISTER:
                 setSteps({ name: Languages.auth.signUp });
                 break;

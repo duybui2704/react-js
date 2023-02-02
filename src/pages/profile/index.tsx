@@ -8,7 +8,7 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 import { toJS } from 'mobx';
 import { ItemScreenModel } from 'models/profile';
 import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
-import { profile } from 'pages/__mocks__/profile';
+import { profile } from 'assets/static-data/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AccountLink from './account-link';
@@ -27,6 +27,7 @@ import Languages from 'commons/languages';
 import { observer } from 'mobx-react';
 import Policy from 'pages/policy';
 import QuestionAnswer from './question-answer';
+import UserManual from './user-manual';
 
 const cx = classNames.bind(styles);
 
@@ -67,6 +68,8 @@ const Profile = observer(() => {
                 return <Policy isInLink={true} />;
             case 7:
                 return <InviteFriend />;
+            case 8:
+                return <UserManual />;
             case 9:
                 return <QuestionAnswer />;
             default:

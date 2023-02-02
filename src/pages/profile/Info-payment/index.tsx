@@ -4,7 +4,7 @@ import IcSave from 'assets/image/ic_save.svg';
 
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { InfoBank } from 'pages/__mocks__/profile';
+import { InfoBank } from 'assets/static-data/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './info-payment.module.scss';
 

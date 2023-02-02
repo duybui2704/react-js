@@ -1,0 +1,18 @@
+@import "assets/scss";
+.page {
+    display: flex;
+}
+
+.padding {
+    padding: 2% 10%;
+    @include mobile() {
+        padding: 10px 5px;
+    }
+}
+
+.view-txt-bold {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
