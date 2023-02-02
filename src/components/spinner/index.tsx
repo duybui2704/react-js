@@ -3,13 +3,14 @@ import { Spin } from 'antd';
 import React from 'react';
 import { COLORS } from 'theme/colors';
 
-export default function Spinner({ color = COLORS.GREEN }:
+export default function Spinner({ color = COLORS.GREEN, className }:
     {
         color?: string,
+        className?: string,
     }
 ) {
 
-    const antIcon = <LoadingOutlined style={{ fontSize: 26, color }} spin />;
+    const antIcon = <LoadingOutlined style={{ fontSize: 25, color }} spin />;
 
-    return <Spin indicator={antIcon} />;
+    return <Spin indicator={antIcon} className={className}/>;
 }

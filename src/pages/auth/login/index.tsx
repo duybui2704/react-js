@@ -17,7 +17,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import formValidate from 'utils/form-validate';
-import toasty from 'utils/toasty';
 import styles from './login.module.scss';
 const cx = classNames.bind(styles);
 
@@ -62,38 +61,36 @@ function Login({ onPress, onLoginGoogle }) {
     }, []);
 
     const onLogin = useCallback(async () => {
-        toasty.error(Languages.auth.accountYet);
-        // if (onValidate()) {
-        //     setLoading(true);
-        //     const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue()) as any;
-        //     setLoading(false);
+        if (onValidate()) {
+            setLoading(true);
+            const res = await apiServices.auth.loginPhone(refPhone.current?.getValue(), refPwd.current?.getValue()) as any;
+            setLoading(false);
 
-        //     if (res?.success) {
-        //         const resData = res.data as UserInfoModel;
-        //         sessionManager.setAccessToken(resData?.token);
-        //         const resInfoAcc = await apiServices.auth.getUserInfo();
-        //         if (resInfoAcc.data) {
-        //             if (!checkBox) {
-        //                 sessionManager.setSavePhoneLogin();
-        //                 sessionManager.setSavePassLogin();
-        //             } else {
-        //                 sessionManager.setSavePhoneLogin(refPhone.current?.getValue());
-        //                 sessionManager.setSavePassLogin(refPwd.current?.getValue());
-        //             }
-        //             const data = resInfoAcc?.data as UserInfoModel;
-        //             data.token = resData?.token;
-        //             userManager.updateUserInfo({
-        //                 ...data
-        //             });
-        //         }
-        //         console.log('resInfoAcc ===', toJS(userManager.userInfo));
-        //         setTimeout(() => {
-        //             navigate(Paths.home);
-        //         }, 200);
-        //     }
-        //     // userManager.updateUserInfo(res.data);
-        // }
-    }, [apiServices.auth, checkBox, navigate, onValidate, userManager]);
+            if (res?.success) {
+                const resData = res.data as UserInfoModel;
+                sessionManager.setAccessToken(resData?.token);
+                const resInfoAcc = await apiServices.auth.getUserInfo();
+                if (resInfoAcc.data) {
+                    if (!checkBox) {
+                        sessionManager.setSavePhoneLogin();
+                        sessionManager.setSavePassLogin();
+                    } else {
+                        sessionManager.setSavePhoneLogin(refPhone.current?.getValue());
+                        sessionManager.setSavePassLogin(refPwd.current?.getValue());
+                    }
+                    const data = resInfoAcc?.data as UserInfoModel;
+                    data.token = resData?.token;
+                    userManager.updateUserInfo({
+                        ...data
+                    });
+                }
+                console.log('resInfoAcc ===', toJS(userManager.userInfo));
+                setTimeout(() => {
+                    navigate(Paths.home);
+                }, 200);
+            }
+        }
+    }, [apiServices.auth, checkBox, navigate, onValidate, userManager, isLoading]);
 
     const onNavigate = useCallback((title: string) => {
         onPress?.({ name: title });
@@ -145,6 +142,7 @@ function Login({ onPress, onLoginGoogle }) {
                 label={Languages.auth.login}
                 buttonStyle={BUTTON_STYLES.GREEN}
                 isLowerCase
+                isLoading={isLoading}
                 onPress={onLogin}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}

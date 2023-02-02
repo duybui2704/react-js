@@ -100,3 +100,11 @@
     max-height: 20px;
     margin-left: 10px;
 }
+
+.spinner {
+    position: absolute;
+    left: 35%;
+    @include mobile(){
+        left: 30%;
+    }
+}

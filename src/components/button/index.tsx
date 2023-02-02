@@ -1,5 +1,7 @@
 import classNames from 'classnames/bind';
+import Spinner from 'components/spinner';
 import React, { useCallback, useMemo } from 'react';
+import { COLORS } from 'theme/colors';
 import styles from './button.module.scss';
 import { ButtonProps, BUTTON_STYLES } from './types';
 
@@ -77,13 +79,14 @@ export const Button = ({
         return `${style}`;
     }, [buttonStyle]);
 
-    return (    
+    return (
         <button
             disabled={isLoading || disabled}
             className={cx(`${containerStyle} ${containButtonStyles ? containButtonStyles : ''}`)}
             style={{ ...customStyles, width: width + '%' }}
             onClick={_onPress}
         >
+            {isLoading && <Spinner color={COLORS.WHITE} className={cx('spinner')}/>}
             {leftIcon}
             {
                 label && <span className={labelStyles ? labelStyles : cx(`${mergerLabelStyle}`)}>
