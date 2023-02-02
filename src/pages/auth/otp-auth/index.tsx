@@ -2,7 +2,6 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
-import { Loading } from 'components/loading';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import sessionManager from 'managers/session-manager';
@@ -72,7 +71,9 @@ function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox, onSuccess }:
     const onConfirm = useCallback(async () => {
         if (onValidate()) {
             if (title === Languages.auth.changePwd) {
+                setIsLoading(true);
                 const res = await apiServices.auth.validateToken(value, phoneNumber) as any;
+                setIsLoading(false);
                 if (res.success) {
                     onPress?.({ name: Languages.auth.login });
                 }
@@ -180,10 +181,10 @@ function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox, onSuccess }:
                 onPress={onConfirm}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
+                isLoading={isLoading}
             />
-            {isLoading && <Loading />}
         </div>;
-    }, [errMsg, isLoading, isMobile, onChangeOTP, onConfirm, sendToOTP, timerCount, value]);
+    }, [errMsg, isLoading, isMobile, onChangeOTP, onConfirm, phoneNumber, sendToOTP, timerCount, title, value]);
 
     const renderView = useMemo(() => {
         return <>

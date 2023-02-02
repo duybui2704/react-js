@@ -214,6 +214,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 onPress={onSignUp}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
+                isLoading={isLoading}
             />
 
             <div className={cx('row-center y20')}>
@@ -244,7 +245,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 </a>
             </div>}
         </div>;
-    }, [isMobile, dataChannel, refNumber, onSignUp, onLoginGoogle, onNavigate]);
+    }, [isMobile, dataChannel, refNumber, onSignUp, isLoading, onLoginGoogle, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>

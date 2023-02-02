@@ -20,6 +20,7 @@ import { COLOR_TRANSACTION, GENDER } from 'commons/constants';
 import { BUTTON_STYLES } from 'components/button/types';
 import toasty from 'utils/toasty';
 import moment from 'moment';
+import formValidate from 'utils/form-validate';
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +47,7 @@ function InfoAccount() {
     const navigate = useNavigate();
     const { userManager, apiServices } = useAppStore();
     const [info, setInfo] = useState<UserInfoModel>({});
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isEdit, setIsEdit] = useState<boolean>(false);
     const [gender, setGender] = useState<string>('male');
     const refName = useRef<TextFieldActions>(null);
@@ -124,27 +126,38 @@ function InfoAccount() {
         );
     }, [gender]);
 
+    const onValidate = useCallback(() => {
+        const errMsgName = formValidate.userNameValidate(refName.current?.getValue());
+        refName.current?.setErrorMsg(errMsgName);
+        if (`${errMsgName}`.length === 0) return true;
+        return false;
+    }, []);
+
     const onSave = useCallback(async () => {
-        const res = await apiServices.auth.updateUserInf(
-            undefined,
-            refName.current?.getValue(),
-            gender,
-            refAddress.current?.getValue()
-        ) as any;
-        if (res.success) {
-            const resData = res.data as UpdateInfoModal;
-            // userManager.updateUserInfo({
-            //     ...userManager.userInfo,
-            //     full_name: refName.current?.getValue(),
-            //     gender: gender,
-            //     address: refAddress.current?.getValue()
-            // });
-            toasty.success(resData?.message || res.message);
-            setIsEdit(false);
-            const resInfoAcc = await apiServices.auth.getUserInfo();
-            userManager.updateUserInfo({ ...resInfoAcc.data });
+        if (onValidate()) {
+            setIsLoading(true);
+            const res = await apiServices.auth.updateUserInf(
+                undefined,
+                refName.current?.getValue(),
+                gender,
+                refAddress.current?.getValue()
+            ) as any;
+            setIsLoading(false);
+            if (res.success) {
+                const resData = res.data as UpdateInfoModal;
+                // userManager.updateUserInfo({
+                //     ...userManager.userInfo,
+                //     full_name: refName.current?.getValue(),
+                //     gender: gender,
+                //     address: refAddress.current?.getValue()
+                // });
+                toasty.success(resData?.message || res.message);
+                setIsEdit(false);
+                const resInfoAcc = await apiServices.auth.getUserInfo();
+                userManager.updateUserInfo({ ...resInfoAcc.data });
+            }
         }
-    }, [apiServices.auth, gender, userManager]);
+    }, [apiServices.auth, gender, onValidate, userManager]);
 
     const oncancel = useCallback(() => {
         setIsEdit(last => !last);
@@ -167,6 +180,7 @@ function InfoAccount() {
                 <div className={cx('wid-100', 'row y20')}>
                     <Button
                         label={Languages.common.save}
+                        isLoading={isLoading}
                         rightIcon={IcSave}
                         containButtonStyles={cx('btn-container', 'padding')}
                         buttonStyle={BUTTON_STYLES.GREEN}

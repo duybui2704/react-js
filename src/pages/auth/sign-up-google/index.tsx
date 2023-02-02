@@ -30,6 +30,7 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
     const [checkOTP, setCheckOTP] = useState<boolean>(false);
     const [isShowReferral, setShowReferral] = useState<boolean>(false);
     const [toggle, setToggle] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const formData = useRef({
         phone: '',
         channel: '',
@@ -105,7 +106,9 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
 
     const onConfirmOTP = useCallback(async () => {
         if (onValidate()) {
+            setIsLoading(true);
             const resActive = await apiServices?.auth?.activePhone(`${data?.id}` || '', formData.current.otp, data?.checksum || '') as any;
+            setIsLoading(false);
             if (resActive.success) {
                 const resData = resActive.data as LoginWithThirdPartyModel;
                 sessionManager.setAccessToken(resData?.token);
@@ -168,12 +171,13 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
                     buttonStyle={BUTTON_STYLES.GREEN}
                     isLowerCase
                     onPress={onConfirmOTP}
+                    isLoading={isLoading}
                     containButtonStyles={'y20'}
                     customStyles={{ padding: 10 }}
                 />
             </>
         );
-    }, [errMsg, onChangeOTP, onConfirmOTP, onSendToOTP, timerCount]);
+    }, [errMsg, onChangeOTP, onConfirmOTP, onSendToOTP, timerCount, toggle, isLoading]);
 
     const onSendOTP = useCallback(async () => {
         if (onValidatePhone()) {
@@ -296,7 +300,7 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
                 </div>
             </>
         );
-    }, [dataChannel, isShowReferral, onChangeText, onChooseChannel, onClear, onNavigate, onSendOTP, refNumber]);
+    }, [dataChannel, isShowReferral, onChangeText, onChooseChannel, onClear, onNavigate, onSendOTP, refNumber, toggle]);
 
     const renderBody = useMemo(() => {
         return (

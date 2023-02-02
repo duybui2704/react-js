@@ -4,7 +4,6 @@ import IcSave from 'assets/image/ic_save.svg';
 
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { InfoBank } from 'assets/static-data/profile';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './info-payment.module.scss';
 
@@ -101,8 +100,8 @@ function InfoPayment() {
 
     const onSave = useCallback(async () => {
         console.log('info ==', info);
-        setIsLoading(true);
         if (onValidate()) {
+            setIsLoading(true);
             const res = await apiServices.paymentMethod.requestChoosePaymentReceiveInterest(
                 'bank',
                 info.name_bank,
@@ -110,9 +109,9 @@ function InfoPayment() {
                 info.account_name,
                 1
             ) as any;
+            setIsLoading(false);
             if (res.success) {
                 toast.success(Languages.msgNotify.successAccountLinkBank);
-                setIsLoading(false);
                 const resUser = await apiServices.auth.getUserInfo() as any;
                 if (resUser.success) {
                     const user = resUser.data as UserInfoModel;
@@ -123,7 +122,6 @@ function InfoPayment() {
                 }
             }
         }
-        setIsLoading(false);
     }, [apiServices.auth, apiServices.paymentMethod, info, onValidate, userManager]);
 
     const oncancel = useCallback(() => {
@@ -206,6 +204,7 @@ function InfoPayment() {
                         rightIcon={IcSave}
                         containButtonStyles={cx('btn-container', 'padding')}
                         isLowerCase
+                        isLoading={isLoading}
                         onPress={onSave}
                     />
                     <Button
@@ -219,7 +218,7 @@ function InfoPayment() {
                 </div>
             </div>
         );
-    }, [dataBanks, onChooseBank, onSave, oncancel, renderInput, userManager]);
+    }, [dataBanks, isLoading, onChooseBank, onSave, oncancel, renderInput, userManager.userInfo]);
 
     return (
         <div className={cx('colum content')}>
