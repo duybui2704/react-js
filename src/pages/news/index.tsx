@@ -28,7 +28,7 @@ function News() {
     }, []);
 
     const fetchNews = useCallback(async () => {
-        const api = await apiServices.common.getNews();
+        const api = await apiServices.common.getNews() as any;
         if (api.success) {
             const data = api?.data as NewsModel[];
             setNews(data);

@@ -60,7 +60,7 @@ export const Auth = ({ data }) => {
     }, [data, location]);
 
     const fetchData = useCallback(async () => {
-        const res = await apiServices.auth.getChanelSource(3);
+        const res = await apiServices.auth.getChanelSource(3) as any;
         if (res.success) {
             const _dataChanel = utils.formatObjectFilterInvest(res.data as ChannelModel[]);
             const temp = [] as ItemProps[];

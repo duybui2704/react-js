@@ -214,6 +214,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 onPress={onSignUp}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
+                isLoading={isLoading}
             />
 
             <div className={cx('row-center y20')}>

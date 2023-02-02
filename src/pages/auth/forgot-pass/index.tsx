@@ -22,10 +22,6 @@ function ForgotPass({ onPress }) {
     const { apiServices } = useAppStore();
     const refPhone = useRef<TextFieldActions>(null);
 
-    const onChange = (e: CheckboxChangeEvent) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
-
     const onValidate = useCallback(() => {
         const phone = refPhone.current?.getValue();
 
@@ -60,7 +56,6 @@ function ForgotPass({ onPress }) {
                 {Languages.auth.getBackPass}
             </span>
 
-
             <span className={cx('text-gray h7 y10')}>
                 {Languages.auth.forgotNow}
             </span>
@@ -84,6 +79,7 @@ function ForgotPass({ onPress }) {
                 onPress={onForgotPwd}
                 containButtonStyles={'y20'}
                 customStyles={{ padding: 10 }}
+                isLoading={isLoading}
             />
 
             <div className={cx('row y20')}>
@@ -95,14 +91,13 @@ function ForgotPass({ onPress }) {
                 </a>
             </div>
         </div>;
-    }, [isMobile, onForgotPwd, onNavigate]);
+    }, [isLoading, isMobile, onForgotPwd, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>
             {renderRightContent}
-            {isLoading && <Loading />}
         </>;
-    }, [isLoading, renderRightContent]);
+    }, [renderRightContent]);
 
     return renderView;
 }

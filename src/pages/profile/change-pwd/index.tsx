@@ -3,7 +3,7 @@ import IcSave from 'assets/image/ic_save.svg';
 
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './change-pwd.module.scss';
 
@@ -23,6 +23,7 @@ const InfoChangePwd = observer(() => {
     const navigate = useNavigate();
     const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const refPassCurrent = useRef<TextFieldActions>(null);
     const refPassNew = useRef<TextFieldActions>(null);
@@ -72,7 +73,9 @@ const InfoChangePwd = observer(() => {
 
     const onSave = useCallback(async () => {
         if (onChangeValidation()) {
+            setIsLoading(true);
             const res = await apiServices.auth.changePwd(refPassCurrent.current?.getValue(), refPassNewConfirm.current?.getValue()) as any;
+            setIsLoading(false);
             if (res.success) {
                 toasty.success(Languages.profile.successChangePassNotify);
                 oncancel();
@@ -95,6 +98,7 @@ const InfoChangePwd = observer(() => {
                         containButtonStyles={cx('btn-container')}
                         isLowerCase
                         onPress={onSave}
+                        isLoading={isLoading}
                     />
                     <Button
                         label={Languages.common.cancel}
