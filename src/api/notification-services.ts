@@ -31,4 +31,8 @@ export class NotificationServices extends BaseService {
             API_CONFIG.GET_UNREAD_COUNT_NOTIFICATION,
             this.buildFormData({})
         );
+
+    getNotify = async (limit: number, offset: number, option: number) => this.api().post(API_CONFIG.NOTIFICATION, this.buildFormData({ limit, offset, option }));
+
+    getNotifyUpdateRead = async (noti_id: number) => this.api().post(API_CONFIG.NOTIFY_UPDATE_READ, this.buildFormData({ noti_id }));
 }

@@ -56,6 +56,7 @@ export enum TAB_INDEX {
     MANAGEMENT = 2,
     NEWS = 3,
     PROFILE = 4,
+    NOTIFICATION = 5
 }
 
 export enum TYPE_TOAST {

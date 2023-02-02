@@ -537,6 +537,10 @@ const Languages = {
                 'Với tỉ suất lợi nhuận lên tới 15%/năm và kì hạn linh hoạt, các khoản đầu tư thực hiện qua TienNgay.vn Investor sinh lời một cách dễ dàng, thời gian quay vòng vốn nhanh.'
             ]
         }
+    },
+    notification: {
+        titleHeader: 'Thông báo',
+        newNotify: ' thông báo mới'
     }
 };
 

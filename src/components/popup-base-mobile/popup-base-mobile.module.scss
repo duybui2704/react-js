@@ -7,6 +7,7 @@
     width: 100%;
     background-color: $color-white;
     border-radius: 8px;
+    padding-bottom: 16px;
     .header-container {
         width: 100%;
         background-color: $color-gray10;
@@ -15,6 +16,7 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 24px;
+        border-radius: 8px;
         .title-header-text {
             font-size: $text-h6;
             font-family: $font-medium;
@@ -68,4 +70,14 @@
         display: flex;
         justify-content: center;
     }
+    .custom-container {
+        padding: 0 16px;
+    }
+}
+
+.label-button-style {
+    padding: 4px;
+    font-size: $text-h7;
+    font-family: $font-medium;
+    color: $color-gray2;
 }

@@ -103,13 +103,10 @@ const PopupBaseCenterScreen = forwardRef<PopupBaseActions, PopupBaseProps>(
         return (
             <Modal
                 open={visible}
-                // onCancel={onBackDrop}
-                closable={false}
                 footer={null}
-            >
-                {renderCustomModal()}
-            </Modal>
-
+                modalRender={renderCustomModal}
+                style={{ pointerEvents: 'auto' }}
+            />
         );
     }
 );

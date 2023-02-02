@@ -20,7 +20,7 @@ const PopupBaseMobile = forwardRef<PopupBaseActions, PopupBaseProps>(
         labelCancel, hasTwoButton, hasOneButton,
         textDescribeStyle, buttonContainerStyle,
         textTitleStyle, iconLeft, iconRight,
-        customerContent, hasCloseIc, titleHeader, iconHeader, buttonLeftStyle,buttonRightStyle
+        customerContent, hasCloseIc, titleHeader, iconHeader, buttonLeftStyle, buttonRightStyle
     }: PopupBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
 
@@ -66,37 +66,39 @@ const PopupBaseMobile = forwardRef<PopupBaseActions, PopupBaseProps>(
 
                     {description && <span className={textDescribeStyle ? textDescribeStyle : cx('text-describe')}>{description}</span>}
 
-                    {customerContent}
+                    <div className={cx('custom-container')}>
+                        {customerContent}
+                        {hasTwoButton && <div className={cx(buttonContainerStyle ? buttonContainerStyle : 'two-button-container')}>
+                            <Button
+                                label={labelCancel}
+                                isLowerCase
+                                onPress={onLeft}
+                                rightIcon={iconLeft}
+                                width={49}
+                                buttonStyle={buttonLeftStyle || BUTTON_STYLES.OUTLINE_GREEN}
+                                labelStyles={cx('label-button-style')}
+                            />
+                            <Button
+                                label={labelSuccess}
+                                isLowerCase
+                                onPress={onRight}
+                                rightIcon={iconRight}
+                                width={49}
+                                buttonStyle={buttonRightStyle || BUTTON_STYLES.GREEN}
+                            />
+                        </div>}
 
-                    {hasTwoButton && <div className={cx(buttonContainerStyle ? buttonContainerStyle : 'two-button-container')}>
-                        <Button
-                            label={labelCancel}
-                            isLowerCase
-                            onPress={onLeft}
-                            rightIcon={iconLeft}
-                            width={49}
-                            buttonStyle={buttonLeftStyle || BUTTON_STYLES.OUTLINE_GREEN}
-                        />
-                        <Button
-                            label={labelSuccess}
-                            isLowerCase
-                            onPress={onRight}
-                            rightIcon={iconRight}
-                            width={49}
-                            buttonStyle={buttonRightStyle || BUTTON_STYLES.GREEN}
-                        />
-                    </div>}
-
-                    {hasOneButton && <div className={buttonContainerStyle ? buttonContainerStyle : cx('one-button-container')} >
-                        <Button
-                            label={labelSuccess}
-                            isLowerCase
-                            onPress={onRight}
-                            rightIcon={iconRight}
-                            width={45}
-                            buttonStyle={buttonRightStyle || BUTTON_STYLES.GREEN}
-                        />
-                    </div>}
+                        {hasOneButton && <div className={buttonContainerStyle ? buttonContainerStyle : cx('one-button-container')} >
+                            <Button
+                                label={labelSuccess}
+                                isLowerCase
+                                onPress={onRight}
+                                rightIcon={iconRight}
+                                width={45}
+                                buttonStyle={buttonRightStyle || BUTTON_STYLES.GREEN}
+                            />
+                        </div>}
+                    </div>
                 </div>
             );
         }, [iconHeader, titleHeader, hasCloseIc, onBackDrop, icon, title, textTitleStyle, description, textDescribeStyle, customerContent, hasTwoButton, buttonContainerStyle, labelSuccess, onLeft, iconLeft, buttonLeftStyle, labelCancel, onRight, iconRight, buttonRightStyle, hasOneButton]);
@@ -104,12 +106,10 @@ const PopupBaseMobile = forwardRef<PopupBaseActions, PopupBaseProps>(
         return (
             <Modal
                 open={visible}
-                closable={false}
                 footer={null}
-            >
-                {renderCustomModal()}
-            </Modal>
-
+                modalRender={renderCustomModal}
+                style={{ pointerEvents: 'auto' }}
+            />
         );
     }
 );
