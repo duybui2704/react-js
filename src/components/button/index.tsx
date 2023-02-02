@@ -79,6 +79,24 @@ export const Button = ({
         return `${style}`;
     }, [buttonStyle]);
 
+
+    const spinnerColor = useMemo<string>(() => {
+        let color: string;
+
+        switch (buttonStyle) {
+            case BUTTON_STYLES.OUTLINE_GREEN:
+            case BUTTON_STYLES.OUTLINE_RED:
+            case BUTTON_STYLES.OUTLINE_BLUE:
+                color = COLORS.GREEN;
+                break;
+            default:
+                color = COLORS.WHITE;
+                break;
+        }
+
+        return color;
+    }, [buttonStyle]);
+
     return (
         <button
             disabled={isLoading || disabled}
@@ -86,7 +104,7 @@ export const Button = ({
             style={{ ...customStyles, width: width + '%' }}
             onClick={_onPress}
         >
-            {isLoading && <Spinner color={COLORS.WHITE} className={cx('spinner')}/>}
+            {isLoading && <Spinner color={spinnerColor} className={cx('spinner')}/>}
             {leftIcon}
             {
                 label && <span className={labelStyles ? labelStyles : cx(`${mergerLabelStyle}`)}>

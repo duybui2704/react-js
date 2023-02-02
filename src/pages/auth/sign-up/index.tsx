@@ -245,7 +245,7 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 </a>
             </div>
         </div>;
-    }, [isMobile, dataChannel, refNumber, onSignUp, onLoginGoogle, onNavigate]);
+    }, [isMobile, dataChannel, refNumber, onSignUp, isLoading, onLoginGoogle, onNavigate]);
 
     const renderView = useMemo(() => {
         return <>
