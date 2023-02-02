@@ -299,7 +299,8 @@ const Languages = {
         empty: 'Trống',
         successEditAvatar: 'Cập nhật ảnh đại diện thành công!',
         changePass: 'Đổi mật khẩu',
-        successChangePassNotify: 'Xác nhận đổi mật khẩu thành công!'
+        successChangePassNotify: 'Xác nhận đổi mật khẩu thành công!',
+        userManual: 'Hướng dẫn sử dụng'
     },
     news: {
         investTienngay: 'Đầu tư Tiện ngay vàng về liền tay',

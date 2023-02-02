@@ -114,6 +114,10 @@ $desktop-width: 1024px;
 }
 
 //----------------TEXT----------------
+.font-style-italic {
+    font-style: italic
+}
+
 .text-white {
     font-family: $font-regular;
     color: $color-white;

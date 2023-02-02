@@ -4,3 +4,10 @@ export interface ItemScreenModel {
     icon?: string;
     is_login?: boolean
 }
+
+export interface ItemDocument {
+    id: string;
+    content: string;
+    label?: string;
+    style: number;
+}

@@ -29,7 +29,7 @@ import MenuMobile from 'components/menu-mobile';
 import sessionManager from 'managers/session-manager';
 import { useAppStore } from 'hooks';
 import { EventEmitter } from 'utils/event-emitter';
-import { COLOR_TRANSACTION, Events, TAB_INDEX } from 'commons/constants';
+import { AUTH_STATE, COLOR_TRANSACTION, Events, TAB_INDEX } from 'commons/constants';
 import { observer } from 'mobx-react';
 import PopupBaseCenterScreen from 'components/popup-base-center-screen';
 import { PopupBaseActions } from 'components/modal/modal';
@@ -100,11 +100,11 @@ const Home = observer(() => {
     const OperationsSlot: Record<PositionType, React.ReactNode> = useMemo(() => {
 
         const navigateToLogin = () => {
-            navigate(Paths.auth, { state: { name: Languages.auth.login } });
+            navigate(Paths.auth, { state: { name: AUTH_STATE.LOGIN } });
         };
 
         const navigateToRegister = () => {
-            navigate(Paths.auth, { state: { name: Languages.auth.register } });
+            navigate(Paths.auth, { state: { name: AUTH_STATE.REGISTER } });
         };
 
         const navigateToProfile = () => {

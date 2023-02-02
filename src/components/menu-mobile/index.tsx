@@ -20,6 +20,7 @@ import { Paths } from 'routers/paths';
 import { DrawerBaseActions } from 'components/drawer-mobile-account';
 import { BUTTON_STYLES } from 'components/button/types';
 import sessionManager from 'managers/session-manager';
+import { AUTH_STATE } from 'commons/constants';
 
 type DrawerBaseProps = {
     onClose?: () => any;
@@ -61,15 +62,17 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
             navigate(Paths.auth, { state: { name: Languages.auth.login } });
         }, [navigate]);
 
-        const navigateToLogin = () => {
-            navigate(Paths.auth, { state: { name: Languages.auth.login } });
-        };
-
-        const navigateToRegister = () => {
-            navigate(Paths.auth, { state: { name: Languages.auth.register } });
-        };
 
         const renderTokenView = useMemo(() => {
+
+            const navigateToLogin = () => {
+                navigate(Paths.auth, { state: { name: AUTH_STATE.LOGIN } });
+            };
+
+            const navigateToRegister = () => {
+                navigate(Paths.auth, { state: { name: AUTH_STATE.REGISTER } });
+            };
+
             return (
                 <>
                     {sessionManager.accessToken
@@ -104,7 +107,7 @@ const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
                     }
                 </>
             );
-        }, [navigateToLogin, navigateToRegister, onLogout]);
+        }, [navigate, onLogout]);
 
         const renderCustom = useCallback(() => {
             return (
