@@ -8,6 +8,13 @@ import { AppStoreProvider } from './providers/app-provider';
 import Router from './routers/router';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import config from 'config';
+
+if (config.env === 'prod') {
+    console.log = () => { };
+    console.error = () => { };
+    console.debug = () => { };
+}
 
 const container = document.getElementById('root');
 
