@@ -46,7 +46,7 @@ export const Congrats = () => {
             <div className={cx('row y40')}>
                 <div className={cx('column x50', 'jus-between')}>
                     <img src={ImgAppStore} className={cx('img-store')} onClick={openAppStore} />
-                    <img src={ImgGooglePlay} className={cx('img-store y40')} onClick={openGooglePlay}/>
+                    <img src={ImgGooglePlay} className={cx('img-store', 'y40')} onClick={openGooglePlay}/>
                 </div>
                 <img src={ImgQrCode} className={cx('img-qr')} />
             </div>
