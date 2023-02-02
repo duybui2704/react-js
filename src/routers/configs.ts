@@ -20,16 +20,16 @@ export interface RouteProps {
 // Public routes
 const publicRoutes = [
     //common
-    { path: Paths.home, page: Home, hasHeader: true, hasFooter: true },
+    // { path: Paths.home, page: Home, hasHeader: true, hasFooter: true },
     { path: Paths.any, page: NotFound },
 
     //auth
-    { path: Paths.auth, page: Auth, hasHeader: true },
+    // { path: Paths.auth, page: Auth, hasHeader: true },
     { path: Paths.register, page: Auth, data: AUTH_STATE.REGISTER, hasHeader: true },
-    { path: Paths.congrats, page: Congrats},
+    { path: Paths.congrats, page: Congrats}
 
     // policy
-    { path: Paths.policy, page: Policy }
+    // { path: Paths.policy, page: Policy }
 ] as RouteProps[];
 
 const privateRoutes = [];
