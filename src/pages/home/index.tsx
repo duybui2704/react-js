@@ -33,6 +33,8 @@ import { AUTH_STATE, COLOR_TRANSACTION, Events, TAB_INDEX } from 'commons/consta
 import { observer } from 'mobx-react';
 import PopupBaseCenterScreen from 'components/popup-base-center-screen';
 import { PopupBaseActions } from 'components/modal/modal';
+import Notification from 'pages/notification';
+import { NotificationTotalModel } from 'models/notification';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
@@ -73,12 +75,23 @@ const Home = observer(() => {
 
     useEffect(() => {
         fetchAppConfig();
+        getUnreadNotify();
     }, []);
-    
+
     const fetchAppConfig = useCallback(async () => {
         const config = await apiServices.common.getAppConfig();
         common.setAppConfig(config.data);
     }, [apiServices.common, common]);
+
+    const getUnreadNotify = useCallback(async () => {
+        if (userManager.userInfo) {
+            const res = await apiServices.notification?.getUnreadNotify() as any;
+            if (res.success) {
+                const data = res.data as NotificationTotalModel;
+                common.setAppConfig({ ...common.appConfig, total_un_read: data?.total_unRead });
+            }
+        }
+    }, [apiServices.notification, common, userManager.userInfo]);
 
     const onChangeMenu = useCallback((index: number) => {
         setStepIndex(index);
@@ -110,7 +123,9 @@ const Home = observer(() => {
         const navigateToProfile = () => {
             setStepIndex(TAB_INDEX.PROFILE);
         };
-
+        const navigateToNotification = () => {
+            setStepIndex(TAB_INDEX.NOTIFICATION);
+        };
         return {
             left: <div className={cx('header_left')}>
                 <img src={IcLogo} className={cx('icon-tienngay')} />
@@ -135,7 +150,7 @@ const Home = observer(() => {
                     </>
                     :
                     <>
-                        <img src={IcNotification} className={cx('icon-menu')} />
+                        <img src={IcNotification} className={cx('icon-menu')} onClick={navigateToNotification} />
                         <div className={cx('row center')}>
                             <div className={cx('avatar-container')}>
                                 <img src={userManager.userInfo?.avatar_user || ImgNoAvatar} className={cx('img-avatar')} onClick={navigateToProfile} />
@@ -169,6 +184,8 @@ const Home = observer(() => {
                 return <News />;
             case TAB_INDEX.PROFILE:
                 return <Profile />;
+            case TAB_INDEX.NOTIFICATION:
+                return <Notification keyTabs={0} />;
             case TAB_INDEX.INTRO:
             default:
                 return <Intro />;
@@ -201,6 +218,11 @@ const Home = observer(() => {
                 label: Languages.tabs[4],
                 key: `${TAB_INDEX.PROFILE}`,
                 children: getStepLayout(TAB_INDEX.PROFILE)
+            },
+            userManager.userInfo && {
+                label: Languages.tabs[5],
+                key: `${TAB_INDEX.NOTIFICATION}`,
+                children: getStepLayout(TAB_INDEX.NOTIFICATION)
             }
         ] as TabsModel[]);
     }, [getStepLayout, userManager.userInfo]);

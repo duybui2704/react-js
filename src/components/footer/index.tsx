@@ -194,10 +194,6 @@ function Footer() {
                 case Languages.footer.informationChild[2]:
                     navigate(Paths.policy);
                     break;
-                case Languages.footer.customerChild[0]:
-                    break;
-                case Languages.footer.customerChild[1]:
-                    break;
                 default:
                     break;
             }
@@ -207,19 +203,12 @@ function Footer() {
 
     const renderInfoSupport = useMemo(() => {
         return (
-            <Row gutter={[32, 24]}>
-                <Col xs={12} sm={12} md={24} lg={24} xl={24} className={cx('info-link-container')}>
-                    <span className={cx('title-info-link')}>{Languages.footer.information}</span>
-                    {renderTabLink(Languages.footer.informationChild[0])}
-                    {renderTabLink(Languages.footer.informationChild[1])}
-                    {renderTabLink(Languages.footer.informationChild[2])}
-                </Col>
-                <Col xs={12} sm={12} md={24} lg={24} xl={24} className={cx('info-link-container')}>
-                    <span className={cx('title-info-link')}>{Languages.footer.customerSupport}</span>
-                    {renderTabLink(Languages.footer.customerChild[0])}
-                    {renderTabLink(Languages.footer.customerChild[1])}
-                </Col>
-            </Row>
+            <div className={cx('info-link-container')}>
+                <span className={cx('title-info-link')}>{Languages.footer.information}</span>
+                {renderTabLink(Languages.footer.informationChild[0])}
+                {renderTabLink(Languages.footer.informationChild[1])}
+                {renderTabLink(Languages.footer.informationChild[2])}
+            </div>
         );
     }, [renderTabLink]);
 
