@@ -235,14 +235,14 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
                 />
             </div>
 
-            <div className={cx('row y20')}>
+            {!refNumber && <div className={cx('row y20')}>
                 <span className={cx('text-gray h6 x5')}>
                     {Languages.auth.accountYet}
                 </span>
                 <a className={cx('text-green h6', 'hover-text')} onClick={() => onNavigate(Languages.auth.login)}>
                     {Languages.auth.loginNow}
                 </a>
-            </div>
+            </div>}
         </div>;
     }, [isMobile, dataChannel, refNumber, onSignUp, onLoginGoogle, onNavigate]);
 
