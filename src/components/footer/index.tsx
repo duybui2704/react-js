@@ -11,7 +11,7 @@ import { MyTextAreaInput } from 'components/text-area';
 import React, { memo, useCallback, useMemo, useRef, useState } from 'react';
 import styles from './footer.module.scss';
 import { TextFieldActions } from 'components/input/types';
-import { Events, TAB_INDEX, TYPE_INPUT } from 'commons/constants';
+import { Events, TABS_PROFILE, TAB_INDEX, TYPE_INPUT } from 'commons/constants';
 import formValidate from 'utils/form-validate';
 import toasty from 'utils/toasty';
 import { LINKS } from 'api/constants';
@@ -192,14 +192,14 @@ function Footer() {
                 case Languages.footer.informationChild[1]:
                     break;
                 case Languages.footer.informationChild[2]:
-                    navigate(Paths.policy);
+                    EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.PROFILE, TABS_PROFILE.POLICY);
                     break;
                 default:
                     break;
             }
         };
         return <span className={cx('item-link')} onClick={onOpenLink}>{label}</span>;
-    }, [navigate]);
+    }, []);
 
     const renderInfoSupport = useMemo(() => {
         return (

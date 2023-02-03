@@ -1,6 +1,6 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import classNames from 'classnames/bind';
-import { COLOR_TRANSACTION } from 'commons/constants';
+import { COLOR_TRANSACTION, TABS_PROFILE } from 'commons/constants';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
@@ -31,7 +31,7 @@ import LazyImage from 'components/image';
 
 const cx = classNames.bind(styles);
 
-const Profile = observer(() => {
+const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus: boolean }) => {
     const navigate = useNavigate();
     const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
@@ -42,9 +42,11 @@ const Profile = observer(() => {
     const refAvatarPhoto = useRef<SelectPhotoAction>(null);
 
     useEffect(() => {
+        if (numberTabs || isFocus) {
+            setStep(numberTabs);
+        } 
         setInfo(userManager.userInfo);
-        console.log('info ===', toJS(userManager.userInfo));
-    }, [userManager.userInfo]);
+    }, [isFocus, numberTabs, userManager.userInfo]);
 
     const onOpenIdentity = useCallback(() => {
         setStep(0);
@@ -52,25 +54,25 @@ const Profile = observer(() => {
 
     const renderViewRight = useMemo(() => {
         switch (step) {
-            case 0:
+            case TABS_PROFILE.INFO_IDENTITY:
                 return <InfoIdentity />;
-            case 1:
+            case TABS_PROFILE.INFO_ACCOUNT:
                 return <InfoAccount />;
-            case 2:
+            case TABS_PROFILE.INFO_PAYMENT:
                 return <InfoPayment />;
-            case 3:
+            case TABS_PROFILE.INFO_CHANGE_PWD:
                 return <InfoChangePwd />;
-            case 4:
+            case TABS_PROFILE.ACCOUNT_LINK:
                 return <AccountLink />;
-            case 5:
+            case TABS_PROFILE.COMMISSION:
                 return <Commission />;
-            case 6:
+            case TABS_PROFILE.POLICY:
                 return <Policy isInLink={true} />;
-            case 7:
+            case TABS_PROFILE.INVITE_FRIEND:
                 return <InviteFriend />;
-            case 8:
+            case TABS_PROFILE.USER_MANUAL:
                 return <UserManual />;
-            case 9:
+            case TABS_PROFILE.QUESTION_ANSWER:
                 return <QuestionAnswer />;
             default:
                 return;
