@@ -417,8 +417,7 @@ const Languages = {
         successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'
     },
     policy: {
-        titlePolicy: 'ĐIỀU KHOẢN SỬ DỤNG',
-        tienNgay: 'TIENNGAY.VN APP',
+        titlePolicy: 'ĐIỀU KHOẢN SỬ DỤNG HỆ THỐNG ỨNG DỤNG TIENNGAY.VN APP',
         describePolicy: 'Nội dung Bản điều khoản sử dụng dịch vụ TienNgay.vn app dưới đây tạo thành một Hợp đồng sử dụng dịch vụ ràng buộc về mặt pháp lý giữa Công Ty Cổ Phần Công Nghệ Tài Chính Việt và Khách hàng. Khi sử dụng dịch vụ TienNgay.vn app có nghĩa là khách hàng đã chấp nhận các Điều khoản và điều kiện dưới đây, đồng thời chịu sự ràng buộc phải tuân thủ bởi các điều khoản và điều kiện đó. Khách hàng có trách nhiệm xem xét và đọc kỹ nội dung của Bản điều khoản này, nếu khách hàng không đồng ý với các điều kiện và điều khoản này thì nên chấm dứt sử dụng ứng dụng này.',
         bigHeader: [
             '1. Mô tả dịch vụ',

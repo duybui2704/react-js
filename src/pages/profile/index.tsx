@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Commission from './commission';
-import Conditions from './conditions';
 import InfoAccount from './info-account';
 import InfoIdentity from './info-identity';
 import InfoPayment from './Info-payment';
@@ -167,7 +166,9 @@ const Profile = observer(() => {
                                     ? cx(index + 1 === profile.length ? 'item-focus-last-navigate' : 'item-focus-navigate')
                                     : cx(index + 1 === profile.length ? 'item-last-navigate' : 'item-navigate')}
                             >
-                                <img src={item?.icon} />
+                                <div className={cx('icon-menu')}>
+                                    <img src={item?.icon} />
+                                </div>
                                 <span className={cx('xl10 h7 text-gray')}>{item?.title}</span>
                             </div>
                         );

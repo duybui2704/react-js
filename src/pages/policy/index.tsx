@@ -65,8 +65,7 @@ const Policy = ({ isInLink }: { isInLink?: boolean }) => {
         <div className={cx('page')}>
             <div className={cx('page-content', !isInLink ? 'padding' : 'padding-in-profile')}>
                 <span className={cx('title-header')}>{Languages.policy.titlePolicy}</span>
-                <span className={cx('title-header')}>{Languages.policy.tienNgay}</span>
-                <span className={cx('describe-header')}>{Languages.policy.describePolicy}</span>
+                <span className={cx('describe-header', 'y10')}>{Languages.policy.describePolicy}</span>
                 {renderArticle(Languages.policy.bigHeader[0], Languages.policy.subTitlePolicy.article1)}
                 {renderArticle(Languages.policy.bigHeader[1], Languages.policy.subTitlePolicy.article2)}
                 {renderArticle3}
