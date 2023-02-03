@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { Paths } from 'routers/paths';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import TableInvest from 'components/table-invest';
-import { arrInvestKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyInvestMobile, columnNameHistory, columnNameInvest, labelArrHistory, labelInvestArr } from 'pages/__mocks__/invest';
+import { arrInvestKey, arrKeyHistory, arrKeyHistoryMobile, arrKeyInvestMobile, columnNameHistory, columnNameInvest, labelArrHistory, labelInvestArr } from 'assets/static-data/invest';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import { COLOR_TRANSACTION, TYPE_TAB_HISTORY } from 'commons/constants';
 import Footer from 'components/footer';

@@ -175,11 +175,9 @@ export const Auth = ({ data }) => {
                     const resInfoAcc = await apiServices.auth.getUserInfo();
                     userManager.updateUserInfo({ ...resInfoAcc.data, ...dataLogin });
                     if (sessionManager.accessToken) {
-                        if (sessionManager.accessToken) {
-                            setTimeout(() => {
-                                navigate(Paths.home);
-                            }, 200);
-                        }
+                        setTimeout(() => {
+                            onSuccess();
+                        }, 200);
                     }
                 } else {
                     setDataGoogle(dataLogin);
@@ -189,7 +187,7 @@ export const Auth = ({ data }) => {
         }).catch((error) => {
             console.log('error ===', error);
         });
-    }, [apiServices?.auth, navigate, userManager]);
+    }, [apiServices.auth, onSuccess, userManager]);
 
     const renderSteps = useMemo(() => {
 

@@ -11,10 +11,10 @@ class _EventEmitter {
         this.events[event].push(listener);
     }
 
-    emit(event, payload) {
+    emit(event, payload, numberTabs) {
         if (this.events[event]) {
             this.events[event].forEach(listener => {
-                listener(payload);
+                listener(payload, numberTabs);
             });
         }
     }
@@ -25,5 +25,3 @@ class _EventEmitter {
 }
 
 export const EventEmitter = new _EventEmitter();
-
-

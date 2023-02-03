@@ -169,5 +169,18 @@ export enum NOTIFY_STATE {
     UN_READ = 1,
 }
 
+export enum TABS_PROFILE {
+    INFO_IDENTITY = 0,
+    INFO_ACCOUNT = 1,
+    INFO_PAYMENT = 2,
+    INFO_CHANGE_PWD = 3,
+    ACCOUNT_LINK = 4,
+    COMMISSION = 5,
+    POLICY = 6,
+    INVITE_FRIEND = 7,
+    USER_MANUAL = 8,
+    QUESTION_ANSWER = 9
+}
+
 
 

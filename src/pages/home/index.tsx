@@ -24,17 +24,17 @@ import { Paths } from 'routers/paths';
 import { COLORS } from 'theme/colors';
 import styles from './home.module.scss';
 import { DrawerBaseActions } from 'components/drawer-mobile-account';
-import { dataMenu } from 'pages/__mocks__/menu';
 import MenuMobile from 'components/menu-mobile';
 import sessionManager from 'managers/session-manager';
 import { useAppStore } from 'hooks';
 import { EventEmitter } from 'utils/event-emitter';
-import { AUTH_STATE, COLOR_TRANSACTION, Events, TAB_INDEX } from 'commons/constants';
+import { AUTH_STATE, COLOR_TRANSACTION, Events, TABS_PROFILE, TAB_INDEX } from 'commons/constants';
 import { observer } from 'mobx-react';
 import PopupBaseCenterScreen from 'components/popup-base-center-screen';
 import { PopupBaseActions } from 'components/modal/modal';
 import Notification from 'pages/notification';
 import { NotificationTotalModel } from 'models/notification';
+import { TabsMenuHeader } from 'assets/static-data/profile';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
@@ -51,6 +51,8 @@ const Home = observer(() => {
     const isMobile = useIsMobile();
     const [stepIndex, setStepIndex] = useState<number>(0);
     const [toggle, setToggle] = useState<boolean>(false);
+    const [numberTabs, setNumberTabs] = useState<number>(0);
+    const [focus, setFocus] = useState<boolean>(false);
 
     const refPopupLogout = useRef<PopupBaseActions>(null);
     const refDrawer = useRef<DrawerBaseActions>(null);
@@ -61,8 +63,10 @@ const Home = observer(() => {
         refPopupLogout.current?.showModal();
     }, []);
 
-    const onHandleChangeTab = useCallback((index: number) => {
+    const onHandleChangeTab = useCallback((index: number, indexTabs: number) => {
         setStepIndex(index);
+        setNumberTabs(indexTabs);
+        setFocus(last => !last);
     }, []);
 
     useEffect(() => {
@@ -183,14 +187,14 @@ const Home = observer(() => {
             case TAB_INDEX.NEWS:
                 return <News />;
             case TAB_INDEX.PROFILE:
-                return <Profile />;
+                return <Profile numberTabs={numberTabs} isFocus={focus} />;
             case TAB_INDEX.NOTIFICATION:
                 return <Notification keyTabs={0} />;
             case TAB_INDEX.INTRO:
             default:
                 return <Intro />;
         }
-    }, []);
+    }, [numberTabs, focus]);
 
     const tabs = useMemo(() => {
         return ([
@@ -256,7 +260,7 @@ const Home = observer(() => {
                         <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
                     </div>
                     {getStepLayout(stepIndex)}
-                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={dataMenu} />
+                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={TabsMenuHeader} />
                 </div>
                 : <Tabs
                     defaultActiveKey={'0'}
