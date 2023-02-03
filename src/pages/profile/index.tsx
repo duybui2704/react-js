@@ -28,6 +28,7 @@ import { observer } from 'mobx-react';
 import Policy from 'pages/policy';
 import QuestionAnswer from './question-answer';
 import UserManual from './user-manual';
+import LazyImage from 'components/image';
 
 const cx = classNames.bind(styles);
 
@@ -128,9 +129,9 @@ const Profile = observer(() => {
             const data = getAvatarPath?.data as string;
             const resUpdateAvatar = await apiServices.auth.updateUserInf(
                 data,
-                userManager.userInfo?.full_name,
-                userManager.userInfo?.gender,
-                userManager.userInfo?.address
+                '',
+                '',
+                ''
             ) as any;
 
             if (resUpdateAvatar.success) {
@@ -195,6 +196,7 @@ const Profile = observer(() => {
                     onPressAvatar={handleAvatar} />
                 <Footer />
                 <SelectPhoto ref={refAvatarPhoto} onChangeText={handleChangeAvatarImage} />
+                <LazyImage />
             </div>
         </>
 
