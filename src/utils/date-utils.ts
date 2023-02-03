@@ -15,6 +15,8 @@ function getCurrentTime(date = new Date()) {
     return date.getTime();
 }
 
+function formatDatePicker(date: number) { return Moment(date * 1000).utc(true).format(FULL_DATE_FORMAT); }
+
 function getDateFormat(date: number = 0, format: string = DEFAULT_DATE_FORMAT) {
     return Moment(date * 1000).utc(true).format(format);
 }
@@ -23,5 +25,6 @@ export default {
     getQuarter,
     getYear,
     getCurrentTime,
-    getDateFormat
+    getDateFormat,
+    formatDatePicker
 };
