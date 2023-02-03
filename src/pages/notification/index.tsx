@@ -6,30 +6,33 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
-import { TabNotification } from 'pages/__mocks__/manage';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styles from './notification.module.scss';
 import IcFlower from 'assets/icon/ic_red_small_flower_money.svg';
 import { NotificationTotalModel } from 'models/notification';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
 import { Notify } from 'models/invest';
+import { Button } from 'components/button';
+import { BUTTON_STYLES } from 'components/button/types';
+import ScrollTopComponent from 'components/scroll-top';
+import { NOTIFY_STATE } from 'commons/constants';
+import dateUtils from 'utils/date-utils';
 
 const cx = classNames.bind(styles);
 const IMG_TAG = 'display: block; width: 100%;';
 
 interface KeyValueModel {
-    label?: string;
-    value?: any;
-    id?: any;
-    type?: any;
+    text?: string;
+    value?: number;
+    id?: string;
 }
 
 const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices, userManager, common } = useAppStore();
-    // const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
+    const { scrollTop } = useWindowScrollPositions(cx('page-content'));
 
     const [tabName, setTabName] = useState<number>(keyTabs);
 
@@ -50,9 +53,15 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
         getNotify();
     }, [tabName]);
 
+    const handleScrollToTop = () => {
+        document.getElementsByClassName(cx('page-content'))[0].scrollTo({ behavior: 'smooth', top: 0 });
+    };
+
     const onChangeTab = useCallback((tabIndex: number) => {
         if (tabName !== tabIndex) {
             setTabName(tabIndex);
+            handleScrollToTop();
+            setOffset(0);
         }
     }, [tabName]);
 
@@ -66,14 +75,13 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
         }
     }, [apiServices.notification, common, userManager.userInfo]);
 
-    const getCategories = useCallback(async () => {// get tabs name notify page
+    const getCategories = useCallback(async () => {
         const resCate = await apiServices.notification.getNotificationCategories() as any;
-
         if (resCate.success && resCate.data) {
-            setCategories(Object.keys(resCate.data).map((key, index) => {
+            setCategories(Object.keys(resCate.data).map((key: string, index: number) => {
                 const cate = {
                     id: key,
-                    label: resCate.data[key],
+                    text: resCate.data[key],
                     value: index
                 };
                 if (index === 0) {
@@ -84,45 +92,62 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
         }
     }, [apiServices.notification]);
 
-    const getNotify = useCallback(async (loadmore?: boolean) => {
+    const getNotify = useCallback(async (loadMore?: boolean) => {
         if (userManager.userInfo) {
-            const res = await apiServices.notification?.getNotify(PAGE_SIZE_INVEST, offset || 0, tabName + 1) as any;
+            const res = await apiServices.notification?.getNotify(
+                PAGE_SIZE_INVEST,
+                loadMore ? offset : 0,
+                tabName + 1
+            ) as any;
             if (res.success) {
                 const data = res.data as Notify[];
-                setDataNotificationList(data);
-                // ever load more
+                setCanLoadMore(res?.data?.length === PAGE_SIZE_INVEST);
+                setOffset(last => loadMore ? (last + PAGE_SIZE_INVEST) : PAGE_SIZE_INVEST);
+                if (loadMore) {
+                    setDataNotificationList(last => [...last, ...data]);
+                } else {
+                    setDataNotificationList(data);
+                }
             }
         }
     }, [apiServices.notification, offset, tabName, userManager.userInfo]);
 
-    const renderNotificationList = useMemo(() => {
+    const loadMoreNotify = useCallback(() => {
+        getNotify(true);
+    }, [getNotify]);
+
+    const renderNotificationList = useCallback((dataNotifyList?: Notify[]) => {
         return (
             <div className={cx('notify-container')}>
-                {dataNotificationList.map((item: Notify, index: number) => {
-                    const onRead = async () => {
-                        if (item?.status === 1) {
+                {dataNotifyList?.map((item: Notify, index: number) => {
+                    const onMarkRead = async () => {
+                        if (item?.status === NOTIFY_STATE.UN_READ) {
                             const res = await apiServices.invest.getNotifyUpdateRead(item?.id) as any;
                             if (res.success) {
-                                // setData(last => last.map(it => {
-                                //     if (item.id == it.id) {
-                                //         it.status = 2;
-                                //     }
-                                //     return it;
-                                // }));
-                                getUnreadNotify;
+                                setDataNotificationList(last => last.map((itemChild: Notify) => {
+                                    if (item.id === itemChild.id) {
+                                        itemChild.status = NOTIFY_STATE.READ;
+                                    }
+                                    return itemChild;
+                                }));
+                                getUnreadNotify();
                                 if (item.link) {
-                                    // Navigator.navigateToDeepScreen([TabsName.homeTabs], ScreenName.detailInvestment, { status: ENUM_INVEST_STATUS.INVESTING, id: `${item?.action_id}` });
+                                    // navigate page of link 
                                 }
                             }
                         }
                         if (item.link) {
-                            // Navigator.navigateToDeepScreen([TabsName.homeTabs], ScreenName.detailInvestment, { status: ENUM_INVEST_STATUS.INVESTING, id: `${item?.action_id}` });
+                            // navigate page of link 
                         }
                     };
                     return (
-                        <div className={cx(item?.status === 1 ? 'item-notify-un-read-container' : 'item-notify-container')} key={index}>
+                        <div
+                            className={cx(item?.status === NOTIFY_STATE.UN_READ ? 'item-notify-un-container' : 'item-notify-read-container')}
+                            key={`${item?.id}${index}`}
+                            onClick={onMarkRead}
+                        >
                             <span className={cx('title-item-notify')}>{item?.title}</span>
-                            <span className={cx('text-date-item-notify')}>{new Date(Number(item?.updated_at) * 1000).toLocaleString()}</span>
+                            <span className={cx('text-date-item-notify')}>{dateUtils.formatDatePicker(item?.updated_at)}</span>
                             <div className={cx('item-notify-content-container')}>
                                 <img src={item?.image || IcFlower} className={cx('image')} />
                                 <span
@@ -132,22 +157,35 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
                         </div>
                     );
                 })}
+                {canLoadMore &&
+                    <Button
+                        buttonStyle={BUTTON_STYLES.GREEN}
+                        fontSize={20}
+                        width={isMobile ? 100 : 40}
+                        labelStyles={cx('label-button-see-more')}
+                        containButtonStyles={cx('button-see-more-container')}
+                        label={Languages.notification.seeMore}
+                        onPress={loadMoreNotify}
+                        isLowerCase />
+                }
             </div>
         );
-    }, [apiServices.invest, dataNotificationList, getUnreadNotify]);
+    }, [apiServices.invest, canLoadMore, getUnreadNotify, isMobile, loadMoreNotify]);
 
     return (
         <div className={cx('page')}>
-            <div className={cx('notify-header-container')}>
-                <span className={cx('notify-header-text')}>{Languages.notification.titleHeader}</span>
-                <span className={cx('notify-count-un-read')}>{`${common.appConfig?.total_un_read}${Languages.notification.newNotify}`}</span>
+            <div className={cx('header-container')}>
+                <div className={cx('notify-header-container')}>
+                    <span className={cx('notify-header-text')}>{Languages.notification.titleHeader}</span>
+                    <span className={cx('notify-count-un-read')}>{`${common.appConfig?.total_un_read}${Languages.notification.newNotify}`}</span>
+                </div>
+                <TabsButtonBar dataTabs={categories} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${keyTabs}`} />
             </div>
-            <TabsButtonBar dataTabs={TabNotification} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${keyTabs}`} />
-            <div className={cx('page-content', 'padding')}>
-                {renderNotificationList}
+            <div className={cx('page-content')}>
+                {renderNotificationList(dataNotificationList)}
                 <Footer />
             </div>
-
+            <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
         </div>
     );
 });

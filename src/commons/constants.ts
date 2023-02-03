@@ -164,4 +164,10 @@ export enum AUTH_STATE {
     FORGOT_PWD = 'FORGOT_PWD',
 }
 
+export enum NOTIFY_STATE {
+    READ = 2,
+    UN_READ = 1,
+}
+
+
 
