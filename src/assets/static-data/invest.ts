@@ -9,11 +9,11 @@ export const InvestMethod = [
         text: 'Tài khoản ngân hàng',
         value: 'bank'
     }
-]
+];
 
 export const columnNameHistory = ['STT', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Trạng thái', 'Ngày nhận'];
 export const columnNameInvest = ['STT', 'Kỳ nhận', 'Số tiền gốc', 'Số tiền lãi', 'Tổng tiền', 'Ngày nhận'];
-export const columnNameCommission = ['STT', 'Họ và tên', 'Tổng tiền đầu tư', 'Hoa hồng']
+export const columnNameCommission = ['STT', 'Họ và tên', 'Tổng tiền đầu tư', 'Hoa hồng'];
 
 export const arrInvestKey = ['ky_tra', 'tien_goc_tra', 'tien_lai_tra', 'tong_goc_lai', 'ngay_nhan'];
 export const arrKeyHistory = ['tien_goc', 'tien_lai', 'so_tien', 'trang_thai', 'ngay_tra_lai'];
@@ -40,7 +40,7 @@ export const labelArrHistory = {
 export const labelArrCommission = {
     name: 'Họ và tên',
     total_money: 'Tiền đầu tư',
-    money_commission: 'Hoa hồng',
+    money_commission: 'Hoa hồng'
 };
 
 export const dateListAddress = [

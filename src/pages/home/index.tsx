@@ -24,7 +24,6 @@ import { Paths } from 'routers/paths';
 import { COLORS } from 'theme/colors';
 import styles from './home.module.scss';
 import { DrawerBaseActions } from 'components/drawer-mobile-account';
-import { dataMenu } from 'pages/__mocks__/menu';
 import MenuMobile from 'components/menu-mobile';
 import sessionManager from 'managers/session-manager';
 import { useAppStore } from 'hooks';
@@ -35,6 +34,7 @@ import PopupBaseCenterScreen from 'components/popup-base-center-screen';
 import { PopupBaseActions } from 'components/modal/modal';
 import Notification from 'pages/notification';
 import { NotificationTotalModel } from 'models/notification';
+import { TabsMenuHeader } from 'assets/static-data/profile';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
@@ -260,7 +260,7 @@ const Home = observer(() => {
                         <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
                     </div>
                     {getStepLayout(stepIndex)}
-                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={dataMenu} />
+                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={TabsMenuHeader} />
                 </div>
                 : <Tabs
                     defaultActiveKey={'0'}

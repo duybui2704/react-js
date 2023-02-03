@@ -64,6 +64,39 @@ export const profile: ItemScreenModel[] = [
     // }
 ];
 
+export const TabsMenuHeader: ItemScreenModel[] = [
+    {
+        id: 1,
+        title: 'Giới thiệu',
+        is_login: false
+    },
+    {
+        id: 2,
+        title: 'Sản phẩm',
+        is_login: false
+    },
+    {
+        id: 3,
+        title: 'Quản lý của tôi',
+        is_login: true
+    },
+    {
+        id: 4,
+        title: 'Truyền thông',
+        is_login: false
+    },
+    {
+        id: 5,
+        title: 'Thông tin cá nhân',
+        is_login: true
+    },
+    {
+        id: 6,
+        title: 'Thông báo',
+        is_login: true
+    }
+];
+
 export const InfoUser = {
     username: 'Bùi Xuân Duy',
     birth_date: '27/04/1999',
@@ -152,5 +185,3 @@ export const documentInfoApp = [
         style: 1
     }
 ] as ItemDocument[];
-
-// export

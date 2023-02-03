@@ -8,7 +8,7 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { observer } from 'mobx-react';
 import { CommissionModel, Detail, Total } from 'models/commission';
-import { arrKeyCommission, arrKeyCommissionMobile, columnNameCommission, labelArrCommission } from 'pages/__mocks__/invest';
+import { arrKeyCommission, arrKeyCommissionMobile, columnNameCommission, labelArrCommission } from 'assets/static-data/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './commission.module.scss';
 

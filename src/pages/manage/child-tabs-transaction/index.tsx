@@ -10,7 +10,6 @@ import { BUTTON_STYLES } from 'components/button/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import PeriodInvestMobile from 'components/period-invest-mobile';
 import TableInvest from 'components/table-invest';
-import { columnNameTransaction, labelArrTransactionMobile, arrKeyTransactionMobile, arrKeyTransactionWeb } from 'pages/__mocks__/transaction';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import { DataColumnTransactionType as DataColumnTransactionType } from 'models/transaction';
 import TabsButtonBar from 'components/tabs-button-bar';
@@ -19,10 +18,10 @@ import PopupBaseMobile from 'components/popup-base-mobile';
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
-import { TabTransaction } from 'pages/__mocks__/manage';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import ScrollTopComponent from 'components/scroll-top';
 import { Button } from 'components/button';
+import { arrKeyTransactionMobile, arrKeyTransactionWeb, columnNameTransaction, labelArrTransactionMobile, TabTransaction } from 'assets/static-data/manage';
 
 const cx = classNames.bind(styles);
 interface HistoryFilter {

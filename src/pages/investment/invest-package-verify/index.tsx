@@ -15,7 +15,7 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
 import RadioInvestMethod from 'components/radio-invest-method';
-import { InvestMethod } from 'pages/__mocks__/invest';
+import { InvestMethod } from 'assets/static-data/invest';
 import { COLOR_TRANSACTION, TYPE_TRANSFER_AMOUNT } from 'commons/constants';
 import Footer from 'components/footer';
 import toasty from 'utils/toasty';

@@ -1,5 +1,6 @@
 import { Col, Row } from 'antd';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
+import { TabHistory } from 'assets/static-data/manage';
 import classNames from 'classnames/bind';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
 import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
@@ -21,7 +22,6 @@ import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { PackageInvest } from 'models/invest';
-import { TabHistory } from 'pages/__mocks__/manage';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';

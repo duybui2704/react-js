@@ -10,6 +10,7 @@ import ImgPhone1 from 'assets/image/img_phone2.jpeg';
 import ImgPhone2 from 'assets/image/img_phone3.jpeg';
 import ImgPosterVideo from 'assets/image/img_poster.jpeg';
 import ImgQRCode from 'assets/image/img_qr.jpg';
+import IcPlayVideo from 'assets/icon/ic_white_play_video.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -25,11 +26,13 @@ import { ItemProps } from 'models/common';
 import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
 import { PackageInvest } from 'models/invest';
-import { serviceList, videoIntro } from 'pages/__mocks__/intro';
+import { serviceList, videoIntro } from 'assets/static-data/intro';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Marquee from 'react-fast-marquee';
 import utils from 'utils/utils';
 import styles from './intro.module.scss';
+import { EventEmitter } from 'utils/event-emitter';
+import { Events, TAB_INDEX } from 'commons/constants';
 
 const cx = classNames.bind(styles);
 
@@ -64,9 +67,9 @@ const Intro = observer(() => {
         fetchDataMoney();
         fetchDataTimeInvestment();
     }, []);
-    
+
     useEffect(() => {
-        if(userManager.userInfo){
+        if (userManager.userInfo) {
             fetchContractsDash();
         }
     }, [userManager.userInfo]);
@@ -137,6 +140,10 @@ const Intro = observer(() => {
         setIsLoading(false);
     }, [apiServices.common]);
 
+    const linkInvestPackage = useCallback(() => {
+        EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.INVESTMENT);
+    }, []);
+
     const renderViewTop = useMemo(() => {
         return (
             <Row className={cx('view-body', 'padding-not-bottom')} gutter={[24, 16]}>
@@ -165,6 +172,7 @@ const Intro = observer(() => {
                                 containButtonStyles={cx('button-style', 'y20')}
                                 labelStyles={cx('text-white medium h6')}
                                 isLowerCase
+                                onPress={linkInvestPackage}
                             />
                         </div>
                     </div>
@@ -174,7 +182,7 @@ const Intro = observer(() => {
                 </Col>
             </Row>
         );
-    }, []);
+    }, [linkInvestPackage]);
 
     const onSelectItemTime = useCallback((item: any) => {
         condition.current.timeInvestment = item;
@@ -236,6 +244,7 @@ const Intro = observer(() => {
                         buttonStyle={BUTTON_STYLES.GREEN}
                         isLowerCase
                         containButtonStyles={'y30'}
+                        labelStyles={cx('label-button-see-more')}
                         onPress={onLoadMore}
                         customStyles={{ paddingRight: 25, paddingLeft: 25, marginTop: 50 }}
                     />
@@ -443,8 +452,11 @@ const Intro = observer(() => {
         );
     }, [isMobile, renderGroupStepMobile, renderGroupStepWeb]);
 
-    const renderViewNearBelow = useMemo(() => {
+    const openLinkVideo = useCallback(() => {
+        window.open(videoIntro.link);
+    }, []);
 
+    const renderViewNearBelow = useMemo(() => {
         return (
             <div className={cx('view-body row')}>
                 <div className={cx('column', 'padding')}>
@@ -469,20 +481,19 @@ const Intro = observer(() => {
                                     containButtonStyles={cx('button-style', 'y20')}
                                     labelStyles={cx('text-white medium h6')}
                                     isLowerCase
+                                    onPress={linkInvestPackage}
                                 />
                             </div>
                         </Col>
                         <Col xs={24} md={24} lg={12} xl={12} className={cx('center column')}>
-                            <video
-                                controls autoPlay
-                                loop
-                                id={cx('myVideo')}
-                                poster={ImgPosterVideo}
-                            >
-                                <source src={videoIntro.link} type={videoIntro.type} />
-                            </video>
+                            <div className={cx('container-image-edit')} onClick={openLinkVideo}>
+                                <img src={ImgPosterVideo} className={cx('image-avatar-user')} />
+                                <div className={cx('middle')}>
+                                    <img className={cx('edit-container')} src={IcPlayVideo} />
+                                </div>
+                            </div>
                             <div className={cx('column', 'title-vd')}>
-                                <span className={cx('text-green h6 bold')}>{videoIntro.title}</span>
+                                <span className={cx('text-green h6 medium')}>{videoIntro.title}</span>
                                 <span className={cx('text-gray h6')}>{videoIntro.content}</span>
                             </div>
                         </Col>
@@ -491,7 +502,7 @@ const Intro = observer(() => {
 
             </div >
         );
-    }, []);
+    }, [linkInvestPackage, openLinkVideo]);
 
     const renderViewService = useMemo(() => {
         return (
