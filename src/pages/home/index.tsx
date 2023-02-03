@@ -163,7 +163,7 @@ const Home = observer(() => {
                 }
             </div>
         };
-    }, [navigate, onLogOut, renderIconVerify, userManager, toggle]);
+    }, [navigate, onLogOut, renderIconVerify, userManager.userInfo, toggle]);
 
     const slot = useMemo(() => {
         if (position.length === 0) return null;
