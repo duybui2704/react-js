@@ -190,6 +190,7 @@ function Footer() {
                     EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.NEWS);
                     break;
                 case Languages.footer.informationChild[1]:
+                    navigate(Paths.recruit);
                     break;
                 case Languages.footer.informationChild[2]:
                     navigate(Paths.policy);
