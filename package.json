@@ -4,7 +4,6 @@
     "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
     "main": "index.js",
     "scripts": {
-        "postinstall": "patch-package",
         "lint:fix": "eslint --fix --ext js,jsx,ts,tsx ./src",
         "start": "react-scripts start",
         "build": "react-scripts build",

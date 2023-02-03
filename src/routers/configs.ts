@@ -7,6 +7,7 @@ import Congrats from 'pages/auth/congrats';
 import NotFound from 'pages/common/not-found';
 import Home from 'pages/home';
 import Policy from 'pages/policy';
+import Recruit from 'pages/recruit';
 import { Paths } from './paths';
 export interface RouteProps {
     path: string;
@@ -28,8 +29,9 @@ const publicRoutes = [
     { path: Paths.register, page: Auth, data: AUTH_STATE.REGISTER, hasHeader: true },
     { path: Paths.congrats, page: Congrats}
 
-    // policy
+    // more
     // { path: Paths.policy, page: Policy }
+    // { path: Paths.recruit, page: Recruit }
 ] as RouteProps[];
 
 const privateRoutes = [];

@@ -137,7 +137,7 @@ function InfoAccount() {
         if (onValidate()) {
             setIsLoading(true);
             const res = await apiServices.auth.updateUserInf(
-                undefined,
+                '',
                 refName.current?.getValue(),
                 gender,
                 refAddress.current?.getValue()
@@ -153,8 +153,11 @@ function InfoAccount() {
                 // });
                 toasty.success(resData?.message || res.message);
                 setIsEdit(false);
-                const resInfoAcc = await apiServices.auth.getUserInfo();
-                userManager.updateUserInfo({ ...resInfoAcc.data });
+                const resInfoAcc = await apiServices.auth.getUserInfo() as any;
+                if (resInfoAcc.success) {
+                    userManager.updateUserInfo({ ...resInfoAcc.data });
+                    setInfo(resInfoAcc.data);
+                }
             }
         }
     }, [apiServices.auth, gender, onValidate, userManager]);
@@ -174,7 +177,7 @@ function InfoAccount() {
                 {renderInput(refName, info?.full_name || '', 'text', Languages.profile.userName, 50, false, 'username')}
                 {renderInput(refBirth, info?.birth_date || '', 'date', Languages.profile.birthday, 50, false, 'birth_date', moment().format('YYYY-MM-DD'))}
                 {renderRadioGroup(dataGender)}
-                {renderInput(refEmail, info?.email || '', 'email', Languages.profile.email, 50, false, 'email')}
+                {renderInput(refEmail, info?.email || '', 'email', Languages.profile.email, 50, true, 'email')}
                 {renderInput(refAddress, info?.address || '', 'text', Languages.profile.address, 50, false, 'address')}
                 {renderInput(refPhone, info?.phone_number || '', 'text', Languages.profile.phone, 10, true, 'phone_number')}
                 <div className={cx('wid-100', 'row y20')}>
@@ -199,7 +202,7 @@ function InfoAccount() {
                 </div>
             </div>
         );
-    }, [info, onSave, oncancel, renderInput, renderRadioGroup]);
+    }, [info, isLoading, onSave, oncancel, renderInput, renderRadioGroup]);
 
     const renderStatusAcc = useMemo(() => {
         switch (info?.tinh_trang?.color) {

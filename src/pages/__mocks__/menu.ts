@@ -18,7 +18,7 @@ export const dataMenu: ItemScreenModel[] = [
     },
     {
         id: 4,
-        title: 'Tin tức',
+        title: 'Truyền thông',
         is_login: false
     },
     {

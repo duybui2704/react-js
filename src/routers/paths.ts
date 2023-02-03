@@ -11,6 +11,7 @@ export const Paths = {
     //profile
     profile: '/profile',
 
-    // policy
-    policy: '/policy'
+    // more
+    policy: '/policy',
+    recruit: '/tuyen-dung'
 };

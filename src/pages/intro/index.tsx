@@ -376,10 +376,10 @@ const Intro = observer(() => {
                         style={{
                             backgroundImage: `url(${ImgCircle})`,
                             width: '100%',
-                            minHeight: '500px',
+                            minHeight: '600px',
                             height: '100%',
                             backgroundSize: 'contain',
-                            backgroundPositionX: 'center',
+                            backgroundPosition: 'center',
                             marginLeft: 10,
                             backgroundRepeat: 'no-repeat'
                         }}

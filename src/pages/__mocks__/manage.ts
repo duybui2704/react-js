@@ -33,24 +33,4 @@ export const TabHistory = [
         icon: ''
     }
 ]
-export const TabNotification = [
-    {
-        id: 1,
-        text: 'Thông tin',
-        value: '1',
-        icon: ''
-    },
-    {
-        id: 2,
-        text: 'Giao dịch',
-        value: '2',
-        icon: ''
-    },
-    {
-        id: 3,
-        text: 'Hòm thư',
-        value: '3',
-        icon: ''
-    }
-]
 
