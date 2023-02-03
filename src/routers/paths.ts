@@ -4,14 +4,14 @@ export const Paths = {
     any: '*',
 
     //auth
-    auth: '/auth',
-    register: '/register',
-    congrats: '/congrats',
+    auth: '/ket-noi',
+    register: '/dang-ky',
+    congrats: '/thanh-cong',
 
     //profile
-    profile: '/profile',
+    profile: '/thong-tin-ca-nhan',
 
     // more
-    policy: '/policy',
+    policy: '/dieu-khoan',
     recruit: '/tuyen-dung'
 };
