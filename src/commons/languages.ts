@@ -541,6 +541,19 @@ const Languages = {
         titleHeader: 'Thông báo',
         newNotify: ' thông báo mới',
         seeMore: 'Xem thêm thông báo khác'
+    },
+    recruit: {
+        recruitmentContent: 'TienNgay.vn xây dựng một tập thể lớn đủ mạnh để tiến xa hơn trong lĩnh vực Tài chính. Gia nhập đội ngũ của chúng tôi ngay hôm nay!',
+        desire: 'Bạn đang muốn tìm kiếm công việc gì ?',
+        textTime: 'Thời gian đầu tư',
+        jobPosition: 'Vị trí công việc',
+        promotion: 'Đãi ngộ hấp dẫn',
+        peers: 'Đồng nghiệp thân thiện',
+        opportunity: 'Cơ hội học hỏi, phát triển',
+        textPromotion: 'Chúng tôi có chính sách đãi ngộ hấp dẫn, đảm bảo tính cạnh tranh',
+        textPeers: 'Chúng tôi tạo nên một môi trường làm việc hoà đồng, thân thiện đầy nhiệt huyết',
+        textOpportunity: 'Có cơ hội học hỏi khả năng kinh doanh, trau dồi kiến thức về tài chính',
+        discover: 'Khám phá bản thân tại TienNgay.vn'
     }
 };
 
