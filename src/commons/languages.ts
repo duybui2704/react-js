@@ -417,8 +417,7 @@ const Languages = {
         successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'
     },
     policy: {
-        titlePolicy: 'ĐIỀU KHOẢN SỬ DỤNG',
-        tienNgay: 'TIENNGAY.VN APP',
+        titlePolicy: 'ĐIỀU KHOẢN SỬ DỤNG HỆ THỐNG ỨNG DỤNG TIENNGAY.VN APP',
         describePolicy: 'Nội dung Bản điều khoản sử dụng dịch vụ TienNgay.vn app dưới đây tạo thành một Hợp đồng sử dụng dịch vụ ràng buộc về mặt pháp lý giữa Công Ty Cổ Phần Công Nghệ Tài Chính Việt và Khách hàng. Khi sử dụng dịch vụ TienNgay.vn app có nghĩa là khách hàng đã chấp nhận các Điều khoản và điều kiện dưới đây, đồng thời chịu sự ràng buộc phải tuân thủ bởi các điều khoản và điều kiện đó. Khách hàng có trách nhiệm xem xét và đọc kỹ nội dung của Bản điều khoản này, nếu khách hàng không đồng ý với các điều kiện và điều khoản này thì nên chấm dứt sử dụng ứng dụng này.',
         bigHeader: [
             '1. Mô tả dịch vụ',
@@ -495,7 +494,7 @@ const Languages = {
         bigHeader: [
             '1. Chứng chỉ quỹ là gì?',
             '2. Có nên đầu tư chứng chỉ quỹ?',
-            '3. Quỹ hoán đổi danh mục – quỹ ETF là gì?',
+            '3. Quỹ hoán đổi danh mục - quỹ ETF là gì?',
             '4. Sản phẩm Đầu tư có cam kết lợi nhuận không?',
             '5. Tiện Ngay có an toàn không?',
             '6. Tài sản đầu tư của tôi tăng hay giảm do đâu?',
@@ -511,7 +510,7 @@ const Languages = {
                 'Các quỹ ETF có thể là một phương tiện đầu tư tuyệt vời dành cho các nhà đầu tư lớn và nhỏ.'
             ],
             article3: [
-                'Quỹ ETF – viết tắt của cụm từ Exchange Traded Fund còn có tên gọi khác là quỹ hoán đổi danh mục. Quỹ ETF là một rổ chứng khoán hoạt động theo chỉ số đại diện cho một tài sản nhất định nào đó như vàng, hàng hóa, chứng khoán, lĩnh vực ngành hàng…'
+                'Quỹ ETF - viết tắt của cụm từ Exchange Traded Fund còn có tên gọi khác là quỹ hoán đổi danh mục. Quỹ ETF là một rổ chứng khoán hoạt động theo chỉ số đại diện cho một tài sản nhất định nào đó như vàng, hàng hóa, chứng khoán, lĩnh vực ngành hàng…'
             ],
             article4: [
                 'Tiện Ngay không cam kết bất kì một mức lãi suất cố định nào đối với sản phẩm Đầu Tư.'
@@ -528,7 +527,7 @@ const Languages = {
                 'Tăng giảm tài sản của người dùng đều do tình hình thị trường và hoạt động của các Quỹ đầu tư quyết định. Tài sản của người dùng có thể tăng, giảm hoặc đứng yên tùy vào tình hình thị trường và hoạt động của các Quỹ đầu tư. Ngoài ra, trong một số trường hợp như đầu tư lần đầu hoặc chuyển cấu trúc, các Quỹ đầu tư đang trong quá trình xác nhận cũng có thể khiến tài sản của bạn tạm thời đứng yên, không tăng không giảm.'
             ],
             article7: [
-                'Trong vòng tối đa 3 – 5 ngày làm việc, khoản rút của người dùng sẽ về tới tài khoản ngân hàng đã đăng ký.'
+                'Trong vòng tối đa 3 - 5 ngày làm việc, khoản rút của người dùng sẽ về tới tài khoản ngân hàng đã đăng ký.'
             ],
             article8: [
                 'Tối thiểu 3.000.000 nhà đầu tư hoàn toàn có thể tận dụng các khoản tiền nhàn rỗi để sinh lời.'

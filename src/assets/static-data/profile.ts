@@ -56,12 +56,12 @@ export const profile: ItemScreenModel[] = [
         id: 9,
         title: 'Hỏi đáp',
         icon: IcMessage
-    },
-    {
-        id: 10,
-        title: 'Tienngay.vn',
-        icon: IcGlobal
     }
+    // {
+    //     id: 10,
+    //     title: 'Tienngay.vn',
+    //     icon: IcGlobal
+    // }
 ];
 
 export const InfoUser = {

@@ -4,7 +4,7 @@ import config from 'config';
 
 export enum LINKS {
     VPS = 'https://openaccount.vps.com.vn/?MKTID=H787',
-    FB_FAN_PAGE = 'https://www.facebook.com/tienngay8386',
+    FB_FAN_PAGE = 'https://www.facebook.com/DautuTienNgay',
     STORE_ANDROID = 'https://play.google.com/store/apps/details?id=vn.tienngay.investor',
     STORE_IOS = 'https://apps.apple.com/id/app/id1563318851',
     AQ_INVESTOR = 'https://tienngay.vn/template/hoidap',
