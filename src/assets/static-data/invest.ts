@@ -47,19 +47,19 @@ export const dateListAddress = [
     {
         id: '1',
         text: 'Hà Nội',
-        value: 'Hà Nội',
+        value: 'Hà Nội'
     },
     {
         id: '2',
         text: 'Hồ Chí Minh',
-        value: 'Hồ Chí Minh',
+        value: 'Hồ Chí Minh'
     },
     {
         id: '3',
         text: 'Hải Dương',
-        value: 'Hải Dương',
+        value: 'Hải Dương'
     }
-]
+];
 
 export const columnNameRecruit = ['VỊ TRÍ', 'ĐỊA ĐIỂM LÀM VIỆC', 'NGÀY HẾT HẠN', 'SỐ LƯỢNG'];
 
@@ -71,7 +71,7 @@ export const dataRecruit = [
     { id: '5', title: 'Trưởng phòng giao dịch', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
     { id: '6', title: 'Chuyên viên kinh doanh', address: 'Thành phố Hà Nội, Thành phố Hồ Chí Minh, Tỉnh Bình Dương, Thành phố Hải Phòng', date: '31-12-2022', quantity: '2' },
     { id: '7', title: 'Chuyên viên Hành chính mua sắm', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
-    { id: '8', title: 'Chuyên viên sáng tạo nội dung - Content Creator', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
+    { id: '8', title: 'Chuyên viên sáng tạo nội dung - Content Creator', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' }
 ];
 export const arrKeyRecruit = ['title', 'address', 'date', 'quantity'];
 

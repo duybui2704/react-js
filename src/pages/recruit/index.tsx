@@ -4,7 +4,6 @@ import Languages from 'commons/languages';
 import Footer from 'components/footer';
 import PickerComponent from 'components/picker-component/picker-component';
 import { ItemProps } from 'models/common';
-import { dateListAddress, columnNameRecruit, dataRecruit, arrKeyRecruit } from 'pages/__mocks__/invest';
 import React, { useCallback, useState } from 'react';
 import styles from './recruit.module.scss';
 import { MyTextInput } from 'components/input/index';
@@ -28,6 +27,7 @@ import imgBank6 from 'assets/image/next100.png';
 import imgBank7 from 'assets/image/vndt.png';
 import imgBank8 from 'assets/image/vpbank.png';
 import imgBank9 from 'assets/image/vps.png';
+import { arrKeyRecruit, columnNameRecruit, dataRecruit, dateListAddress } from 'assets/static-data/invest';
 
 const cx = classNames.bind(styles);
 
