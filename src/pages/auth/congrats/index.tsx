@@ -19,8 +19,8 @@ export const Congrats = () => {
             if (isAndroid) {
                 openGooglePlay();
             } else if (isIOS) {
-                openAppStore();
-                // alert('isIOS = ' + isIOS + ', isMobile = ' + isMobile + ', isSafari = '+ isSafari);
+                // openAppStore();
+                alert('isIOS = ' + isIOS + ', isMobile = ' + isMobile + ', isSafari = '+ isSafari);
             }
         }, 3000);
     }, []);
