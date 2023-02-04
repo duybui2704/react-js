@@ -15,6 +15,14 @@ const cx = classNames.bind(styles);
 
 export const Congrats = () => {
 
+    const openGooglePlay = useCallback(() => {
+        helper.openLink(LINKS.STORE_ANDROID);
+    }, []);
+
+    const openAppStore = useCallback(() => {
+        helper.openLinkOnIos(LINKS.STORE_IOS);
+    }, []);
+    
     useEffect(() => {
         setTimeout(() => {
             if (isAndroid) {
@@ -23,7 +31,7 @@ export const Congrats = () => {
                 openAppStore();
             }
         }, 3000);
-    }, []);
+    }, [openAppStore, openGooglePlay]);
 
     const backgroundImage = useMemo(() => {
         return BgAuth;
@@ -37,14 +45,6 @@ export const Congrats = () => {
             backgroundRepeat: 'no-repeat'
         };
     }, [backgroundImage]);
-
-    const openGooglePlay = useCallback(() => {
-        helper.openLink(LINKS.STORE_ANDROID);
-    }, []);
-
-    const openAppStore = useCallback(() => {
-        helper.openLinkInNewTab(LINKS.STORE_IOS);
-    }, []);
 
     const renderLeftContent = useMemo(() => {
         return <div className={cx('left-container')}
