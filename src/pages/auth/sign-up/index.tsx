@@ -86,21 +86,22 @@ function SignUp({ onPress, dataChannel, onLoginGoogle, refNumber }
     }, [isShowReferral]);
 
     const onSignUp = useCallback(async () => {
-        if (onValidate()) {
-            setLoading(true);
-            const res = await apiServices.auth.registerAuth(
-                refPhone.current?.getValue(),
-                refName.current?.getValue(),
-                refPwd.current?.getValue(),
-                refPwdConfirm.current?.getValue(),
-                refEmail.current?.getValue(),
-                refChannel.current?.getValue() || '',
-                refPresenter.current?.getValue()) as any;
-            setLoading(false);
-            if (res.success) {
-                onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), password: refPwd.current?.getValue(), title: Languages.auth.signUp, checkbox: checkBox });
-            }
-        }
+        onPress();
+        // if (onValidate()) {
+        //     setLoading(true);
+        //     const res = await apiServices.auth.registerAuth(
+        //         refPhone.current?.getValue(),
+        //         refName.current?.getValue(),
+        //         refPwd.current?.getValue(),
+        //         refPwdConfirm.current?.getValue(),
+        //         refEmail.current?.getValue(),
+        //         refChannel.current?.getValue() || '',
+        //         refPresenter.current?.getValue()) as any;
+        //     setLoading(false);
+        //     if (res.success) {
+        //         onPress?.({ name: Languages.auth.enterAuthCode, phone: refPhone.current?.getValue(), password: refPwd.current?.getValue(), title: Languages.auth.signUp, checkbox: checkBox });
+        //     }
+        // }
     }, [apiServices.auth, checkBox, onPress, onValidate]);
 
     const onNavigate = useCallback((title: string) => {
