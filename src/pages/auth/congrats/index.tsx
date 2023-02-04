@@ -22,7 +22,7 @@ export const Congrats = () => {
     const openAppStore = useCallback(() => {
         helper.openLinkOnIos(LINKS.STORE_IOS);
     }, []);
-    
+
     useEffect(() => {
         setTimeout(() => {
             if (isAndroid) {

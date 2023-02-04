@@ -142,10 +142,10 @@ function OTPAuth({ onPress, phoneNumber, pwd, title, checkbox, onSuccess }:
             <div className={cx('row y10')}>
                 {title === Languages.auth.changePwd ?
                     <span className={cx('text-gray h7 x5 regular')}>
-                        {Languages.auth.contentOTPStart}{utils.formatHidePhoneNumber(`${phoneNumber}`)}{Languages.auth.contentForgotPwdEnd}`
+                        {Languages.auth.contentOTPStart}<span className={cx('text-black medium')}>{utils.formatHidePhoneNumber(`${phoneNumber}`)}</span>{Languages.auth.contentForgotPwdEnd}`
                     </span> :
                     <span className={cx('text-gray h7 x5 regular')}>
-                        {Languages.auth.contentOTPStart}{utils.formatHidePhoneNumber(`${phoneNumber}`)}{Languages.auth.contentSignEnd}`
+                        {Languages.auth.contentOTPStart}<span className={cx('text-black medium')}>{utils.formatHidePhoneNumber(`${phoneNumber}`)}</span>{Languages.auth.contentSignEnd}`
                     </span>
                 }
             </div>
