@@ -6,12 +6,25 @@ import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { isAndroid, isIOS, isMobile, isMobileSafari, isSafari } from 'react-device-detect';
 import styles from './.module.scss';
 
 const cx = classNames.bind(styles);
 
 export const Congrats = () => {
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (isAndroid) {
+                openGooglePlay();
+            } else if (isIOS) {
+                openAppStore();
+                // alert('isIOS = ' + isIOS + ', isMobile = ' + isMobile + ', isSafari = '+ isSafari);
+            }
+        }, 3000);
+    }, []);
+
     const backgroundImage = useMemo(() => {
         return BgAuth;
     }, []);
@@ -46,7 +59,7 @@ export const Congrats = () => {
             <div className={cx('row y40')}>
                 <div className={cx('column x50', 'jus-between')}>
                     <img src={ImgAppStore} className={cx('img-store')} onClick={openAppStore} />
-                    <img src={ImgGooglePlay} className={cx('img-store', 'y40')} onClick={openGooglePlay}/>
+                    <img src={ImgGooglePlay} className={cx('img-store', 'y40')} onClick={openGooglePlay} />
                 </div>
                 <img src={ImgQrCode} className={cx('img-qr')} />
             </div>
