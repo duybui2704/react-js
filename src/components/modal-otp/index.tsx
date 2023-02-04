@@ -199,7 +199,7 @@ const PopupOTP = forwardRef<PopupBaseActions, PopupBaseProps>(({ dataChannel, da
                         {timerCount > 0 ? Languages.auth.sendToAfterOTP : Languages.auth.sendToOTP}
                     </span>
                     {timerCount > 0 && <span className={cx('h6 text-red y10 p5')}>
-                        {`${utils.convertSecondToMinutes(timerCount)}`}{' '}{Languages.auth.minute}</span>}
+                        {utils.convertSecondToMinutes(timerCount)}</span>}
                 </div>
                 <Button
                     label={Languages.auth.confirm}

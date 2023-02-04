@@ -144,14 +144,8 @@ export const Auth = ({ data }) => {
     const onSuccess = useCallback(() => {
         // in this phase, just recommend user using app
         // navigate(Paths.home);
-        if (isAndroid) {
-            openGooglePlay();
-        } else if (isIOS) {
-            openAppStore();
-        } else {
-            navigate(Paths.congrats);
-        }
-    }, [navigate, openAppStore, openGooglePlay]);
+        navigate(Paths.congrats);
+    }, [navigate]);
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
         setSteps(transmissionName);

@@ -7,12 +7,21 @@ import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { isAndroid, isIOS, isMobile, isMobileSafari, isSafari } from 'react-device-detect';
+import { isAndroid, isIOS } from 'react-device-detect';
+import helper from 'utils/helper';
 import styles from './.module.scss';
 
 const cx = classNames.bind(styles);
 
 export const Congrats = () => {
+
+    const openGooglePlay = useCallback(() => {
+        helper.openLink(LINKS.STORE_ANDROID);
+    }, []);
+
+    const openAppStore = useCallback(() => {
+        helper.openLinkOnIos(LINKS.STORE_IOS);
+    }, []);
 
     useEffect(() => {
         setTimeout(() => {
@@ -20,10 +29,9 @@ export const Congrats = () => {
                 openGooglePlay();
             } else if (isIOS) {
                 openAppStore();
-                // alert('isIOS = ' + isIOS + ', isMobile = ' + isMobile + ', isSafari = '+ isSafari);
             }
         }, 3000);
-    }, []);
+    }, [openAppStore, openGooglePlay]);
 
     const backgroundImage = useMemo(() => {
         return BgAuth;
@@ -37,14 +45,6 @@ export const Congrats = () => {
             backgroundRepeat: 'no-repeat'
         };
     }, [backgroundImage]);
-
-    const openGooglePlay = useCallback(() => {
-        window.open(LINKS.STORE_ANDROID);
-    }, []);
-
-    const openAppStore = useCallback(() => {
-        window.open(LINKS.STORE_IOS);
-    }, []);
 
     const renderLeftContent = useMemo(() => {
         return <div className={cx('left-container')}
