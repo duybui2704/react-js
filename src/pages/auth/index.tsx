@@ -148,8 +148,7 @@ export const Auth = ({ data }) => {
     }, [navigate]);
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
-        // setSteps(transmissionName);
-        onSuccess();
+        setSteps(transmissionName);
     }, []);
 
     const onLoginGoogle = useCallback(() => {
