@@ -15,6 +15,7 @@ export interface RouteProps {
     hasHeader?: boolean;
     hasFooter?: boolean;
     needAuth?: boolean;
+    hasSupport?: boolean;
     data?: any
 }
 
@@ -31,7 +32,7 @@ const publicRoutes = [
 
     // more
     { path: Paths.policy, page: Policy },
-    { path: Paths.recruit, page: Recruit }
+    { path: Paths.recruit, page: Recruit, hasSupport: true }
 ] as RouteProps[];
 
 const privateRoutes = [];

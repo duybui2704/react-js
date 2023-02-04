@@ -17,7 +17,9 @@ export enum LINKS {
 }
 
 export enum CONTACT {
-    PHONE = '19006907'
+    PHONE = '19006907',
+    MESSENGER = 'https://m.me/DautuTienNgay',
+    ZING_ALO = 'https://zalo.me/3290766087338460081'
 }
 
 export enum API_CONFIG {

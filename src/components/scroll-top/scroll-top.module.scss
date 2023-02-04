@@ -22,7 +22,7 @@
     cursor: pointer;
     &:hover {
         opacity: 0.9;
-        animation: shake 0.9s ease 1;
+        // animation: shake 0.9s ease 1;
     }
     &:active {
         opacity: 0.7;
@@ -55,7 +55,7 @@
     cursor: pointer;
     &:hover {
         opacity: 0.9;
-        animation: shake 0.9s ease 1;
+        // animation: shake 0.9s ease 1;
     }
     &:active {
         opacity: 0.7;
@@ -69,7 +69,7 @@
 @keyframes shake {
     0%,
     100% {
-        transform: rotate(5deg);
+        transform: (5deg);
     }
     10%,
     30%,
