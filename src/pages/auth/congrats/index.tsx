@@ -7,7 +7,7 @@ import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import React, { useCallback, useEffect, useMemo } from 'react';
-import { isAndroid, isIOS, isMobile, isMobileSafari, isSafari } from 'react-device-detect';
+import { isAndroid, isIOS } from 'react-device-detect';
 import styles from './.module.scss';
 
 const cx = classNames.bind(styles);
@@ -19,8 +19,7 @@ export const Congrats = () => {
             if (isAndroid) {
                 openGooglePlay();
             } else if (isIOS) {
-                // openAppStore();
-                alert('isIOS = ' + isIOS + ', isMobile = ' + isMobile + ', isSafari = '+ isSafari);
+                openAppStore();
             }
         }, 3000);
     }, []);
