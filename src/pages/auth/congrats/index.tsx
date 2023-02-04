@@ -8,6 +8,7 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { isAndroid, isIOS } from 'react-device-detect';
+import helper from 'utils/helper';
 import styles from './.module.scss';
 
 const cx = classNames.bind(styles);
@@ -38,11 +39,11 @@ export const Congrats = () => {
     }, [backgroundImage]);
 
     const openGooglePlay = useCallback(() => {
-        window.open(LINKS.STORE_ANDROID);
+        helper.openLink(LINKS.STORE_ANDROID);
     }, []);
 
     const openAppStore = useCallback(() => {
-        window.open(LINKS.STORE_IOS);
+        helper.openLinkInNewTab(LINKS.STORE_IOS);
     }, []);
 
     const renderLeftContent = useMemo(() => {
