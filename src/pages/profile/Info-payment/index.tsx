@@ -151,6 +151,7 @@ function InfoPayment() {
                         ...user
                     });
                 }
+                setIsEdit(false);
             }
         }
     }, [apiServices.auth, apiServices.paymentMethod, info, onValidate, userManager, typeCard]);
@@ -187,7 +188,7 @@ function InfoPayment() {
                     }
                 </div>
                 {renderItem(Languages.profile.accountName, userManager.userInfo?.tra_lai?.name_bank_account)}
-                {renderItem(Languages.profile.accountNumber, userManager.userInfo?.tra_lai?.interest_receiving_account)}
+                {renderItem(userManager.userInfo?.tra_lai?.type_card === 2 ? Languages.profile.numberATM : Languages.profile.accountNumber, userManager.userInfo?.tra_lai?.interest_receiving_account)}
                 {renderItem(Languages.profile.bank, userManager.userInfo?.tra_lai?.bank_name, true)}
             </div>
         );
