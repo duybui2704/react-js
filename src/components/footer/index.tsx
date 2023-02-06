@@ -177,7 +177,7 @@ function Footer() {
                 <span className={cx('h5 medium text-white-style')}>{Languages.footer.companyName}</span>
                 <span className={cx('h6 text-white-style', 'company')}>{Languages.footer.companyAddress}</span>
                 <span className={cx('h6 text-white-style')}>{Languages.footer.email}</span>
-                <span className={cx('h6 text-white-style')}>{Languages.footer.phone}</span>
+                <a className={cx('h6 text-white-style')} href={Languages.footer.phoneNo}>{Languages.footer.phone}</a>
                 {renderIconLinks}
             </div>
         );
