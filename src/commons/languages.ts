@@ -362,7 +362,10 @@ const Languages = {
         haveInvested: 'Bạn từng đầu tư $count gói',
         fromDate: 'Từ ngày',
         toDate: 'Đến ngày',
-        searchProjectInvest: 'Tìm kiếm dự án đầu tư'
+        searchProjectInvest: 'Tìm kiếm dự án đầu tư',
+        dateInvest: 'Ngày đầu tư',
+        expectedDueDate: 'Ngày đáo hạn dự kiến',
+        expectedDate: 'Ngày đáo hạn'
     },
     historyDetail: {
         remainingOriginalAmount: 'Số tiền gốc còn lại',

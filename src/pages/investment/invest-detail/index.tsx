@@ -162,7 +162,7 @@ const InvestDetail = observer(({ onBackScreen, onNextScreen, investPackage, isDe
                         {isDetailHistory && renderKeyValue(Languages.historyDetail.dateInvest, investPackage?.ngay_dau_tu)}
                         {renderKeyValue(
                             tabDetailHistoryNumber !== TYPE_TAB_HISTORY.EXPIRED ? Languages.invest.expectedDueDate : Languages.invest.expectedDate,
-                            tabDetailHistoryNumber !== TYPE_TAB_HISTORY.IS_INVESTING ? investPackage?.ngay_dao_han_du_kien : investPackage?.ngay_dao_han)
+                            investPackage?.ngay_dao_han)
                         }
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={12} className={cx('column-wrap')}>

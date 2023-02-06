@@ -40,6 +40,11 @@ function HistoryPackage({ dataInvest, onPressPackage, isInvesting }:
             {isInvesting && renderKeyValue(Languages.invest.expectedProfit, utils.formatLoanMoney(dataInvest?.tong_lai_du_kien))}
             {renderKeyValue(Languages.history.interestReceived, utils.formatLoanMoney(dataInvest?.tong_lai_da_tra))}
             {isInvesting && renderKeyValue(Languages.history.remainingOriginal, utils.formatLoanMoney(dataInvest?.tong_goc_con_lai))}
+            {renderKeyValue(Languages.history.dateInvest, dataInvest?.ngay_dau_tu)}
+            {renderKeyValue(
+                isInvesting ? Languages.history.expectedDueDate : Languages.history.expectedDate,
+                dataInvest?.ngay_dao_han
+            )}
         </div>
     );
 }
