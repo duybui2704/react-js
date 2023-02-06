@@ -30,7 +30,6 @@ import Login from './login';
 import OTPAuth from './otp-auth';
 import SignUp from './sign-up';
 import SignUpGoogle from './sign-up-google';
-import { isAndroid, isIOS } from 'react-device-detect';
 import helper from 'utils/helper';
 
 const cx = classNames.bind(styles);
@@ -142,8 +141,6 @@ export const Auth = ({ data }) => {
     }, [navigate, openAppStore, openGooglePlay, renderLeftBackground]);
 
     const onSuccess = useCallback(() => {
-        // in this phase, just recommend user using app
-        // navigate(Paths.home);
         navigate(Paths.congrats);
     }, [navigate]);
 

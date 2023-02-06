@@ -177,7 +177,7 @@ function Footer() {
                 <span className={cx('h5 medium text-white-style')}>{Languages.footer.companyName}</span>
                 <span className={cx('h6 text-white-style', 'company')}>{Languages.footer.companyAddress}</span>
                 <span className={cx('h6 text-white-style')}>{Languages.footer.email}</span>
-                <span className={cx('h6 text-white-style')}>{Languages.footer.phone}</span>
+                <a className={cx('h6 text-white-style')} href={Languages.footer.phoneNo}>{Languages.footer.phone}</a>
                 {renderIconLinks}
             </div>
         );
@@ -207,7 +207,7 @@ function Footer() {
             <div className={cx('info-link-container')}>
                 <span className={cx('title-info-link')}>{Languages.footer.information}</span>
                 {renderTabLink(Languages.footer.informationChild[0])}
-                {renderTabLink(Languages.footer.informationChild[1])}
+                {/* {renderTabLink(Languages.footer.informationChild[1])} */}
                 {renderTabLink(Languages.footer.informationChild[2])}
             </div>
         );

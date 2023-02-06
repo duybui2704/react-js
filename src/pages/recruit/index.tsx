@@ -47,8 +47,8 @@ function Recruit() {
     }, []);
 
     const renderItem = useCallback((_icon: any, _title: string, _describe: string) => {
-        return <Col className={cx('divWidth')} xs={24} sm={24} md={12} lg={12} xl={8}>
-            <img src={_icon} alt="" />
+        return <Col className={cx('divWidth', 'column center')} xs={24} sm={24} md={12} lg={12} xl={8}>
+            <img src={_icon} width={'20%'} />
             <span className={cx('block medium y10 b10 h6')}>{_title}</span>
             <span className={cx('block h6')}>{_describe}</span>
         </Col>;
@@ -77,22 +77,21 @@ function Recruit() {
 
     return (
         <div className={cx('body')}>
-            <div className={cx('width')}>
+            <div className={cx('width', 'column')}>
                 <span className={cx('h3 b10 text-green medium block')}>{Languages.footer.informationChild[1]}</span>
                 <span className={cx('h6 block')}>{Languages.recruit.recruitmentContent}</span>
                 <span className={cx('h6 y40 b15 medium block')}>{Languages.recruit.desire}</span>
-                <Row className={cx('row')} gutter={[24, 16]}>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <Row className={cx('row', 'left')} gutter={[24, 16]}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12} className={cx('left')}>
                         {renderSelect(dateListAddress, Languages.recruit.textTime)}
                     </Col>
-                    <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                    <Col xs={24} sm={24} md={12} lg={12} xl={12} className={'left'}>
                         {renderInput(Languages.recruit.jobPosition, TYPE_INPUT.TEXT, Languages.recruit.jobPosition, jobPosition)}
                     </Col>
                 </Row>
-                <div className={cx('table')}>
+                <div className={cx('table', 'center')}>
                     {renderTable(dataRecruit, arrKeyRecruit, columnNameRecruit)}
                 </div>
-                <Pagination className={cx('text-center y20')} defaultCurrent={1} total={30} />
                 <Row className={cx('flex')} gutter={[24, 24]}>
                     {renderItem(icon1, Languages.recruit.promotion, Languages.recruit.textPromotion)}
                     {renderItem(icon2, Languages.recruit.peers, Languages.recruit.textPeers)}
@@ -100,14 +99,14 @@ function Recruit() {
                 </Row>
                 <span className={cx('h3 b40 text-green medium block')}>{Languages.recruit.discover}</span>
                 <Row className={cx('img')} gutter={[24, 24]}>
-                    <Col className={cx('flexImg')}>
+                    <Col className={cx('flexImg', 'column')}>
                         {renderImage(img1)}
                         {renderImage(img2)}
                     </Col>
-                    <Col className={cx('flexImg1')}>
+                    <Col className={cx('flexImg1', 'column')}>
                         <img className={cx('image')} src={img3} alt="" />
                     </Col>
-                    <Col className={cx('flexImg')}>
+                    <Col className={cx('flexImg', 'column')}>
                         {renderImage(img4)}
                         {renderImage(img5)}
                     </Col>

@@ -1,3 +1,5 @@
+import { RecruitModel } from 'models/recruit';
+
 export const InvestMethod = [
     {
         id: 1,
@@ -43,6 +45,7 @@ export const labelArrCommission = {
     money_commission: 'Hoa hồng'
 };
 
+
 export const dateListAddress = [
     {
         id: '1',
@@ -60,18 +63,18 @@ export const dateListAddress = [
         value: 'Hải Dương'
     }
 ];
-
-export const columnNameRecruit = ['VỊ TRÍ', 'ĐỊA ĐIỂM LÀM VIỆC', 'NGÀY HẾT HẠN', 'SỐ LƯỢNG'];
-
 export const dataRecruit = [
     { id: '1', title: 'Chuyên Viên Đào Tạo/Chuyên Viên Đào Tạo Cao Cấp', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
     { id: '2', title: 'Chuyên viên Chăm sóc Nhà Đầu Tư', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
-    { id: '3', title: 'Chuyên viên Thu hồi nợ qua điện thoại', address: 'Thành phố Hà Nội, Thành phố Hồ Chí Minh', date: '31-12-2022', quantity: '2' },
+    { id: '3', title: 'Chuyên viên Thu hồi nợ qua điện thoại', address: 'Thành phố Hồ Chí Minh', date: '31-12-2022', quantity: '2' },
     { id: '4', title: 'Chuyên viên tuyển dụng', address: 'Thành phố Hà Nội, Thành phố Hồ Chí Minh', date: '31-12-2022', quantity: '2' },
     { id: '5', title: 'Trưởng phòng giao dịch', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
-    { id: '6', title: 'Chuyên viên kinh doanh', address: 'Thành phố Hà Nội, Thành phố Hồ Chí Minh, Tỉnh Bình Dương, Thành phố Hải Phòng', date: '31-12-2022', quantity: '2' },
+    { id: '6', title: 'Chuyên viên kinh doanh', address: 'TTỉnh Bình Dương', date: '31-12-2022', quantity: '2' },
     { id: '7', title: 'Chuyên viên Hành chính mua sắm', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' },
     { id: '8', title: 'Chuyên viên sáng tạo nội dung - Content Creator', address: 'Thành phố Hà Nội', date: '31-12-2022', quantity: '2' }
-];
-export const arrKeyRecruit = ['title', 'address', 'date', 'quantity'];
+] as RecruitModel[];
+
+export const columnNameRecruit = ['VỊ TRÍ', 'ĐỊA ĐIỂM LÀM VIỆC', 'NGÀY HẾT HẠN', 'SỐ LƯỢNG'];
+
+export const arrKeyRecruit: Array<keyof RecruitModel> = ['title', 'address', 'date', 'quantity'];
 

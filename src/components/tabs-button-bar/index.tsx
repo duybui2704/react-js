@@ -5,9 +5,13 @@ import styles from './tabs-button-bar.module.scss';
 
 const cx = classNames.bind(styles);
 
-function TabsButtonBar({ dataTabs, defaultTabs, isMobile, onChangeText }:
+function TabsButtonBar({ dataTabs, defaultTabs, isMobile, notifyNumber, onChangeText }:
     {
-        dataTabs: ItemProps[] | any, defaultTabs?: string, isMobile: boolean, onChangeText?: (tabIndex: number, tabValue: string) => void
+        dataTabs: ItemProps[] | any,
+        defaultTabs?: string,
+        isMobile: boolean,
+        notifyNumber?: number,
+        onChangeText?: (tabIndex: number, tabValue: string) => void
     }
 ) {
     const [tabsName, setTabsName] = useState<string>(defaultTabs || '0');
@@ -22,13 +26,22 @@ function TabsButtonBar({ dataTabs, defaultTabs, isMobile, onChangeText }:
                                 setTabsName(`${index}`);
                                 onChangeText?.(index, `${item?.value}`);
                             };
-                            return <span key={index} className={cx(tabsName === `${index}` ? 'tabs-text-active' : 'tabs-text')} onClick={onChange}>{item?.text}</span>;
+
+                            const badgeCount = item.id === '2' ? (notifyNumber || 0) : 0;
+
+                            return <span
+                                key={index} onClick={onChange}
+                                className={cx(tabsName === `${index}` ? 'tabs-text-active' : 'tabs-text')}>
+                                {item?.text}
+                                {badgeCount > 0 && <span className={cx('h9 text-white', 'badge')}>{badgeCount}
+                                </span>}
+                            </span>;
                         })}
                     </div>
                 </div>
-            </div>
+            </div >
         );
-    }, [dataTabs, isMobile, onChangeText, tabsName]);
+    }, [dataTabs, isMobile, notifyNumber, onChangeText, tabsName]);
 
     return renderTabsView();
 }

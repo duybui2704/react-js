@@ -15,6 +15,7 @@ export interface RouteProps {
     hasHeader?: boolean;
     hasFooter?: boolean;
     needAuth?: boolean;
+    hasSupport?: boolean;
     data?: any
 }
 

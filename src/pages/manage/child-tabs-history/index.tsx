@@ -18,7 +18,6 @@ import ScrollTopComponent from 'components/scroll-top';
 import TabsButtonBar from 'components/tabs-button-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { PackageInvest } from 'models/invest';
@@ -42,7 +41,6 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
-    const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
     const [tabName, setTabName] = useState<number>(tabsNumber);
 
@@ -94,10 +92,6 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
             }
         }
     }, [apiServices.invest, dataFilter, offset]);
-
-    const handleScrollToTop = () => {
-        document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
-    };
 
     const fetchDataSearch = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
@@ -305,12 +299,12 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     {renderInvestList(_list)}
                     <Row gutter={[24, 0]} onClick={loadMore} className={cx('button-see-more')}>
                         {canLoadMore && <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                            <Button 
+                            <Button
                                 buttonStyle={BUTTON_STYLES.GREEN}
-                                fontSize={20} 
-                                width={100} 
+                                fontSize={20}
+                                width={100}
                                 labelStyles={cx('label-button-see-more')}
-                                label={Languages.invest.seeMore} 
+                                label={Languages.invest.seeMore}
                                 isLowerCase />
                         </Col>}
                     </Row>
@@ -340,7 +334,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                 {!isMobile && renderFilterWeb}
                 <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
                     {renderFlatList(investList)}
-                    <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
+                    <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
                 </div>
             </div>
             {renderPopupSearchPackage()}

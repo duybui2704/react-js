@@ -1,24 +1,29 @@
 import { Col, QRCode, Row } from 'antd';
 import { LINKS } from 'api/constants';
-import IcCopy from 'assets/image/ic_copy.svg';
+import IcCopy from 'assets/icon/ic_copy.svg';
 import IcDownload from 'assets/image/ic_green_download.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { useAppStore } from 'hooks';
 import { observer } from 'mobx-react';
 import React, { useCallback, useState } from 'react';
-import toasty from 'utils/toasty';
+import helper from 'utils/helper';
 import styles from './invite-friend.module.scss';
 
 const cx = classNames.bind(styles);
 const InviteFriend = observer(() => {
     const { userManager } = useAppStore();
-    const [value] = useState<string>(`${userManager?.userInfo?.phone_number}`);
+    const [code] = useState<string>(`${userManager?.userInfo?.phone_number}`);
 
-    const copyToClipboard = useCallback(() => {
-        navigator.clipboard.writeText(value);
-        toasty.info(Languages.profile.copySuccess);
-    }, [value]);
+    const inviteLink = userManager?.userInfo?.link_refferral || LINKS.ONE_LINK;
+
+    const copyCode = useCallback(() => {
+        helper.copyText(code);
+    }, [code]);
+
+    const copyLink = useCallback(() => {
+        helper.copyText(inviteLink);
+    }, [inviteLink]);
 
     const downloadQRCode = useCallback(() => {
         const canvas = document.getElementById('my-qr-code')?.querySelector<HTMLCanvasElement>('canvas');
@@ -40,8 +45,15 @@ const InviteFriend = observer(() => {
                 <Col xs={24} md={24} lg={12} xl={12}>
                     <span className={cx('text-intro')}>{Languages.profile.codeIntroduction}</span>
                     <div className={cx('row', 'button-style')}>
-                        <span className={cx('h7 text-black')} >{value}</span>
-                        <img src={IcCopy} className={cx('download')} onClick={copyToClipboard} />
+                        <span className={cx('h7 text-black')} >{code}</span>
+                        <img src={IcCopy} className={cx('download')} onClick={copyCode} />
+                    </div>
+                </Col>
+                <Col xs={24} md={24} lg={12} xl={12}>
+                    <span className={cx('text-intro')}>{Languages.profile.linkIntroduction}</span>
+                    <div className={cx('row', 'button-style')}>
+                        <span className={cx('h7 text-black')} >{inviteLink}</span>
+                        <img src={IcCopy} className={cx('download')} onClick={copyLink} />
                     </div>
                 </Col>
                 <Col xs={24} md={24} lg={12} xl={12}>
@@ -52,7 +64,7 @@ const InviteFriend = observer(() => {
                         </div>
                         <QRCode
                             size={256}
-                            value={LINKS.ONE_LINK}
+                            value={inviteLink}
                             className={cx('qr-code')}
                             bordered={false}
                         />

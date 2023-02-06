@@ -24,5 +24,6 @@ export const videoIntro = {
     link: 'https://www.youtube.com/embed/m5QNhH5GNwc',
     type: 'video/mp4',
     title: 'Ông Nguyễn Hoà Bình',
-    content: 'Nhà sáng lập kiêm chủ tịch tập đoàn Nexttech'
+    content: 'Nhà sáng lập kiêm chủ tịch tập đoàn Nexttech',
+    id_video: 'm5QNhH5GNwc'
 }; 

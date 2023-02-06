@@ -10,7 +10,6 @@ import ImgPhone1 from 'assets/image/img_phone2.jpeg';
 import ImgPhone2 from 'assets/image/img_phone3.jpeg';
 import ImgPosterVideo from 'assets/image/img_poster.jpeg';
 import ImgQRCode from 'assets/image/img_qr.jpg';
-import IcPlayVideo from 'assets/icon/ic_white_play_video.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
@@ -33,6 +32,7 @@ import utils from 'utils/utils';
 import styles from './intro.module.scss';
 import { EventEmitter } from 'utils/event-emitter';
 import { Events, TAB_INDEX } from 'commons/constants';
+import YouTubeFrame from 'components/youtube-frame';
 
 const cx = classNames.bind(styles);
 
@@ -452,10 +452,6 @@ const Intro = observer(() => {
         );
     }, [isMobile, renderGroupStepMobile, renderGroupStepWeb]);
 
-    const openLinkVideo = useCallback(() => {
-        window.open(videoIntro.link);
-    }, []);
-
     const renderViewNearBelow = useMemo(() => {
         return (
             <div className={cx('view-body row')}>
@@ -486,12 +482,7 @@ const Intro = observer(() => {
                             </div>
                         </Col>
                         <Col xs={24} md={24} lg={12} xl={12} className={cx('center column')}>
-                            <div className={cx('container-image-edit')} onClick={openLinkVideo}>
-                                <img src={ImgPosterVideo} className={cx('image-avatar-user')} />
-                                <div className={cx('middle')}>
-                                    <img className={cx('edit-container')} src={IcPlayVideo} />
-                                </div>
-                            </div>
+                            <YouTubeFrame video={videoIntro.id_video} poster={ImgPosterVideo} />
                             <div className={cx('column', 'title-vd')}>
                                 <span className={cx('text-green h6 medium')}>{videoIntro.title}</span>
                                 <span className={cx('text-gray h6')}>{videoIntro.content}</span>
@@ -499,10 +490,9 @@ const Intro = observer(() => {
                         </Col>
                     </Row>
                 </div>
-
             </div >
         );
-    }, [linkInvestPackage, openLinkVideo]);
+    }, [linkInvestPackage]);
 
     const renderViewService = useMemo(() => {
         return (

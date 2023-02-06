@@ -6,6 +6,7 @@ export type ItemProps = {
     id?: string;
     icon?: string;
     link?: string;
+    name?: string;
 };
 
 export type Image = {
@@ -30,3 +31,10 @@ export type UpLoadImageModel = {
     images: Array<Image> | undefined;
     code: number | undefined;
 };
+
+
+export type ItemRadioModel = {
+    id: string;
+    label: string;
+    value: string;
+}

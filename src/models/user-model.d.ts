@@ -41,6 +41,7 @@ export interface UserInfoModel {
     infoLinkVimo?: InfoLinkVimoModal;
     rate?:number;
     avatarFile?:any;
+    link_refferral?:string;
 }
 interface OtpModal {
     otp1: any;

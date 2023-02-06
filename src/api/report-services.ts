@@ -4,10 +4,8 @@ import { API_CONFIG } from './constants';
 export class ReportServices extends BaseService {
 
     requestFinanceReport = async (
-        quarters: string,
         year: string
     ) => this.api().post(API_CONFIG.REQUEST_FINANCE_REPORT, this.buildFormData({
-        quarters,
         year
     }));
 
