@@ -8,14 +8,14 @@ import { Image, Col, Row } from 'antd';
 import IcWarning from 'assets/image/ic_yellow_warning.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './info-identity.module.scss';
 
 import { UserInfoModel } from 'models/user-model';
 import { TextFieldActions } from 'components/input/types';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { MyTextInput } from 'components/input';
-import { COLOR_TRANSACTION, DescribePhoto } from 'commons/constants';
+import { COLOR_TRANSACTION, DescribePhoto, STATE_VERIFY_ACC } from 'commons/constants';
 import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
@@ -51,6 +51,24 @@ const InfoIdentity = observer(() => {
     const refBehindCard = useRef<SelectPhotoAction>(null);
     const refPortrait = useRef<SelectPhotoAction>(null);
 
+    useEffect(() => {
+        getInfo();
+    }, []);
+
+    const getInfo = useCallback(async () => {
+        const resInfoAcc = await apiServices.auth.getUserInfo() as any;
+        if (resInfoAcc.success) {
+            userManager.updateUserInfo({ ...resInfoAcc.data });
+            setPostData(last => {
+                last.identity = resInfoAcc?.data?.identity;
+                last.behindCard = resInfoAcc?.data?.card_back;
+                last.frontCard = resInfoAcc?.data?.front_facing_card;
+                last.portrait = resInfoAcc?.data?.avatar;
+                return last;
+            });
+        }
+    }, [apiServices.auth, userManager]);
+
     const renderDescribePhoto = useCallback((title: string, describeArray?: string[]) => {
         return (
             <div className={cx('describe-photo-container')}>
@@ -66,7 +84,10 @@ const InfoIdentity = observer(() => {
 
     const renderInput = useCallback((_ref: any, value: string, disabled: boolean) => {
         const onChange = (text: string) => {
-            setPostData({ ...postData, identity: text });
+            setPostData(last => {
+                last.identity = text;
+                return last;
+            });
         };
         return (
             <MyTextInput
@@ -81,7 +102,7 @@ const InfoIdentity = observer(() => {
                 disabled={disabled}
             />
         );
-    }, [postData]);
+    }, []);
 
     const renderPhoto = useCallback((_title: string, icon: any, imgCache: string, positionAlbums: number, _ref: any) => {
         const openDialogFiles = () => {
@@ -226,7 +247,7 @@ const InfoIdentity = observer(() => {
                     {renderPhoto(Languages.identity.portrait, IcPortrait, userManager.userInfo?.avatar || postData.portrait, 2, refPortrait)}
                 </Col>
             </Row>
-            {userManager.userInfo?.tinh_trang?.color === COLOR_TRANSACTION.RED &&
+            {userManager.userInfo?.tinh_trang?.status === STATE_VERIFY_ACC.NO_VERIFIED &&
                 <div className={cx('button-container')}>
                     {renderButton(Languages.identity.reChoose, BUTTON_STYLES.GRAY, IcRefresh, onReChoose)}
                     {renderButton(Languages.identity.verify, BUTTON_STYLES.GREEN, IcTicked, onEKyc)}
