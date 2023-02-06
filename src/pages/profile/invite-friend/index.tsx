@@ -1,6 +1,6 @@
 import { Col, QRCode, Row } from 'antd';
 import { LINKS } from 'api/constants';
-import IcCopy from 'assets/image/ic_copy.svg';
+import IcCopy from 'assets/icon/ic_copy.svg';
 import IcDownload from 'assets/image/ic_green_download.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';

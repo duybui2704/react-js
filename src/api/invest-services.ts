@@ -28,8 +28,6 @@ export class InvestServices extends BaseService {
 
     getNotify = async (limit: number, offset: number, option: number) => this.api().post(API_CONFIG.NOTIFICATION, this.buildFormData({ limit, offset, option }));
 
-    getNotifyOnRead = async () => this.api().post(API_CONFIG.GET_ONREAD_COUNT_NOTIFICATION, this.buildFormData({}));
-
     getNotifyUpdateRead = async (noti_id: number) => this.api().post(API_CONFIG.NOTIFY_UPDATE_READ, this.buildFormData({ noti_id }));
 
     getInfoInvest = async () => this.api(true).post(API_CONFIG.GET_INFOR_INVESTOR, this.buildFormData({

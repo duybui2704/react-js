@@ -328,25 +328,13 @@ const Languages = {
     },
     report: {
         title: 'Báo cáo',
-        quarterlyOverview: 'Tổng quan ',
         financialChart: 'Biểu đồ chi phí đầu tư và thu về',
         month: 'Tháng',
-        investment: 'Vốn đầu tư',
-        overview: 'Tổng quan',
         overviewInvest: 'Tổng quan đầu tư',
-        quarter: 'Quý',
-        quarterPost: 'Quý ',
         year: 'Năm',
         million: 'Triệu',
-        monthOfQuarter: 'Chi tiết tháng trong quý',
-        contractNumber: 'Số hợp đồng',
-        investAmount: 'Tiền đầu tư',
-        amountOfInvest: 'Số tiền đầu tư',
-        amountCollected: 'Tiền thu về',
-        originAmountCollected: 'Số tiền gốc thu về',
-        interestAmount: 'Tiền lãi',
-        detailMonth: 'Chi tiết tháng ',
-        reportQuarter: 'Báo cáo ',
+        reportColumnValue: ['Tiền đầu tư', 'Tổng gốc đã nhận', 'Tổng lãi đã nhận'],
+        reportQuarter: 'Báo cáo năm ',
         totalInterest: 'Tổng lãi',
         totalProfitReceived: 'Tổng lãi đã nhận',
         totalInvestment: 'Tổng vốn đầu tư',
@@ -542,7 +530,8 @@ const Languages = {
     notification: {
         titleHeader: 'Thông báo',
         newNotify: ' thông báo mới',
-        seeMore: 'Xem thêm thông báo khác'
+        seeMore: 'Xem thêm thông báo khác',
+        noData: 'Bạn chưa có thông báo nào'
     },
     recruit: {
         recruitmentContent: 'TienNgay.vn xây dựng một tập thể lớn đủ mạnh để tiến xa hơn trong lĩnh vực Tài chính. Gia nhập đội ngũ của chúng tôi ngay hôm nay!',

@@ -63,8 +63,8 @@ function formatRoundNumberToDecimalMillion(number: number) { // from 1440000 to 
         maximumFractionDigits: 2
     });
 
-    const format = (Math.abs(Number(number)) / 1.0e+6).toFixed(2);
-
+    const format = (Math.abs(Number(number)) / 1.0e+6).toFixed(1);
+    1;
     return formatter.format(Number(format));
 }
 

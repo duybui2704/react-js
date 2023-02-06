@@ -1,23 +1,24 @@
+import IcFlower from 'assets/icon/ic_red_small_flower_money.svg';
 import classNames from 'classnames/bind';
+import { PAGE_SIZE_INVEST } from 'commons/configs';
+import { NOTIFY_STATE } from 'commons/constants';
 import Languages from 'commons/languages';
+import { Button } from 'components/button';
+import { BUTTON_STYLES } from 'components/button/types';
 import Footer from 'components/footer';
+import NoData from 'components/no-data';
+import ScrollTopComponent from 'components/scroll-top';
 import TabsButtonBar from 'components/tabs-button-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import styles from './notification.module.scss';
-import IcFlower from 'assets/icon/ic_red_small_flower_money.svg';
-import { NotificationTotalModel } from 'models/notification';
-import { PAGE_SIZE_INVEST } from 'commons/configs';
 import { Notify } from 'models/invest';
-import { Button } from 'components/button';
-import { BUTTON_STYLES } from 'components/button/types';
-import ScrollTopComponent from 'components/scroll-top';
-import { NOTIFY_STATE } from 'commons/constants';
+import { NotificationTotalModel } from 'models/notification';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router';
 import dateUtils from 'utils/date-utils';
+import styles from './notification.module.scss';
 
 const cx = classNames.bind(styles);
 const IMG_TAG = 'display: block; width: 100%;';
@@ -32,9 +33,9 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices, userManager, common } = useAppStore();
-    const { scrollTop } = useWindowScrollPositions(cx('page-content'));
+    const { scrollTop } = useWindowScrollPositions(cx('page'));
 
-    const [tabName, setTabName] = useState<number>(keyTabs);
+    const [tabIndex, setTabIndex] = useState<number>(keyTabs);
 
     const [dataNotificationList, setDataNotificationList] = useState<any[]>([]);
 
@@ -51,19 +52,19 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
 
     useEffect(() => {
         getNotify();
-    }, [tabName]);
+    }, [tabIndex]);
 
     const handleScrollToTop = () => {
-        document.getElementsByClassName(cx('page-content'))[0].scrollTo({ behavior: 'smooth', top: 0 });
+        document.getElementsByClassName(cx('page'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
-    const onChangeTab = useCallback((tabIndex: number) => {
-        if (tabName !== tabIndex) {
-            setTabName(tabIndex);
+    const onChangeTab = useCallback((_tabIndex: number) => {
+        if (tabIndex !== _tabIndex) {
+            setTabIndex(_tabIndex);
             handleScrollToTop();
             setOffset(0);
         }
-    }, [tabName]);
+    }, [tabIndex]);
 
     const getUnreadNotify = useCallback(async () => {
         if (userManager.userInfo) {
@@ -97,7 +98,7 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
             const res = await apiServices.notification?.getNotify(
                 PAGE_SIZE_INVEST,
                 loadMore ? offset : 0,
-                tabName + 1
+                tabIndex + 1
             ) as any;
             if (res.success) {
                 const data = res.data as Notify[];
@@ -110,17 +111,27 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
                 }
             }
         }
-    }, [apiServices.notification, offset, tabName, userManager.userInfo]);
+    }, [apiServices.notification, offset, tabIndex, userManager.userInfo]);
 
     const loadMoreNotify = useCallback(() => {
         getNotify(true);
     }, [getNotify]);
 
-    const renderNotificationList = useCallback((dataNotifyList?: Notify[]) => {
+    const renderNotificationList = useMemo(() => {
+        if (dataNotificationList.length === 0) {
+            return <div className={cx('notify-container')}>
+                <NoData description={Languages.notification.noData} />
+            </div>;
+        }
         return (
             <div className={cx('notify-container')}>
-                {dataNotifyList?.map((item: Notify, index: number) => {
+                {dataNotificationList?.map((item: Notify, index: number) => {
+                    const enablePress = tabIndex === 1;
+
                     const onMarkRead = async () => {
+                        if (!enablePress) {
+                            return;
+                        }
                         if (item?.status === NOTIFY_STATE.UN_READ) {
                             const res = await apiServices.invest.getNotifyUpdateRead(item?.id) as any;
                             if (res.success) {
@@ -136,24 +147,37 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
                                 }
                             }
                         }
-                        if (item.link) {
-                            // navigate page of link 
-                        }
                     };
-                    return (
-                        <div
-                            className={cx(item?.status === NOTIFY_STATE.UN_READ ? 'item-notify-un-container' : 'item-notify-read-container')}
+
+                    const isUnRead = !enablePress || item?.status === NOTIFY_STATE.UN_READ;
+
+                    const layout = <>
+                        <span className={cx('title-item-notify')}>{item?.title}</span>
+                        <span className={cx('text-date-item-notify')}>{dateUtils.formatDatePicker(item?.updated_at)}</span>
+                        <div className={cx('item-notify-content-container')}>
+                            {item?.image && <img src={item?.image} className={cx('image')} />}
+                            <span
+                                className={cx('text-describe-item-notify')}
+                                dangerouslySetInnerHTML={{ __html: item?.message.replace(IMG_TAG, '') || '' }} />
+                        </div>
+                    </>;
+
+                    if (enablePress) {
+                        return <div
+                            className={cx(isUnRead ? 'item-notify-un-container' : 'item-notify-read-container')}
                             key={`${item?.id}${index}`}
                             onClick={onMarkRead}
                         >
-                            <span className={cx('title-item-notify')}>{item?.title}</span>
-                            <span className={cx('text-date-item-notify')}>{dateUtils.formatDatePicker(item?.updated_at)}</span>
-                            <div className={cx('item-notify-content-container')}>
-                                <img src={item?.image || IcFlower} className={cx('image')} />
-                                <span
-                                    className={cx('text-describe-item-notify')}
-                                    dangerouslySetInnerHTML={{ __html: item?.message.replace(IMG_TAG, '') || '' }} />
-                            </div>
+                            {layout}
+                        </div>;
+                    }
+
+                    return (
+                        <div
+                            className={cx('item-notify-container')}
+                            key={`${item?.id}${index}`}
+                        >
+                            {layout}
                         </div>
                     );
                 })}
@@ -170,21 +194,20 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
                 }
             </div>
         );
-    }, [apiServices.invest, canLoadMore, getUnreadNotify, isMobile, loadMoreNotify]);
+    }, [apiServices.invest, canLoadMore, dataNotificationList, getUnreadNotify, isMobile, loadMoreNotify, tabIndex]);
 
     return (
         <div className={cx('page')}>
             <div className={cx('header-container')}>
-                <div className={cx('notify-header-container')}>
-                    <span className={cx('notify-header-text')}>{Languages.notification.titleHeader}</span>
-                    <span className={cx('notify-count-un-read')}>{`${common.appConfig?.total_un_read}${Languages.notification.newNotify}`}</span>
-                </div>
-                <TabsButtonBar dataTabs={categories} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${keyTabs}`} />
+                <TabsButtonBar
+                    dataTabs={categories}
+                    isMobile={isMobile}
+                    notifyNumber={common.appConfig?.total_un_read}
+                    onChangeText={onChangeTab}
+                    defaultTabs={`${keyTabs}`} />
             </div>
-            <div className={cx('page-content')}>
-                {renderNotificationList(dataNotificationList)}
-                <Footer />
-            </div>
+            {renderNotificationList}
+            <Footer />
             <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
         </div>
     );
