@@ -93,7 +93,8 @@ export enum API_CONFIG {
     // report 
     GET_YEARS = 'investor/select_year', // get years for report
     GET_QUARTERS = 'investor/select_quarters_the_year', // get quarters for report
-    REQUEST_FINANCE_REPORT = 'investor/financial_report', // bao cao tai chinh investor
+    //REQUEST_FINANCE_REPORT = 'investor/financial_report', -  bao cao tai chinh investor app
+    REQUEST_FINANCE_REPORT = 'investor/financial_report_v2', // bao cao tai chinh investor web
 
     // upload Image
     UPLOAD_MEDIA = 'user/upload', // upload media

@@ -16,10 +16,11 @@ import { useNavigate } from 'react-router-dom';
 import utils from 'utils/utils';
 import RadioInvestMethod from 'components/radio-invest-method';
 import { InvestMethod } from 'assets/static-data/invest';
-import { COLOR_TRANSACTION, TYPE_TRANSFER_AMOUNT } from 'commons/constants';
+import { COLOR_TRANSACTION, Events, TABS_PROFILE, TAB_INDEX, TYPE_TRANSFER_AMOUNT } from 'commons/constants';
 import Footer from 'components/footer';
 import toasty from 'utils/toasty';
 import { observer } from 'mobx-react';
+import { EventEmitter } from 'utils/event-emitter';
 
 const cx = classNames.bind(styles);
 
@@ -96,7 +97,7 @@ const InvestPackageVerify = observer(({ onBackDetail, onNextScreen, investPackag
     }, [investMethod, isCheckbox, onNavigateTransferBank, onNavigateTransferNganLuong, userManager.userInfo?.tinh_trang?.color, userManager.userInfo?.tra_lai]);
 
     const handlePopupPolicy = useCallback(() => {
-        window.open(LINKS.POLICY_INVESTOR);
+        EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.PROFILE, TABS_PROFILE.POLICY);
     }, []);
 
     const renderLabelCheckbox = Languages.invest.agreePolicy.split('').map((character: string, index: number) => {

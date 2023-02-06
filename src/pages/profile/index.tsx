@@ -1,16 +1,21 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
+import { profile } from 'assets/static-data/profile';
 import classNames from 'classnames/bind';
 import { COLOR_TRANSACTION, TABS_PROFILE } from 'commons/constants';
+import Languages from 'commons/languages';
+import AvatarHoverImage from 'components/avatar-hover-image';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
 import Footer from 'components/footer';
+import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { toJS } from 'mobx';
+import { observer } from 'mobx-react';
 import { ItemScreenModel } from 'models/profile';
 import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
-import { profile } from 'assets/static-data/profile';
+import Policy from 'pages/policy';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import toasty from 'utils/toasty';
 import AccountLink from './account-link';
 import InfoChangePwd from './change-pwd';
 import Commission from './commission';
@@ -19,15 +24,8 @@ import InfoIdentity from './info-identity';
 import InfoPayment from './Info-payment';
 import InviteFriend from './invite-friend';
 import styles from './profile.module.scss';
-import AvatarHoverImage from 'components/avatar-hover-image';
-import SelectPhoto, { SelectPhotoAction } from 'components/select-photo';
-import toasty from 'utils/toasty';
-import Languages from 'commons/languages';
-import { observer } from 'mobx-react';
-import Policy from 'pages/policy';
 import QuestionAnswer from './question-answer';
 import UserManual from './user-manual';
-import LazyImage from 'components/image';
 
 const cx = classNames.bind(styles);
 
@@ -199,6 +197,7 @@ const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus
                     onPressAvatar={handleAvatar} />
                 <Footer />
                 <SelectPhoto ref={refAvatarPhoto} onChangeText={handleChangeAvatarImage} />
+                {/* <LazyImage />/ */}
             </div>
         </>
 

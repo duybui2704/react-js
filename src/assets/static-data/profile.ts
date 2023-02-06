@@ -15,6 +15,7 @@ import IcCall from 'assets/icon/ic_call_support.svg';
 
 import { BankModel, RePay, UserInfoModel } from 'models/user-model';
 import { ItemDocument, ItemScreenModel } from 'models/profile';
+import { ItemRadioModel } from 'models/common';
 import { CONTACT } from 'api/constants';
 
 export const profile: ItemScreenModel[] = [
@@ -192,6 +193,18 @@ export const documentInfoApp = [
     }
 ] as ItemDocument[];
 
+export const dataTypeCard = [
+    {
+        id: '1',
+        label: 'Số tài khoản',
+        value: '1'
+    },
+    {
+        id: '2',
+        label: 'Số thẻ ATM',
+        value: '2'
+    }
+] as ItemRadioModel[];
 export const MenuSupport = [
     {
         id: 1,

@@ -241,7 +241,7 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                     getPopupContainer={trigger => trigger.parentNode}
                 >
                     {data.map((item: any) => (
-                        <Option key={item?.id} value={item?.value} label={item?.text}>
+                        <Option key={item?.id} value={item?.value} label={item?.name || item?.text}>
                             <div className={itemContainer ? itemContainer : cx('item-container')} onClick={item?.value === textfieldVal ? onSelectWithEqualItem : () => onSelectItem?.(item.value)}>
                                 {icLeft && <img src={icLeft} />}
                                 <div className={cx('row center')}>
