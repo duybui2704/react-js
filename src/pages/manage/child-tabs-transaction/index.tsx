@@ -18,7 +18,6 @@ import PopupBaseMobile from 'components/popup-base-mobile';
 import Footer from 'components/footer';
 import { useAppStore } from 'hooks';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
-import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import ScrollTopComponent from 'components/scroll-top';
 import { Button } from 'components/button';
 import { arrKeyTransactionMobile, arrKeyTransactionWeb, columnNameTransaction, labelArrTransactionMobile, TabTransaction } from 'assets/static-data/manage';
@@ -33,7 +32,6 @@ interface HistoryFilter {
 function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
-    const { scrollTop } = useWindowScrollPositions(cx('scroll-container'));
 
     const [dataFilter, setDataFilter] = useState<HistoryFilter>({
         optionInvest: 'all',
@@ -53,10 +51,6 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
     useEffect(() => {
         fetchDataFilter();
     }, [dataFilter]);
-
-    const handleScrollToTop = useCallback(() => {
-        document.getElementsByClassName(cx('scroll-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
-    }, []);
 
     const fetchDataFilter = useCallback(async (loadMore?: boolean) => {
         const res = await apiServices.history.getTransactionList(
@@ -231,7 +225,7 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
                 <Footer />
             </div>
             {renderPopupSearchPackage()}
-            <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
+            <ScrollTopComponent nameClassScroll={cx('scroll-container')} />
         </div>
     );
 }

@@ -11,7 +11,6 @@ import ScrollTopComponent from 'components/scroll-top';
 import TabsButtonBar from 'components/tabs-button-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
 import { Notify } from 'models/invest';
 import { NotificationTotalModel } from 'models/notification';
@@ -33,11 +32,10 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices, userManager, common } = useAppStore();
-    const { scrollTop } = useWindowScrollPositions(cx('page'));
 
     const [tabIndex, setTabIndex] = useState<number>(keyTabs);
 
-    const [dataNotificationList, setDataNotificationList] = useState<any[]>([]);
+    const [dataNotificationList, setDataNotificationList] = useState<Notify[]>([]);
 
     const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
     const [offset, setOffset] = useState<number>(0);
@@ -208,7 +206,7 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
             </div>
             {renderNotificationList}
             <Footer />
-            <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
+            <ScrollTopComponent nameClassScroll={cx('page-content')} />
         </div>
     );
 });

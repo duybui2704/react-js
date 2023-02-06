@@ -36,7 +36,7 @@ function YouTubeFrame({ video, width, height, poster, radius }: {
     return (
         <div ref={divRef} className={cx('container-image-edit')}>
             <div className={cx('container-image-edit')} onClick={onPlay}>
-                <img src={poster} className={cx('image-avatar-user')} />
+                <img src={poster} className={cx('image-avatar-user')}/>
                 <div className={cx('middle')}>
                     <img className={cx('edit-container')} src={IcPlayVideo} />
                 </div>
