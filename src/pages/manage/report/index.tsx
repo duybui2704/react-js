@@ -1,44 +1,29 @@
 import { Col, Row } from 'antd';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import { BUTTON_STYLES } from 'components/button/types';
 import ColumnChart from 'components/column-chart';
 import Footer from 'components/footer';
-import ItemReport from 'components/item-report';
-import { PopupBaseActions } from 'components/modal/modal';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
-import PopupBaseMobile from 'components/popup-base-mobile';
-import SearchBar from 'components/search-bar';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { DashBroadModel } from 'models/dash';
-import { OverviewMonthOfQuarterModel, OverviewQuarterReportModel } from 'models/report';
+import { ReportYearModel } from 'models/report';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dateUtils from 'utils/date-utils';
 import utils from 'utils/utils';
 import styles from './report.module.scss';
 
 const cx = classNames.bind(styles);
-interface ReportFilter {
-    quarterSearch?: string;
-    yearSearch?: string;
-}
 
 const Report = observer(() => {
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
 
-    const [quarterList, setQuarterList] = useState<ItemProps[]>([]);
     const [yearList, setYearList] = useState<ItemProps[]>([]);
-    const [dataFilter, setDataFilter] = useState<ReportFilter>(
-        {
-            quarterSearch: `${Languages.report.quarterPost}${dateUtils.getQuarter(new Date())}`,
-            yearSearch: `${dateUtils.getYear(new Date())}`
-        });
+    const [dataYearFilter, setDataYearFilter] = useState<string>(`${dateUtils.getYear(new Date())}`);
 
-    const [reportQuarterList, setReportQuarterList] = useState<OverviewQuarterReportModel>();
     const [reportOverviewData, setReportOverviewData] = useState<DashBroadModel>({
         so_du: 0,
         tong_goc_con_lai: 0,
@@ -48,29 +33,25 @@ const Report = observer(() => {
         tong_tien_lai: 0
     });
 
-    const [dataChart, setDataChart] = useState<OverviewMonthOfQuarterModel[]>([]);
+    const [dataChart, setDataChart] = useState<ReportYearModel[]>([]);
 
-    const pickerQuarterRef = useRef<PickerAction>(null);
     const pickerYearRef = useRef<PickerAction>(null);
-    const popupSearchRef = useRef<PopupBaseActions>(null);
 
     useEffect(() => {
         fetchSearch();
-        fetchReportQuarter(`${dateUtils.getQuarter(new Date())}`, `${dateUtils.getYear(new Date())}`);
     }, []);
 
+    useEffect(() => {
+        fetchReportYear();
+    }, [dataYearFilter]);
+
     const fetchSearch = useCallback(async () => {
-        const resQuarters = await apiServices.report.getQuarters() as any;
         const resYear = await apiServices.report.getYear() as any;
         const resDashboard = await apiServices.common.getContractsDash() as any;
 
         if (resDashboard.success) {
             const dataDashboard = resDashboard?.data as DashBroadModel;
             setReportOverviewData(dataDashboard);
-        }
-        if (resQuarters.success) {
-            const dataQuarter = utils.formatObjectToKeyLabel(resQuarters?.data as Object);
-            setQuarterList(dataQuarter);
         }
         if (resYear.success) {
             const dataYear = utils.formatObjectToKeyLabel(resYear?.data as Object);
@@ -79,28 +60,22 @@ const Report = observer(() => {
 
     }, [apiServices.common, apiServices.report]);
 
-    const fetchReportQuarter = useCallback(async (quarter: string, year: string) => {
-        const res = await apiServices.report.requestFinanceReport(
-            `${quarter}`.replace(Languages.report.quarterPost, ''),
-            year
-        ) as any;
-        if (res.success) {
-            const dataMonths = res?.data as OverviewMonthOfQuarterModel[];
-            setReportQuarterList(res);
+    const fetchReportYear = useCallback(async () => {
+        const res = await apiServices.report.requestFinanceReport(dataYearFilter) as any;
 
+        if (res.success) {
+            const dataMonths = res?.data as ReportYearModel[];
             const temp = dataMonths.map((item) => ({
-                month: `${`${item?.month}`.slice(6, 8).replace('/', '')}`,
-                year: item?.year,
-                so_hop_dong_dau_tu: item?.so_hop_dong_dau_tu,
-                tong_tien_dau_tu: item?.tong_tien_dau_tu,
-                tien_goc_thu_ve: item?.tien_goc_thu_ve,
-                tong_lai_phi: item?.tong_lai_phi,
-                tong_tien_thu_ve: item?.tong_tien_thu_ve
-            })) as OverviewMonthOfQuarterModel[];
+                thang: item?.thang,
+                nam: item?.nam,
+                dau_tu: item?.dau_tu,
+                goc_tra: item?.goc_tra,
+                lai_tra: item?.lai_tra
+            })) as ReportYearModel[];
             setDataChart(temp);
         }
 
-    }, [apiServices.report]);
+    }, [apiServices.report, dataYearFilter]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string, noBorder?: boolean) => {
         return (
@@ -114,120 +89,41 @@ const Report = observer(() => {
     const renderPicker = useCallback((_ref: any, _title: string, _data: ItemProps[], _defaultValue?: string) => {
         const onSelectItem = (item: string) => {
             if (item.length > 0) {
-                setDataFilter({
-                    quarterSearch: _title === Languages.report.quarter ? item : dataFilter.quarterSearch,
-                    yearSearch: _title === Languages.report.year ? item : dataFilter.yearSearch
-                });
-                fetchReportQuarter(
-                    _title === Languages.report.quarter ? item : `${dataFilter.quarterSearch}`,
-                    _title === Languages.report.year ? item : `${dataFilter.yearSearch}`
-                );
+                setDataYearFilter(item);
             }
         };
         return (
             <PickerComponent ref={_ref} data={_data} onSelectItem={onSelectItem} defaultValue={_defaultValue} allowClear={true} />
         );
-    }, [dataFilter.quarterSearch, dataFilter.yearSearch, fetchReportQuarter]);
+    }, []);
 
     const renderSearchWeb = useMemo(() => {
         return (
-            <Row gutter={[24, 16]} className={cx('row-content')}>
-                <Col xs={24} sm={24} md={24} lg={24} xl={8}>
-                    <span className={cx('report-text')}>{`${Languages.report.reportQuarter}${dataFilter.quarterSearch}${' - '}${dataFilter.yearSearch}`}</span>
+            <Row gutter={[24, 16]} className={cx(isMobile ? 'filter-content-mobile' : 'filter-content')}>
+                <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+                    <span className={cx('report-text')}>{`${Languages.report.reportQuarter}${dataYearFilter}`}</span>
                 </Col>
-                <Col xs={12} sm={12} md={12} lg={12} xl={8} >
-                    {renderPicker(pickerQuarterRef, Languages.report.quarter, quarterList, dataFilter.quarterSearch)}
-                </Col>
-                <Col xs={12} sm={12} md={12} lg={12} xl={8} >
-                    {renderPicker(pickerYearRef, Languages.report.year, yearList, dataFilter.yearSearch)}
+                <Col xs={8} sm={8} md={8} lg={8} xl={8} >
+                    {renderPicker(pickerYearRef, Languages.report.year, yearList, dataYearFilter)}
                 </Col>
             </Row>
         );
-    }, [dataFilter.quarterSearch, dataFilter.yearSearch, renderPicker, quarterList, yearList]);
-
-    const handleFilter = useCallback(() => {
-        popupSearchRef.current?.showModal();
-    }, []);
-
-    const handleCancelFilter = useCallback(() => {
-        setDataFilter({ quarterSearch: `${dateUtils.getQuarter(new Date())}`, yearSearch: `${dateUtils.getYear(new Date())}` });
-    }, []);
-
-    const renderSearchMobile = useMemo(() => {
-        return (
-            <SearchBar title={`${Languages.report.reportQuarter}${dataFilter.quarterSearch}${' - '}${dataFilter.yearSearch}`}
-                onSearch={handleFilter} onCancel={handleCancelFilter} />
-        );
-    }, [dataFilter.quarterSearch, dataFilter.yearSearch, handleCancelFilter, handleFilter]);
-
-    const onSuccessPopup = useCallback(() => {
-        fetchSearch();
-    }, [fetchSearch]);
-
-    const renderPopupContentFilter = useMemo(() => {
-        return (
-            <div className={cx('content-popup-mobile')}>
-                {renderPicker(pickerQuarterRef, Languages.report.quarter, quarterList, dataFilter.quarterSearch)}
-                {renderPicker(pickerYearRef, Languages.report.year, yearList, dataFilter.yearSearch)}
-            </div>
-        );
-    }, [dataFilter.quarterSearch, dataFilter.yearSearch, quarterList, renderPicker, yearList]);
-
-    const renderPopupSearchPackage = useCallback(() => {
-        return (
-            <PopupBaseMobile ref={popupSearchRef} hasCloseIc
-                customerContent={renderPopupContentFilter} hasTwoButton
-                labelCancel={Languages.invest.cancel} labelSuccess={Languages.common.search}
-                titleHeader={Languages.common.search} buttonLeftStyle={BUTTON_STYLES.GRAY}
-                onClose={handleCancelFilter} onSuccessPress={onSuccessPopup}
-            />
-        );
-    }, [handleCancelFilter, onSuccessPopup, renderPopupContentFilter]);
-
-    const renderItemMonthReport = useCallback((_dataItemMonth?: OverviewMonthOfQuarterModel, _title?: string) => {
-        return (
-            <ItemReport dataMonthReport={_dataItemMonth} title={_title} isMobile={isMobile} />
-        );
-    }, [isMobile]);
-
-    const renderChart = useMemo(() => {
-        return (
-            <Col xs={24} sm={24} md={24} lg={24} xl={16}>
-                <div className={cx('chart-container')}>
-                    <span className={cx('chart-title-text')}>{Languages.report.financialChart}</span>
-                    <ColumnChart dataChart={dataChart} isMobile={isMobile} />
-                </div>
-            </Col>
-        );
-    }, [dataChart, isMobile]);
+    }, [dataYearFilter, isMobile, renderPicker, yearList]);
 
     const renderChartReport = useMemo(() => {
         return (
-            <Row gutter={[24, 24]} >
-                <Col xs={24} sm={24} md={24} lg={24} xl={8}>
-                    <ItemReport dataQuarterReport={reportQuarterList?.total} title={`${Languages.report.quarterlyOverview}${dataFilter.quarterSearch}`} isOverviewQuarter isMobile={isMobile} />
-                </Col>
-                {renderChart}
-            </Row>
+            <div className={cx(isMobile ? 'chart-content-mobile' : 'chart-content')}>
+                <span className={cx('chart-title-text')}>{Languages.report.financialChart}</span>
+                <ColumnChart
+                    dataChart={dataChart}
+                    isMobile={isMobile}
+                    chartContainer={cx(isMobile ? 'chart-container-mobile' : 'chart-container')} />
+            </div>
         );
-    }, [dataFilter.quarterSearch, isMobile, renderChart, reportQuarterList?.total]);
-
-    const renderViewDetailMonth = useCallback((_dataList?: any) => {
-        return (
-            <Row gutter={[24, 24]} >
-                {_dataList?.map((_itemDetail: any, _index: number) => {
-                    return (
-                        <Col xs={24} sm={24} md={12} lg={12} xl={12} className={cx('col')} key={_index}>
-                            {renderItemMonthReport(_itemDetail, `${Languages.report.detailMonth}${`${_itemDetail?.month}`.slice(6, 8).replace('/', '')}`)}
-                        </Col>
-                    );
-                })}
-            </Row>
-        );
-    }, [renderItemMonthReport]);
+    }, [dataChart, isMobile]);
 
     return (
-        <div className={cx(isMobile ? 'page-container-mobile' : 'page-container')}>
+        <div className={cx('page-container')}>
             <div className={cx(isMobile ? 'all-content-container-mobile' : 'all-content-container')}>
                 <Row gutter={[24, 0]} className={cx(isMobile ? 'row-content-mobile' : 'row-content')}>
                     <Col xs={24} sm={24} md={24} lg={24} xl={24}>
@@ -244,13 +140,9 @@ const Report = observer(() => {
                         {renderKeyValue(Languages.report.totalProfitRemaining, utils.formatLoanMoney(`${reportOverviewData?.tong_lai_con_lai}`), isMobile)}
                     </Col>
                 </Row>
-                {isMobile ? renderSearchMobile : renderSearchWeb}
-                <div className={cx(isMobile ? 'chart-content-mobile' : 'chart-content')}>
-                    {renderChartReport}
-                    {renderViewDetailMonth(reportQuarterList?.data)}
-                </div>
+                {renderSearchWeb}
+                {renderChartReport}
             </div>
-            {renderPopupSearchPackage()}
             <Footer />
         </div>
     );
