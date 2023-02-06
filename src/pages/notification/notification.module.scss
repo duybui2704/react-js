@@ -2,26 +2,15 @@
 .page {
     display: flex;
     flex-direction: column;
-    padding-top: 24px;
-}
-
-.page-content {
-    display: flex;
-    flex-direction: column;
-    height: 78vh;
+    height: calc(var(--vh, 1vh) * 100 - $header-height); // margin size equal tab-bar height
     overflow-y: scroll;
     overflow-x: hidden;
-    @include tablet() {
-        height: 83.5vh;
-    }
-    @include mobile() {
-        height: 78vh;
-    }
 }
 
 .notify-container {
     width: 80%;
     display: flex;
+    flex: 1;
     flex-direction: column;
     padding: 16px 10% 40px 10%;
     @include tablet() {
@@ -42,6 +31,15 @@
         height: auto;
         padding-top: 8px;
     }
+}
+
+.item-notify-container {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 8px 16px;
+    border: 1px solid $color-gray5;
+    border-radius: 8px;
+    margin-top: 8px;
 }
 
 .item-notify-un-container {
@@ -74,6 +72,7 @@
 .item-notify-content-container {
     display: flex;
     flex-direction: row;
+    margin-top: 5px;
     gap: 16px;
     @include mobile() {
         flex-direction: column;
@@ -103,6 +102,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 24px;
     align-items: center;
     @include mobile() {
         width: calc(100% - 16px);

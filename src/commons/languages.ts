@@ -541,7 +541,8 @@ const Languages = {
     notification: {
         titleHeader: 'Thông báo',
         newNotify: ' thông báo mới',
-        seeMore: 'Xem thêm thông báo khác'
+        seeMore: 'Xem thêm thông báo khác',
+        noData: 'Bạn chưa có thông báo nào'
     },
     recruit: {
         recruitmentContent: 'TienNgay.vn xây dựng một tập thể lớn đủ mạnh để tiến xa hơn trong lĩnh vực Tài chính. Gia nhập đội ngũ của chúng tôi ngay hôm nay!',

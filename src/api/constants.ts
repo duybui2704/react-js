@@ -62,7 +62,6 @@ export enum API_CONFIG {
     CREATE_FCM_TOKEN = 'user/save_device_token_user',
     GET_UNREAD_COUNT_NOTIFICATION = 'user/get_count_notification_user',
     NOTIFY_UPDATE_READ = '/user/update_read_notification',
-    GET_ONREAD_COUNT_NOTIFICATION = '/user/get_count_notification_user',
 
     // contracts
     CONTRACTS = 'contract/contract_tempo_by_user', // List danh sách hợp đồng
