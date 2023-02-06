@@ -207,7 +207,7 @@ function Footer() {
             <div className={cx('info-link-container')}>
                 <span className={cx('title-info-link')}>{Languages.footer.information}</span>
                 {renderTabLink(Languages.footer.informationChild[0])}
-                {renderTabLink(Languages.footer.informationChild[1])}
+                {/* {renderTabLink(Languages.footer.informationChild[1])} */}
                 {renderTabLink(Languages.footer.informationChild[2])}
             </div>
         );
