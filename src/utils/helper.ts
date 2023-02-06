@@ -1,3 +1,6 @@
+import Languages from 'commons/languages';
+import toasty from './toasty';
+
 function openLink(link: string) {
     window.open(link);
 }
@@ -12,9 +15,15 @@ function openLinkOnIos(link: string) {
     }
 }
 
+function copyText(text: string) {
+    navigator.clipboard.writeText(text);
+    toasty.info(Languages.profile.copySuccess);
+}
+
 export default {
     openLink,
     openLinkInNewTab,
-    openLinkOnIos
+    openLinkOnIos,
+    copyText
 };
 

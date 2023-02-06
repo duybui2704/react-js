@@ -8,12 +8,15 @@ import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { isAndroid, isIOS } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
+import { Paths } from 'routers/paths';
 import helper from 'utils/helper';
 import styles from './.module.scss';
 
 const cx = classNames.bind(styles);
 
 export const Congrats = () => {
+    const navigate = useNavigate();
 
     const openGooglePlay = useCallback(() => {
         helper.openLink(LINKS.STORE_ANDROID);
@@ -29,9 +32,11 @@ export const Congrats = () => {
                 openGooglePlay();
             } else if (isIOS) {
                 openAppStore();
+            }else {
+                navigate(Paths.home);
             }
         }, 3000);
-    }, [openAppStore, openGooglePlay]);
+    }, [navigate, openAppStore, openGooglePlay]);
 
     const backgroundImage = useMemo(() => {
         return BgAuth;

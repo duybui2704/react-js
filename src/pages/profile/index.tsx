@@ -199,7 +199,6 @@ const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus
                     onPressAvatar={handleAvatar} />
                 <Footer />
                 <SelectPhoto ref={refAvatarPhoto} onChangeText={handleChangeAvatarImage} />
-                <LazyImage />
             </div>
         </>
 
