@@ -12,12 +12,14 @@ import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import { useAppStore } from 'hooks';
-import { ItemProps } from 'models/common';
+import { ItemProps, ItemRadioModel } from 'models/common';
 import { DataBanksModel } from 'models/payment-link-models';
 import { BankModel, UserInfoModel } from 'models/user-model';
 import formValidate from 'utils/form-validate';
 import utils from 'utils/utils';
 import { toast } from 'react-toastify';
+import { dataTypeCard } from 'assets/static-data/profile';
+import { TYPE_INPUT } from 'commons/constants';
 
 const cx = classNames.bind(styles);
 
@@ -31,6 +33,7 @@ function InfoPayment() {
     const { userManager } = useAppStore();
     const [dataBanks, setDataBanks] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [typeCard, setTypeCard] = useState<number>(1);
 
     useEffect(() => {
         // setInfo(InfoBank);
@@ -41,7 +44,7 @@ function InfoPayment() {
         const res = await apiServices.paymentMethod.getBank() as any;
         if (res.success) {
             const data = res.data as DataBanksModel[];
-            const temp = data?.map((item) => ({ id: item?.bank_code, value: item?.name, text: item?.short_name, icon: item?.icon })) as ItemProps[];
+            const temp = data?.map((item) => ({ id: item?.bank_code, value: item?.bank_code, text: `${item?.name} - ${item.short_name}`, icon: item?.icon, name: item.short_name })) as ItemProps[];
             setDataBanks(temp);
         }
     }, [apiServices.paymentMethod]);
@@ -55,6 +58,35 @@ function InfoPayment() {
             </div>
         );
     }, []);
+
+
+    const renderRadioGroup = useCallback((data: ItemRadioModel[]) => {
+        return (
+            <div className={cx('column')}>
+                <div className={'row'}>
+                    {data.map((item: ItemRadioModel, index: number) => {
+
+                        const onChooseGender = () => {
+                            setTypeCard(Number(item?.value));
+                            setInfo(last => {
+                                last.account_number = '';
+                                return last;
+                            });
+                        };
+
+                        return (
+                            <div key={index} className={'row center x15'} onClick={onChooseGender}>
+                                <div className={cx('radio', 'x5 y10')} >
+                                    <div className={cx(item.value === typeCard.toString() ? 'radio-active' : 'radio-no-active')} />
+                                </div>
+                                <span className={cx('text-gray h7 y10')}>{item.label}</span>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }, [typeCard]);
 
     const renderInput = useCallback((_ref: any, value: string, type: string, label?: string, maxLength?: number, disabled?: boolean, key?: string) => {
 
@@ -87,7 +119,7 @@ function InfoPayment() {
 
     const onValidate = useCallback(() => {
         const errMsgBank = formValidate.inputEmpty(info.name_bank, Languages.errorMsg.errBankEmpty);
-        const errMsgAccNumber = formValidate.inputValidate(info.account_number, Languages.errorMsg.errStkEmpty, Languages.errorMsg.errStk, 16);
+        const errMsgAccNumber = formValidate.inputValidate(info.account_number, Languages.errorMsg.errStkEmpty, Languages.errorMsg.errStk, typeCard === 1 ? 16 : 19);
         const errMsgName = formValidate.inputNameEmpty(utils.formatForEachWordCase(info.account_name || ''), Languages.errorMsg.errNameEmpty, Languages.errorMsg.userNameRegex);
         refNumber.current?.setErrorMsg(errMsgAccNumber);
         refName.current?.setErrorMsg(errMsgName);
@@ -96,10 +128,9 @@ function InfoPayment() {
             return true;
         }
         return false;
-    }, [info]);
+    }, [info, typeCard]);
 
     const onSave = useCallback(async () => {
-        console.log('info ==', info);
         if (onValidate()) {
             setIsLoading(true);
             const res = await apiServices.paymentMethod.requestChoosePaymentReceiveInterest(
@@ -107,7 +138,7 @@ function InfoPayment() {
                 info.name_bank,
                 info.account_number,
                 info.account_name,
-                1
+                typeCard
             ) as any;
             setIsLoading(false);
             if (res.success) {
@@ -122,7 +153,7 @@ function InfoPayment() {
                 }
             }
         }
-    }, [apiServices.auth, apiServices.paymentMethod, info, onValidate, userManager]);
+    }, [apiServices.auth, apiServices.paymentMethod, info, onValidate, userManager, typeCard]);
 
     const oncancel = useCallback(() => {
         setIsEdit(last => !last);
@@ -184,8 +215,11 @@ function InfoPayment() {
                     onSelectItem={onChooseBank}
                     isImportant
                 />
-                {renderInput(refName,  userManager.userInfo?.tra_lai?.name_bank_account || '', 'text', Languages.profile.accountName, 50, false, 'account_name')}
-                {renderInput(refNumber, userManager.userInfo?.tra_lai?.interest_receiving_account || '', 'tel', Languages.profile.accountNumber, 16, false, 'account_number')}
+                {renderRadioGroup(dataTypeCard)}
+                {renderInput(refName, userManager.userInfo?.tra_lai?.name_bank_account || '', TYPE_INPUT.TEXT, Languages.profile.accountName, 50, false, 'account_name')}
+                {renderInput(refNumber, userManager.userInfo?.tra_lai?.interest_receiving_account || '', TYPE_INPUT.TEL,
+                    typeCard === 1 ? Languages.profile.accountNumber : Languages.profile.numberATM,
+                    typeCard === 1 ? 16 : 19, false, 'account_number')}
                 <span className={cx('h7 text-red y10 medium')}>
                     {Languages.profile.noteBank}
                     <span className={cx('h7 text-gray y10')}>
@@ -218,7 +252,7 @@ function InfoPayment() {
                 </div>
             </div>
         );
-    }, [dataBanks, isLoading, onChooseBank, onSave, oncancel, renderInput, userManager.userInfo]);
+    }, [dataBanks, isLoading, onChooseBank, onSave, oncancel, renderInput, renderRadioGroup, userManager.userInfo, typeCard]);
 
     return (
         <div className={cx('colum content')}>

@@ -10,6 +10,7 @@ import IcMessage from 'assets/icon/ic_message.svg';
 import IcGlobal from 'assets/icon/ic_global.svg';
 import { BankModel, RePay, UserInfoModel } from 'models/user-model';
 import { ItemDocument, ItemScreenModel } from 'models/profile';
+import { ItemRadioModel } from 'models/common';
 
 export const profile: ItemScreenModel[] = [
     {
@@ -185,3 +186,16 @@ export const documentInfoApp = [
         style: 1
     }
 ] as ItemDocument[];
+
+export const dataTypeCard = [
+    {
+        id: '1',
+        label: 'Số tài khoản',
+        value: '1'
+    },
+    {
+        id: '2',
+        label: 'Số thẻ ATM',
+        value: '2'
+    }
+] as ItemRadioModel[];

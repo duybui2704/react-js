@@ -22,7 +22,7 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
                         {_arrayColumn?.map?.((item: string, index: number) => { return (<td className={cx('text-black h7 medium')} key={index}>{item}</td>); })}
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className={'body-table'}>
                     {_arrayRow?.map?.((item: any, index: number) => {
                         const renderItem = (key: string, _indexItem: number) => {
                             if (key === 'hinh_thuc') {
@@ -74,7 +74,7 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
 
     const renderTableRowFooter = useCallback((_arrayRow: Total) => {
         return (
-            <tbody>
+            <tbody >
                 <tr className={cx('style-table-footer')}>
                     <td colSpan={2}>{Languages.commission.total}</td>
                     <td>{utils.formatMoneyToCommaAndNotSuffixes(_arrayRow?.total_money_number || 0)}</td>

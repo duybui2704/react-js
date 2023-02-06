@@ -21,14 +21,9 @@ import { BUTTON_STYLES } from 'components/button/types';
 import toasty from 'utils/toasty';
 import moment from 'moment';
 import formValidate from 'utils/form-validate';
+import { ItemRadioModel } from 'models/common';
 
 const cx = classNames.bind(styles);
-
-type ItemRadioModel = {
-    id: string;
-    label: string;
-    value: string;
-}
 
 const dataGender = [
     {
