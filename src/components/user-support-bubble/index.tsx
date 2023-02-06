@@ -57,6 +57,11 @@ const UserSupportBubble = () => {
         >
             {renderSupport}
             <div className={cx('icon-item-support-container')} onClick={onChangeState}>
+                {hide &&
+                    <>
+                        <div className={cx('chat-animate-wave1')} />
+                        <div className={cx('chat-animate-wave2')} />
+                    </>}
                 <img className={cx(hide ? 'icon-support-chat' : 'icon-support-chat-cancel')} src={!hide ? IcCancel : IcSupport} />
             </div>
         </div>

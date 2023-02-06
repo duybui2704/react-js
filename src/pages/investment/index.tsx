@@ -13,7 +13,6 @@ import PopupBaseMobile from 'components/popup-base-mobile';
 import ScrollTopComponent from 'components/scroll-top';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
-import { useWindowScrollPositions } from 'hooks/use-position-scroll';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { InvestFilter, PackageInvest } from 'models/invest';
@@ -28,7 +27,6 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices, userManager } = useAppStore();
-    const { scrollTop } = useWindowScrollPositions(cx('bottom-container'));
 
     const [investList, setInvestList] = useState<PackageInvest[]>([]);
     const [dateList, setDateList] = useState<ItemProps[]>([]);
@@ -51,10 +49,6 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     useEffect(() => {
         fetchPackageInvestList();
     }, [dataFilter]);
-
-    const handleScrollToTop = useCallback(() => {
-        document.getElementsByClassName(cx('bottom-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
-    }, []);
 
     const fetchFilterDataList = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
@@ -248,7 +242,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 {isMobile ? renderTopMobile : renderTopWeb}
             </div>
             {renderFlatList(investList)}
-            <ScrollTopComponent scrollTopHeight={scrollTop} isMobile={isMobile} onScrollTop={handleScrollToTop} />
+            <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
             {renderPopupSearchPackage()}
         </div>
     );
