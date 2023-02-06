@@ -6,12 +6,38 @@ import ImgLogo from 'assets/image/img_logo_white.svg';
 import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { isAndroid, isIOS } from 'react-device-detect';
+import { useNavigate } from 'react-router-dom';
+import { Paths } from 'routers/paths';
+import helper from 'utils/helper';
 import styles from './.module.scss';
 
 const cx = classNames.bind(styles);
 
 export const Congrats = () => {
+    const navigate = useNavigate();
+
+    const openGooglePlay = useCallback(() => {
+        helper.openLink(LINKS.STORE_ANDROID);
+    }, []);
+
+    const openAppStore = useCallback(() => {
+        helper.openLinkOnIos(LINKS.STORE_IOS);
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            if (isAndroid) {
+                openGooglePlay();
+            } else if (isIOS) {
+                openAppStore();
+            }else {
+                navigate(Paths.home);
+            }
+        }, 3000);
+    }, [navigate, openAppStore, openGooglePlay]);
+
     const backgroundImage = useMemo(() => {
         return BgAuth;
     }, []);
@@ -24,14 +50,6 @@ export const Congrats = () => {
             backgroundRepeat: 'no-repeat'
         };
     }, [backgroundImage]);
-
-    const openGooglePlay = useCallback(() => {
-        window.open(LINKS.STORE_ANDROID);
-    }, []);
-
-    const openAppStore = useCallback(() => {
-        window.open(LINKS.STORE_IOS);
-    }, []);
 
     const renderLeftContent = useMemo(() => {
         return <div className={cx('left-container')}
@@ -46,7 +64,7 @@ export const Congrats = () => {
             <div className={cx('row y40')}>
                 <div className={cx('column x50', 'jus-between')}>
                     <img src={ImgAppStore} className={cx('img-store')} onClick={openAppStore} />
-                    <img src={ImgGooglePlay} className={cx('img-store', 'y40')} onClick={openGooglePlay}/>
+                    <img src={ImgGooglePlay} className={cx('img-store', 'y40')} onClick={openGooglePlay} />
                 </div>
                 <img src={ImgQrCode} className={cx('img-qr')} />
             </div>

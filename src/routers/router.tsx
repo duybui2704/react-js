@@ -1,6 +1,7 @@
 import { ConfigProvider } from 'antd';
 import Footer from 'components/footer';
 import Header from 'components/header';
+import UserSupportBubble from 'components/user-support-bubble';
 import { useAppStore } from 'hooks';
 import OverlayLoader from 'pages/common/overlay-loader';
 import React, { ReactElement, Suspense, useEffect } from 'react';
@@ -47,6 +48,7 @@ const RouteWrapper = ({ ...props }: RouteProps): ReactElement => {
                     <props.page
                         {...props} />
                     {/* </div> */}
+                    {props.hasSupport && <UserSupportBubble />}
                     {/* {props.hasFooter && <Footer />} */}
                 </ConfigProvider>
             </div>

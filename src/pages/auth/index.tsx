@@ -30,7 +30,6 @@ import Login from './login';
 import OTPAuth from './otp-auth';
 import SignUp from './sign-up';
 import SignUpGoogle from './sign-up-google';
-import { isAndroid, isIOS } from 'react-device-detect';
 import helper from 'utils/helper';
 
 const cx = classNames.bind(styles);
@@ -142,16 +141,8 @@ export const Auth = ({ data }) => {
     }, [navigate, openAppStore, openGooglePlay, renderLeftBackground]);
 
     const onSuccess = useCallback(() => {
-        // in this phase, just recommend user using app
-        // navigate(Paths.home);
-        if (isAndroid) {
-            openGooglePlay();
-        } else if (isIOS) {
-            openAppStore();
-        } else {
-            navigate(Paths.congrats);
-        }
-    }, [navigate, openAppStore, openGooglePlay]);
+        navigate(Paths.congrats);
+    }, [navigate]);
 
     const onChangeSteps = useCallback((transmissionName?: any) => {
         setSteps(transmissionName);
@@ -175,11 +166,9 @@ export const Auth = ({ data }) => {
                     const resInfoAcc = await apiServices.auth.getUserInfo();
                     userManager.updateUserInfo({ ...resInfoAcc.data, ...dataLogin });
                     if (sessionManager.accessToken) {
-                        if (sessionManager.accessToken) {
-                            setTimeout(() => {
-                                navigate(Paths.home);
-                            }, 200);
-                        }
+                        setTimeout(() => {
+                            onSuccess();
+                        }, 200);
                     }
                 } else {
                     setDataGoogle(dataLogin);
@@ -189,7 +178,7 @@ export const Auth = ({ data }) => {
         }).catch((error) => {
             console.log('error ===', error);
         });
-    }, [apiServices?.auth, navigate, userManager]);
+    }, [apiServices.auth, onSuccess, userManager]);
 
     const renderSteps = useMemo(() => {
 

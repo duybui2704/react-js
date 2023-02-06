@@ -8,9 +8,15 @@ import IcInviteFriends from 'assets/icon/ic_invitefriends.svg';
 import IcTutorial from 'assets/icon/ic_tutorial.svg';
 import IcMessage from 'assets/icon/ic_message.svg';
 import IcGlobal from 'assets/icon/ic_global.svg';
+import IcMessenger from 'assets/icon/ic_messenger.svg';
+import IcWhatApp from 'assets/icon/ic_what_app.svg';
+import IcZingAlo from 'assets/icon/ic_zalo.svg';
+import IcCall from 'assets/icon/ic_call_support.svg';
+
 import { BankModel, RePay, UserInfoModel } from 'models/user-model';
 import { ItemDocument, ItemScreenModel } from 'models/profile';
 import { ItemRadioModel } from 'models/common';
+import { CONTACT } from 'api/constants';
 
 export const profile: ItemScreenModel[] = [
     {
@@ -199,3 +205,23 @@ export const dataTypeCard = [
         value: '2'
     }
 ] as ItemRadioModel[];
+export const MenuSupport = [
+    {
+        id: 1,
+        title: 'Call',
+        icon: IcCall,
+        link: `${'tel:'}${CONTACT.PHONE}`
+    },
+    {
+        id: 2,
+        title: 'Messenger',
+        icon: IcMessenger,
+        link: CONTACT.MESSENGER
+    },
+    {
+        id: 3,
+        title: 'ZingAlo',
+        icon: IcZingAlo,
+        link: CONTACT.ZING_ALO
+    }
+];

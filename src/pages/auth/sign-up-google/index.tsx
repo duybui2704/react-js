@@ -49,10 +49,11 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
 
     useEffect(() => {
         if (refNumber) {
-            refChannel?.current?.setValue(dataChannel.find(item => item.value === CHANNEL.FRIEND)?.value || '');
+            const chanelId = dataChannel.find(item => item.value === CHANNEL.FRIEND)?.value || '';
+            refChannel?.current?.setValue(chanelId);
             setShowReferral(true);
 
-            formData.current.channel = refChannel?.current?.getValue() || '';
+            formData.current.channel = chanelId;
             formData.current.code = refNumber;
         }
     }, [dataChannel, refNumber]);
@@ -138,7 +139,7 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
                 </span>
                 <div className={cx('row y10')}>
                     <span className={cx('text-gray h7 x5')}>
-                        {Languages.auth.contentOTPStart}{utils.formatHidePhoneNumber(`${formData.current.phone}`)}{Languages.auth.contentOTPEnd}
+                        {Languages.auth.contentOTPStart}<span className={cx('text-black medium')}>{utils.formatHidePhoneNumber(`${formData.current.phone}`)}</span>{Languages.auth.contentOTPEnd}
                     </span>
                 </div>
                 <label className={cx('text-gray h7 x5 y30')}>
@@ -164,7 +165,7 @@ const SignUpGoogle = (({ onPress, dataChannel, data, refNumber, onSuccess }) => 
                         {timerCount > 0 ? Languages.auth.sendToAfterOTP : Languages.auth.sendToOTP}
                     </span>
                     {timerCount > 0 && <span className={cx('h6 text-red y10 p5')}>
-                        {`${utils.convertSecondToMinutes(timerCount)}`}{' '}{Languages.auth.minute}</span>}
+                        {utils.convertSecondToMinutes(timerCount)}</span>}
                 </div>
                 <Button
                     label={Languages.auth.confirm}
