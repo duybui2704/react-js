@@ -9,8 +9,6 @@ import Router from './routers/router';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import config from 'config';
-import { Helmet } from 'react-helmet';
-
 
 if (config.env === 'prod') {
     console.log = () => { };
@@ -50,19 +48,8 @@ function App(): JSX.Element {
         router.subscribe((state) => console.log('new state', state));
     }, [router]);
 
-    const meta = {
-        title: 'Đầu tư TiệnNgay lka',
-        description: 'Đầu tư dễ dàng và an toàn với Tiện Ngay: ứng dụng giúp bạn yên tâm tích luỹ tài sản thông qua các các gói đầu tư có lãi suất vượt trội lên đến 18% và kỳ hạn linh hoạt chỉ từ 1 tháng.',
-        image: 'https://play-lh.googleusercontent.com/c_aF151w0DfmeexqEVxjhsN3henKLG4gLIzaK2mxKbIKkNFgY_kltqZWYTjtpJllT_Y=w5120-h2880-rw'
-    };
-
     return <>
         {/* <React.StrictMode> */}
-        <Helmet>
-            <title>{meta.title}</title>
-            <meta name="description" content={meta.description} />
-            <meta name="image" content={meta.image} />
-        </Helmet>
         <AppStoreProvider>
             <RouterProvider router={router} />
         </AppStoreProvider>
