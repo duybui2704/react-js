@@ -9,7 +9,7 @@ import Router from './routers/router';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import config from 'config';
-import DocumentMeta from 'react-document-meta';
+import { Helmet } from 'react-helmet';
 
 
 if (config.env === 'prod') {
@@ -51,26 +51,23 @@ function App(): JSX.Element {
     }, [router]);
 
     const meta = {
-        title: 'Đầu tư TiệnNgay',
+        title: 'Đầu tư TiệnNgay lk',
         description: 'Đầu tư dễ dàng và an toàn với Tiện Ngay: ứng dụng giúp bạn yên tâm tích luỹ tài sản thông qua các các gói đầu tư có lãi suất vượt trội lên đến 18% và kỳ hạn linh hoạt chỉ từ 1 tháng.',
-        meta: {
-            charset: 'utf-8',
-            name: {
-                keywords: 'react,meta,document,html,tags'
-            },
-            'og:image': 'https://play-lh.googleusercontent.com/c_aF151w0DfmeexqEVxjhsN3henKLG4gLIzaK2mxKbIKkNFgY_kltqZWYTjtpJllT_Y=w5120-h2880-rw'
-        }
+        image: 'https://play-lh.googleusercontent.com/c_aF151w0DfmeexqEVxjhsN3henKLG4gLIzaK2mxKbIKkNFgY_kltqZWYTjtpJllT_Y=w5120-h2880-rw'
     };
 
     return <>
         {/* <React.StrictMode> */}
-        <DocumentMeta {...meta}>
+        <Helmet>
+            <title>{meta.title}</title>
+            <meta name="description" content={meta.description} />
+            <meta name="image" content={meta.image} />
             <AppStoreProvider>
                 <RouterProvider router={router} />
             </AppStoreProvider>
             <ToastContainer theme="colored" className="customize-toast" limit={1} autoClose={5000} />
             {/* </React.StrictMode> */}
-        </DocumentMeta>
+        </Helmet>
     </>;
 }
 const root = createRoot(container!);
