@@ -21,7 +21,7 @@ div #count-container {
 
 .jus-start {
     display: flex;
-    justify-content: start;
+    justify-content: space-around;
 }
 
 .view-title {
@@ -101,6 +101,8 @@ div #count-container {
 
 .padding-not-bottom {
     padding: 2% 12% 0% 12%;
+    display: flex;
+    justify-content: center;
     @include mobile {
         padding: 2% 6% 0% 6%;
     }
@@ -156,6 +158,15 @@ div #count-container {
 
 .width {
     width: 75%;
+}
+
+.wid-50 {
+    width: 50%;
+}
+
+.flex-end {
+    display: flex;
+    align-items: flex-end;
 }
 
 ul {

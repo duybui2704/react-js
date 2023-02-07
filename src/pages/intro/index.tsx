@@ -305,6 +305,9 @@ const Intro = observer(() => {
     }, [getTopHeight]);
 
     const stepOne = useMemo(() => {
+
+        const screenHeight = Number(document.getElementById('img')?.clientHeight as unknown as HTMLElement);
+
         return (
             <div className={cx('column center')}>
                 <ul >
@@ -312,12 +315,14 @@ const Intro = observer(() => {
                     <li className={cx('text-black h5 y10')}>{Languages.intro.registerPhone}</li>
                     <li className={cx('text-black h5 y10')}>{Languages.intro.register1Minute}</li>
                 </ul>
-                <div className={cx('row y20 center', 'width')}>
-                    <div className={cx('column x30 space-between')}>
-                        <img src={ImgAppStore} width={'100%'} height={'40%'} />
-                        <img src={ImgGGPLay} width={'100%'} height={'40%'} className={cx('mrg-10')} />
+                <div className={cx('row y20 center')} style={{ maxWidth: screenHeight }}>
+                    <div className={cx('column x30 space-between', 'wid-50', 'flex-end')}>
+                        <img src={ImgAppStore} width={'70%'} />
+                        <img src={ImgGGPLay} width={'70%'} className={cx('mrg-10')} />
                     </div>
-                    <img src={ImgQRCode} width={'40%'} />
+                    <div className={cx('wid-50')}>
+                        <img src={ImgQRCode} width={'70%'} />
+                    </div>
                 </div>
             </div>
         );
@@ -391,8 +396,10 @@ const Intro = observer(() => {
                             backgroundPosition: 'center',
                             marginLeft: 10,
                             backgroundRepeat: 'no-repeat'
+
                         }}
                         className={cx('column center')}
+                        id={cx('img')}
                     >
                         <div className={cx('line-up')}>
                             {renderContentStep(step)}

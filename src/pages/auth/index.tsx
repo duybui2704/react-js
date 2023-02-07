@@ -167,7 +167,7 @@ export const Auth = ({ data }) => {
                     userManager.updateUserInfo({ ...resInfoAcc.data, ...dataLogin });
                     if (sessionManager.accessToken) {
                         setTimeout(() => {
-                            onSuccess();
+                            navigate(Paths.home);
                         }, 200);
                     }
                 } else {
@@ -178,7 +178,7 @@ export const Auth = ({ data }) => {
         }).catch((error) => {
             console.log('error ===', error);
         });
-    }, [apiServices.auth, onSuccess, userManager]);
+    }, [apiServices.auth, navigate, userManager]);
 
     const renderSteps = useMemo(() => {
 
