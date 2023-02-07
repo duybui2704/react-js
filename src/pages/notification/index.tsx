@@ -1,4 +1,3 @@
-import IcFlower from 'assets/icon/ic_red_small_flower_money.svg';
 import classNames from 'classnames/bind';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
 import { NOTIFY_STATE } from 'commons/constants';
@@ -41,7 +40,6 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
     const [offset, setOffset] = useState<number>(0);
 
     const [categories, setCategories] = useState<KeyValueModel[]>([]);
-    const [selectedFilter, setSelectedFilter] = useState<KeyValueModel>();
 
     useEffect(() => {
         getUnreadNotify();
@@ -53,7 +51,7 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
     }, [tabIndex]);
 
     const handleScrollToTop = () => {
-        document.getElementsByClassName(cx('page'))[0].scrollTo({ behavior: 'smooth', top: 0 });
+        document.getElementsByClassName(cx('header-container'))[0].scrollTo({ behavior: 'smooth', top: 0 });
     };
 
     const onChangeTab = useCallback((_tabIndex: number) => {
@@ -66,7 +64,7 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
 
     const getUnreadNotify = useCallback(async () => {
         if (userManager.userInfo) {
-            const res = await apiServices.notification?.getUnreadNotify() as any;
+            const res = await apiServices.notification?.getUnreadNotify();
             if (res.success) {
                 const data = res.data as NotificationTotalModel;
                 common.setAppConfig({ ...common.appConfig, total_un_read: data?.total_unRead });
@@ -83,9 +81,6 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
                     text: resCate.data[key],
                     value: index
                 };
-                if (index === 0) {
-                    setSelectedFilter(cate);
-                }
                 return cate;
             }));
         }
@@ -206,7 +201,7 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
             </div>
             {renderNotificationList}
             <Footer />
-            <ScrollTopComponent nameClassScroll={cx('page-content')} />
+            <ScrollTopComponent nameClassScroll={cx('header-container')} />
         </div>
     );
 });
