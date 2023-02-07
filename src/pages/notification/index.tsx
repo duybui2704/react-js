@@ -64,7 +64,7 @@ const Notification = observer(({ keyTabs }: { keyTabs: number }) => {
 
     const getUnreadNotify = useCallback(async () => {
         if (userManager.userInfo) {
-            const res = await apiServices.notification?.getUnreadNotify();
+            const res = await apiServices.notification?.getUnreadNotify() as any;
             if (res.success) {
                 const data = res.data as NotificationTotalModel;
                 common.setAppConfig({ ...common.appConfig, total_un_read: data?.total_unRead });
