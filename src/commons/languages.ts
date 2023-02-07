@@ -211,7 +211,9 @@ const Languages = {
         waitingConfirm: 'Chờ xác minh chứng từ !',
         agreePolicyToInvest: 'Bạn cần phải tích ô đồng ý với điều khoản sử dụng và chính sách của TienNgay để tiến hành đàu tư!',
         choosePaymentMethod: 'Bạn chưa chọn hình thức nhận tiền lãi đầu tư. Cập nhật và trải nghiệm đầu tư ngay!',
-        bankAccountEmpty: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư bằng tài khoản ngân hàng. Cập nhật và trải nghiệm đầu tư ngay!'
+        bankAccountEmpty: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư bằng tài khoản ngân hàng. Cập nhật và trải nghiệm đầu tư ngay!',
+        typeInterest: 'Hình thức trả lãi',
+        chooseTypeInterest: 'Chọn hình thức trả lãi'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',

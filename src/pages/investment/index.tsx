@@ -32,6 +32,8 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const [dateList, setDateList] = useState<ItemProps[]>([]);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [countInvest, setCountInvest] = useState<number>(0);
+    const [dataTypeInterest, setDataTypeInterest] = useState<ItemProps[]>([]);
+
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
     const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
 
@@ -39,6 +41,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
 
     const divRef = useRef<HTMLDivElement>(null);
     const popupSearchRef = useRef<PopupBaseActions>(null);
+    const pickerTypeInterestRef = useRef<PickerAction>(null);
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
 
@@ -53,6 +56,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const fetchFilterDataList = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
         const periodFilter = await apiServices.invest.getListTimeInvestment() as any;
+        const typeInterest = await apiServices.invest.getListTypeInterest() as any;
 
         if (amountFilter.success) {
             const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
@@ -62,10 +66,16 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             const dataPeriodFilter = utils.formatObjectFilterInvest(periodFilter?.data as Object);
             setDateList(dataPeriodFilter);
         }
+
+        if (typeInterest.success) {
+            const listTypeInterest = utils.formatObjectFilterInvest(typeInterest?.data as Object);
+            setDataTypeInterest(listTypeInterest);
+        }
     }, [apiServices.invest]);
 
     const fetchPackageInvestList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getAllContractInvest(
+            dataFilter.typeInterest || '',
             dataFilter.dateInvest || '',
             dataFilter.amountInvest || '',
             offset,
@@ -98,7 +108,8 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 setOffset(0);
                 setDataFilter({
                     dateInvest: _title === Languages.invest.dateInvest ? item : dataFilter.dateInvest,
-                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest,
+                    typeInterest: _title === Languages.invest.typeInterest ? item : dataFilter.typeInterest
                 });
             }
         };
@@ -106,7 +117,8 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             setOffset(0);
             setDataFilter({
                 dateInvest: _title === Languages.invest.dateInvest ? '' : dataFilter.dateInvest,
-                amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest
+                amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest,
+                typeInterest: _title === Languages.invest.typeInterest ? '' : dataFilter.typeInterest
             });
         };
         return (
@@ -121,20 +133,21 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 />
             </Col>
         );
-    }, [dataFilter.amountInvest, dataFilter.dateInvest, isMobile]);
+    }, [dataFilter.amountInvest, dataFilter.dateInvest, dataFilter.typeInterest, isMobile]);
 
     const renderTopWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
+                {/* {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
                     <span className={cx('text-your-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span>
                     <span className={cx('text-your-chance-search')}>{Languages.invest.yourChanceSearch}</span>
-                </Col>}
+                </Col>} */}
+                {renderPicker(pickerTypeInterestRef, Languages.invest.typeInterest, Languages.invest.chooseTypeInterest, dataTypeInterest)}
                 {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
                 {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateList)}
             </Row>
         );
-    }, [amountList, countInvest, dateList, isMobile, renderPicker]);
+    }, [amountList, dataTypeInterest, dateList, renderPicker]);
 
     const handleOpenPopupSearch = useCallback(() => {
         popupSearchRef.current?.showModal();

@@ -306,22 +306,20 @@ const Intro = observer(() => {
 
     const stepOne = useMemo(() => {
 
-        const screenHeight = Number(document.getElementById('img')?.clientHeight as unknown as HTMLElement);
-
         return (
             <div className={cx('column center')}>
                 <ul >
-                    <li className={cx('text-black h5 y10')}>{Languages.intro.registerApp}</li>
-                    <li className={cx('text-black h5 y10')}>{Languages.intro.registerPhone}</li>
-                    <li className={cx('text-black h5 y10')}>{Languages.intro.register1Minute}</li>
+                    <li className={cx('text-black h5 light-hight-x5')}>{Languages.intro.registerApp}</li>
+                    <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.registerPhone}</li>
+                    <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.register1Minute}</li>
                 </ul>
-                <div className={cx('row y20 center')} style={{ maxWidth: screenHeight }}>
+                <div className={cx('row y20 center')} style={{ maxWidth: '600px' }} >
                     <div className={cx('column x30 space-between', 'wid-50', 'flex-end')}>
-                        <img src={ImgAppStore} width={'70%'} />
-                        <img src={ImgGGPLay} width={'70%'} className={cx('mrg-10')} />
+                        <img src={ImgAppStore} width={isMobile ? '90%' : '70%'} />
+                        <img src={ImgGGPLay} width={isMobile ? '90%' : '70%'} className={cx('mrg-10')} />
                     </div>
                     <div className={cx('wid-50')}>
-                        <img src={ImgQRCode} width={'70%'} />
+                        <img src={ImgQRCode} width={isMobile ? '90%' : '70%'} />
                     </div>
                 </div>
             </div>
@@ -538,12 +536,12 @@ const Intro = observer(() => {
                                 {Languages.intro.appMobile[2]}
                             </span>
 
-                            <div className={cx('row y40')}>
+                            <div className={cx('row y40 center')}>
                                 <div className={cx('column x50 space-between center pt5 pb5')}>
-                                    <img src={ImgAppStore} width={'100%'} />
-                                    <img src={ImgGGPLay} width={'100%'} />
+                                    <img src={ImgAppStore} width={isMobile ? '90%' : '100%'} className={cx(('pt16'))} />
+                                    <img src={ImgGGPLay} width={isMobile ? '90%' : '100%'} className={cx(('pt-16'))} />
                                 </div>
-                                <img src={ImgQRCode} width={'30%'} />
+                                <img src={ImgQRCode} width={isMobile ? '35%' : '25%'} style={{ minWidth: 130 }} />
                             </div>
                         </div>
                     </Col>

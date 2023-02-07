@@ -80,6 +80,7 @@ export enum API_CONFIG {
     LIST_MONEY_INVESTMENT = '/contract/select_money_investor',
     INVEST_BANK = 'contract/investment_bank_ngan_luong',  // xem thong tin banking
     CHECK_BILL = 'contract/check_bill',  // check_bill
+    LIST_TYPE_INTEREST_INVESTMENT = 'contract/type_interest',
 
     // link account with payment method
     PAYMENT_METHOD = 'app/payment_method',    // danh sách các phương thức

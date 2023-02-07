@@ -455,12 +455,10 @@ $desktop-width: 1024px;
 // ::-webkit-scrollbar {
 //     width: 4px;
 // }
-
 // ::-webkit-scrollbar-thumb {
 //     background: $color-green;
 //     width: 1px;
 // }
-
 //gap
 .g-4 {
     gap: 4px;
@@ -510,4 +508,8 @@ $desktop-width: 1024px;
     box-shadow: $box-shadow;
     border-radius: 4px;
     margin: 0 2px;
+}
+
+.light-hight-x5 {
+    line-height: 1.5
 }

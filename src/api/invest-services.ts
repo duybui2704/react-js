@@ -6,7 +6,8 @@ export class InvestServices extends BaseService {
 
     getInvestHaveContract = async (id: string) => this.api().post(API_CONFIG.CONTRACT_HAVE_INVESTED, this.buildFormData({ id }));
 
-    getAllContractInvest = async (timeInvestment: string, moneyInvestment: string, uriSegment: number, per_page: number) => this.api().post(API_CONFIG.CONTRACTS_HOT, this.buildFormData({
+    getAllContractInvest = async (typeInterest: string, timeInvestment: string, moneyInvestment: string, uriSegment: number, per_page: number) => this.api().post(API_CONFIG.CONTRACTS_HOT, this.buildFormData({
+        type_interest: typeInterest,
         text: '',
         loan: timeInvestment,
         money: moneyInvestment,
@@ -46,6 +47,9 @@ export class InvestServices extends BaseService {
     }));
 
     getListTimeInvestment = async () => this.api().post(API_CONFIG.LIST_TIME_INVESTMENT, this.buildFormData({}));
+
+    getListTypeInterest = async () => this.api().post(API_CONFIG.LIST_TYPE_INTEREST_INVESTMENT, this.buildFormData({}));
+
 
     getListMoneyInvestment = async () => this.api().post(API_CONFIG.LIST_MONEY_INVESTMENT, this.buildFormData({}));
 

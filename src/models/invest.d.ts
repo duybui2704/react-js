@@ -104,6 +104,7 @@ export interface BankInformationModel {
 export interface InvestFilter {
     dateInvest?: string;
     amountInvest?: string;
+    typeInterest?: string;
 }
 
 export interface DataColumnCommissionType {
