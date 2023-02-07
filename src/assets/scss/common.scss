@@ -115,7 +115,7 @@ $desktop-width: 1024px;
 
 //----------------TEXT----------------
 .font-style-italic {
-    font-style: italic
+    font-style: italic;
 }
 
 .text-white {
@@ -451,15 +451,15 @@ $desktop-width: 1024px;
     padding-right: 5px;
 }
 
-//scroll
-::-webkit-scrollbar {
-    width: 4px;
-}
+// //scroll
+// ::-webkit-scrollbar {
+//     width: 4px;
+// }
 
-::-webkit-scrollbar-thumb {
-    background: $color-green;
-    width: 1px;
-}
+// ::-webkit-scrollbar-thumb {
+//     background: $color-green;
+//     width: 1px;
+// }
 
 //gap
 .g-4 {

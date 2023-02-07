@@ -94,8 +94,9 @@ const Languages = {
         companyName: ' CÔNG TY CỔ PHẦN CÔNG NGHỆ TÀI CHÍNH VIỆT',
         companyAddress: ' Tầng 15, Khối B, Tòa nhà Sông Đà, Phạm Hùng, Mỹ Đình 1, Nam Từ Liêm, Hà Nội',
         email: 'Email: contact@tienngay.vn',
+        emailHref: 'mailto:contact@tienngay.vn',
         phone: 'Phone: 1900 6907',
-        phoneNo: '19006907',
+        phoneHref: 'tel:19006907',
         information: 'Thông tin',
         informationChild: ['Truyền thông', 'Tuyển dụng', 'Điều kiện và điều khoản'],
         customerSupport: 'Hỗ trợ khách hàng',
@@ -362,7 +363,10 @@ const Languages = {
         haveInvested: 'Bạn từng đầu tư $count gói',
         fromDate: 'Từ ngày',
         toDate: 'Đến ngày',
-        searchProjectInvest: 'Tìm kiếm dự án đầu tư'
+        searchProjectInvest: 'Tìm kiếm dự án đầu tư',
+        dateInvest: 'Ngày đầu tư',
+        expectedDueDate: 'Ngày đáo hạn dự kiến',
+        expectedDate: 'Ngày đáo hạn'
     },
     historyDetail: {
         remainingOriginalAmount: 'Số tiền gốc còn lại',

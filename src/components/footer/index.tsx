@@ -176,8 +176,8 @@ function Footer() {
                 <img src={IcLogo} className={cx('icon-tienngay')} />
                 <span className={cx('h5 medium text-white-style')}>{Languages.footer.companyName}</span>
                 <span className={cx('h6 text-white-style', 'company')}>{Languages.footer.companyAddress}</span>
-                <span className={cx('h6 text-white-style')}>{Languages.footer.email}</span>
-                <a className={cx('h6 text-white-style')} href={Languages.footer.phoneNo}>{Languages.footer.phone}</a>
+                <a className={cx('h6 text-white-style')} href={Languages.footer.emailHref}>{Languages.footer.email}</a>
+                <a className={cx('h6 text-white-style')} href={Languages.footer.phoneHref}>{Languages.footer.phone}</a>
                 {renderIconLinks}
             </div>
         );
