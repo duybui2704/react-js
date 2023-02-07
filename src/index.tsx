@@ -51,7 +51,7 @@ function App(): JSX.Element {
     }, [router]);
 
     const meta = {
-        title: 'Đầu tư TiệnNgay lk',
+        title: 'Đầu tư TiệnNgay lka',
         description: 'Đầu tư dễ dàng và an toàn với Tiện Ngay: ứng dụng giúp bạn yên tâm tích luỹ tài sản thông qua các các gói đầu tư có lãi suất vượt trội lên đến 18% và kỳ hạn linh hoạt chỉ từ 1 tháng.',
         image: 'https://play-lh.googleusercontent.com/c_aF151w0DfmeexqEVxjhsN3henKLG4gLIzaK2mxKbIKkNFgY_kltqZWYTjtpJllT_Y=w5120-h2880-rw'
     };
@@ -62,12 +62,12 @@ function App(): JSX.Element {
             <title>{meta.title}</title>
             <meta name="description" content={meta.description} />
             <meta name="image" content={meta.image} />
-            <AppStoreProvider>
-                <RouterProvider router={router} />
-            </AppStoreProvider>
-            <ToastContainer theme="colored" className="customize-toast" limit={1} autoClose={5000} />
-            {/* </React.StrictMode> */}
         </Helmet>
+        <AppStoreProvider>
+            <RouterProvider router={router} />
+        </AppStoreProvider>
+        <ToastContainer theme="colored" className="customize-toast" limit={1} autoClose={5000} />
+        {/* </React.StrictMode> */}
     </>;
 }
 const root = createRoot(container!);
