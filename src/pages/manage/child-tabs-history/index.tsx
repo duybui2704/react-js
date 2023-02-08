@@ -1,5 +1,7 @@
 import { Col, Row } from 'antd';
 import IcFilter from 'assets/image/ic_green_small_filter.svg';
+import ImgNoInvest from 'assets/image/img_no_investment.jpg';
+
 import { TabHistory } from 'assets/static-data/manage';
 import classNames from 'classnames/bind';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
@@ -12,6 +14,7 @@ import HistoryPackage from 'components/history-package';
 import { MyTextInput } from 'components/input';
 import { TextFieldActions } from 'components/input/types';
 import { PopupBaseActions } from 'components/modal/modal';
+import NoData from 'components/no-data';
 import PickerComponent, { PickerAction } from 'components/picker-component/picker-component';
 import PopupBaseMobile from 'components/popup-base-mobile';
 import ScrollTopComponent from 'components/scroll-top';
@@ -311,7 +314,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         };
         return (
             <div className={cx('bottom-container')} >
-                <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
+                {investList.length > 0 ? <div className={cx(isMobile ? 'flat-list-mobile' : 'flat-list')}>
                     {renderInvestList(_list)}
                     <Row gutter={[24, 0]} onClick={loadMore} className={cx('button-see-more')}>
                         {canLoadMore && <Col xs={24} sm={24} md={12} lg={12} xl={8}>
@@ -324,13 +327,16 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                                 isLowerCase />
                         </Col>}
                     </Row>
-                </div>
+                </div> :
+                    <div className={cx('notify-container')}>
+                        <NoData description={Languages.notification.noData} />
+                    </div>}
                 <div className={cx('footer')}>
                     <Footer />
                 </div>
             </div>
         );
-    }, [canLoadMore, fetchHistoryList, isMobile, renderInvestList]);
+    }, [canLoadMore, fetchHistoryList, investList.length, isMobile, renderInvestList]);
 
     const onChangeTab = useCallback((tabNumber: number, tabValue: string) => {
         if (tabName !== tabNumber) {
@@ -352,6 +358,16 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     {renderFlatList(investList)}
                     <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
                 </div>
+
+                {/* <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
+                    {investList.length ? renderFlatList(investList) : <div className={cx('notify-container')}>
+                        <NoData description={Languages.notification.noData} />
+                    </div>}
+                    <div className={cx('footer')}>
+                        <Footer />
+                    </div>
+                    <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
+                </div>   */}
             </div>
             {renderPopupSearchPackage()}
         </div>

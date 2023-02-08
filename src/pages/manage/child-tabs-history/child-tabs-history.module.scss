@@ -166,3 +166,17 @@
     width: 100%;
     margin-right: 16px;
 }
+
+.notify-container {
+    width: 80%;
+    flex-direction: column;
+    padding: 16px 10% 40px 10%;
+    @include tablet() {
+        padding: 16px 10% 24px 10%;
+    }
+    @include mobile() {
+        width: calc(100% - 32px);
+        padding: 24px 16px;
+    }
+    display: flex;
+}
