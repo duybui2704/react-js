@@ -197,7 +197,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     const renderFilterWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={6} className={cx('top-intro')}>
+                {/* {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={6} className={cx('top-intro')}>
                     <span className={cx('text-your-chance')}>
                         {(tabName === TYPE_TAB_HISTORY.IS_INVESTING
                             ? Languages.history.havePackage
@@ -205,12 +205,12 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                             .replace('$count', `${countInvest}`)}
                     </span>
                     <span className={cx('text-your-chance-search')}>{Languages.history.searchInvestPackage}</span>
-                </Col>}
-                <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={10} >
+                </Col>} */}
+                <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={12} xl={14} >
                     {renderPicker(pickerTypeInterestRef, Languages.invest.typeInterest, Languages.invest.chooseTypeInterest, dataTypeInterest)}
                     {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
                 </Col>
-                <Col xs={12} sm={12} md={12} lg={12} xl={8}>
+                <Col xs={24} sm={24} md={24} lg={12} xl={10}>
                     <Row gutter={[16, 4]}>
                         <Col className={cx('picker-container')} xs={24} sm={24} md={24} lg={24} xl={24} >
                             <span className={cx('text-black h6')}>{Languages.invest.dateInvest}</span>
