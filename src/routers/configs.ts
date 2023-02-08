@@ -22,7 +22,7 @@ export interface RouteProps {
 // Public routes
 const publicRoutes = [
     //common
-    { path: Paths.home, page: Home, hasHeader: true, hasFooter: true },
+    { path: Paths.home, page: Home, hasHeader: true, hasFooter: true, hasSupport: true },
     { path: Paths.any, page: NotFound },
 
     //auth

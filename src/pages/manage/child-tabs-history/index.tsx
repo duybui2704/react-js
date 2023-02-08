@@ -32,6 +32,7 @@ interface HistoryFilter {
     amountInvest?: string;
     fromDate?: string;
     toDate?: string;
+    typeInterest?: string;
 }
 
 const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
@@ -47,6 +48,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     const [investList, setInvestList] = useState<PackageInvest[]>([]);
     const [countInvest, setCountInvest] = useState<number>(0);
 
+    const [dataTypeInterest, setDataTypeInterest] = useState<ItemProps[]>([]);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [dataFilter, setDataFilter] = useState<HistoryFilter>({
         optionInvest: `${tabsNumber + 1}` || '1', // tabsNumber===( 0: investing, 1: đã đáo hạn)
@@ -59,6 +61,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     const popupSearchRef = useRef<PopupBaseActions>(null);
     const pickerAmountRef = useRef<PickerAction>(null);
+    const pickerTypeInterestRef = useRef<PickerAction>(null);
 
     const fromDateRef = useRef<TextFieldActions>(null);
     const toDateRef = useRef<TextFieldActions>(null);
@@ -73,6 +76,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     const fetchHistoryList = useCallback(async (loadMore?: boolean) => {
         const investmentList = await apiServices.invest.getListContractInvesting(
+            dataFilter.typeInterest || '',
             dataFilter.optionInvest || '1',
             '',
             dataFilter.amountInvest || '',
@@ -95,9 +99,16 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
 
     const fetchDataSearch = useCallback(async () => {
         const amountFilter = await apiServices.invest.getListMoneyInvestment() as any;
+        const interest = await apiServices.invest.getListTypeInterest() as any;
+
         if (amountFilter.success) {
             const dataAmountFilter = utils.formatObjectFilterInvest(amountFilter?.data as Object);
             setAmountList(dataAmountFilter);
+        }
+
+        if (interest.success) {
+            const dataInterest = utils.formatObjectFilterInvest(interest?.data as Object);
+            setDataTypeInterest(dataInterest);
         }
     }, [apiServices.invest]);
 
@@ -107,7 +118,8 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                 setOffset(0);
                 setDataFilter({
                     ...dataFilter,
-                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest
+                    amountInvest: _title === Languages.invest.investAmount ? item : dataFilter.amountInvest,
+                    typeInterest: _title === Languages.invest.typeInterest ? item : dataFilter.typeInterest
                 });
             }
         };
@@ -115,7 +127,8 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
             setOffset(0);
             setDataFilter({
                 ...dataFilter,
-                amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest
+                amountInvest: _title === Languages.invest.investAmount ? '' : dataFilter.amountInvest,
+                typeInterest: _title === Languages.invest.investAmount ? '' : dataFilter.typeInterest
             });
         };
         return (
@@ -125,7 +138,9 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                 placeholder={_placeholder}
                 onSelectItem={onSelectItem}
                 allowClear={isMobile ? true : false}
-                onClear={handleClearDataFilter} />
+                onClear={handleClearDataFilter}
+                mainContainer={cx('main-container')}
+            />
         );
     }, [dataFilter, isMobile]);
 
@@ -182,7 +197,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     const renderFilterWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
+                {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={6} className={cx('top-intro')}>
                     <span className={cx('text-your-chance')}>
                         {(tabName === TYPE_TAB_HISTORY.IS_INVESTING
                             ? Languages.history.havePackage
@@ -191,7 +206,8 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     </span>
                     <span className={cx('text-your-chance-search')}>{Languages.history.searchInvestPackage}</span>
                 </Col>}
-                <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={8} >
+                <Col className={cx('picker-container')} xs={12} sm={12} md={12} lg={12} xl={10} >
+                    {renderPicker(pickerTypeInterestRef, Languages.invest.typeInterest, Languages.invest.chooseTypeInterest, dataTypeInterest)}
                     {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
                 </Col>
                 <Col xs={12} sm={12} md={12} lg={12} xl={8}>
@@ -205,7 +221,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                 </Col>
             </Row>
         );
-    }, [amountList, countInvest, dataFilter.fromDate, dataFilter.toDate, isMobile, renderDate, renderPicker, tabName]);
+    }, [amountList, countInvest, dataFilter.fromDate, dataFilter.toDate, dataTypeInterest, isMobile, renderDate, renderPicker, tabName]);
 
     const renderContentPopup = useMemo(() => {
         return (

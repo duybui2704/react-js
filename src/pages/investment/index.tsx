@@ -122,7 +122,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             });
         };
         return (
-            <Col className={cx('picker-container')} xs={isMobile ? 24 : 12} sm={12} md={12} lg={12} xl={8} >
+            <Col className={cx('picker-container')} xs={isMobile ? 24 : 12} sm={12} md={12} lg={12} xl={5} >
                 <PickerComponent ref={_ref}
                     data={_data}
                     title={_title}
@@ -138,16 +138,16 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const renderTopWeb = useMemo(() => {
         return (
             <Row gutter={[24, 16]} className={cx('top-search-component')}>
-                {/* {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
+                {!isMobile && <Col xs={24} sm={24} md={24} lg={24} xl={8} className={cx('top-intro')}>
                     <span className={cx('text-your-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span>
                     <span className={cx('text-your-chance-search')}>{Languages.invest.yourChanceSearch}</span>
-                </Col>} */}
+                </Col>}
                 {renderPicker(pickerTypeInterestRef, Languages.invest.typeInterest, Languages.invest.chooseTypeInterest, dataTypeInterest)}
                 {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, amountList)}
                 {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateList)}
             </Row>
         );
-    }, [amountList, dataTypeInterest, dateList, renderPicker]);
+    }, [amountList, countInvest, dataTypeInterest, dateList, isMobile, renderPicker]);
 
     const handleOpenPopupSearch = useCallback(() => {
         popupSearchRef.current?.showModal();
