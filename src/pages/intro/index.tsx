@@ -34,6 +34,7 @@ import { EventEmitter } from 'utils/event-emitter';
 import { Events, TAB_INDEX } from 'commons/constants';
 import YouTubeFrame from 'components/youtube-frame';
 
+
 const cx = classNames.bind(styles);
 
 const Intro = observer(() => {
@@ -42,11 +43,13 @@ const Intro = observer(() => {
     const isMobile = useIsMobile();
     // const [run, setRun] = useState<boolean>(false);
     const [topIntroHeight, setTopIntroHeight] = useState(0);
+    const [topVideoHeight, setTopVideoHeight] = useState(0);
     const [dataMoney, setDataMoney] = useState<ItemProps[]>([]);
     const [dataTime, setDataTime] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataArr, setDataArr] = useState<PackageInvest[]>([]);
     const [dataDash, setDataDash] = useState<DashBroadModel>();
+    const pickerTypeInterestRef = useRef<PickerAction>(null);
 
     const PAGE_SIZE = 9;
     const condition = useRef({
@@ -54,25 +57,30 @@ const Intro = observer(() => {
         offset: 0,
         canLoadMore: true,
         timeInvestment: '',
-        moneyInvest: ''
+        moneyInvest: '',
+        typeInterest: ''
     });
 
+    const [dataTypeInterest, setDataTypeInterest] = useState<ItemProps[]>([]);
     const pickerAmountRef = useRef<PickerAction>(null);
     const pickerDateRef = useRef<PickerAction>(null);
     const elementRef = useRef<any>(null);
+    const videoRef = useRef<any>(null);
 
     useEffect(() => {
         setTopIntroHeight(elementRef?.current?.clientHeight);
+        setTopVideoHeight(videoRef?.current?.clientHeight);
         fetchDataInvest();
         fetchDataMoney();
+        fetchDataTypeInterest();
         fetchDataTimeInvestment();
     }, []);
 
-    useEffect(() => {
-        if (userManager.userInfo) {
-            fetchContractsDash();
-        }
-    }, [userManager.userInfo]);
+    // useEffect(() => {
+    //     if (userManager.userInfo) {
+    //         fetchContractsDash();
+    //     }
+    // }, [userManager.userInfo]);
 
     // useEffect(() => {
     //     const scrollHandler = () => {
@@ -96,6 +104,15 @@ const Intro = observer(() => {
         }
     }, [apiServices.invest]);
 
+    const fetchDataTypeInterest = useCallback(async () => {
+        const res = await apiServices.invest.getListTypeInterest() as any;
+        if (res.success) {
+            const data = utils.formatObjectFilterInvest(res.data as ItemProps[]);
+            setDataTypeInterest(data);
+        }
+    }, [apiServices.invest]);
+
+
     const fetchDataTimeInvestment = useCallback(async () => {
         const res = await apiServices.invest.getListTimeInvestment() as any;
         if (res.success) {
@@ -117,11 +134,12 @@ const Intro = observer(() => {
     const fetchDataInvest = useCallback(async () => {
         setIsLoading(true);
         if (condition.current.isLoading) {
-            const resInvest = await apiServices.common.getListInvest(
-                PAGE_SIZE,
-                condition.current.offset,
+            const resInvest = await apiServices.invest.getAllContractInvest(
+                condition.current.typeInterest,
                 condition.current.timeInvestment,
                 condition.current.moneyInvest,
+                condition.current.offset,
+                PAGE_SIZE
             ) as any;
             setIsLoading(false);
             if (resInvest.success) {
@@ -138,7 +156,7 @@ const Intro = observer(() => {
         }
         condition.current.isLoading = false;
         setIsLoading(false);
-    }, [apiServices.common]);
+    }, [apiServices.invest]);
 
     const linkInvestPackage = useCallback(() => {
         EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.INVESTMENT);
@@ -199,6 +217,14 @@ const Intro = observer(() => {
         fetchDataInvest();
     }, [fetchDataInvest]);
 
+
+    const onSelectTypeInterest = useCallback((item: any) => {
+        condition.current.typeInterest = item;
+        condition.current.isLoading = true;
+        condition.current.offset = 0;
+        fetchDataInvest();
+    }, [fetchDataInvest]);
+
     const renderPicker = useCallback((_ref: any, _title: string, _placeholder: string, _data: ItemProps[], onSelectItem: any) => {
 
         return (
@@ -229,6 +255,7 @@ const Intro = observer(() => {
             <div id={cx('content-container')}>
                 <span className={cx('text-green h3 medium')}>{Languages.intro.investAttractive}</span>
                 <Row gutter={[24, 16]} className={cx('top-search-component')}>
+                    {renderPicker(pickerTypeInterestRef, Languages.invest.typeInterest, Languages.invest.chooseTypeInterest, dataTypeInterest, onSelectTypeInterest)}
                     {renderPicker(pickerAmountRef, Languages.invest.investAmount, Languages.invest.investAmountChoose, dataMoney, onSelectItemMoney)}
                     {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dataTime, onSelectItemTime)}
                 </Row>
@@ -251,7 +278,7 @@ const Intro = observer(() => {
                 </div>
             </div>
         );
-    }, [dataArr, dataMoney, dataTime, isMobile, onLoadMore, onSelectItemMoney, onSelectItemTime, renderItemInvest, renderPicker]);
+    }, [dataArr, dataMoney, dataTime, dataTypeInterest, isMobile, onLoadMore, onSelectItemMoney, onSelectItemTime, onSelectTypeInterest, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 
@@ -329,9 +356,9 @@ const Intro = observer(() => {
     const stepTwo = useMemo(() => {
         return (
             <ul>
-                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest1}</li>
-                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest2}</li>
-                <li className={cx('text-black h5 y10')}>{Languages.intro.contentInvest3}</li>
+                <li className={cx('text-black h5 light-hight-x5')}>{Languages.intro.contentInvest1}</li>
+                <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.contentInvest2}</li>
+                <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.contentInvest3}</li>
             </ul>
         );
     }, []);
@@ -339,9 +366,9 @@ const Intro = observer(() => {
     const stepThree = useMemo(() => {
         return (
             <ul >
-                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit1}</li>
-                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit2}</li>
-                <li className={cx('text-black h5 y10')}>{Languages.intro.contentProfit3}</li>
+                <li className={cx('text-black h5 light-hight-x5')}>{Languages.intro.contentProfit1}</li>
+                <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.contentProfit2}</li>
+                <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.contentProfit3}</li>
             </ul>
         );
     }, []);
@@ -488,7 +515,11 @@ const Intro = observer(() => {
                         </Col>
                         <Col xs={24} md={24} lg={12} xl={12} className={cx('center column')}>
                             <YouTubeFrame video={videoIntro.id_video} poster={ImgPosterVideo} />
-                            <div className={cx('column', 'title-vd')}>
+                            <div
+                                className={cx('column', 'title-vd')}
+                                ref={videoRef}
+                                style={{ marginTop: `${-topVideoHeight / 2}px` }}
+                            >
                                 <span className={cx('text-green h6 medium')}>{videoIntro.title}</span>
                                 <span className={cx('text-gray h6')}>{videoIntro.content}</span>
                             </div>
@@ -497,7 +528,7 @@ const Intro = observer(() => {
                 </div>
             </div >
         );
-    }, [linkInvestPackage]);
+    }, [linkInvestPackage, topVideoHeight]);
 
     const renderViewService = useMemo(() => {
         return (
