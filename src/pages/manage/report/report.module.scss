@@ -152,16 +152,16 @@
 
 .chart-container {
     display: flex;
-    flex-direction: column;
     align-self: center;
     width: calc(100% - 32px);
+    position: relative;
 }
 
 .chart-container-mobile {
     display: flex;
-    flex-direction: column;
     align-self: center;
     width: calc(100% - 8px);
+    position: relative;
 }
 
 .chart-title-text {

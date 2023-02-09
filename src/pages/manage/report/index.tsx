@@ -17,6 +17,13 @@ import styles from './report.module.scss';
 
 const cx = classNames.bind(styles);
 
+type ValueBarChar = {
+    moneyInvestMent: Number[],
+    initialMoney: Number[],
+    interestMoney: Number[],
+    label: String[]
+}
+
 const Report = observer(() => {
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
@@ -33,7 +40,18 @@ const Report = observer(() => {
         tong_tien_lai: 0
     });
 
-    const [dataChart, setDataChart] = useState<ReportYearModel[]>([]);
+    const [valueColumn, setValueColumn] = useState<ValueBarChar>({
+        moneyInvestMent: [],
+        initialMoney: [],
+        interestMoney: [],
+        label: []
+    });
+
+    // const [dataChart, setDataChart] = useState<ReportYearModel[]>([]);
+    const [toggle, setToggle] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const [hideBarChart, setHideBarChart] = useState<boolean>(false);
 
     const pickerYearRef = useRef<PickerAction>(null);
 
@@ -42,6 +60,12 @@ const Report = observer(() => {
     }, []);
 
     useEffect(() => {
+        setValueColumn({
+            moneyInvestMent: [],
+            initialMoney: [],
+            interestMoney: [],
+            label: []
+        });
         fetchReportYear();
     }, [dataYearFilter]);
 
@@ -60,8 +84,18 @@ const Report = observer(() => {
 
     }, [apiServices.common, apiServices.report]);
 
+    const isNoData = useCallback((arr: ReportYearModel[]) => {
+        for (let i = 0; i < arr.length; i++) {
+            const sum = arr[i].dau_tu + arr[i].goc_tra + arr[i].lai_tra;
+            if (sum > 0) return true;
+        }
+        return false;
+    }, []);
+
     const fetchReportYear = useCallback(async () => {
+        setIsLoading(true);
         const res = await apiServices.report.requestFinanceReport(dataYearFilter) as any;
+        setIsLoading(false);
 
         if (res.success) {
             const dataMonths = res?.data as ReportYearModel[];
@@ -72,10 +106,26 @@ const Report = observer(() => {
                 goc_tra: item?.goc_tra,
                 lai_tra: item?.lai_tra
             })) as ReportYearModel[];
-            setDataChart(temp);
+            temp?.map((item: ReportYearModel) => {
+                setValueColumn(last => {
+                    last.moneyInvestMent = [...last.moneyInvestMent, Number(utils.formatRoundNumberToDecimalMillion(item?.dau_tu))];
+                    last.initialMoney = [...last.initialMoney, Number(utils.formatRoundNumberToDecimalMillion(item?.goc_tra))];
+                    last.interestMoney = [...last.interestMoney, Number(utils.formatRoundNumberToDecimalMillion(item?.lai_tra))];
+                    last.label = [...last.label, `${'T'}${item?.thang}`];
+                    return last;
+                });
+            });
+
+            if (isNoData(temp)) {
+                setHideBarChart(true);
+            } else {
+                setHideBarChart(false);
+            }
+            setToggle(last => !last);
+            // setDataChart(temp);
         }
 
-    }, [apiServices.report, dataYearFilter]);
+    }, [apiServices.report, isNoData, dataYearFilter]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string, noBorder?: boolean) => {
         return (
@@ -115,12 +165,14 @@ const Report = observer(() => {
             <div className={cx(isMobile ? 'chart-content-mobile' : 'chart-content')}>
                 <span className={cx('chart-title-text')}>{Languages.report.financialChart}</span>
                 <ColumnChart
-                    dataChart={dataChart}
+                    dataChart={valueColumn}
                     isMobile={isMobile}
-                    chartContainer={cx(isMobile ? 'chart-container-mobile' : 'chart-container')} />
+                    chartContainer={cx(isMobile ? 'chart-container-mobile' : 'chart-container')}
+                    hideBarChart={hideBarChart}
+                />
             </div>
         );
-    }, [dataChart, isMobile]);
+    }, [isMobile, valueColumn, toggle]);
 
     return (
         <div className={cx('page-container')}>

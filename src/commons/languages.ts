@@ -213,7 +213,8 @@ const Languages = {
         choosePaymentMethod: 'Bạn chưa chọn hình thức nhận tiền lãi đầu tư. Cập nhật và trải nghiệm đầu tư ngay!',
         bankAccountEmpty: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư bằng tài khoản ngân hàng. Cập nhật và trải nghiệm đầu tư ngay!',
         typeInterest: 'Hình thức trả lãi',
-        chooseTypeInterest: 'Chọn hình thức trả lãi'
+        chooseTypeInterest: 'Chọn hình thức trả lãi',
+        noDataInvest: 'Bạn chưa có khoản đầu tư nào'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',

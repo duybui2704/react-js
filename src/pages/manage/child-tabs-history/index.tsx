@@ -329,7 +329,7 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     </Row>
                 </div> :
                     <div className={cx('notify-container')}>
-                        <NoData description={Languages.notification.noData} />
+                        <NoData description={Languages.invest.noDataInvest} />
                     </div>}
                 <div className={cx('footer')}>
                     <Footer />
@@ -358,16 +358,6 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     {renderFlatList(investList)}
                     <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
                 </div>
-
-                {/* <div className={cx(isMobile ? 'content-mobile-container' : 'content-web-container')} >
-                    {investList.length ? renderFlatList(investList) : <div className={cx('notify-container')}>
-                        <NoData description={Languages.notification.noData} />
-                    </div>}
-                    <div className={cx('footer')}>
-                        <Footer />
-                    </div>
-                    <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
-                </div>   */}
             </div>
             {renderPopupSearchPackage()}
         </div>
