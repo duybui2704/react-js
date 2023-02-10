@@ -22,7 +22,7 @@ import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
-import { DashBroadModel } from 'models/dash';
+// import { DashBroadModel } from 'models/dash';
 import { ServiceModel } from 'models/intro';
 import { PackageInvest } from 'models/invest';
 import { serviceList, videoIntro } from 'assets/static-data/intro';
@@ -33,7 +33,6 @@ import styles from './intro.module.scss';
 import { EventEmitter } from 'utils/event-emitter';
 import { Events, TAB_INDEX } from 'commons/constants';
 import YouTubeFrame from 'components/youtube-frame';
-
 
 const cx = classNames.bind(styles);
 
@@ -48,7 +47,7 @@ const Intro = observer(() => {
     const [dataTime, setDataTime] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [dataArr, setDataArr] = useState<PackageInvest[]>([]);
-    const [dataDash, setDataDash] = useState<DashBroadModel>();
+    // const [dataDash, setDataDash] = useState<DashBroadModel>();
     const pickerTypeInterestRef = useRef<PickerAction>(null);
 
     const PAGE_SIZE = 9;
@@ -121,15 +120,15 @@ const Intro = observer(() => {
         }
     }, [apiServices.invest]);
 
-    const fetchContractsDash = useCallback(async () => {
-        setIsLoading(true);
-        const resContractsDash = await apiServices.common.getContractsDash() as any;
-        setIsLoading(false);
-        if (resContractsDash.success) {
-            const data = resContractsDash?.data as DashBroadModel;
-            setDataDash(data);
-        }
-    }, [apiServices.common]);
+    // const fetchContractsDash = useCallback(async () => {
+    //     setIsLoading(true);
+    //     const resContractsDash = await apiServices.common.getContractsDash() as any;
+    //     setIsLoading(false);
+    //     if (resContractsDash.success) {
+    //         const data = resContractsDash?.data as DashBroadModel;
+    //         setDataDash(data);
+    //     }
+    // }, [apiServices.common]);
 
     const fetchDataInvest = useCallback(async () => {
         setIsLoading(true);
@@ -331,6 +330,20 @@ const Intro = observer(() => {
         };
     }, [getTopHeight]);
 
+    const renderViewQrCode = useMemo(() => {
+        return (
+            <div className={cx('row y20 center')} style={{ maxWidth: '600px' }} >
+                <div className={cx('column x30 space-between', 'wid-50', 'flex-end')}>
+                    <img src={ImgAppStore} width={isMobile ? '90%' : '70%'} />
+                    <img src={ImgGGPLay} width={isMobile ? '90%' : '70%'} className={cx('mrg-10')} />
+                </div>
+                <div className={cx('wid-50')}>
+                    <img src={ImgQRCode} width={isMobile ? '90%' : '70%'} />
+                </div>
+            </div>
+        );
+    }, [isMobile]);
+
     const stepOne = useMemo(() => {
 
         return (
@@ -340,18 +353,10 @@ const Intro = observer(() => {
                     <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.registerPhone}</li>
                     <li className={cx('text-black h5 y10 light-hight-x5')}>{Languages.intro.register1Minute}</li>
                 </ul>
-                <div className={cx('row y20 center')} style={{ maxWidth: '600px' }} >
-                    <div className={cx('column x30 space-between', 'wid-50', 'flex-end')}>
-                        <img src={ImgAppStore} width={isMobile ? '90%' : '70%'} />
-                        <img src={ImgGGPLay} width={isMobile ? '90%' : '70%'} className={cx('mrg-10')} />
-                    </div>
-                    <div className={cx('wid-50')}>
-                        <img src={ImgQRCode} width={isMobile ? '90%' : '70%'} />
-                    </div>
-                </div>
+                {renderViewQrCode}
             </div>
         );
-    }, []);
+    }, [renderViewQrCode]);
 
     const stepTwo = useMemo(() => {
         return (
@@ -558,22 +563,16 @@ const Intro = observer(() => {
         return (
             <div className={cx('column', 'padding-bottom')}>
                 <Row gutter={[24, 16]} className={cx('container')}>
-                    <Col xs={24} md={24} lg={12} xl={12}>
+                    <Col xs={24} md={24} lg={12} xl={12} >
                         <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
-                        <div className={cx('column')}>
+                        <div className={cx('column', 'center')}>
                             <span className={cx('text-black h5 y10')}>
                                 {Languages.intro.appMobile[0]}
                                 <span className={cx('text-green')}>{Languages.intro.appMobile[1]}</span>
                                 {Languages.intro.appMobile[2]}
                             </span>
 
-                            <div className={cx('row y40 center')}>
-                                <div className={cx('column x50 space-between center pt5 pb5')}>
-                                    <img src={ImgAppStore} width={isMobile ? '90%' : '100%'} className={cx(('pt16'))} />
-                                    <img src={ImgGGPLay} width={isMobile ? '90%' : '100%'} className={cx(('pt-16'))} />
-                                </div>
-                                <img src={ImgQRCode} width={isMobile ? '35%' : '25%'} style={{ minWidth: 130 }} />
-                            </div>
+                            {renderViewQrCode}
                         </div>
                     </Col>
                     <Col xs={24} md={24} lg={12} xl={12} className={cx('center')}>
@@ -582,7 +581,7 @@ const Intro = observer(() => {
                 </Row>
             </div>
         );
-    }, []);
+    }, [renderViewQrCode]);
 
     return (
         <div className={cx('page')}>
