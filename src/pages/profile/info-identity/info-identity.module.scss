@@ -70,6 +70,24 @@
     gap: 24px;
 }
 
+.photo-image {
+    height: 215px;
+    display: flex;
+    img {
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.photo-portrait-image {
+    height: 480px;
+    display: flex;
+    img {
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
 .photo {
     height: 215px;
     object-fit: fill;

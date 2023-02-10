@@ -119,9 +119,10 @@ const InfoIdentity = observer(() => {
                 {imgCache
                     ? <Image
                         preview={{ visible: false, mask: <>{Languages.identity.showFull}</> }}
-                        height={_title === Languages.identity.portrait ? 480 : 215}
+                        // height={_title === Languages.identity.portrait ? 480 : 215}
                         src={imgCache}
                         onClick={openPreview}
+                        rootClassName={cx(_title === Languages.identity.portrait ? 'photo-portrait-image' : 'photo-image')}
                     />
                     : <img src={icon} className={cx(_title === Languages.identity.portrait ? 'photo-portrait' : 'photo')} onClick={openDialogFiles} />
                 }
