@@ -17,6 +17,7 @@ export type ButtonProps = {
     customStyles?: any;
     labelStyles?: string;
     rightIconStyles?: any;
+    spinnerClass?: string;
     icon?: any;
     isLoading?: boolean;
     leftIcon?: any;

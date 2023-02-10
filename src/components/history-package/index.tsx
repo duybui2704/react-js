@@ -21,8 +21,10 @@ function HistoryPackage({ dataInvest, onPressPackage, isInvesting }:
     const renderKeyValue = useCallback((_label: string, _value?: string) => {
         return (
             <div className={cx('invest-key-value-container')}>
-                <img src={IcChecked} />
-                <span className={cx('label-item')}>{_label}</span>
+                <div className={cx('left-item-container')}>
+                    <img src={IcChecked} />
+                    <span className={cx('label-item')}>{_label}</span>
+                </div>
                 <span className={cx('value-item')}>{_value}</span>
             </div>
         );

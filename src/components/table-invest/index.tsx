@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import { COLOR_TRANSACTION } from 'commons/constants';
 import Languages from 'commons/languages';
+import NoData from 'components/no-data';
+import Spinner from 'components/spinner';
 import { Total } from 'models/commission';
 import React, { useCallback } from 'react';
 import { COLORS } from 'theme/colors';
@@ -8,12 +10,22 @@ import utils from 'utils/utils';
 import style from './table-invest.module.scss';
 const cx = classNames.bind(style);
 
-const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
-    dataTableInvest: any,
-    arrKey: Array<string>,
-    columnName: string[],
-    dataFooter?: Total
-}) => {
+const TableInvest = (
+    { dataTableInvest,
+        arrKey,
+        columnName,
+        dataFooter,
+        isLoading,
+        description
+    }:
+        {
+            dataTableInvest: any,
+            arrKey: Array<string>,
+            columnName: string[],
+            dataFooter?: Total,
+            isLoading?: boolean,
+            description?: string
+        }) => {
     const renderTableRowValueInvest = useCallback((_arrayRow: any, _arrayColumn: Array<string>, _arrKey: Array<string>) => {
         return (
             <>
@@ -86,8 +98,17 @@ const TableInvest = ({ dataTableInvest, arrKey, columnName, dataFooter }: {
 
     return (
         <table className={cx('table-invest')}>
-            {renderTableRowValueInvest(dataTableInvest, columnName, arrKey)}
-            {dataFooter && renderTableRowFooter(dataFooter as Total)}
+            {dataTableInvest?.length > 0
+                ? <>
+                    {renderTableRowValueInvest(dataTableInvest, columnName, arrKey)}
+                    {dataFooter && renderTableRowFooter(dataFooter as Total)}
+                </>
+
+                : (isLoading
+                    ? <Spinner className={cx('spinner')} />
+                    : <NoData description={description || ''} />)
+            }
+
         </table>
     );
 };

@@ -39,6 +39,7 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
         toDate: ''
     });
 
+    const [isLoading, setLoading] = useState<boolean>(false);
     const [dataPeriodInvest, setDataPeriodInvest] = useState<DataColumnTransactionType[]>([]);
     const [canLoadMore, setCanLoadMore] = useState<boolean>(true);
     const [offset, setOffset] = useState<number>(0);
@@ -53,6 +54,7 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
     }, [dataFilter]);
 
     const fetchDataFilter = useCallback(async (loadMore?: boolean) => {
+        setLoading(true);
         const res = await apiServices.history.getTransactionList(
             dataFilter.fromDate || '',
             dataFilter.toDate || '',
@@ -60,7 +62,7 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
             PAGE_SIZE_INVEST,
             loadMore ? offset : 0,
         ) as any;
-
+        setLoading(false);
         if (res.success) {
             setCanLoadMore(res?.data?.length === PAGE_SIZE_INVEST);
             setOffset(last => !loadMore ? PAGE_SIZE_INVEST : last + PAGE_SIZE_INVEST);
@@ -203,11 +205,15 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
                         ? <PeriodInvestMobile
                             dataTableInvest={dataPeriodInvest}
                             labelArr={labelArrTransactionMobile}
+                            isLoading={isLoading}
+                            description={Languages.transaction.describeNoData}
                             arrKey={arrKeyTransactionMobile} />
 
                         : <TableInvest
                             dataTableInvest={dataPeriodInvest}
                             columnName={columnNameTransaction}
+                            isLoading={isLoading}
+                            description={Languages.transaction.describeNoData}
                             arrKey={arrKeyTransactionWeb} />}
                 </div>
                 <Row onClick={loadMore} className={cx('button-see-more')}>
@@ -219,6 +225,8 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
                                 width={100}
                                 labelStyles={cx('label-button-see-more')}
                                 label={Languages.invest.seeMore}
+                                isLoading={isLoading}
+                                spinnerClass={cx('spinner')}
                                 isLowerCase />
                         </Col>}
                 </Row>

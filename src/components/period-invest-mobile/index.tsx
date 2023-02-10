@@ -1,6 +1,8 @@
 import classNames from 'classnames/bind';
 import { COLOR_TRANSACTION } from 'commons/constants';
 import Languages from 'commons/languages';
+import NoData from 'components/no-data';
+import Spinner from 'components/spinner';
 import { Total } from 'models/commission';
 import React, { useCallback, useMemo } from 'react';
 import { COLORS } from 'theme/colors';
@@ -8,11 +10,20 @@ import utils from 'utils/utils';
 import style from './period-invest-mobile.module.scss';
 const cx = classNames.bind(style);
 
-const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey, total }: {
+const PeriodInvestMobile = ({
+    dataTableInvest,
+    labelArr,
+    arrKey,
+    total,
+    isLoading,
+    description
+}: {
     dataTableInvest: any,
     labelArr: Object,
     arrKey: Array<string>,
-    total?: Total
+    total?: Total,
+    isLoading?: boolean,
+    description?: string
 }) => {
 
     const renderLabel = useCallback((item?: Object) => {
@@ -102,8 +113,15 @@ const PeriodInvestMobile = ({ dataTableInvest, labelArr, arrKey, total }: {
 
     return (
         <div className={cx('table-container')}>
-            {renderPeriodInvest}
-            {total && renderTotalInvest}
+            {dataTableInvest?.length > 0
+                ? <>
+                    {renderPeriodInvest}
+                    {total && renderTotalInvest}
+                </>
+                : (isLoading
+                    ? <Spinner className={cx('spinner')} />
+                    : <NoData description={description || ''} />)
+            }
         </div>
     );
 };

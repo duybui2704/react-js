@@ -21,7 +21,8 @@ export const Button = ({
     width,
     rightIcon,
     rightIconStyles,
-    labelStyles
+    labelStyles,
+    spinnerClass
 }: ButtonProps) => {
 
     const _onPress = useCallback(() => {
@@ -104,7 +105,7 @@ export const Button = ({
             style={{ ...customStyles, width: width + '%' }}
             onClick={_onPress}
         >
-            {isLoading && <Spinner color={spinnerColor} className={cx('spinner')}/>}
+            {isLoading && <Spinner color={spinnerColor} className={spinnerClass ? spinnerClass : cx('spinner')} />}
             {leftIcon}
             {
                 label && <span className={labelStyles ? labelStyles : cx(`${mergerLabelStyle}`)}>
