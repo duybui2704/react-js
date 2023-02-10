@@ -17,7 +17,8 @@ const Languages = {
         add: 'Thêm',
         filter: 'Bộ lọc',
         filterCancel: 'Bỏ lọc',
-        save: 'Lưu'
+        save: 'Lưu',
+        notFound: 'Không tìm thấy dữ liệu'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',

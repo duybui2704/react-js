@@ -4,7 +4,7 @@ import IcClear from 'assets/icon/ic_delete.svg';
 import classNames from 'classnames/bind';
 import Languages from 'commons/languages';
 import { ItemPropsModel } from 'models/item-props-model';
-import React, { forwardRef, ReactNode, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, ReactNode, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import styles from './picker-component.module.scss';
 const cx = classNames.bind(styles);
 
@@ -195,6 +195,12 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
             setTextfieldVal(undefined);
         }, [isCheck, onBlur, onCheckbox]);
 
+        const notFound = useMemo(() => {
+            return(
+                <span className={cx('not-found')}>{Languages.common.notFound}</span>
+            );
+        }, []);
+
         return (
             <div className={mainContainer ? mainContainer : cx('main-container')}>
                 <div className={cx('wrap-all-title-picker')}>
@@ -229,7 +235,7 @@ const PickerComponent = forwardRef<PickerAction, PickerProps>(
                     optionLabelProp={'label'}
                     onChange={handleSelectItem}
                     suffixIcon={suffixImg}
-                    notFoundContent={notFoundComponent}
+                    notFoundContent={notFoundComponent || notFound}
                     bordered={false}
                     dropdownRender={dropdownRender}
                     clearIcon={clearImg}
