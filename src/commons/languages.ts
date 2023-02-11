@@ -17,7 +17,8 @@ const Languages = {
         add: 'Thêm',
         filter: 'Bộ lọc',
         filterCancel: 'Bỏ lọc',
-        save: 'Lưu'
+        save: 'Lưu',
+        notFound: 'Không tìm thấy dữ liệu'
     },
     errorMsg: {
         noInternet: 'Kết nối bị gián đoạn, vui lòng thử lại!',
@@ -349,6 +350,7 @@ const Languages = {
     transaction: {
         infoTransactions: 'Thông tin giao dịch',
         search: 'Tìm kiếm',
+        describeNoData: 'Không tim thấy giao dịch',
         table: {
             stt: 'STT',
             money: 'Tổng',
@@ -398,6 +400,7 @@ const Languages = {
     commission: {
         investmentCommission: 'Hoa hoa hồng nhà đầu tư',
         star: '* ',
+        describeNoData: 'Không tìm thấy dữ liệu',
         describe: [
             'Số tiền hoa hồng được hiển thị trong tháng hiện tại là tạm tính và có thể thay đổi theo tổng số tiền đầu tư hàng tháng',
             'Chính sách chỉ áp dụng khi người được bạn giới thiệu có đầu tư vào TienNgay. Chính sách có hiệu lực từ ngày %str'

@@ -171,6 +171,10 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
             return true;
         };
 
+        const notInputKeyboard = (event: any) => {
+            event.preventDefault();
+        };
+
         const renderRightIcon = useMemo(() => {
             const isPwdInput = type === 'password';
 
@@ -199,6 +203,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
 
                 <div className={cx(`${containerInput}`, isFocus ? 'focus-input-container' : (errMsg ? 'error-input-container' : 'select-container'))}>
                     <input
+                        id='myDate'
                         ref={orgTextInput}
                         type={showPwd ? 'text' : type}
                         onChange={_onChangeText}
@@ -216,7 +221,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                         min={min}
                         onInput={handleOnInput}
                         pattern={pattern || isNumberInput ? '[0-9]*' : '*'}
-                        onKeyDown={isNumberInput ? filterNumber : undefined}
+                        onKeyDown={isNumberInput ? filterNumber : (type === TYPE_INPUT.DATE ? notInputKeyboard : undefined)}
                         className={cx(
                             `${inputStyle ? inputStyle : 'input-style'}`, `${!disabled ? '' : 'disable-input-container'}`
                         )}

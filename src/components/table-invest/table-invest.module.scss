@@ -1,7 +1,6 @@
 @import 'assets/scss';
 .table-invest {
     border-spacing: 0px;
-    min-height: 20vh;
     width: 100%;
 }
 
@@ -49,4 +48,8 @@ tbody {
 
 .body-table {
     display: flex;
+}
+
+.spinner {
+    padding: 10vh 50%;
 }

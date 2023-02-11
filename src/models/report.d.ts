@@ -7,7 +7,8 @@ export interface ReportYearModel {
 }
 
 export interface ReportChartModel {
-    month?: string;
-    type?: string;
-    value?: number;
+    moneyInvestMent: number[],
+    initialMoney: number[],
+    interestMoney: number[],
+    label: string[]
 }

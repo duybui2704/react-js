@@ -9,20 +9,13 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 import { observer } from 'mobx-react';
 import { ItemProps } from 'models/common';
 import { DashBroadModel } from 'models/dash';
-import { ReportYearModel } from 'models/report';
+import { ReportChartModel, ReportYearModel } from 'models/report';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import dateUtils from 'utils/date-utils';
 import utils from 'utils/utils';
 import styles from './report.module.scss';
 
 const cx = classNames.bind(styles);
-
-type ValueBarChar = {
-    moneyInvestMent: Number[],
-    initialMoney: Number[],
-    interestMoney: Number[],
-    label: String[]
-}
 
 const Report = observer(() => {
     const isMobile = useIsMobile();
@@ -40,18 +33,14 @@ const Report = observer(() => {
         tong_tien_lai: 0
     });
 
-    const [valueColumn, setValueColumn] = useState<ValueBarChar>({
+    const [valueColumn, setValueColumn] = useState<ReportChartModel>({
         moneyInvestMent: [],
         initialMoney: [],
         interestMoney: [],
         label: []
     });
 
-    // const [dataChart, setDataChart] = useState<ReportYearModel[]>([]);
-    const [toggle, setToggle] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    const [hideBarChart, setHideBarChart] = useState<boolean>(false);
 
     const pickerYearRef = useRef<PickerAction>(null);
 
@@ -84,14 +73,6 @@ const Report = observer(() => {
 
     }, [apiServices.common, apiServices.report]);
 
-    const isNoData = useCallback((arr: ReportYearModel[]) => {
-        for (let i = 0; i < arr.length; i++) {
-            const sum = arr[i].dau_tu + arr[i].goc_tra + arr[i].lai_tra;
-            if (sum > 0) return true;
-        }
-        return false;
-    }, []);
-
     const fetchReportYear = useCallback(async () => {
         setIsLoading(true);
         const res = await apiServices.report.requestFinanceReport(dataYearFilter) as any;
@@ -115,17 +96,9 @@ const Report = observer(() => {
                     return last;
                 });
             });
-
-            if (isNoData(temp)) {
-                setHideBarChart(true);
-            } else {
-                setHideBarChart(false);
-            }
-            setToggle(last => !last);
-            // setDataChart(temp);
         }
 
-    }, [apiServices.report, isNoData, dataYearFilter]);
+    }, [apiServices.report, dataYearFilter]);
 
     const renderKeyValue = useCallback((_key?: string, _value?: string, noBorder?: boolean) => {
         return (
@@ -168,11 +141,11 @@ const Report = observer(() => {
                     dataChart={valueColumn}
                     isMobile={isMobile}
                     chartContainer={cx(isMobile ? 'chart-container-mobile' : 'chart-container')}
-                    hideBarChart={hideBarChart}
+                    hideBarChart={isLoading}
                 />
             </div>
         );
-    }, [isMobile, valueColumn, toggle]);
+    }, [isMobile, valueColumn, isLoading]);
 
     return (
         <div className={cx('page-container')}>

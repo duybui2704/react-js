@@ -17,7 +17,7 @@ const cx = classNames.bind(styles);
 const Commission = observer(() => {
     const { apiServices, common } = useAppStore();
     const isMobile = useIsMobile();
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [filterDate, setFilterDate] = useState<string>(new Date().toISOString().split('T')[0].slice(0, 7));
     const [commission, setCommission] = useState<CommissionModel>();
     const toDateRef = useRef<TextFieldActions>(null);
@@ -29,9 +29,11 @@ const Commission = observer(() => {
     const fetchCommissionData = useCallback(async () => {
         const my = filterDate?.split('-');
         if (my?.length === 2) {
+            setIsLoading(true);
             const res = await apiServices.auth.getCommissionInfo(
                 my?.[1] || '', my?.[0] || ''
             ) as any;
+            setIsLoading(false);
             if (res.success && res.data) {
                 setCommission(res.data as CommissionModel);
             }
@@ -52,12 +54,14 @@ const Commission = observer(() => {
                         dataTableInvest={commission?.detail as Detail[]}
                         arrKey={arrKeyCommission}
                         columnName={columnNameCommission}
+                        isLoading={isLoading}
+                        description={Languages.commission.describeNoData}
                         dataFooter={commission?.total as Total}
                     />
                 }
             </>
         );
-    }, [commission?.detail, commission?.total, isMobile]);
+    }, [commission?.detail, commission?.total, isLoading, isMobile]);
 
     const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
         const onChangeInput = (event: string) => {
