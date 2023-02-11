@@ -11,7 +11,7 @@ import ImgQrCode from 'assets/image/img_qr.jpg';
 import classNames from 'classnames/bind';
 import { AUTH_STATE } from 'commons/constants';
 import Languages from 'commons/languages';
-import { authGoogle } from 'firebase-config';
+import firebase from 'firebase-config';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useAppStore } from 'hooks';
 import useIsMobile from 'hooks/use-is-mobile.hook';
@@ -150,9 +150,9 @@ export const Auth = ({ data }) => {
 
     const onLoginGoogle = useCallback(() => {
         const provider = new GoogleAuthProvider();
-        authGoogle.languageCode = 'it';
+        firebase.authGoogle.languageCode = 'it';
         provider.setCustomParameters({ prompt: 'select_account' });
-        signInWithPopup(authGoogle, provider).then(async (result) => {
+        signInWithPopup(firebase.authGoogle, provider).then(async (result) => {
             const res = await apiServices?.auth?.loginWithThirdParty(
                 'google',
                 result?.user.providerData[0].uid,

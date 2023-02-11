@@ -35,6 +35,7 @@ import { PopupBaseActions } from 'components/modal/modal';
 import Notification from 'pages/notification';
 import { NotificationTotalModel } from 'models/notification';
 import { TabsMenuHeader } from 'assets/static-data/profile';
+import { onMessageListener, requestForToken } from 'firebase-config';
 
 const cx = classNames.bind(styles);
 type PositionType = 'left' | 'right';
@@ -58,6 +59,15 @@ const Home = observer(() => {
     const refDrawer = useRef<DrawerBaseActions>(null);
 
     const [position] = useState<PositionType[]>(['left', 'right']);
+
+    useEffect(() => {
+        requestForToken();
+        onMessageListener()
+            .then((payload) => {
+                console.log('payload ===', payload);
+            })
+            .catch((err) => console.log('failed: ', err));
+    }, []);
 
     const onLogOut = useCallback(() => {
         refPopupLogout.current?.showModal();

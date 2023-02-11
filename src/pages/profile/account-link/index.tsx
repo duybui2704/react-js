@@ -9,7 +9,7 @@ import IcNoVerify from 'assets/image/ic_red_round_close.svg';
 import { useAppStore } from 'hooks';
 import { observer } from 'mobx-react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { authGoogle } from 'firebase-config';
+import firebase from 'firebase-config';
 import { LoginWithThirdPartyModel } from 'models/auth';
 import { UserInfoModel } from 'models/user-model';
 
@@ -33,9 +33,9 @@ const AccountLink = observer(() => {
     const onLoginGoogle = useCallback(() => {
         if (!userManager.userInfo?.id_google) {
             const provider = new GoogleAuthProvider();
-            authGoogle.languageCode = 'it';
+            firebase.authGoogle.languageCode = 'it';
             provider.setCustomParameters({ prompt: 'select_account' });
-            signInWithPopup(authGoogle, provider).then(async (result) => {
+            signInWithPopup(firebase.authGoogle, provider).then(async (result) => {
 
                 const res = await apiServices?.auth?.linkGoogle(
                     'google',
