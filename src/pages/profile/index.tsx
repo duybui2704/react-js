@@ -1,7 +1,7 @@
 import IcTwoPeople from 'assets/icon/ic_twopeople.svg';
 import { profile } from 'assets/static-data/profile';
 import classNames from 'classnames/bind';
-import { COLOR_TRANSACTION, TABS_PROFILE } from 'commons/constants';
+import { COLOR_TRANSACTION, TABS_PROFILE, TAB_INDEX } from 'commons/constants';
 import Languages from 'commons/languages';
 import AvatarHoverImage from 'components/avatar-hover-image';
 import DrawerMobileAccount, { DrawerBaseActions } from 'components/drawer-mobile-account';
@@ -29,7 +29,7 @@ import UserManual from './user-manual';
 
 const cx = classNames.bind(styles);
 
-const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus: boolean }) => {
+const Profile = observer(({ numberTabs, onResetNumberTabs }: { numberTabs: number | undefined, onResetNumberTabs?: any }) => {
     const navigate = useNavigate();
     const { userManager, apiServices } = useAppStore();
     const isMobile = useIsMobile();
@@ -38,13 +38,14 @@ const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus
 
     const refDrawer = useRef<DrawerBaseActions>(null);
     const refAvatarPhoto = useRef<SelectPhotoAction>(null);
+    console.log('numberTabs ===', numberTabs);
 
     useEffect(() => {
-        if (numberTabs || isFocus) {
+        if (numberTabs) {
             setStep(numberTabs);
         } 
         setInfo(userManager.userInfo);
-    }, [isFocus, numberTabs, userManager.userInfo]);
+    }, [numberTabs, userManager.userInfo]);
 
     const onOpenIdentity = useCallback(() => {
         setStep(0);
@@ -79,7 +80,8 @@ const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus
 
     const onTabs = useCallback((indexTabs: number) => {
         setStep(indexTabs);
-    }, []);
+        onResetNumberTabs?.(TAB_INDEX.PROFILE);
+    }, [onResetNumberTabs]);
 
     const onShowDrawer = useCallback(() => {
         refDrawer.current?.show();
@@ -160,6 +162,7 @@ const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus
                     {profile.map((item: ItemScreenModel, index: number) => {
                         const onChangeStep = () => {
                             setStep(item?.id);
+                            onResetNumberTabs?.(TAB_INDEX.PROFILE);
                         };
                         return (
                             <div key={index} onClick={onChangeStep}
@@ -180,7 +183,7 @@ const Profile = observer(({ numberTabs, isFocus }: { numberTabs: number, isFocus
                 </div>
             </div>
         );
-    }, [handleAvatar, info?.avatar_user, info?.full_name, renderStatusAcc, renderViewRight, step]);
+    }, [handleAvatar, info, onResetNumberTabs, renderStatusAcc, renderViewRight, step]);
 
     return (
         <>

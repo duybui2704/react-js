@@ -23,16 +23,15 @@ export type TabsActions = {
 export type TabProps = {
     label?: string;
     numberTabs?: number;
-    isFocus?: boolean;
     receptionData?: any;
+    onResetNumberTabs?: any;
 };
 
 const InvestTab = forwardRef<TabsActions, TabProps>(
     ({
         numberTabs,
-        isFocus,
-        receptionData
-
+        receptionData,
+        onResetNumberTabs
     }: TabProps, ref) => {
 
         const [tabName, setTabName] = useState<string>(TABS_INVEST.INVESTMENT);
@@ -40,14 +39,14 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
         const nextNumber = useRef<number>(0);
 
         useEffect(() => {
-            if (numberTabs || isFocus) {
+            if (numberTabs) {
                 setTabName(`${numberTabs}`);
                 setInvestPackage(receptionData);
             } else {
                 setTabName(TABS_INVEST.INVESTMENT);
             }
             nextNumber.current = 0;
-        }, [isFocus, numberTabs, receptionData]);
+        }, [numberTabs, receptionData]);
 
         const onNavigateDetail = useCallback((data: PackageInvest) => {
             setTabName(`${Number(tabName) + 1}`);
@@ -61,14 +60,14 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
         }, [tabName]);
 
         const goBack = useCallback(() => {
-            if (isFocus && nextNumber.current === 0) { // go back intro 
+            if (nextNumber.current === 0 && numberTabs) { // go back intro 
                 EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.INTRO);
-                console.log('navigate intro');
+                onResetNumberTabs?.(TAB_INDEX.INVESTMENT);
             } else {
                 setTabName(`${Number(tabName) - 1}`);
                 nextNumber.current -= 1;
             }
-        }, [isFocus, tabName]);
+        }, [numberTabs, tabName]);
 
         const setTab = useCallback((tab: string) => {
             setTabName(tab);
@@ -104,6 +103,4 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
 );
 
 export default InvestTab;
-
-
 

@@ -28,7 +28,7 @@ import MenuMobile from 'components/menu-mobile';
 import sessionManager from 'managers/session-manager';
 import { useAppStore } from 'hooks';
 import { EventEmitter } from 'utils/event-emitter';
-import { AUTH_STATE, COLOR_TRANSACTION, Events, TABS_PROFILE, TAB_INDEX } from 'commons/constants';
+import { AUTH_STATE, COLOR_TRANSACTION, Events, TABS_INVEST, TABS_PROFILE, TAB_INDEX } from 'commons/constants';
 import { observer } from 'mobx-react';
 import PopupBaseCenterScreen from 'components/popup-base-center-screen';
 import { PopupBaseActions } from 'components/modal/modal';
@@ -52,10 +52,10 @@ const Home = observer(() => {
     const isMobile = useIsMobile();
     const [stepIndex, setStepIndex] = useState<number>(0);
     const [toggle, setToggle] = useState<boolean>(false);
-    const [numberTabs, setNumberTabs] = useState<number>(0);
-    const [receptionData, setReceptionData] = useState<any>();
+    const [numberTabsProfile, setNumberTabsProfile] = useState<number | undefined>(undefined);
+    const [numberTabsInvest, setNumberTabsInvest] = useState<number | undefined>(undefined);
 
-    const [focus, setFocus] = useState<boolean>(false);
+    const [receptionData, setReceptionData] = useState<any>();
 
     const refPopupLogout = useRef<PopupBaseActions>(null);
     const refDrawer = useRef<DrawerBaseActions>(null);
@@ -77,9 +77,24 @@ const Home = observer(() => {
 
     const onHandleChangeTab = useCallback((index: number, indexTabs: number, data: any) => {
         setStepIndex(index);
-        setNumberTabs(indexTabs);
         setReceptionData(data);
-        setFocus(last => !last);
+        setToggle(last => last);
+        console.log('onHandleChangeTab === ', index, indexTabs);
+        if (index === TAB_INDEX.PROFILE) {
+            setNumberTabsProfile(indexTabs);
+        }
+        if (index === TAB_INDEX.INVESTMENT) {
+            setNumberTabsInvest(indexTabs);
+        }
+    }, []);
+
+    const onResetNumberTabs = useCallback((index: number) => {
+        if (index === TAB_INDEX.PROFILE) {
+            setNumberTabsProfile(undefined);
+        }
+        if (index === TAB_INDEX.INVESTMENT) {
+            setNumberTabsInvest(Number(TABS_INVEST.INVESTMENT));
+        }
     }, []);
 
     useEffect(() => {
@@ -143,6 +158,7 @@ const Home = observer(() => {
         const navigateToNotification = () => {
             setStepIndex(TAB_INDEX.NOTIFICATION);
         };
+
         return {
             left: <div className={cx('header_left')}>
                 <img src={IcLogo} className={cx('icon-tienngay')} />
@@ -194,20 +210,20 @@ const Home = observer(() => {
     const getStepLayout = useCallback((index: number) => {
         switch (index) {
             case TAB_INDEX.INVESTMENT:
-                return <InvestTab numberTabs={numberTabs} isFocus={focus} receptionData={receptionData} />;
+                return <InvestTab numberTabs={numberTabsInvest} receptionData={receptionData} onResetNumberTabs={onResetNumberTabs} />;
             case TAB_INDEX.MANAGEMENT:
                 return <Manage />;
             case TAB_INDEX.NEWS:
                 return <News />;
             case TAB_INDEX.PROFILE:
-                return <Profile numberTabs={numberTabs} isFocus={focus} />;
+                return <Profile numberTabs={numberTabsProfile} onResetNumberTabs={onResetNumberTabs} />;
             case TAB_INDEX.NOTIFICATION:
                 return <Notification keyTabs={0} />;
             case TAB_INDEX.INTRO:
             default:
                 return <Intro />;
         }
-    }, [numberTabs, focus, receptionData]);
+    }, [numberTabsInvest, numberTabsProfile, onResetNumberTabs, receptionData]);
 
     const tabs = useMemo(() => {
         return ([
