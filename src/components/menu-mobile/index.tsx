@@ -8,6 +8,7 @@ import IcLogo from 'assets/image/img_logo.jpeg';
 import React, {
     forwardRef,
     useCallback,
+    useEffect,
     useImperativeHandle,
     useMemo,
     useState
@@ -26,18 +27,23 @@ type DrawerBaseProps = {
     onClose?: () => any;
     onChangeStep?: (tabs: number) => void;
     onBackdropPress?: () => void;
-    data: ItemScreenModel[]
+    data: ItemScreenModel[],
+    numberTabs: number;
 };
 
 const cx = classNames.bind(styles);
 
 const MenuMobile = forwardRef<DrawerBaseActions, DrawerBaseProps>(
-    ({ onChangeStep, onClose, onBackdropPress, data
+    ({ onChangeStep, onClose, onBackdropPress, data, numberTabs
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const navigate = useNavigate();
 
         const [tabs, setTabs] = useState<number>(0);
+
+        useEffect(() => {
+            setTabs(numberTabs);
+        }, [numberTabs]);
 
         const hide = useCallback(() => {
             setVisible(false);

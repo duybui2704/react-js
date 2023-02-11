@@ -24,7 +24,8 @@ type DrawerBaseProps = {
     onChangeStep?: (tabs: number) => void;
     onBackdropPress?: () => void;
     onPressStatus?: () => void;
-    data: ItemScreenModel[]
+    data: ItemScreenModel[],
+    numberTabs: number
 };
 
 export type DrawerBaseActions = {
@@ -35,7 +36,7 @@ export type DrawerBaseActions = {
 const cx = classNames.bind(styles);
 
 const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
-    ({ onChangeStep, onPressAvatar, onBackdropPress, onPressStatus, data
+    ({ onChangeStep, onPressAvatar, onBackdropPress, onPressStatus, data, numberTabs
     }: DrawerBaseProps, ref) => {
         const [visible, setVisible] = useState(false);
         const [info, setInfo] = useState<UserInfoModel>();
@@ -45,6 +46,10 @@ const DrawerMobileAccount = forwardRef<DrawerBaseActions, DrawerBaseProps>(
         useEffect(() => {
             setInfo(userManager.userInfo);
         }, [userManager.userInfo]);
+
+        useEffect(() => {
+            setTabs(numberTabs);
+        }, [numberTabs]);
 
         const hide = useCallback(() => {
             setVisible(false);

@@ -289,7 +289,7 @@ const Home = observer(() => {
                         <img src={IcMenu} className={cx('icon-menu')} onClick={onShowMenu} />
                     </div>
                     {getStepLayout(stepIndex)}
-                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={TabsMenuHeader} />
+                    <MenuMobile ref={refDrawer} onChangeStep={onChangeMenu} data={TabsMenuHeader} numberTabs={stepIndex} />
                 </div>
                 : <Tabs
                     defaultActiveKey={'0'}

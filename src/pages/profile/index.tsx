@@ -197,7 +197,9 @@ const Profile = observer(({ numberTabs, onResetNumberTabs }: { numberTabs: numbe
                     onChangeStep={onTabs}
                     data={profile}
                     onPressStatus={onOpenIdentity}
-                    onPressAvatar={handleAvatar} />
+                    onPressAvatar={handleAvatar}
+                    numberTabs={numberTabs || 1}
+                />
                 <Footer />
                 <SelectPhoto ref={refAvatarPhoto} onChangeText={handleChangeAvatarImage} />
                 {/* <LazyImage />/ */}

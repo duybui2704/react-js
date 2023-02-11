@@ -1,7 +1,7 @@
 @import "assets/scss";
 .page {
     display: flex;
-    width: 100%;
+    flex: 1;
     border: 1px solid $color-gray5;
     box-shadow: $box-shadow;
     border-radius: 8px;
