@@ -11,10 +11,10 @@ class _EventEmitter {
         this.events[event].push(listener);
     }
 
-    emit(event, payload, numberTabs) {
+    emit(event, payload, numberTabs, data) {
         if (this.events[event]) {
             this.events[event].forEach(listener => {
-                listener(payload, numberTabs);
+                listener(payload, numberTabs, data);
             });
         }
     }

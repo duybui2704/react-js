@@ -31,7 +31,7 @@ import Marquee from 'react-fast-marquee';
 import utils from 'utils/utils';
 import styles from './intro.module.scss';
 import { EventEmitter } from 'utils/event-emitter';
-import { Events, TAB_INDEX } from 'commons/constants';
+import { Events, TABS_INVEST, TAB_INDEX } from 'commons/constants';
 import YouTubeFrame from 'components/youtube-frame';
 
 const cx = classNames.bind(styles);
@@ -235,7 +235,9 @@ const Intro = observer(() => {
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
+            EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.INVESTMENT, TABS_INVEST.INVEST_DETAIL, dataInvest);
         };
+
         return (
             <Col xs={24} sm={24} md={12} lg={12} xl={8} className={cx('top-intro')} key={index}>
                 <InvestItem onPressInvest={onNavigateInvestDetail} dataInvest={dataInvest} />

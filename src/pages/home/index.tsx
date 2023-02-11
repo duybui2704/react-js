@@ -53,6 +53,8 @@ const Home = observer(() => {
     const [stepIndex, setStepIndex] = useState<number>(0);
     const [toggle, setToggle] = useState<boolean>(false);
     const [numberTabs, setNumberTabs] = useState<number>(0);
+    const [receptionData, setReceptionData] = useState<any>();
+
     const [focus, setFocus] = useState<boolean>(false);
 
     const refPopupLogout = useRef<PopupBaseActions>(null);
@@ -73,9 +75,10 @@ const Home = observer(() => {
         refPopupLogout.current?.showModal();
     }, []);
 
-    const onHandleChangeTab = useCallback((index: number, indexTabs: number) => {
+    const onHandleChangeTab = useCallback((index: number, indexTabs: number, data: any) => {
         setStepIndex(index);
         setNumberTabs(indexTabs);
+        setReceptionData(data);
         setFocus(last => !last);
     }, []);
 
@@ -191,7 +194,7 @@ const Home = observer(() => {
     const getStepLayout = useCallback((index: number) => {
         switch (index) {
             case TAB_INDEX.INVESTMENT:
-                return <InvestTab />;
+                return <InvestTab numberTabs={numberTabs} isFocus={focus} receptionData={receptionData} />;
             case TAB_INDEX.MANAGEMENT:
                 return <Manage />;
             case TAB_INDEX.NEWS:
@@ -204,7 +207,7 @@ const Home = observer(() => {
             default:
                 return <Intro />;
         }
-    }, [numberTabs, focus]);
+    }, [numberTabs, focus, receptionData]);
 
     const tabs = useMemo(() => {
         return ([

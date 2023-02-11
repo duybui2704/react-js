@@ -182,5 +182,13 @@ export enum TABS_PROFILE {
     QUESTION_ANSWER = 9
 }
 
+export enum TABS_INVEST {
+    INVESTMENT = '1',
+    INVEST_DETAIL = '2',
+    INVEST_PACKAGE_VERIFY = '3',
+    TRANSFER_BANK = 4,
+}
+
+
 
 

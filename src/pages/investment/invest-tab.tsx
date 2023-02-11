@@ -1,11 +1,15 @@
 
-import { BankInformationModel, PackageInvest } from 'models/invest';
+import { Events, TABS_INVEST, TAB_INDEX } from 'commons/constants';
+import { PackageInvest } from 'models/invest';
 import React, {
     forwardRef,
     useCallback,
+    useEffect,
     useImperativeHandle,
+    useRef,
     useState
 } from 'react';
+import { EventEmitter } from 'utils/event-emitter';
 import Investment from '.';
 import InvestDetail from './invest-detail';
 import InvestPackageVerify from './invest-package-verify';
@@ -18,29 +22,53 @@ export type TabsActions = {
 
 export type TabProps = {
     label?: string;
+    numberTabs?: number;
+    isFocus?: boolean;
+    receptionData?: any;
 };
 
 const InvestTab = forwardRef<TabsActions, TabProps>(
     ({
-        label
+        numberTabs,
+        isFocus,
+        receptionData
 
     }: TabProps, ref) => {
 
-        const [tabName, setTabName] = useState<string>('1');
+        const [tabName, setTabName] = useState<string>(TABS_INVEST.INVESTMENT);
         const [investPackage, setInvestPackage] = useState<PackageInvest>();
+        const nextNumber = useRef<number>(0);
+
+        useEffect(() => {
+            if (numberTabs || isFocus) {
+                setTabName(`${numberTabs}`);
+                setInvestPackage(receptionData);
+            } else {
+                setTabName(TABS_INVEST.INVESTMENT);
+            }
+            nextNumber.current = 0;
+        }, [isFocus, numberTabs, receptionData]);
 
         const onNavigateDetail = useCallback((data: PackageInvest) => {
             setTabName(`${Number(tabName) + 1}`);
             setInvestPackage(data);
+            nextNumber.current += 1;
         }, [tabName]);
 
         const onNextPage = useCallback(() => {
             setTabName(`${Number(tabName) + 1}`);
+            nextNumber.current += 1;
         }, [tabName]);
 
         const goBack = useCallback(() => {
-            setTabName(`${Number(tabName) - 1}`);
-        }, [tabName]);
+            if (isFocus && nextNumber.current === 0) { // go back intro 
+                EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.INTRO);
+                console.log('navigate intro');
+            } else {
+                setTabName(`${Number(tabName) - 1}`);
+                nextNumber.current -= 1;
+            }
+        }, [isFocus, tabName]);
 
         const setTab = useCallback((tab: string) => {
             setTabName(tab);
@@ -51,15 +79,16 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
             setTab
         }));
 
+        // CHANGE TABS SCREEN INVEST
         const renderCustomTab = useCallback(() => {
             switch (tabName) {
-                case '1':
+                case TABS_INVEST.INVESTMENT:
                     return <Investment onNextScreen={onNavigateDetail} />;
-                case '2':
+                case TABS_INVEST.INVEST_DETAIL:
                     return <InvestDetail onBackScreen={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
-                case '3':
+                case TABS_INVEST.INVEST_PACKAGE_VERIFY:
                     return <InvestPackageVerify onBackDetail={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
-                case '4':
+                case TABS_INVEST.TRANSFER_BANK:
                     return <TransferBank goBack={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
                 default:
                     break;
