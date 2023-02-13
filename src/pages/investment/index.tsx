@@ -32,6 +32,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const [dateList, setDateList] = useState<ItemProps[]>([]);
     const [amountList, setAmountList] = useState<ItemProps[]>([]);
     const [countInvest, setCountInvest] = useState<number>(0);
+    const [isLoading, setLoading] = useState<boolean>(false);
     const [dataTypeInterest, setDataTypeInterest] = useState<ItemProps[]>([]);
 
     const [dataFilter, setDataFilter] = useState<InvestFilter>({});
@@ -74,6 +75,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     }, [apiServices.invest]);
 
     const fetchPackageInvestList = useCallback(async (loadMore?: boolean) => {
+        setLoading(true);
         const investmentList = await apiServices.invest.getAllContractInvest(
             dataFilter.typeInterest || '',
             dataFilter.dateInvest || '',
@@ -81,6 +83,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
             offset,
             PAGE_SIZE_INVEST
         ) as any;
+        setLoading(false);
         if (investmentList.success) {
             setCountInvest(investmentList?.total || 0);
             setCanLoadMore(investmentList?.data?.length === PAGE_SIZE_INVEST);
@@ -147,7 +150,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dateList)}
             </Row>
         );
-    }, [amountList, countInvest, dataTypeInterest, dateList, isMobile, renderPicker]);
+    }, [amountList, dataTypeInterest, dateList, renderPicker]);
 
     const handleOpenPopupSearch = useCallback(() => {
         popupSearchRef.current?.showModal();
@@ -173,9 +176,9 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
         return (
             <PopupBaseMobile ref={popupSearchRef}
                 hasCloseIc
-                customerContent={renderTopWeb} 
+                customerContent={renderTopWeb}
                 hasTwoButton
-                labelCancel={Languages.invest.cancel} 
+                labelCancel={Languages.invest.cancel}
                 labelSuccess={Languages.common.search}
                 titleHeader={Languages.invest.searchInvestPackage}
                 buttonLeftStyle={BUTTON_STYLES.GRAY}
@@ -235,19 +238,21 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 <Row gutter={[24, 44]} className={cx(isMobile ? 'button-see-more-mobile' : 'button-see-more')} >
                     {canLoadMore &&
                         <Col xs={24} sm={24} md={12} lg={12} xl={8}>
-                            <Button 
-                                fontSize={20} 
+                            <Button
+                                fontSize={20}
                                 width={100}
                                 labelStyles={cx('label-button-see-more')}
                                 buttonStyle={BUTTON_STYLES.GREEN}
                                 label={Languages.invest.seeMore}
+                                isLoading={isLoading}
+                                spinnerClass={cx('spinner')}
                                 isLowerCase onPress={loadMore} />
                         </Col>}
                 </Row>
                 <Footer />
             </div>
         );
-    }, [renderDivider, renderInvestList, isMobile, canLoadMore, fetchPackageInvestList]);
+    }, [renderDivider, renderInvestList, isMobile, canLoadMore, isLoading, fetchPackageInvestList]);
 
     return (
         <div className={cx('page')}>

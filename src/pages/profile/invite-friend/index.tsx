@@ -59,7 +59,7 @@ const InviteFriend = observer(() => {
                 <Col xs={24} md={24} lg={12} xl={12}>
                     <span className={cx('text-intro')}>{Languages.profile.qrApp}</span>
                     <div className={cx('qr-container')} id={'my-qr-code'}>
-                        <div className={cx('download')} onClick={downloadQRCode} >
+                        <div className={cx('align-end','download')} onClick={downloadQRCode} >
                             <img src={IcDownload} className={cx('icon-small')} />
                         </div>
                         <QRCode

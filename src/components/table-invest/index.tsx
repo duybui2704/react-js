@@ -1,13 +1,14 @@
 import classNames from 'classnames/bind';
 import { COLOR_TRANSACTION } from 'commons/constants';
 import Languages from 'commons/languages';
-import NoData from 'components/no-data';
 import Spinner from 'components/spinner';
 import { Total } from 'models/commission';
 import React, { useCallback } from 'react';
 import { COLORS } from 'theme/colors';
 import utils from 'utils/utils';
 import style from './table-invest.module.scss';
+import ImgNoData from 'assets/image/img_no_data.png';
+
 const cx = classNames.bind(style);
 
 const TableInvest = (
@@ -104,11 +105,21 @@ const TableInvest = (
                     {dataFooter && renderTableRowFooter(dataFooter as Total)}
                 </>
 
-                : (isLoading
-                    ? <Spinner className={cx('spinner')} />
-                    : <NoData description={description || ''} />)
+                : (
+                    <tbody>
+                        {isLoading
+                            ? <tr>
+                                <td><Spinner className={cx('spinner')} /></td>
+                            </tr>
+                            : <tr>
+                                <td className={cx('container')}>
+                                    <img src={ImgNoData} className={cx('image')} />
+                                    <span className={cx('h6 text-black')}>{description}</span>
+                                </td>
+                            </tr>}
+                    </tbody>
+                )
             }
-
         </table>
     );
 };

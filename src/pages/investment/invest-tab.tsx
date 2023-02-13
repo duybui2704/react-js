@@ -67,7 +67,12 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
                 setTabName(`${Number(tabName) - 1}`);
                 nextNumber.current -= 1;
             }
-        }, [numberTabs, tabName]);
+        }, [numberTabs, onResetNumberTabs, tabName]);
+
+        const onSuccessInvestPackage = useCallback(() => {
+            EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.MANAGEMENT);
+            onResetNumberTabs?.(TAB_INDEX.INVESTMENT);
+        }, [onResetNumberTabs]);
 
         const setTab = useCallback((tab: string) => {
             setTabName(tab);
@@ -84,15 +89,24 @@ const InvestTab = forwardRef<TabsActions, TabProps>(
                 case TABS_INVEST.INVESTMENT:
                     return <Investment onNextScreen={onNavigateDetail} />;
                 case TABS_INVEST.INVEST_DETAIL:
-                    return <InvestDetail onBackScreen={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
+                    return <InvestDetail
+                        onBackScreen={goBack} onNextScreen={onNextPage}
+                        investPackage={investPackage} />;
                 case TABS_INVEST.INVEST_PACKAGE_VERIFY:
-                    return <InvestPackageVerify onBackDetail={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
+                    return <InvestPackageVerify
+                        onBackDetail={goBack}
+                        onNextScreen={onNextPage}
+                        investPackage={investPackage} />;
                 case TABS_INVEST.TRANSFER_BANK:
-                    return <TransferBank goBack={goBack} onNextScreen={onNextPage} investPackage={investPackage} />;
+                    return <TransferBank
+                        goBack={goBack}
+                        onNextScreen={onNextPage}
+                        investPackage={investPackage}
+                        onSuccessInvestPackage={onSuccessInvestPackage} />;
                 default:
                     break;
             }
-        }, [goBack, investPackage, onNavigateDetail, onNextPage, tabName]);
+        }, [goBack, investPackage, onNavigateDetail, onNextPage, onSuccessInvestPackage, tabName]);
 
         return (
             <>

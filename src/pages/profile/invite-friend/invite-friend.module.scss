@@ -61,6 +61,11 @@
     border-radius: 5px;
 }
 
+.align-end {
+    display: flex;
+    align-self: flex-end;
+}
+
 .flex-end {
     display: flex;
     flex-direction: row;
@@ -80,7 +85,6 @@
     transition-duration: 0.4s;
     -webkit-transition-duration: 0.4s;
     justify-content: center;
-    align-self: flex-end;
 }
 
 .icon-small {

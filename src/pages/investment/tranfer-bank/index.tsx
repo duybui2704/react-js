@@ -26,17 +26,17 @@ interface QrTransferData {
 }
 const RESEND_TIME = 5;
 
-const TransferBank = observer(({ goBack, onNextScreen, investPackage }: {
+const TransferBank = observer(({ goBack, onNextScreen, investPackage, onSuccessInvestPackage }: {
     goBack: () => void,
     onNextScreen: (data: PackageInvest) => void,
     investPackage?: PackageInvest,
+    onSuccessInvestPackage?: () => void
 }) => {
     const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
 
     const [qrUrl, setQrUrl] = useState<string>('');
-    const [transferField, setTransferField] = useState<string>('');
     const [dataPackage, setDataPackage] = useState<PackageInvest>();
     const [bankInfo, setBankInfo] = useState<BankInformationModel>();
 
@@ -76,10 +76,13 @@ const TransferBank = observer(({ goBack, onNextScreen, investPackage }: {
 
         if (res?.success && res.data === true) {
             toasty.success(Languages.invest.topUpSuccess);
+            setTimeout(() => {
+                onSuccessInvestPackage?.();
+            }, 3000);
         } else if (mounted.current) {
             setTimer(RESEND_TIME);
         }
-    }, [apiServices.invest, investPackage?.id]);
+    }, [apiServices.invest, investPackage?.id, onSuccessInvestPackage]);
 
     const fetchQRCode = useCallback(async () => {
         const resPayment = await apiServices.invest.getInvestBankInfo(`${investPackage?.id}`, 'web') as any;

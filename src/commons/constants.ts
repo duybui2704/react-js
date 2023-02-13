@@ -186,7 +186,7 @@ export enum TABS_INVEST {
     INVESTMENT = '1',
     INVEST_DETAIL = '2',
     INVEST_PACKAGE_VERIFY = '3',
-    TRANSFER_BANK = 4,
+    TRANSFER_BANK = '4',
 }
 
 

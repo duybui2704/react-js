@@ -22,7 +22,7 @@ const messaging = firebase.messaging();
 const isSupported = firebase.messaging.isSupported();
 
 if (isSupported) {
-    messaging.onBackgroundMessage(function (payload) {
+    messaging.onBackgroundMessage(function(payload) {
         console.log('Received background message ', payload);
         const notificationTitle = payload.notification.title;
         const notificationOptions = {
