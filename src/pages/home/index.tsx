@@ -64,11 +64,16 @@ const Home = observer(() => {
 
     useEffect(() => {
         requestForToken();
-        onMessageListener()
-            .then((payload) => {
-                console.log('payload ===', payload);
-            })
-            .catch((err) => console.log('failed: ', err));
+        onMessageListener().then(data => {
+            console.log('Receive foreground: ', data);
+        });
+    }, []);
+
+    useEffect(() => {
+        const channel = new BroadcastChannel('notifications');
+        channel.addEventListener('message', (event) => {
+            console.log('Receive background: ', event.data);
+        });
     }, []);
 
     const onLogOut = useCallback(() => {
