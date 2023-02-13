@@ -20,6 +20,7 @@ import { useAppStore } from 'hooks';
 import { useNavigate } from 'react-router';
 import { Paths } from 'routers/paths';
 import { EventEmitter } from 'utils/event-emitter';
+import sessionManager from 'managers/session-manager';
 
 const cx = classNames.bind(styles);
 
@@ -193,14 +194,14 @@ function Footer() {
                     navigate(Paths.recruit);
                     break;
                 case Languages.footer.informationChild[2]:
-                    EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.PROFILE, TABS_PROFILE.POLICY);
+                    if (sessionManager.accessToken) EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.PROFILE, TABS_PROFILE.POLICY);
                     break;
                 default:
                     break;
             }
         };
         return <span className={cx('item-link')} onClick={onOpenLink}>{label}</span>;
-    }, []);
+    }, [navigate]);
 
     const renderInfoSupport = useMemo(() => {
         return (
