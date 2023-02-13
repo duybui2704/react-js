@@ -4,7 +4,7 @@ import IcFilter from 'assets/image/ic_green_small_filter.svg';
 import { TabHistory } from 'assets/static-data/manage';
 import classNames from 'classnames/bind';
 import { PAGE_SIZE_INVEST } from 'commons/configs';
-import { TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
+import { Events, TAB_INDEX, TYPE_INPUT, TYPE_TAB_HISTORY } from 'commons/constants';
 import Languages from 'commons/languages';
 import { Button } from 'components/button';
 import { BUTTON_STYLES } from 'components/button/types';
@@ -26,6 +26,7 @@ import { ItemProps } from 'models/common';
 import { PackageInvest } from 'models/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { EventEmitter } from 'utils/event-emitter';
 import utils from 'utils/utils';
 import styles from './child-tabs-history.module.scss';
 
@@ -271,6 +272,10 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         );
     }, [onClosePopup, onSuccessPopup, renderFilterWeb]);
 
+    const onInvestNow = useCallback(() => {
+        EventEmitter.emit(Events.CHANGE_TAB, TAB_INDEX.INVESTMENT);
+    }, []);
+
     const renderFlatList = useCallback((_list: PackageInvest[]) => {
         const loadMore = () => {
             fetchHistoryList(true);
@@ -298,13 +303,25 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
                     </div>
                     : (isLoading
                         ? <Spinner className={cx('spinner-loading')} />
-                        : <NoData description={Languages.invest.noDataInvest} />
+                        : <>
+                            <NoData description={Languages.invest.noDataInvest} />
+                            {offset !== 0 &&
+                                <Button
+                                    onPress={onInvestNow}
+                                    buttonStyle={BUTTON_STYLES.GREEN}
+                                    fontSize={20}
+                                    width={isMobile ? 100 : 30}
+                                    labelStyles={cx('label-button-see-more')}
+                                    label={Languages.invest.investNow}
+                                    containButtonStyles={cx('btn-invest-now')}
+                                    isLowerCase />}
+                        </>
                     )
                 }
                 <Footer />
             </div>
         );
-    }, [canLoadMore, fetchHistoryList, investList.length, isLoading, renderInvestList]);
+    }, [canLoadMore, fetchHistoryList, investList.length, isLoading, isMobile, offset, onInvestNow, renderInvestList]);
 
     const onChangeTab = useCallback((tabNumber: number) => {
         if (tabIndex !== tabNumber) {
@@ -314,12 +331,21 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
             toDateRef.current?.setValue?.('');
             setDataFilter({ optionInvest: `${tabNumber + 1}` }); // investing: '1', history: '2'
         }
-    }, [tabIndex]);
+    }, [tabIndex]);    
 
     return (
         <div className={cx('page-container')}>
             <TabsButtonBar dataTabs={TabHistory} isMobile={isMobile} onChangeText={onChangeTab} defaultTabs={`${tabsNumber}`} />
-            {isMobile ? renderFilterMobile : renderFilterWeb}
+            {(investList.length === 0
+                && offset !== 0
+                && Object.keys(dataFilter).filter((item: string) => {
+                    if (item !== 'optionInvest') {
+                        return dataFilter?.[item]?.length > 0;
+                    }
+                })?.length === 0)
+                ? undefined
+                : (isMobile ? renderFilterMobile : renderFilterWeb)
+            }
             {renderFlatList(investList)}
             {renderPopupSearchPackage()}
             <ScrollTopComponent nameClassScroll={cx('bottom-container')} />
