@@ -203,7 +203,6 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
 
                 <div className={cx(`${containerInput}`, isFocus ? 'focus-input-container' : (errMsg ? 'error-input-container' : 'select-container'))}>
                     <input
-                        id='myDate'
                         ref={orgTextInput}
                         type={showPwd ? 'text' : type}
                         onChange={_onChangeText}
