@@ -49,6 +49,8 @@ const Commission = observer(() => {
                         labelArr={labelArrCommission}
                         arrKey={arrKeyCommissionMobile}
                         total={commission?.total as Total}
+                        isLoading={isLoading}
+                        description={Languages.transaction.describeNoData}
                     />
                     : <TableInvest
                         dataTableInvest={commission?.detail as Detail[]}
