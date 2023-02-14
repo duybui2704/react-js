@@ -50,6 +50,9 @@
     font-family: $font-medium;
     color: $color-black;
     margin-bottom: 4px;
+    @include mobile {
+        font-size: $text-h7;
+    }
 }
 
 .describe {

@@ -12,7 +12,7 @@ import useIsMobile from 'hooks/use-is-mobile.hook';
 import { observer } from 'mobx-react';
 import { ItemScreenModel } from 'models/profile';
 import { UpdateInfoModal, UserInfoModel } from 'models/user-model';
-import Policy from 'pages/policy';
+import Policy from 'pages/profile/policy';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toasty from 'utils/toasty';

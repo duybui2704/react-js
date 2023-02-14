@@ -49,6 +49,7 @@ const Commission = observer(() => {
                         labelArr={labelArrCommission}
                         arrKey={arrKeyCommissionMobile}
                         total={commission?.total as Total}
+                        description={Languages.commission.describeNoData}
                     />
                     : <TableInvest
                         dataTableInvest={commission?.detail as Detail[]}
@@ -67,6 +68,7 @@ const Commission = observer(() => {
         const onChangeInput = (event: string) => {
             if (event !== filterDate) {
                 setFilterDate(_refInput.current?.getValue?.());
+                console.log('_refInput.current?.getValue?.()', _refInput.current?.getValue?.());
             }
         };
         return (
@@ -77,6 +79,7 @@ const Commission = observer(() => {
                 placeHolder={_placeHolder}
                 value={_value || new Date().toISOString().split('T')[0].slice(0, 7)}
                 maxLength={7}
+
                 onChangeText={onChangeInput}
                 max={new Date().toISOString().split('T')[0].slice(0, 7)}
             />
@@ -87,7 +90,7 @@ const Commission = observer(() => {
         return (
             <div className={cx('row g-4')}>
                 <span className={cx('star')}>{Languages.commission.star}</span>
-                <span className={cx('h7 text-black')}>{_describe}</span>
+                <span className={cx('h6 text-black')}>{_describe}</span>
             </div>
         );
     }, []);
@@ -95,7 +98,7 @@ const Commission = observer(() => {
     return (
         <div className={cx('content')}>
             <div className={cx('container-edit column g-4', 'shadow')}>
-                <div className={cx('column g-20 pt-16 pl-16')}>
+                <div className={cx('column g-20', isMobile ? '' : 'pt-16 pl-16')}>
                     <div className={cx('date-container')}>
                         <span className={cx('h5 text-black medium')}>{Languages.commission.investmentCommission}</span>
                         {renderDate(Languages.history.toDate, toDateRef, filterDate || '')}

@@ -226,6 +226,7 @@ export const MyTextInput = forwardRef<TextFieldActions, TextFieldProps>(
                             `${inputStyle ? inputStyle : 'input-style'}`, `${!disabled ? '' : 'disable-input-container'}`
                         )}
                         required={!textfieldVal && type === 'date'}
+
                     />
                     {/* {
                         errMsg && <div className={styles.ic_error}><img src={IcError} alt="ic_error" /></div>

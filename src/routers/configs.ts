@@ -6,7 +6,7 @@ import Auth from 'pages/auth';
 import Congrats from 'pages/auth/congrats';
 import NotFound from 'pages/common/not-found';
 import Home from 'pages/home';
-import Policy from 'pages/policy';
+import Policy from 'pages/profile/policy';
 import Recruit from 'pages/recruit';
 import { Paths } from './paths';
 export interface RouteProps {

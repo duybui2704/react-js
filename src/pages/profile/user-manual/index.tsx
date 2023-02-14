@@ -73,7 +73,7 @@ const UserManual = observer(() => {
 
     return (
         <div className={cx('page', 'padding', 'column')}>
-            <span className={cx('text-green h3 medium')}>{Languages.profile.userManual}</span>
+            <span className={cx('text-gray h5 bold')}>{Languages.profile.userManual}</span>
             {documentInfoApp.map((item: ItemDocument, index: number) => {
                 return (
                     <div className={cx('column y20')} key={index}>
