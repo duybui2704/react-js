@@ -68,10 +68,6 @@ function InfoPayment() {
 
                         const onChooseGender = () => {
                             setTypeCard(Number(item?.value));
-                            setInfo(last => {
-                                last.account_number = '';
-                                return last;
-                            });
                         };
 
                         return (
@@ -253,7 +249,7 @@ function InfoPayment() {
                 </div>
             </div>
         );
-    }, [dataBanks, isLoading, onChooseBank, onSave, oncancel, renderInput, renderRadioGroup, userManager.userInfo, typeCard]);
+    }, [dataBanks, userManager.userInfo, onChooseBank, renderRadioGroup, renderInput, typeCard, isLoading, onSave, oncancel]);
 
     return (
         <div className={cx('colum content')}>

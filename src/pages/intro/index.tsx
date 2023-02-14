@@ -33,6 +33,8 @@ import styles from './intro.module.scss';
 import { EventEmitter } from 'utils/event-emitter';
 import { Events, TABS_INVEST, TAB_INDEX } from 'commons/constants';
 import YouTubeFrame from 'components/youtube-frame';
+import NoData from 'components/no-data';
+import Spinner from 'components/spinner';
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +48,8 @@ const Intro = observer(() => {
     const [dataMoney, setDataMoney] = useState<ItemProps[]>([]);
     const [dataTime, setDataTime] = useState<ItemProps[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isNotLoadMore, setIsNotLoadMore] = useState<boolean>(false);
+
     const [dataArr, setDataArr] = useState<PackageInvest[]>([]);
     // const [dataDash, setDataDash] = useState<DashBroadModel>();
     const pickerTypeInterestRef = useRef<PickerAction>(null);
@@ -149,6 +153,9 @@ const Intro = observer(() => {
                         setDataArr(data);
                     } else {
                         setDataArr((list) => [...list || [], ...data]);
+                    }
+                    if (dataSize < PAGE_SIZE) {
+                        setIsNotLoadMore(true);
                     }
                 }
             }
@@ -261,25 +268,31 @@ const Intro = observer(() => {
                     {renderPicker(pickerDateRef, Languages.invest.dateInvest, Languages.invest.dateInvestChoose, dataTime, onSelectItemTime)}
                 </Row>
 
-                <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
-                    {dataArr?.map((itemInvest: PackageInvest, index: number) => {
-                        return renderItemInvest(index, itemInvest);
-                    })}
-                </Row>
-                <div className={cx('center')}>
-                    <Button
-                        label={Languages.invest.moreInvest}
-                        buttonStyle={BUTTON_STYLES.GREEN}
-                        isLowerCase
-                        containButtonStyles={'y30'}
-                        labelStyles={cx('label-button-see-more')}
-                        onPress={onLoadMore}
-                        customStyles={{ paddingRight: 25, paddingLeft: 25, marginTop: 50 }}
-                    />
-                </div>
+                {dataArr.length > 0 ? <>
+                    <Row gutter={isMobile ? [24, 36] : [24, 44]} className={cx('invest-list-component')}>
+                        {dataArr?.map((itemInvest: PackageInvest, index: number) => {
+                            return renderItemInvest(index, itemInvest);
+                        })}
+                    </Row>
+                    {!isNotLoadMore && <div className={cx('center')}>
+                        <Button
+                            label={Languages.invest.moreInvest}
+                            buttonStyle={BUTTON_STYLES.GREEN}
+                            isLowerCase
+                            containButtonStyles={'y30'}
+                            labelStyles={cx('label-button-see-more')}
+                            onPress={onLoadMore}
+                            customStyles={{ paddingRight: 25, paddingLeft: 25, marginTop: 50 }}
+                        />
+                    </div>}
+                </> : <>
+                    {isLoading ? <Spinner className={cx('spinner')} />
+                        : <NoData description={Languages.intro.noInvestHot} />}
+                </>}
+
             </div>
         );
-    }, [dataArr, dataMoney, dataTime, dataTypeInterest, isMobile, onLoadMore, onSelectItemMoney, onSelectItemTime, onSelectTypeInterest, renderItemInvest, renderPicker]);
+    }, [dataArr, dataMoney, dataTime, dataTypeInterest, isLoading, isMobile, isNotLoadMore, onLoadMore, onSelectItemMoney, onSelectItemTime, onSelectTypeInterest, renderItemInvest, renderPicker]);
 
     const steps = useCallback((index: number, content: string) => {
 

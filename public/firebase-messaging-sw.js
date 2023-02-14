@@ -1,13 +1,16 @@
-self.importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js');
-self.importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js');
+// self.importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js');
+// self.importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging.js');
 
 import firebase from 'firebase';
 
 const firebaseConfig = {
-    apiKey: true,
-    projectId: true,
-    messagingSenderId: true,
-    appId: true
+    apiKey: 'AIzaSyDEhpio8NaSYClEi7kB8zj7mDuLqyqqIpQ',
+    authDomain: 'vfc-ndt.firebaseapp.com',
+    projectId: 'vfc-ndt',
+    storageBucket: 'vfc-ndt.appspot.com',
+    messagingSenderId: '393388576958',
+    appId: '1:393388576958:web:8e1f168547bd790c52ceef',
+    measurementId: 'G-FD90CY57FD'
 };
 
 self.addEventListener('fetch', () => {

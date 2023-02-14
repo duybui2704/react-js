@@ -224,7 +224,7 @@ function ChildTabsTransaction({ keyTabs }: { keyTabs: number }) {
                                 fontSize={20}
                                 width={100}
                                 labelStyles={cx('label-button-see-more')}
-                                label={Languages.invest.seeMore}
+                                label={Languages.transaction.seeMoreTransaction}
                                 isLoading={isLoading}
                                 spinnerClass={cx('spinner')}
                                 isLowerCase />

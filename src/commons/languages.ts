@@ -260,7 +260,8 @@ const Languages = {
         contentProfit3: 'Lãi luôn về đúng hạn',
         serviceHot: 'Dịch vụ siêu tiện ích',
         downloadApp: 'Tải App ngay hôm nay',
-        appMobile: ['Tải ứng dụng', ' Đầu tư Tiện Ngay ', 'miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!']
+        appMobile: ['Tải ứng dụng', ' Đầu tư Tiện Ngay ', 'miễn phí tại Google Play và App Store để hưởng nhiều ưu đãi và những khoản đầu tư hấp dẫn ngay hôm nay!'],
+        noInvestHot: 'Chưa có gói đầu tư nào'
     },
 
     profile: {
@@ -357,7 +358,8 @@ const Languages = {
             content: 'Nội dung',
             contractId: 'Mã hợp đồng',
             time: 'Thời gian'
-        }
+        },
+        seeMoreTransaction: 'Xem thêm các giao dịch khác'
     },
     historyTabs: ['Đang đầu tư', 'Đã đáo hạn'],
     history: {
