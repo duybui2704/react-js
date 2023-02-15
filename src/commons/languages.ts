@@ -411,7 +411,8 @@ const Languages = {
         totalInvestAmount: 'Tổng tiền đầu tư',
         investAmount: 'Tiền đầu tư',
         totalCommission: 'Tổng hoa hồng',
-        commissionAmount: 'Hoa hồng'
+        commissionAmount: 'Hoa hồng',
+        chooseDate: 'Chọn ngày'
     },
     msgNotify: {
         successAccountLinkBank: 'Liên kết thành công tài khoản ngân hàng'

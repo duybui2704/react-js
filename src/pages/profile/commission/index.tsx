@@ -10,7 +10,13 @@ import { observer } from 'mobx-react';
 import { CommissionModel, Detail, Total } from 'models/commission';
 import { arrKeyCommission, arrKeyCommissionMobile, columnNameCommission, labelArrCommission } from 'assets/static-data/invest';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { DatePickerProps } from 'antd';
+import { DatePicker, Space } from 'antd';
 import styles from './commission.module.scss';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 const cx = classNames.bind(styles);
 
@@ -64,27 +70,22 @@ const Commission = observer(() => {
         );
     }, [commission?.detail, commission?.total, isLoading, isMobile]);
 
-    const renderDate = useCallback((_placeHolder: string, _refInput: TextFieldActions | any, _value: string) => {
-        const onChangeInput = (event: string) => {
-            if (event !== filterDate) {
-                setFilterDate(_refInput.current?.getValue?.());
-                console.log('_refInput.current?.getValue?.()', _refInput.current?.getValue?.());
-            }
+    const renderDate = useCallback((_placeHolder: string, _value: string) => {
+        const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+            setFilterDate(dateString);
         };
         return (
-            <MyTextInput
-                ref={_refInput}
-                type={'month'}
-                containerInput={cx('input-container')}
-                placeHolder={_placeHolder}
-                value={_value || new Date().toISOString().split('T')[0].slice(0, 7)}
-                maxLength={7}
-
-                onChangeText={onChangeInput}
-                max={new Date().toISOString().split('T')[0].slice(0, 7)}
-            />
+            <Space direction="vertical">
+                <DatePicker
+                    onChange={onChange}
+                    picker="month"
+                    className={cx('input-container')}
+                    placeholder={_placeHolder}
+                    defaultValue={dayjs(_value || new Date().toISOString().split('T')[0].slice(0, 7))}
+                />
+            </Space>
         );
-    }, [filterDate]);
+    }, []);
 
     const renderItemDescribe = useCallback((_describe: string) => {
         return (
@@ -101,7 +102,7 @@ const Commission = observer(() => {
                 <div className={cx('column g-20', isMobile ? '' : 'pt-16 pl-16')}>
                     <div className={cx('date-container')}>
                         <span className={cx('h5 text-black medium')}>{Languages.commission.investmentCommission}</span>
-                        {renderDate(Languages.history.toDate, toDateRef, filterDate || '')}
+                        {renderDate(Languages.commission.chooseDate, filterDate || '')}
                     </div>
 
                     <div className={cx(isMobile ? 'describe-container-mobile' : 'describe-container')}>
