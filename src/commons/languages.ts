@@ -215,7 +215,9 @@ const Languages = {
         bankAccountEmpty: 'Bạn chưa cập nhật hình thức nhận tiền lãi đầu tư bằng tài khoản ngân hàng. Cập nhật và trải nghiệm đầu tư ngay!',
         typeInterest: 'Hình thức trả lãi',
         chooseTypeInterest: 'Chọn hình thức trả lãi',
-        noDataInvest: 'Bạn chưa có khoản đầu tư nào'
+        noDataInvest: 'Bạn chưa có khoản đầu tư nào',
+        listInvest: 'Danh sách gói đầu tư',
+        products: 'Sản phẩm'
     },
     intro: {
         invest: 'ĐẦU TƯ TIỆN NGAY',

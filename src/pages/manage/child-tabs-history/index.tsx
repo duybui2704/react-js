@@ -43,7 +43,6 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
     onNextScreen: (data: PackageInvest, tabs: number) => void,
     tabsNumber: number
 }) => {
-    const navigate = useNavigate();
     const isMobile = useIsMobile();
     const { apiServices } = useAppStore();
 
@@ -183,16 +182,29 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         popupSearchRef.current?.showModal();
     }, []);
 
+    const onClosePopup = useCallback(() => {
+        pickerTypeInterestRef.current?.clearValue?.();
+        pickerAmountRef.current?.clearValue?.();
+        fromDateRef.current?.setValue?.('');
+        toDateRef.current?.setValue?.('');
+        setDataFilter({});
+        setOffset(0);
+    }, []);
+
     const renderFilterMobile = useMemo(() => {
         return (
             <div className={cx('top-search-mobile-component')}>
-                <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
-                    <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
-                    <img src={IcFilter} />
+                <span className={cx('text-your-mobile-chance')}>{Languages.invest.listInvest}</span>
+                <div className={cx('row center')}>
+                    <div className={cx('right-top-search-component')} onClick={handleOpenPopupSearch}>
+                        <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
+                        <img src={IcFilter} />
+                    </div>
+                    <span className={cx('text-red h7 xl10')} onClick={onClosePopup}>{Languages.common.filterCancel}</span>
                 </div>
             </div>
         );
-    }, [handleOpenPopupSearch]);
+    }, [handleOpenPopupSearch, onClosePopup]);
 
     const renderFilterWeb = useMemo(() => {
         return (
@@ -236,20 +248,11 @@ const ChildTabsHistory = observer(({ onNextScreen, tabsNumber }: {
         );
     }, [isMobile, renderItemInvest]);
 
-    const onClosePopup = useCallback(() => {
-        pickerTypeInterestRef.current?.clearValue?.();
-        pickerAmountRef.current?.clearValue?.();
-        fromDateRef.current?.setValue?.('');
-        toDateRef.current?.setValue?.('');
-        setDataFilter({});
-        setOffset(0);
-    }, []);
-
     const onSuccessPopup = useCallback(() => {
         setOffset(0);
         setDataFilter({
             ...dataFilter,
-            interestForm: pickerAmountRef.current?.getValue() || '',
+            interestForm: pickerTypeInterestRef.current?.getValue() || '',
             amountInvest: pickerAmountRef.current?.getValue() || '',
             fromDate: fromDateRef.current?.getValue(),
             toDate: toDateRef.current?.getValue()

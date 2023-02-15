@@ -99,7 +99,7 @@ const Commission = observer(() => {
     return (
         <div className={cx('content')}>
             <div className={cx('container-edit column g-4', 'shadow')}>
-                <div className={cx('column g-20', isMobile ? '' : 'pt-16 pl-16')}>
+                <div className={cx('column g-20', isMobile ? '' : 'pt-16 pl-16 pr-16')}>
                     <div className={cx('date-container')}>
                         <span className={cx('h5 text-black medium')}>{Languages.commission.investmentCommission}</span>
                         {renderDate(Languages.commission.chooseDate, filterDate || '')}

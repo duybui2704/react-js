@@ -24,8 +24,11 @@
 
 .input-container {
     margin-right: 16px;
+    padding: 5px 10px;
+    min-width: 180px;
     @include mobile {
         margin-right: 0px;
+        min-width: 0px;
     }
 }
 

@@ -168,7 +168,8 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
         setDataFilter({
             ...dataFilter,
             amountInvest: pickerAmountRef.current?.getValue() || '',
-            dateInvest: pickerDateRef.current?.getValue() || ''
+            dateInvest: pickerDateRef.current?.getValue() || '',
+            typeInterest: pickerTypeInterestRef.current?.getValue() || ''
         });
     }, [dataFilter]);
 
@@ -191,7 +192,8 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
     const renderTopMobile = useMemo(() => {
         return (
             <div className={cx('top-search-mobile-component')}>
-                <span className={cx('text-your-mobile-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span>
+                {/* <span className={cx('text-your-mobile-chance')}>{Languages.invest.yourChance.replace('$count', `${countInvest}`)}</span> */}
+                <span className={cx('text-your-mobile-chance')}>{Languages.invest.products}</span>
                 <div className={cx('right-top-search-component')} >
                     <div className={cx('filter-mobile-container')} onClick={handleOpenPopupSearch} >
                         <span className={cx('text-green h7 x10')}>{Languages.common.search}</span>
@@ -201,7 +203,7 @@ const Investment = observer(({ onNextScreen }: { onNextScreen: (data: PackageInv
                 </div>
             </div>
         );
-    }, [countInvest, handleOpenPopupSearch, onClosePopup]);
+    }, [handleOpenPopupSearch, onClosePopup]);
 
     const renderItemInvest = useCallback((index: number, dataInvest: PackageInvest) => {
         const onNavigateInvestDetail = () => {
