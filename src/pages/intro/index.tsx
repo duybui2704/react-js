@@ -582,7 +582,7 @@ const Intro = observer(() => {
                         <span className={cx('text-green medium h3')}>{Languages.intro.downloadApp}</span>
                         <div className={cx('column', 'center')}>
                             <span className={cx('text-black h5 y10')}>
-                                {Languages.intro.appMobile[0]}
+                                {Languages.intro.appMobile[0]}  
                                 <span className={cx('text-green')}>{Languages.intro.appMobile[1]}</span>
                                 {Languages.intro.appMobile[2]}
                             </span>
